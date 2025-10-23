@@ -1,0 +1,159 @@
+Column Name,Alias,User Definition,Data Source,Creator,Category,Quick Filter,Editable Field,Notes
+sblock,Census Block,,US Census Bureau,Regrid,Administrative Boundary,,,Cleaned and checked by CGS
+sblkgp,Census Block Group,,US Census Bureau,Regrid,Administrative Boundary,,,Cleaned and checked by CGS
+ua_id,Census Designated Urban Area GeoID,,US Census Bureau,CGS,Administrative Boundary,,,"Sourced from the US Census Bureau 2020 census urban areas; if a parcel falls into an urban area, the geoid of the urban area is provided. "
+ua_name,Census Designated Urban Area Name,,US Census Bureau,CGS,Administrative Boundary,,,"Sourced from the US Census Bureau 2020 census urban areas; if a parcel falls into an urban area, the name of the urban area is provided. "
+stract,Census Tract,,US Census Bureau,CGS,Administrative Boundary,,,Cleaned and checked by CGS
+congdist118,Congressional District,,US Census Bureau,CGS,Administrative Boundary,Yes,,Sourced from the US Census Bureau's geospatial layer for the Virginia 118th congressional district; added to parcels by spatial join
+congdist_id,Congressional District GeoID,,US Census Bureau,CGS,Administrative Boundary,,,Sourced from the US Census Bureau's geospatial layer for the Virginia 118th congressional district; added to parcels by spatial join
+scounty,County,,County Assessor,Regrid,Administrative Boundary,Yes,,Cleaned and checked by CGS
+dio_region,Diocesan Region,,VEREP,CGS,Administrative Boundary,Yes,Yes,Diocesan Region for each congregation. See Domains for values.
+juris_type,Jurisdiction Type,,Virginia Department of Transportation,CGS,Administrative Boundary,,,"Sourced from the Virginia Department of Transportation, this jurisdiction boundary includes counties, cities and towns in the Commonwealth of Virginia. The type of jurisdiction the parcel falls into is provided (county, city or town)"
+juris_district,Jursidiction District,,Virginia Department of Transportation,CGS,Administrative Boundary,,,"Sourced from the Virginia Department of Transportation, this jurisdiction boundary includes counties, cities and towns in the Commonwealth of Virginia. The jurisdiction district for each parcel is provided. "
+juris_name,Jursidiction Name,,Virginia Department of Transportation,CGS,Administrative Boundary,Yes,,"Sourced from the Virginia Department of Transportation, this jurisdiction boundary includes counties, cities and towns in the Commonwealth of Virginia. If a parcel falls within a town or city boundary, the town or city name is provided. Otherwise, the county name is provided. "
+d_age_blw,Below Diocese Median Age,,CGS,CGS,Demographic Information,,,"Is the parcel below the diocese median age? Uses binary value (0 - no, 1 - yes)"
+d_hval_blw,Below Diocese Median Home Value,,CGS,CGS,Demographic Information,,,"Is the parcel below the diocese median home value? Uses binary value (0 - no, 1 - yes)"
+d_inc_blw,Below Diocese Median Income,,CGS,CGS,Demographic Information,,,"Is the parcel below the diocese median income? Uses binary value (0 - no, 1 - yes)"
+d_mrnt_blw,Below Diocese Median Rent,,CGS,CGS,Demographic Information,,,"Is the parcel below the diocese median rent? Uses binary value (0 - no, 1 - yes)"
+d_min_blw,Below Diocese Minority Percent,,CGS,CGS,Demographic Information,,,"Is the parcel below the diocese minority population percent? Uses binary value (0 - no, 1 - yes)"
+d_oo_blw,Below Diocese Owner Occupied Percent,,CGS,CGS,Demographic Information,,,"Is the parcel below the diocese owner occupied percent? Uses binary value (0 - no, 1 - yes)"
+d_pov_blw,Below Diocese Poverty Percent,,CGS,CGS,Demographic Information,,,"Is the parcel below the diocese poverty percent? Uses binary value (0 - no, 1 - yes)"
+d_rntr_blw,Below Diocese Renter Percent,,CGS,CGS,Demographic Information,,,"Is the parcel below the diocese renter percent? Uses binary value (0 - no, 1 - yes)"
+d_med_age,Diocese Median Age,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level for all census tracts within the diocese bounds; calculated via linear interpolation according to Census Bureau guidelines for irregular geographic  median calculation. 
+d_med_hval,Diocese Median Home Value,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level for all census tracts within the diocese bounds; calculated via pareto interpolation according to Census Bureau guidelines for irregular geographic  median calculation. 
+d_med_inc,Diocese Median Income,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level for all census tracts within the diocese bounds; calculated via pareto interpolation according to Census Bureau guidelines for irregular geographic  median calculation. 
+d_med_rnt,Diocese Median Rent,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level for all census tracts within the diocese bounds; calculated via linear interpolation according to Census Bureau guidelines for irregular geographic  median calculation. 
+d_min_perc,Diocese Minority Population Percent,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level for all census tracts within the diocese bounds
+d_oo_perc,Diocese Owner Occupied HU Percent,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level for all census tracts within the diocese bounds
+d_pov_perc,Diocese Population Percentage Below Poverty Line,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level for all census tracts within the diocese bounds
+d_rnt_perc,Diocese Renter Occupied HU Percent,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level for all census tracts within the diocese bounds
+hhi_g_n5,Household Income Growth Next Five Years,,U.S. Census Bureau,Regrid,Demographic Information,,,"Five-year forecast for Median Household Income Compound Annual Growth Rate (CAGR). The Median Household Income CAGR is an annualized measure that describes the direction (either positive or negative) and magnitude of change in the total Median Household Income between the current year and that year plus 5. The CAGR is sometimes referred to as growth rate, annual rate, annualized growth rate, or compound growth rate. This attribute is calculated at the Census Block Group in which the parcel is located. Source US Census Bureau via Esri. Updated each July representing previous year."
+hai,Housing Affordability Index,,U.S. Census Bureau,Regrid,Demographic Information,,,"Housing Affordability Index (HAI) measures the ability of a typical resident to purchase a home in the geographic area. The HAI has a base of 100, representing where the median income is sufficient to qualify for a loan on a median-valued home and not be cost-burdened (cost-burdened=greater than 30% of income spent on housing). HAI values > 100 indicate increasing affordability; HAI values < 100 indicate areas where homes are less affordable and median income might be insufficient to purchase a median-valued home. This attribute is calculated at the Census Block Group in which the parcel is located. Source US Census Bureau via Esri. Updated each July representing previous year."
+h_g_n5,Housing Growth Next 5 Years,,U.S. Census Bureau,Regrid,Demographic Information,,,"Five-year forecast for Housing Units Compound Annual Growth Rate (CAGR). The Housing Unit CAGR is an annualized measure that describes the direction (either positive or negative) and magnitude of change in total housing units between the current year and that year plus 5. The CAGR is sometimes referred to as growth rate, annual rate, annualized growth rate, or compound growth rate. This attribute is calculated at the Census Block Group in which the parcel is located. Source US Census Bureau via Esri. Updated each July representing previous year."
+h_g_p5,Housing Growth Past 5 Years,,U.S. Census Bureau,Regrid,Demographic Information,,,"Housing Units Compound Annual Growth Rate (CAGR) for the previous five year period, is an annualized measure describing the direction (either positive or negative) and magnitude of change in the total number of housing units between the previous 5 years. Annualized means that the resultant value reflects a rate of change over a twelve-month time period. This permits analysis of multiple growth rates between values measured at differing points in time using a common time period of twelve months; the annualized growth rate is repeated, or compounded, each year. The CAGR is sometimes referred to as growth rate, annual rate, annualized growth rate, or compound growth rate. This attribute is calculated at the Census Block Group in which the parcel is located. Source US Census Bureau via Esri. Updated each July representing previous year."
+lila_19,Low Income and Low Access Population,,US Department of Agriculture,CGS,Demographic Information,,,"Uses binary value (0 - no, 1 - yes) if the parcel is in a census tract that is considered Low-income and low-access. Low-income census tracts (LI): tract has a poverty rate (income at or below the Federal poverty thresholds by family size) of at least 20 percent or the median family income is at or below 80 percent of the median income for the metropolitan area or State. Low-access census tracts (LA): At least 500 people or at least 33 percent of the tract's population live more than 1 mile from the nearest food store (supermarket, supercenter, or large grocery store) if residing in an urban area or more than 10 miles from such a store if residing in a rural area. "
+med_age,Median Age,,US Census Bureau,CGS,Demographic Information,Yes,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Median Age (B01002_001) 
+md_h_vl,Median Home Value,,US Census Bureau,CGS,Demographic Information,Yes,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Median Home Value (B25077_001) 
+medinc,Median Income,,US Census Bureau,CGS,Demographic Information,Yes,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Median Income (B19013_001) 
+med_rnt,Median Rent,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Median Rent (B25064_001) 
+min_prc,Minority Population Percent,,US Census Bureau,CGS,Demographic Information,Yes,,"Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Non-White (Non-Hispanic) Percentage of Total Population (B01001, B01001H) "
+ten_oo,Owner Occupied Housing Unit Percent,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Percentage of Owner-Occupied Housing Units (B25003) 
+asian_perc,Percent Asian,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Asian Alone or in Combination with One or More Other Races of Total Population (B02011) 
+black_perc,Percent Black,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Black or African American Alone or in Combination with One or More Other Races of Total Population (B02009)
+his_perc,Percent Hispanic,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Hispanic or Latino Origin of Total Population (B03003)
+pov_prc,Population below Poverty Line Percent,,US Census Bureau,CGS,Demographic Information,Yes,,"Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Percentage of Population in Poverty (B17001_002, B01001_001) "
+pop_g_n5,Population Growth Next Five Years,,U.S. Census Bureau,Regrid,Demographic Information,,,"Five-year forecast for Population Growth, Compound Annual Growth Rate (CAGR). The Population Growth CAGR is an annualized measure that describes the direction (either positive or negative) and magnitude of change in population between the current year and that year plus 5. The CAGR is sometimes referred to as growth rate, annual rate, annualized growth rate, or compound growth rate. This attribute is calculated at the Census Block Group in which the parcel is located. Source US Census Bureau via Esri. Updated each July representing previous year."
+pop_g_p5,Population Growth Past Five Years,,U.S. Census Bureau,Regrid,Demographic Information,,,"Population Compound Annual Growth Rate (CAGR) for the previous 5 year period, is an annualized measure describing the direction (either positive or negative) and magnitude of change in the total number of persons between the previous 5 years. Annualized means that the resultant value reflects a rate of change over a twelve-month time period. This permits analysis of multiple growth rates between values measured at differing points in time using a common time period of twelve months; the annualized growth rate is repeated, or compounded, each year. The CAGR is sometimes referred to as growth rate, annual rate, annualized growth rate, or compound growth rate. This attribute is calculated at the Census Block Group in which the parcel is located. Source US Census Bureau via Esri. Updated each July representing previous year."
+ten_rnt,Renter Occupied Housing Unit Percent,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Percentage of Renter-Occupied Housing Units (B25003) 
+c_tot_pop,Total Population by County,,US Census Bureau,CGS,Demographic Information,,,Calculated using ACS 5YR estimates 2023 (2019-2023) at the census tract level; Total Population (B01001H)
+cdl_cat,Cropland Data Layer Category,,USDA National Agricultural Statistics Service,Regrid,Development Considerations,,,This is the human readable Category name for the land cover type that is most common on the parcel.
+cdl_date,Cropland Data Layer Date,,USDA National Agricultural Statistics Service,Regrid,Development Considerations,,,The year of the Cropland Data Layer data set the current attributes are derived from.
+cld_pct,Cropland Data Layer Percent Coverage,,USDA National Agricultural Statistics Service,Regrid,Development Considerations,,,This is the actual percentage of pixels for the majority category.
+dda,Difficult Development Area,,US Department of Housing,CGS,Development Considerations,,,"Is the parcel in a difficult development area? Sourced from HUD, updated in 2025. Difficult Development Areas (DDAs) used for the Low Income Housing Tax Credit program. DDAs are designated by U.S. Department of Housing and Urban Development (HUD) and defined in statute as areas with high construction, land, and utility costs relative to its Area Median Gross Income (AMGI). "
+easement,Easement Type,,"Virginia Department of Conservation and Recreation, National Conservation Easement Database, Virginia Department of Historic Resources",CGS,Development Considerations,,,Notes the type of easement the parcel is under (see Easements under Domains)
+qoz,Federal Qualified Opportunity Zone,,US Department of Housing,Regrid,Development Considerations,,,Is this parcel in a US Federal Qualified Opportunity Zone?
+fema_fz,FEMA Flood Zone,,FEMA,Regrid,Development Considerations,,,"Sourced from FEMA, provides the FEMA Flood Zone type a parcel is within (if any)"
+fema_fzd,FEMA Flood Zone Data Date,,FEMA,Regrid,Development Considerations,,,"Sourced from FEMA, shows the date when FEMA's Flood Zone data was sourced."
+fema_fzr,FEMA Flood Zone Raw Rating,,FEMA,Regrid,Development Considerations,,,"Sourced from FEMA, raw form of data for FEMA Flood Zone type and subtypes"
+fema_fzs,FEMA Flood Zone Subtype,,FEMA,Regrid,Development Considerations,,,"Sourced from FEMA, provides the FEMA Flood Zone subtype a parcel is within (if any)"
+fema_nri,FEMA NRI Risk Rating,,FEMA,Regrid,Development Considerations,,,"Sourced from FEMA's National Risk Index; the Risk Rating leverages available source data for natural hazard and community risk factors to develop a baseline relative risk measurement for each U.S. Census tract for all 50 states, the District of Columbia (DC), American Samoa (AS), Commonwealth of the Northern Mariana Islands (MP), Guam (GU), Puerto Rico (PR), and the U.S. Virgin Islands (VI). The National Risk Rating is intended to help users better understand the natural hazard risk of their communities by providing a category range from “Very Low” to “Very High.”"
+dem_hi,Highest Elevation,,Regrid,Regrid,Development Considerations,,,Highest elevation value (meters) intersecting the parcel calculated using best available terrain data. 
+hist_dist,In a Historic District,,Virginia Department of Historic Resources,CGS,Development Considerations,,,Is this parcel in a historic district (National Register of Historic Places)
+dem_lo,Lowest Elevation,,Regrid,Regrid,Development Considerations,,,Lowest elevation value (meters) intersecting the parcel calculated using best available terrain data. 
+padus_pa,PADUS Public Access,,US Geological Survey,Regrid,Development Considerations,,,United States Geological Survey Protected Areas Database of the United States Public Access designation.
+wet_perc,Percent Wetlands Cover,,US Fish and Wildlife Service,CGS,Development Considerations,,,"Percent of parcel covered by wetlands, calculated using the National Wetlands Inventory"
+qct,Qualified Census Tracts,,US Department of Housing,CGS,Development Considerations,,,"Is the parcel in a qualified census tract for the low-income housing tax credit program for 2025? Sourced from HUD. LIHTC Qualified Census Tracts, as defined under the section 42(d)(5)(B) of the of the Internal Revenue Code of 1986, include any census tract (or equivalent geographic area defined by the Bureau of the Census) in which at least 50 percent of households have an income less than 60 percent of the Area Median Gross Income (AMGI), or which has a poverty rate of at least 25 percent."
+dem_rat,Roughness Rating,,Regrid,Regrid,Development Considerations,,,The amount of elevation variability within a parcel. Calculated per parcel from Digital Elevation Model (DEM). 0-80m is considered to represent a level terrain surface; 81-116m represents a nearly level surface; 117-161m represents a slightly rugged surface; 162-239m represents an intermediately rugged surface; 240-497m represents a moderately rugged surface; 498-958m represents a highly rugged surface; 959-4367m represents an extremely rugged surface.
+dem_rat_class,Roughness Rating Class,,Regrid,CGS,Development Considerations,,,Domain-encoded values for roughness. See Domains for values. 
+trans_acc,Transit Access,,US Environmental Protection Agency,CGS,Development Considerations,,,Transit access score sourced using the EPA Smart Location Database v3 (2021). Created by aggregating frequency of peak evening hour transit service within 0.25 miles of a census block group boundary. 
+tld,Transmission Line Distance,,Homeland Infrastructure Foundation Level Data,Regrid,Development Considerations,,,Sourced from HIFLD; provides the distance from the parcel boundary to the nearest relatively high voltage (69kv - 765kv) electric transmission line as available within the Homeland Infrastructure Foundation-Level Data (HIFLD) Transmission Line dataset
+walk_idx,Walkability Index,,US Environmental Protection Agency,CGS,Development Considerations,,,Walkability score sourced using the EPA Smart Location Database v3 (2021)'s national walkability index. See Walkability Index in domains for score details. 
+walk_idx_class,Walkability Index Class,,US Environmental Protection Agency,CGS,Development Considerations,Yes,,Domain-encoded values for walkability. See Domains for values.
+careof,Care Of,,County Assessor,Regrid,Owner Information,,Yes,
+congr_name,Congregation Name,,VEREP,CGS,Owner Information,Yes,Yes,"Congregation associated with parcel. CGS has attempted to link parcels to its congregation, but will need help from VEREP to complete this task."
+diocese,Diocese Owned,,VEREP,CGS,Owner Information,,,"This metric is deprecated and should not be used. See v_owntype (Ownership Type) for revised owner categories. Is this parcel owned by the diocese? Uses binary value (0 - no, 1 - yes) "
+diocese_related,Diocese Related,,VEREP,CGS,Owner Information,,,"This metric is deprecated and should not be used. See v_owntype (Ownership Type) for revised owner categories. Is this parcel owned by a diocese-related organization? Uses binary value (0 - no, 1 - yes)"
+madd,Mailing Street Address,,County Assessor,CGS,Owner Information,,,Standardized mailing address field cleaned by CGS. Pulled from: Regrid and ATTOM
+cl_own_tot,Owner Name,,County Assessor,CGS,Owner Information,,,Standardized owner name field created by CGS. Pulled from: Regrid and ATTOM
+v_owntype,Ownership Type,,VEREP,CGS,Owner Information,Yes,Yes,Ownership Type as defined by VEREP. See Domains for values.
+uid,CGS Unique ID,,CGS,CGS,Parcel Management,,,Unique parcel ID created by CGS for internal management. 
+created_user,Created By,,CGS,CGS,Parcel Management,,,User account that created a particular parcel 
+created_date,Created Date,,CGS,CGS,Parcel Management,,,Date and time the parcel data was created
+globalid,Global ID,,CGS,CGS,Parcel Management,,,Global ID automatically created for tracking edits.
+verep,Initial Check,,CGS,CGS,Parcel Management,,,"CGS's initial classification of parcels as either VEREP or not VEREP parcels, using CGS' intitial key word search and script. See Domains tab for score values. "
+last_edited_user,Last Edited By,,CGS,CGS,Parcel Management,,,User account that last edited a particular parcel
+last_edited_date,Last Edited Date,,CGS,CGS,Parcel Management,,,Date and time a particular parcel was last edited
+verep_man,Manual Check,,CGS,CGS,Parcel Management,,,"CGS's manual check, following an initial classification of parcels, to confirm likely VEREP parcels. See Domains tab for score values. "
+v_confirm,VEREP Confirmation,,VEREP,CGS,Parcel Management,,Yes,VEREP confirmation field; to be used by VEREP to confirm parcels CGS has identified. See Domains tab for values. 
+v_notes,VEREP Notes,,VEREP,CGS,Parcel Management,,Yes,VEREP notes field; to be used by VEREP to add notes to the parcel data
+acct_id,Account ID,,County Assessor,Regrid,Site Information,,,Parcel Account Number - The assessor or tax collector's account identification number for a property.
+add_count,Address Count,,County Assessor,Regrid,Site Information,,,Total number of primary and secondary addresses on the parcel as calculated by Regrid
+ag_val,Agricultural Value,,County Assessor,Regrid,Site Information,,,
+rgisacre,Area  Acres ,,County Assessor,Regrid,Site Information,Yes,,
+rgissqft,Area  SqFt ,,County Assessor,Regrid,Site Information,Yes,,
+bldgsqft,Building Area SqFt ,,County Assessor,Regrid,Site Information,,Yes,
+bldgcount,Building Count,,County Assessor,Regrid,Site Information,,Yes,
+scity,City,,County Assessor,Regrid,Site Information,,,Cleaned and checked by CGS
+yr_blt_converted,Converted Year Built,,County Assessor,CGS,Site Information,Yes,,Year Built converted to date format
+lsdate,Date of Last Sale,,County Assessor,Regrid,Site Information,,,
+deed_acres,Deeded Acres,,County Assessor,Regrid,Site Information,,,
+calc_angle,Google Street View - Calculated Angle,,CGS,CGS,Site Information,,,Calculated by CGS
+x,Google Street View - X,,CGS,CGS,Site Information,,,Calculated by CGS
+y,Google Street View - Y,,CGS,CGS,Site Information,,,Calculated by CGS
+streetview,Google Street View URL,,CGS,CGS,Site Information,,,URL string concatenated by CGS
+home_ex,Homestead Exemption,,County Assessor,Regrid,Site Information,,,An assessor-provided attribute indicating if the parcel has any tax exemption due to homestead status.
+imp_val,Improvement Value,,County Assessor,Regrid,Site Information,Yes,,
+struct,Is tthere a structure on site ,,County Assessor,Regrid,Site Information,,Yes,
+lan_val,Land Value,,County Assessor,Regrid,Site Information,Yes,,
+lsprice,Last Sale Price,,County Assessor,Regrid,Site Information,,,
+lat,Latitude,,Regrid,Regrid,Site Information,,,Centroid latitude for parcel
+lon,Longitude,,Regrid,Regrid,Site Information,,,Centroid longitude for parcel
+nrooms,Number of Rooms,,County Assessor,Regrid,Site Information,,Yes,
+nstories,Number of Stories,,County Assessor,Regrid,Site Information,,Yes,
+structno,Number of Structures,,County Assessor,Regrid,Site Information,,Yes,
+nunits,Number of Units,,County Assessor,Regrid,Site Information,,Yes,
+pid,Parcel ID,,County Assessor,Regrid,Site Information,,,The assessor's primary parcel identification number or code.
+par_val,Parcel Value,,County Assessor,Regrid,Site Information,Yes,,
+pv_type,Parcel Value Type,,County Assessor,Regrid,Site Information,,,	Parcel Value Type
+sadd,Site Address,,County Assessor,CGS,Site Information,,,Standardized site address field cleaned by CGS. Pulled from: Regrid and ATTOM
+sc_block,Site Block,,County Assessor,Regrid,Site Information,,,
+sc_lot,Site Lot,,County Assessor,Regrid,Site Information,,,
+sc_name,Site Name,,County Assessor,Regrid,Site Information,,,
+sc_nbhd,Site Neighborhood,,County Assessor,Regrid,Site Information,,,
+sc_subdv,Site Subdivision,,County Assessor,Regrid,Site Information,,,
+sstate,State,,County Assessor,Regrid,Site Information,,,Cleaned and checked by CGS
+taxamt,Tax Amount,,County Assessor,Regrid,Site Information,,,Annual Tax Bill
+taxid,Tax ID,,County Assessor,Regrid,Site Information,,,Parcel Tax Identification Number - The assessor or tax collector's tax identification number for a property.
+taxyear,Tax Year,,County Assessor,Regrid,Site Information,,,Tax year - An assessor-provided attribute indicating the tax year the assessor data applies to.
+yr_blt,Year Built,,County Assessor,Regrid,Site Information,,,
+yr_blt_num,Year Built Numeric,,County Assessor,CGS,Site Information,,,Year Built date configured as numeric value. 
+szip,Zipcode,,County Assessor,Regrid,Site Information,,,Cleaned and checked by CGS
+stk_pids,Parcel IDs in Stack,,CGS,CGS,Stacked Parcels,,,This lists out all of the parcel IDs (the assessor's primary parcel identification number or code) in a particular stack. 
+stk_check,Stack Check,,CGS,CGS,Stacked Parcels,,,Used by CGS when classifying stack type
+stk_group,Stack Group,,CGS,CGS,Stacked Parcels,,,The stack group a parcel is part of; used by CGS when searching through stacks
+stk_type,Stack Type,,CGS,CGS,Stacked Parcels,,,The type of stack present. See Domains tab for stack types. 
+stk_uid,Stack UID Parent,,CGS,CGS,Stacked Parcels,,,The uid (CGS's uniqud ID) for the parent (aka the largest parcel in the stack)
+stk_count,Total Count of Parcels in Stack,,CGS,CGS,Stacked Parcels,,,The total number of parcels identified as part of this stack
+stk_uids,UIDs in Stack,,CGS,CGS,Stacked Parcels,,,This lists out all of the uids (CGS' unique ID) in a particular stack
+lbcs_acdes,Land Use Code  Activity,,Regrid,Regrid,Zoning / Land Use,,,"Actual activity on land, eg farming, shopping, manufacturing. Created by Regrid by converting tax assessor information in use description or zoning description codes into classifications based on the American Planning Association's Land Based Classification Standards (LBCS). "
+lbcs_fudes,Land Use Code  Function,,Regrid,Regrid,Zoning / Land Use,,,"Economic function or type of establishment, eg agricultural, commercial, industrial. Created by Regrid by converting tax assessor information in use description or zoning description codes into classifications based on the American Planning Association's Land Based Classification Standards (LBCS). "
+lbcs_owdes,Land Use Code  Ownership,,Regrid,Regrid,Zoning / Land Use,,,"Ownership structure, eg public, private. Created by Regrid by converting tax assessor information in use description or zoning description codes into classifications based on the American Planning Association's Land Based Classification Standards (LBCS). "
+lbcs_sides,Land Use Code  Site,,Regrid,Regrid,Zoning / Land Use,,,What is on the land. Created by Regrid by converting tax assessor information in use description or zoning description codes into classifications based on the American Planning Association's Land Based Classification Standards (LBCS). 
+lbcs_stdes,Land Use Code  Structure,,Regrid,Regrid,Zoning / Land Use,,,"Type of structure or building, eg single-family house, office building, warehouse. Created by Regrid by converting tax assessor information in use description or zoning description codes into classifications based on the American Planning Association's Land Based Classification Standards (LBCS). "
+usecode,Parcel Use Code,,County Assessor,Regrid,Zoning / Land Use,,,Use Code provided by governing municipality
+usedesc,Parcel Use Description,,County Assessor,Regrid,Zoning / Land Use,,,Use Code description provided by governing municipality
+cemetery,VEREP Use  Cemetery,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is this parcel used as a cemetery? Uses binary value (0 - no, 1 - yes)"
+church,VEREP Use  Church,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is this parcel used as a church? Uses binary value (0 - no, 1 - yes)"
+open_space,VEREP Use  Open Space,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is this parcel used as a open_space? Uses binary value (0 - no, 1 - yes)"
+other,VEREP Use  Other,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is there another use for this parcel? Uses binary value (0 - no, 1 - yes)"
+parking,VEREP Use  Parking,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is this parcel used as a parking? Uses binary value (0 - no, 1 - yes)"
+residence,VEREP Use  Residence,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is this parcel used as a residence? Uses binary value (0 - no, 1 - yes)"
+school,VEREP Use  School,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is this parcel used as a school? Uses binary value (0 - no, 1 - yes)"
+seminary,VEREP Use  Seminary,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is this parcel used as a seminary? Uses binary value (0 - no, 1 - yes)"
+senior_living,VEREP Use Senior Residence,,VEREP,CGS,Zoning / Land Use,Yes,Yes,"Is this parcel used as a senior_residence? Uses binary value (0 - no, 1 - yes)"
+v_zon,VEREP Zoning Notes,,VEREP,CGS,Zoning / Land Use,Yes,Yes,Free text field for VEREP notes on zoning.
+zon_id,Zoning Area ID,,Regrid,Regrid,Zoning / Land Use,,,ID for the zoning area for matching to the Regrid zoning product
+zon,Zoning Code,,County Assessor,Regrid,Zoning / Land Use,Yes,,Code used by the governing municipality
+zon_desc,Zoning Description,,County Assessor,Regrid,Zoning / Land Use,Yes,,Human-readable name for the zoning code defined by the governing municipality
+zon_stype,Zoning Subtype,,Regrid,Regrid,Zoning / Land Use,Yes,,Standardized zoning subtype created by Regrid
+zon_type,Zoning Type,,Regrid,Regrid,Zoning / Land Use,Yes,,Standardized zoning type created by Regrid
