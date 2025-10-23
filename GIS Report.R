@@ -5,6 +5,10 @@
 library(tidyverse)
 library(readr)
 library(scales)
+# install.packages("devtools")
+install.packages("devtools")
+library(devtools)
+devtools::install_github("hdadvisors/hdatools")
 
 # Read the data
 verep_data <- read_csv("data/verep040725.csv")
@@ -19,6 +23,7 @@ congregation_data <- read_csv("data/congregation.csv")
 # Prepare attendance data with most recent year (2023) and average
 attendance_data <- congregation_data %>%
   select(
+    quickref,
     congregation_name = name,
     short_name,
     attendance_2023 = f2023_sunday_attendance,
@@ -33,7 +38,7 @@ attendance_data <- congregation_data %>%
 verep_data <- verep_data %>%
   left_join(
     attendance_data, 
-    by = c("congr_name" = "congregation_name")
+    by = c("congr_name" = "quickref")
   )
 
 # Display join results
@@ -97,7 +102,9 @@ land_value_plot <- analysis_subset %>%
     x = "Land Value",
     y = "Count"
   ) +
-  theme_minimal()
+  theme_minimal() ## UPDATE TO THEME_HDA WHEN DEVTOOLS WORKS
+
+print(land_value_plot)
 
 # ========================================
 # METRIC 2: ZONING/DENSITY ANALYSIS
@@ -209,7 +216,7 @@ property_profile <- analysis_subset %>%
   mutate(
     has_environmental_constraint = (wet_perc > 10) | 
       (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE")),
-    developable = (qct == 1) & (rgisacre >= 1) & (!has_environmental_constraint),
+    developable = (rgisacre >= 1) & (!has_environmental_constraint),
     
     # Calculate land value per acre
     land_value_per_acre = if_else(rgisacre > 0, lan_val / rgisacre, NA_real_)
