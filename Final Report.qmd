@@ -20,6 +20,7 @@ execute:
   warning: false
   message: false
 ---
+
 ```{css}
 #| echo: false
 
@@ -65,35 +66,26 @@ This analysis examines properties properties of interest (defined in methodolgy)
 
 ## Methodology
 
-### Background and Approach 
+### Background and Approach
 
-Prior to this work, the Lincoln Land Institute's Center for Geospatial Solutions (CGS) developed a comprehensive parcel dataset for Virginia Episcopal Real Estate Partners (VEREP) using an automated-plus-manual verification approach. The methodology combined CGS's Who Owns America® (WHOA) national parcel dataset with Diocese-specific knowledge to identify properties owned by the Episcopal Diocese of Virginia, its congregations, and related organizations.
+Prior to this work, The [Center for Geospatial Solutions](https://www.lincolninst.edu/centers-initiatives/center-geospatial-solutions/) at the Lincoln Institute of Land Policy developed a comprehensive parcel dataset for Virginia Episcopal Real Estate Partners (VEREP) using an automated-plus-manual verification approach. The methodology combined CGS's [Who Owns America®](https://www.lincolninst.edu/centers-initiatives/center-geospatial-solutions/key-initiatives/) (WHOA) national parcel dataset with Diocese-specific knowledge to identify properties owned by the Episcopal Diocese of Virginia, its congregations, and related organizations.
 
 To be able to view and query parcels owned by congregations in the Episcopal Diocese of Virginia, CGS utilized its WHOA parcel ownership dataset as a starting point. CGS created this dataset by cleaning, standardizing and combining parcel data from Regrid, additional property record data from ATTOM, and corporate entity registration data from OpenCorporates into a unified, national parcel dataset. Parcels are then assessed and classified, via an automated model created by CGS, into various ownership types. This includes a column to flag parcels, based on key word searches of the parcel owner name field, that are likely affiliated with a faith-based institution.
 
 ### Defining Ownership Parameters
 
-The original Scope of Work defined the VEREP parcel dataset as a “dataset of parcels owned by congregations in the Episcopal Diocese of Virginia”. However, following conversations with VEREP, the scope of ownership was expanded to broadly cover “parcels of interest to VEREP”, where parcel ownership would fall into one of the following categories:
-* Owned by the Episcopal Diocese of Virginia
-* Owned by Congregations in the Episcopal Diocese of Virginia
-* Owned by Related Organizations
-* Owned by Affiliate Organizations
-CGS relied on VEREP and its partners to define these categories and to provide starting lists of site addresses, congregation and organization names for CGS to review.
+The original Scope of Work defined the VEREP parcel dataset as a “dataset of parcels owned by congregations in the Episcopal Diocese of Virginia”. However, following conversations with VEREP, the scope of ownership was expanded to broadly cover “parcels of interest to VEREP”, where parcel ownership would fall into one of the following categories: \* Owned by the Episcopal Diocese of Virginia \* Owned by Congregations in the Episcopal Diocese of Virginia \* Owned by Related Organizations \* Owned by Affiliate Organizations CGS relied on VEREP and its partners to define these categories and to provide starting lists of site addresses, congregation and organization names for CGS to review.
 
-CGS then performed a recursive parcel linkage process to identify all parcels connected through shared mailing addresses and owner names, maximizing the discovery of related property holdings across Virginia. 
+CGS then performed a recursive parcel linkage process to identify all parcels connected through shared mailing addresses and owner names, maximizing the discovery of related property holdings across Virginia.
 
 ### HDAdvisors's Role
 
 HDAdvisors was hired after this comprehensive geospatial data creation and analysis work to further integrate congregation statistics.
 
-CGS initially assumed a one-to-one relationship between parcels and congregations. However, field verification revealed that multiple congregations often share the same parcel (co-located congregations sharing worship space). This one-to-many relationship created a data structure challenge:
-
-"CGS was unable, in the project time allotment, develop a new relational table structure in Esri's web infrastructure to enable VEREP to query both congregation stats and parcel data in the same query."
-
-The current analysis addresses this limitation by developing appropriate join methodologies to link congregation performance metrics (attendance, membership, pledge data) with parcel characteristics, enabling integrated spatial-statistical analysis of how congregation vitality relates to property characteristics and neighborhood context.
-
+CGS initially assumed a one-to-one relationship between parcels and congregations. However, field verification revealed that multiple congregations often share the same parcel (co-located congregations sharing worship space). This one-to-many relationship created a data structure challenge. The analysis performed in this report addresses this limitation by developing appropriate join methodologies to link congregation performance metrics (attendance, membership, pledge data) with parcel characteristics, enabling integrated spatial-statistical analysis of how congregation vitality relates to property characteristics and neighborhood context.
 
 ## Setup
+
 ```{r setup}
 #| label: setup
 #| include: false
@@ -146,6 +138,7 @@ theme_set(theme_hda())
 ```
 
 ## Data Loading and Preparation
+
 ```{r load-data}
 #| label: load-data
 
@@ -158,6 +151,7 @@ congregation_data <- read_csv("data/congregation.csv")
 ```
 
 ### Join Attendance Data
+
 ```{r join-data}
 #| label: join-attendance
 
@@ -184,18 +178,18 @@ verep_data <- verep_data |>
   )
 ```
 
-::: {.callout-note}
+::: callout-note
 ## Join Results
 
-- Total properties: `r nrow(verep_data)`
-- Properties matched to congregation: `r sum(!is.na(verep_data$attendance_2023))`
-- Properties with attendance data: `r sum(!is.na(verep_data$attendance_2023) & verep_data$attendance_2023 > 0)`
-
+-   Total properties: `r nrow(verep_data)`
+-   Properties matched to congregation: `r sum(!is.na(verep_data$attendance_2023))`
+-   Properties with attendance data: `r sum(!is.na(verep_data$attendance_2023) & verep_data$attendance_2023 > 0)`
 :::
 
 ## Filtering Criteria
 
 We focus our analysis on properties with fewer than 30 Sunday attendees in 2023.
+
 ```{r filter-data}
 #| label: filter-subset
 
@@ -207,6 +201,7 @@ analysis_subset <- verep_data |>
 ```
 
 **Properties included:** `r nrow(analysis_subset)` properties from `r n_distinct(analysis_subset$congr_name[!is.na(analysis_subset$congr_name)])` unique congregations.
+
 ```{r congregations-table}
 #| label: tbl-congregations
 #| tbl-cap: "Congregations with <30 Sunday Attendees"
@@ -244,6 +239,7 @@ congregations_under30 |>
 ## Analysis Results
 
 ### Land Value Analysis {#sec-land-value}
+
 ```{r land-value}
 #| label: land-value-summary
 
@@ -260,6 +256,7 @@ land_value_summary <- analysis_subset |>
 ```
 
 The properties analyzed represent a total land value of **`r dollar(land_value_summary$total_land_value)`**, with a median value of **`r dollar(land_value_summary$median_land_value)`** per property.
+
 ```{r}
 #| label: tbl-land-value
 #| tbl-cap: "Land Value Summary Statistics"
@@ -285,6 +282,7 @@ land_value_summary |>
     table.font.size = 11
   )
 ```
+
 ```{r}
 #| label: fig-land-value
 #| fig-cap: "Distribution of Land Values"
@@ -305,6 +303,7 @@ analysis_subset |>
 ```
 
 ### Zoning & Density Analysis {#sec-zoning}
+
 ```{r zoning-analysis}
 #| label: zoning-summary
 
@@ -318,6 +317,7 @@ zoning_type_summary <- analysis_subset |>
   count(zon_type, sort = TRUE) |>
   mutate(percentage = n / sum(n) * 100)
 ```
+
 ```{r}
 #| label: tbl-zoning
 #| tbl-cap: "Top 10 Zoning Classifications"
@@ -347,6 +347,7 @@ head(zoning_summary, 10) |>
 ```
 
 ### Acreage Analysis {#sec-acreage}
+
 ```{r acreage-analysis}
 #| label: acreage-summary
 
@@ -381,6 +382,7 @@ acreage_categories <- analysis_subset |>
 ```
 
 The properties encompass a total of **`r round(acreage_summary$total_acres, 1)` acres**, with a median parcel size of **`r round(acreage_summary$median_acres, 2)` acres**.
+
 ```{r}
 #| label: fig-acreage
 #| fig-cap: "Acreage Distribution"
@@ -406,6 +408,7 @@ acreage_categories |>
 ```
 
 ### Environmental Limitations {#sec-environmental}
+
 ```{r environmental-analysis}
 #| label: environmental-summary
 
@@ -425,13 +428,12 @@ flood_zone_summary <- analysis_subset |>
   mutate(percentage = n / sum(n) * 100)
 ```
 
-::: {.callout-warning}
+::: callout-warning
 ## Environmental Constraints
 
-- **`r environmental_summary$in_flood_zone`** properties located in flood zones
-- **`r environmental_summary$significant_wetlands`** properties with >10% wetland coverage
-- **`r environmental_summary$in_high_risk_flood`** properties in high-risk flood zones
-
+-   **`r environmental_summary$in_flood_zone`** properties located in flood zones
+-   **`r environmental_summary$significant_wetlands`** properties with \>10% wetland coverage
+-   **`r environmental_summary$in_high_risk_flood`** properties in high-risk flood zones
 :::
 
 ```{r}
@@ -462,6 +464,7 @@ if(nrow(flood_zone_summary) > 0) {
 ```
 
 ### QCT & DDA Status {#sec-qct}
+
 ```{r qct-analysis}
 #| label: qct-summary
 
@@ -477,6 +480,7 @@ qct_summary <- analysis_subset |>
 ```
 
 **`r qct_summary$in_qct`** properties (`r round(qct_summary$qct_percentage, 1)`%) are located in Qualified Census Tracts, making them eligible for enhanced LIHTC tax credits.
+
 ```{r}
 #| label: fig-qct
 #| fig-cap: "QCT and DDA Status"
@@ -514,6 +518,7 @@ tibble(
 ```
 
 ## Development Opportunity Assessment
+
 ```{r opportunity-assessment}
 #| label: opportunity-matrix
 
@@ -548,6 +553,7 @@ opportunity_matrix <- property_profile |>
 ```
 
 ### Opportunity Classification
+
 ```{r}
 #| label: tbl-opportunities
 #| tbl-cap: "Development Opportunity Matrix"
@@ -593,6 +599,7 @@ opportunity_matrix |>
     table.font.size = 11
   )
 ```
+
 ```{r}
 #| label: fig-opportunities
 #| fig-cap: "Development Opportunity Breakdown"
@@ -634,6 +641,7 @@ opportunity_matrix |>
 ```
 
 ### Top Development Opportunities
+
 ```{r}
 #| label: tbl-top-properties
 #| tbl-cap: "Properties with Highest Development Potential"
@@ -674,6 +682,7 @@ property_profile |>
 ```
 
 ## Attendance Profile
+
 ```{r attendance-profile}
 #| label: attendance-context
 
@@ -691,18 +700,17 @@ attendance_context <- analysis_subset |>
   )
 ```
 
-::: {.callout-tip}
+::: callout-tip
 ## Attendance Summary
 
 Average 2023 attendance for properties in this analysis: **`r round(attendance_context$mean_attendance, 1)`**
 
 The distribution shows:
 
-- Zero attendance: `r attendance_context$zero_attendance` properties
-- 1-10 attendees: `r attendance_context$attendance_1_10` properties  
-- 11-20 attendees: `r attendance_context$attendance_11_20` properties
-- 21-29 attendees: `r attendance_context$attendance_21_29` properties
-
+-   Zero attendance: `r attendance_context$zero_attendance` properties
+-   1-10 attendees: `r attendance_context$attendance_1_10` properties\
+-   11-20 attendees: `r attendance_context$attendance_11_20` properties
+-   21-29 attendees: `r attendance_context$attendance_21_29` properties
 :::
 
 ```{r}
@@ -742,17 +750,18 @@ This analysis identified **`r opportunity_matrix$high_opportunity` high-opportun
 
 ### Key Findings
 
-- **Total Land Value:** `r dollar(land_value_summary$total_land_value)` across `r nrow(analysis_subset)` properties
-- **Total Acreage:** `r round(acreage_summary$total_acres, 1)` acres available
-- **LIHTC Eligibility:** `r qct_summary$in_qct` properties (`r round(qct_summary$qct_percentage, 1)`%) in QCT zones
-- **Development Ready:** `r opportunity_matrix$high_opportunity` properties meet all criteria for immediate development consideration
+-   **Total Land Value:** `r dollar(land_value_summary$total_land_value)` across `r nrow(analysis_subset)` properties
+-   **Total Acreage:** `r round(acreage_summary$total_acres, 1)` acres available
+-   **LIHTC Eligibility:** `r qct_summary$in_qct` properties (`r round(qct_summary$qct_percentage, 1)`%) in QCT zones
+-   **Development Ready:** `r opportunity_matrix$high_opportunity` properties meet all criteria for immediate development consideration
 
 ### Recommendations
 
-1. **Priority Focus:** Concentrate initial outreach on the `r opportunity_matrix$high_opportunity` high-opportunity properties
-2. **Secondary Review:** Conduct site visits for medium-opportunity properties to assess actual constraints
-3. **Congregation Support:** Develop resources for congregations to understand development options
-4. **Financial Analysis:** Model pro forma scenarios for top 10 properties to determine feasibility
+1.  **Priority Focus:** Concentrate initial outreach on the `r opportunity_matrix$high_opportunity` high-opportunity properties
+2.  **Secondary Review:** Conduct site visits for medium-opportunity properties to assess actual constraints
+3.  **Congregation Support:** Develop resources for congregations to understand development options
+4.  **Financial Analysis:** Model pro forma scenarios for top 10 properties to determine feasibility
+
 ```{r export}
 #| label: export-data
 #| include: false
@@ -760,20 +769,16 @@ This analysis identified **`r opportunity_matrix$high_opportunity` high-opportun
 write_csv(property_profile, "verep_analysis_results.csv")
 ```
 
----
+------------------------------------------------------------------------
 
 ::: {.content-visible when-format="html"}
-
 *Analysis completed: `r Sys.Date()`*
 
 *Data exported to: `verep_analysis_results.csv`*
 
 *For PDF version, render with `quarto render document.qmd --to pdf`*
-
 :::
 
 ::: {.content-visible when-format="pdf"}
-
-*Analysis completed: `r Sys.Date()`* | *Data exported to: verep_analysis_results.csv*
-
+*Analysis completed: `r Sys.Date()`* \| *Data exported to: verep_analysis_results.csv*
 :::
