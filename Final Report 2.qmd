@@ -105,6 +105,7 @@ Create a scoring framework based on:
 # - Not in historic districts
 # - Not encumbered by easements
 # - LIHTC qualified census tract (for affordable housing incentives)
+
 ```
 
 ### 2.3 Scoring Methodology
@@ -113,6 +114,51 @@ Create a scoring framework based on:
 # Normalize each criterion to 0-100 scale
 # Apply weights based on VEREP priorities
 # Calculate total development potential score
+
+calculate_dev_score <- function(df) {
+  df %>%
+    mutate(
+      # Size score (0-100)
+      size_score = case_when(
+        area_acres < 0.25 ~ 20,
+        area_acres < 0.5 ~ 50,
+        area_acres < 2 ~ 80,
+        TRUE ~ 100
+      ),
+      
+      # Use type score (parking/open space = higher)
+      use_score = case_when(
+        use_parking == "Yes" ~ 90,
+        use_open_space == "Yes" ~ 85,
+        use_cemetery == "Yes" ~ 10,
+        use_church == "Yes" ~ 30,
+        TRUE ~ 50
+      ),
+      
+      # Location score
+      location_score = scales::rescale(walkability_score, to = c(0, 100)),
+      
+      # Financial need score (declining congregations = higher need)
+      financial_score = scales::rescale(-pct_change_pledge, to = c(0, 100)),
+      
+      # Constraint penalty
+      constraint_penalty = case_when(
+        flood_zone != "None" ~ -30,
+        historic_district == "Yes" ~ -20,
+        easement == "Yes" ~ -25,
+        wetlands_pct > 10 ~ -15,
+        TRUE ~ 0
+      ),
+      
+      # Composite score
+      development_score = (size_score * 0.25 + 
+                          use_score * 0.25 + 
+                          location_score * 0.20 +
+                          financial_score * 0.15 +
+                          zoning_score * 0.15) + constraint_penalty
+    )
+}
+
 ```
 
 ## 3. Analysis & Results
@@ -137,9 +183,33 @@ Create a scoring framework based on:
 # Detailed profiles of top 10
 # Maps showing locations
 # Comparative analysis
+
+# Create interactive map of top 10
+top_10 <- scored_parcels %>%
+  arrange(desc(development_score)) %>%
+  slice_head(n = 10)
+
+library(leaflet)
+leaflet(top_10) %>%
+  addTiles() %>%
+  addPolygons(
+    fillColor = ~colorNumeric("YlOrRd", development_score)(development_score),
+    weight = 2,
+    popup = ~paste0(
+      "<b>", site_address, "</b><br>",
+      "Score: ", round(development_score, 1), "<br>",
+      "Size: ", round(area_acres, 2), " acres<br>",
+      "Congregation: ", congregation_name
+    )
+  )
+
+# Comparative radar/spider chart of top properties
+library(fmsb)
+# Show how each property scores on different dimensions
+
 ```
 
-## 4. Deep Dive: Top Properties
+## 4. Property Profiles
 
 ### Property 1: [Name/Address]
 - Parcel characteristics
@@ -148,6 +218,29 @@ Create a scoring framework based on:
 - Considerations/constraints
 
 [Repeat for each top 10]
+
+```{r}
+create_property_profile <- function(parcel_id) {
+  property <- scored_parcels %>% filter(parcel_id == {{parcel_id}})
+  
+  cat("## Property Profile: ", property$site_address, "\n\n")
+  
+  cat("**Development Score:**", round(property$development_score, 1), "\n\n")
+  
+  cat("### Property Characteristics\n")
+  # Generate summary table
+  
+  cat("### Congregation Context\n")
+  # Pull congregation trends
+  
+  cat("### Development Opportunities\n")
+  # Text based on scoring components
+  
+  cat("### Key Considerations\n")
+  # Flag constraints
+}
+```
+
 
 ## 5. Recommendations & Next Steps
 
