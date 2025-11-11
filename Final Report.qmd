@@ -63,6 +63,12 @@ a:hover {
 
 This analysis examines properties belonging to congregations with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.
 
+## Methodology
+
+Lincoln Land Institue prepared data: 
+
+To be able to view and query parcels owned by congregations in the Episcopal Diocese of Virginia, CGS utilized its WHOA parcel ownership dataset as a starting point. CGS creates this dataset by cleaning, standardizing and combining parcel data from Regrid, additional property record data from ATTOM, and corporate entity registration data from OpenCorporates into a unified, national parcel dataset. Parcels are then assessed and classified, via an automated model created by CGS, into various ownership types. This includes a column to flag parcels, based on key word searches of the parcel owner name field, that are likely affiliated with a faith-based institution.
+
 ## Setup
 ```{r setup}
 #| label: setup
