@@ -9,7 +9,6 @@ format:
     code-fold: true
     code-summary: "Show code"
     embed-resources: true
-    css: hda-styles.css
   pdf:
     toc: true
     toc-depth: 3
@@ -69,12 +68,20 @@ This analysis examines properties belonging to congregations with fewer than 30 
 #| label: setup
 #| include: false
 
-library(tidyverse)
-library(readr)
-library(scales)
-library(knitr)
-library(gt)
-library(hdatools)
+# Load packages quietly
+library(tidyverse, quietly = TRUE, warn.conflicts = FALSE)
+library(readr, quietly = TRUE)
+library(scales, quietly = TRUE)
+library(knitr, quietly = TRUE)
+library(gt, quietly = TRUE)
+
+# Knitr options to suppress warnings
+options(
+  knitr.kable.NA = '',
+  dplyr.summarise.inform = FALSE,
+  readr.show_col_types = FALSE,
+  warn = -1
+)
 
 # HDA Color Palette
 hda_colors <- c(
@@ -84,47 +91,27 @@ hda_colors <- c(
   coral = "#e76f52"
 )
 
-# Custom HDA ggplot theme
+# Simplified theme without font dependencies
 theme_hda <- function(base_size = 11) {
-  theme_minimal(base_size = base_size, base_family = "Lato") +
+  theme_minimal(base_size = base_size) +
     theme(
       plot.title = element_text(
-        family = "Roboto Slab",
         face = "bold",
         color = hda_colors["blue"],
-        size = rel(1.3),
-        margin = margin(b = 10)
+        size = rel(1.3)
       ),
       plot.subtitle = element_text(
-        family = "Lato",
-        color = "#555555",
-        size = rel(1),
-        margin = margin(b = 15)
-      ),
-      axis.title = element_text(
-        family = "Roboto Slab",
         color = "#555555",
         size = rel(1)
       ),
-      axis.text = element_text(
-        family = "Lato",
-        color = "#666666"
-      ),
-      legend.title = element_text(
-        family = "Roboto Slab",
-        color = hda_colors["blue"]
-      ),
-      legend.text = element_text(
-        family = "Lato"
-      ),
+      axis.title = element_text(color = "#555555"),
+      axis.text = element_text(color = "#666666"),
+      legend.title = element_text(color = hda_colors["blue"]),
       panel.grid.major = element_line(color = "#e0e0e0"),
-      panel.grid.minor = element_blank(),
-      plot.background = element_rect(fill = "white", color = NA),
-      panel.background = element_rect(fill = "white", color = NA)
+      panel.grid.minor = element_blank()
     )
 }
 
-# Set as default theme
 theme_set(theme_hda())
 ```
 
@@ -145,7 +132,8 @@ congregation_data <- read_csv("data/congregation.csv")
 #| label: join-attendance
 
 # Prepare attendance data with most recent year (2023) and average
-attendance_data <- congregation_data %>%
+
+attendance_data <- congregation_data |>
   select(
     quickref,
     congregation_name = name,
@@ -159,7 +147,7 @@ attendance_data <- congregation_data %>%
   )
 
 # Join property data with attendance data
-verep_data <- verep_data %>%
+verep_data <- verep_data |>
   left_join(
     attendance_data, 
     by = c("congr_name" = "quickref")
@@ -168,9 +156,11 @@ verep_data <- verep_data %>%
 
 ::: {.callout-note}
 ## Join Results
+
 - Total properties: `r nrow(verep_data)`
 - Properties matched to congregation: `r sum(!is.na(verep_data$attendance_2023))`
 - Properties with attendance data: `r sum(!is.na(verep_data$attendance_2023) & verep_data$attendance_2023 > 0)`
+
 :::
 
 ## Filtering Criteria
@@ -179,7 +169,7 @@ We focus our analysis on properties with fewer than 30 Sunday attendees in 2023.
 ```{r filter-data}
 #| label: filter-subset
 
-analysis_subset <- verep_data %>%
+analysis_subset <- verep_data |>
   filter(
     !is.na(attendance_2023) &
       attendance_2023 < 30
@@ -191,40 +181,35 @@ analysis_subset <- verep_data %>%
 #| label: tbl-congregations
 #| tbl-cap: "Congregations with <30 Sunday Attendees"
 
-congregations_under30 <- analysis_subset %>%
-  filter(!is.na(congr_name)) %>%
-  distinct(congr_name, attendance_2023, congregation_name) %>%
+congregations_under30 <- analysis_subset |>
+  filter(!is.na(congr_name)) |>
+  distinct(congr_name, attendance_2023, congregation_name) |>
   arrange(attendance_2023)
 
-congregations_under30 %>%
-  gt() %>%
+congregations_under30 |>
+  gt() |>
   cols_label(
     congr_name = "Quick Reference",
     congregation_name = "Congregation Name",
     attendance_2023 = "2023 Attendance"
-  ) %>%
+  ) |>
   tab_style(
     style = list(
-      cell_fill(color = "#f8f9fa"),
-      cell_text(font = "Lato")
+      cell_fill(color = "#f8f9fa")
     ),
     locations = cells_body(rows = seq(2, nrow(congregations_under30), 2))
-  ) %>%
+  ) |>
   tab_style(
     style = cell_text(
-      font = "Roboto Slab",
       weight = "bold",
       color = hda_colors["blue"]
     ),
     locations = cells_column_labels()
-  ) %>%
+  ) |>
   tab_options(
-    table.font.names = "Lato",
-    heading.title.font.size = 14,
-    heading.subtitle.font.size = 12,
-    column_labels.font.size = 12,
     table.font.size = 11
   )
+```
 ```
 
 ## Analysis Results
@@ -233,7 +218,7 @@ congregations_under30 %>%
 ```{r land-value}
 #| label: land-value-summary
 
-land_value_summary <- analysis_subset %>%
+land_value_summary <- analysis_subset |>
   summarise(
     total_properties = n(),
     properties_with_value = sum(!is.na(lan_val)),
@@ -250,14 +235,14 @@ The properties analyzed represent a total land value of **`r dollar(land_value_s
 #| label: tbl-land-value
 #| tbl-cap: "Land Value Summary Statistics"
 
-land_value_summary %>%
-  select(-total_properties, -properties_with_value) %>%
-  pivot_longer(everything(), names_to = "Metric", values_to = "Value") %>%
+land_value_summary |>
+  select(-total_properties, -properties_with_value) |>
+  pivot_longer(everything(), names_to = "Metric", values_to = "Value") |>
   mutate(
-    Metric = str_replace_all(Metric, "_", " ") %>% str_to_title(),
+    Metric = str_replace_all(Metric, "_", " ") |> str_to_title(),
     Value = dollar(Value)
-  ) %>%
-  gt() %>%
+  ) |>
+  gt() |>
   tab_style(
     style = cell_text(
       font = "Roboto Slab",
@@ -265,7 +250,7 @@ land_value_summary %>%
       color = hda_colors["blue"]
     ),
     locations = cells_column_labels()
-  ) %>%
+  ) |>
   tab_options(
     table.font.names = "Lato",
     table.font.size = 11
@@ -277,8 +262,8 @@ land_value_summary %>%
 #| fig-width: 8
 #| fig-height: 5
 
-analysis_subset %>%
-  filter(!is.na(lan_val)) %>%
+analysis_subset |>
+  filter(!is.na(lan_val)) |>
   ggplot(aes(x = lan_val)) +
   geom_histogram(bins = 30, fill = hda_colors["blue"], alpha = 0.8) +
   scale_x_continuous(labels = dollar_format()) +
@@ -294,30 +279,30 @@ analysis_subset %>%
 ```{r zoning-analysis}
 #| label: zoning-summary
 
-zoning_summary <- analysis_subset %>%
-  filter(!is.na(zon)) %>%
-  count(zon, zon_desc, sort = TRUE) %>%
+zoning_summary <- analysis_subset |>
+  filter(!is.na(zon)) |>
+  count(zon, zon_desc, sort = TRUE) |>
   mutate(percentage = n / sum(n) * 100)
 
-zoning_type_summary <- analysis_subset %>%
-  filter(!is.na(zon_type)) %>%
-  count(zon_type, sort = TRUE) %>%
+zoning_type_summary <- analysis_subset |>
+  filter(!is.na(zon_type)) |>
+  count(zon_type, sort = TRUE) |>
   mutate(percentage = n / sum(n) * 100)
 ```
 ```{r}
 #| label: tbl-zoning
 #| tbl-cap: "Top 10 Zoning Classifications"
 
-head(zoning_summary, 10) %>%
-  gt() %>%
+head(zoning_summary, 10) |>
+  gt() |>
   cols_label(
     zon = "Zone Code",
     zon_desc = "Description",
     n = "Count",
     percentage = "Percentage"
-  ) %>%
-  fmt_number(columns = percentage, decimals = 1) %>%
-  cols_align(align = "left", columns = zon_desc) %>%
+  ) |>
+  fmt_number(columns = percentage, decimals = 1) |>
+  cols_align(align = "left", columns = zon_desc) |>
   tab_style(
     style = cell_text(
       font = "Roboto Slab",
@@ -325,7 +310,7 @@ head(zoning_summary, 10) %>%
       color = hda_colors["blue"]
     ),
     locations = cells_column_labels()
-  ) %>%
+  ) |>
   tab_options(
     table.font.names = "Lato",
     table.font.size = 11
@@ -336,7 +321,7 @@ head(zoning_summary, 10) %>%
 ```{r acreage-analysis}
 #| label: acreage-summary
 
-acreage_summary <- analysis_subset %>%
+acreage_summary <- analysis_subset |>
   summarise(
     properties_with_acreage = sum(!is.na(rgisacre)),
     mean_acres = mean(rgisacre, na.rm = TRUE),
@@ -346,8 +331,8 @@ acreage_summary <- analysis_subset %>%
     max_acres = max(rgisacre, na.rm = TRUE)
   )
 
-acreage_categories <- analysis_subset %>%
-  filter(!is.na(rgisacre)) %>%
+acreage_categories <- analysis_subset |>
+  filter(!is.na(rgisacre)) |>
   mutate(
     acreage_category = case_when(
       rgisacre < 0.5 ~ "< 0.5 acres",
@@ -361,8 +346,8 @@ acreage_categories <- analysis_subset %>%
       "< 0.5 acres", "0.5-1 acres", "1-2 acres", 
       "2-5 acres", "5-10 acres", "10+ acres"
     ))
-  ) %>%
-  count(acreage_category, .drop = FALSE) %>%
+  ) |>
+  count(acreage_category, .drop = FALSE) |>
   mutate(percentage = n / sum(n) * 100)
 ```
 
@@ -373,7 +358,7 @@ The properties encompass a total of **`r round(acreage_summary$total_acres, 1)` 
 #| fig-width: 8
 #| fig-height: 5
 
-acreage_categories %>%
+acreage_categories |>
   ggplot(aes(x = acreage_category, y = percentage)) +
   geom_col(fill = hda_colors["green"], alpha = 0.8) +
   geom_text(
@@ -395,7 +380,7 @@ acreage_categories %>%
 ```{r environmental-analysis}
 #| label: environmental-summary
 
-environmental_summary <- analysis_subset %>%
+environmental_summary <- analysis_subset |>
   summarise(
     properties_with_wetlands = sum(wet_perc > 0, na.rm = TRUE),
     avg_wetland_coverage = mean(wet_perc, na.rm = TRUE),
@@ -405,18 +390,21 @@ environmental_summary <- analysis_subset %>%
     high_fema_risk = sum(fema_nri %in% c("Very High", "Relatively High"), na.rm = TRUE)
   )
 
-flood_zone_summary <- analysis_subset %>%
-  filter(!is.na(fema_fz) & fema_fz != "") %>%
-  count(fema_fz, sort = TRUE) %>%
+flood_zone_summary <- analysis_subset |>
+  filter(!is.na(fema_fz) & fema_fz != "") |>
+  count(fema_fz, sort = TRUE) |>
   mutate(percentage = n / sum(n) * 100)
 ```
 
 ::: {.callout-warning}
 ## Environmental Constraints
+
 - **`r environmental_summary$in_flood_zone`** properties located in flood zones
 - **`r environmental_summary$significant_wetlands`** properties with >10% wetland coverage
 - **`r environmental_summary$in_high_risk_flood`** properties in high-risk flood zones
+
 :::
+
 ```{r}
 #| label: fig-environmental
 #| fig-cap: "Flood Zone Distribution"
@@ -424,8 +412,8 @@ flood_zone_summary <- analysis_subset %>%
 #| fig-height: 5
 
 if(nrow(flood_zone_summary) > 0) {
-  flood_zone_summary %>%
-    head(10) %>%
+  flood_zone_summary |>
+    head(10) |>
     ggplot(aes(x = reorder(fema_fz, n), y = n)) +
     geom_col(fill = hda_colors["coral"], alpha = 0.8) +
     geom_text(
@@ -448,7 +436,7 @@ if(nrow(flood_zone_summary) > 0) {
 ```{r qct-analysis}
 #| label: qct-summary
 
-qct_summary <- analysis_subset %>%
+qct_summary <- analysis_subset |>
   summarise(
     total_properties = n(),
     in_qct = sum(qct == 1, na.rm = TRUE),
@@ -471,7 +459,7 @@ tibble(
   Count = c(qct_summary$in_qct, qct_summary$not_in_qct, 
             qct_summary$in_dda, qct_summary$total_properties - qct_summary$in_dda),
   Type = c("QCT", "QCT", "DDA", "DDA")
-) %>%
+) |>
   ggplot(aes(x = Type, y = Count, fill = Status)) +
   geom_col(position = "dodge", alpha = 0.8) +
   geom_text(
@@ -500,14 +488,14 @@ tibble(
 ```{r opportunity-assessment}
 #| label: opportunity-matrix
 
-property_profile <- analysis_subset %>%
-  filter(!is.na(lan_val)) %>%
+property_profile <- analysis_subset |>
+  filter(!is.na(lan_val)) |>
   mutate(
     has_environmental_constraint = (wet_perc > 10) | 
       (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE")),
     developable = (rgisacre >= 1) & (!has_environmental_constraint),
     land_value_per_acre = if_else(rgisacre > 0, lan_val / rgisacre, NA_real_)
-  ) %>%
+  ) |>
   select(
     uid, pid, congr_name, 
     attendance_2023, members_2023, attendance_avg,
@@ -518,10 +506,10 @@ property_profile <- analysis_subset %>%
     has_environmental_constraint, developable,
     sadd, scity, scounty, sstate, szip,
     lat, lon
-  ) %>%
+  ) |>
   arrange(desc(developable), desc(lan_val))
 
-opportunity_matrix <- property_profile %>%
+opportunity_matrix <- property_profile |>
   summarise(
     high_opportunity = sum(qct == 1 & rgisacre >= 1 & !has_environmental_constraint, na.rm = TRUE),
     medium_opportunity = sum((qct == 1 | dda == 1) & rgisacre >= 0.5 & rgisacre < 1, na.rm = TRUE),
@@ -535,8 +523,8 @@ opportunity_matrix <- property_profile %>%
 #| label: tbl-opportunities
 #| tbl-cap: "Development Opportunity Matrix"
 
-opportunity_matrix %>%
-  pivot_longer(everything(), names_to = "Category", values_to = "Count") %>%
+opportunity_matrix |>
+  pivot_longer(everything(), names_to = "Category", values_to = "Count") |>
   mutate(
     Category = case_when(
       Category == "high_opportunity" ~ "High Opportunity",
@@ -550,19 +538,19 @@ opportunity_matrix %>%
       Category == "Environmentally Constrained" ~ "Flood zones or significant wetlands",
       Category == "Small Parcels (<0.5 acres)" ~ "Limited development potential"
     )
-  ) %>%
-  gt() %>%
+  ) |>
+  gt() |>
   tab_style(
     style = list(
       cell_fill(color = scales::alpha(hda_colors["blue"], 0.2)),
       cell_text(weight = "bold")
     ),
     locations = cells_body(rows = Category == "High Opportunity")
-  ) %>%
+  ) |>
   tab_style(
     style = cell_fill(color = scales::alpha(hda_colors["yellow"], 0.2)),
     locations = cells_body(rows = Category == "Medium Opportunity")
-  ) %>%
+  ) |>
   tab_style(
     style = cell_text(
       font = "Roboto Slab",
@@ -570,7 +558,7 @@ opportunity_matrix %>%
       color = hda_colors["blue"]
     ),
     locations = cells_column_labels()
-  ) %>%
+  ) |>
   tab_options(
     table.font.names = "Lato",
     table.font.size = 11
@@ -582,8 +570,8 @@ opportunity_matrix %>%
 #| fig-width: 8
 #| fig-height: 5
 
-opportunity_matrix %>%
-  pivot_longer(everything(), names_to = "Category", values_to = "Count") %>%
+opportunity_matrix |>
+  pivot_longer(everything(), names_to = "Category", values_to = "Count") |>
   mutate(
     Category = case_when(
       Category == "high_opportunity" ~ "High\nOpportunity",
@@ -597,7 +585,7 @@ opportunity_matrix %>%
     )),
     color = c(hda_colors["blue"], hda_colors["yellow"], 
               hda_colors["coral"], "#cccccc")
-  ) %>%
+  ) |>
   ggplot(aes(x = Category, y = Count, fill = color)) +
   geom_col(alpha = 0.8) +
   geom_text(
@@ -621,11 +609,11 @@ opportunity_matrix %>%
 #| label: tbl-top-properties
 #| tbl-cap: "Properties with Highest Development Potential"
 
-property_profile %>%
-  filter(developable == TRUE) %>%
-  select(congr_name, attendance_2023, lan_val, rgisacre, qct, scity, scounty) %>%
-  head(10) %>%
-  gt() %>%
+property_profile |>
+  filter(developable == TRUE) |>
+  select(congr_name, attendance_2023, lan_val, rgisacre, qct, scity, scounty) |>
+  head(10) |>
+  gt() |>
   cols_label(
     congr_name = "Congregation",
     attendance_2023 = "2023 Attendance",
@@ -634,10 +622,10 @@ property_profile %>%
     qct = "QCT",
     scity = "City",
     scounty = "County"
-  ) %>%
-  fmt_currency(columns = lan_val, decimals = 0) %>%
-  fmt_number(columns = rgisacre, decimals = 2) %>%
-  fmt_integer(columns = qct) %>%
+  ) |>
+  fmt_currency(columns = lan_val, decimals = 0) |>
+  fmt_number(columns = rgisacre, decimals = 2) |>
+  fmt_integer(columns = qct) |>
   tab_style(
     style = cell_text(
       font = "Roboto Slab",
@@ -645,11 +633,11 @@ property_profile %>%
       color = hda_colors["blue"]
     ),
     locations = cells_column_labels()
-  ) %>%
+  ) |>
   tab_style(
     style = cell_fill(color = scales::alpha(hda_colors["green"], 0.15)),
     locations = cells_body(columns = qct, rows = qct == 1)
-  ) %>%
+  ) |>
   tab_options(
     table.font.names = "Lato",
     table.font.size = 11
@@ -660,8 +648,8 @@ property_profile %>%
 ```{r attendance-profile}
 #| label: attendance-context
 
-attendance_context <- analysis_subset %>%
-  filter(!is.na(attendance_2023)) %>%
+attendance_context <- analysis_subset |>
+  filter(!is.na(attendance_2023)) |>
   summarise(
     mean_attendance = mean(attendance_2023, na.rm = TRUE),
     median_attendance = median(attendance_2023, na.rm = TRUE),
@@ -676,6 +664,7 @@ attendance_context <- analysis_subset %>%
 
 ::: {.callout-tip}
 ## Attendance Summary
+
 Average 2023 attendance for properties in this analysis: **`r round(attendance_context$mean_attendance, 1)`**
 
 The distribution shows:
@@ -684,7 +673,9 @@ The distribution shows:
 - 1-10 attendees: `r attendance_context$attendance_1_10` properties  
 - 11-20 attendees: `r attendance_context$attendance_11_20` properties
 - 21-29 attendees: `r attendance_context$attendance_21_29` properties
+
 :::
+
 ```{r}
 #| label: fig-attendance
 #| fig-cap: "Attendance Distribution"
@@ -699,8 +690,8 @@ tibble(
     attendance_context$attendance_11_20,
     attendance_context$attendance_21_29
   )
-) %>%
-  mutate(Category = factor(Category, levels = c("0", "1-10", "11-20", "21-29"))) %>%
+) |>
+  mutate(Category = factor(Category, levels = c("0", "1-10", "11-20", "21-29"))) |>
   ggplot(aes(x = Category, y = Count)) +
   geom_col(fill = hda_colors["blue"], alpha = 0.8) +
   geom_text(
@@ -743,13 +734,17 @@ write_csv(property_profile, "verep_analysis_results.csv")
 ---
 
 ::: {.content-visible when-format="html"}
+
 *Analysis completed: `r Sys.Date()`*
 
 *Data exported to: `verep_analysis_results.csv`*
 
 *For PDF version, render with `quarto render document.qmd --to pdf`*
+
 :::
 
 ::: {.content-visible when-format="pdf"}
+
 *Analysis completed: `r Sys.Date()`* | *Data exported to: verep_analysis_results.csv*
+
 :::
