@@ -1,0 +1,157 @@
+---
+title: "VEREP Property Development Analysis"
+author: "HDAdvisors"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-summary: "Show code"
+    embed-resources: true
+  pdf:
+    toc: true
+    toc-depth: 3
+    geometry:
+      - margin=1in
+    mainfont: "Lato"
+    sansfont: "Lato"
+execute:
+  warning: false
+  message: false
+---
+
+```{css}
+#| echo: false
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+
+/* Apply HDA fonts */
+body {
+  font-family: 'Lato', sans-serif;
+  color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Slab', serif;
+  color: #445ca9;
+}
+
+/* Style callouts with HDA colors */
+.callout-note {
+  border-left-color: #445ca9 !important;
+}
+
+.callout-warning {
+  border-left-color: #e76f52 !important;
+}
+
+.callout-tip {
+  border-left-color: #8baeaa !important;
+}
+
+/* Style links */
+a {
+  color: #445ca9;
+}
+
+a:hover {
+  color: #e9ab3f;
+}
+```
+
+## Executive Summary
+- Brief overview of the top 10 developable properties
+- Key findings and recommendations
+- Quick reference table/map
+
+## 1. Background & Data Sources
+### 1.1 VEREP Parcel Dataset Methodology
+[Condensed version of the CGS methodology summary]
+
+### 1.2 Congregation Statistics
+- What metrics are available (attendance, pledge, membership)
+- Time period covered (2014-2023)
+- Data quality considerations
+
+## 2. Analytical Approach
+
+### 2.1 Solving the One-to-Many Join Problem
+```{r congregation-join}
+# Your approach to handling parcels with multiple congregations
+# Document decisions: average metrics? primary congregation? all combinations?
+```
+
+### 2.2 Defining "Developability"
+Create a scoring framework based on:
+```{r developability-criteria}
+# Property characteristics:
+# - Parcel size (adequate for development?)
+# - Current use (underutilized parking lots? vacant land?)
+# - Zoning favorability
+# - Not in flood zones/wetlands
+
+# Financial indicators:
+# - Assessed value vs. potential
+# - Congregation financial health (declining pledges = need for income?)
+
+# Location factors:
+# - Walkability score
+# - Transit access
+# - Median income (market demand)
+# - Urban vs. rural
+
+# Regulatory ease:
+# - Not in historic districts
+# - Not encumbered by easements
+# - LIHTC qualified census tract (for affordable housing incentives)
+```
+
+### 2.3 Scoring Methodology
+```{r scoring-system}
+# Weighted composite score
+# Normalize each criterion to 0-100 scale
+# Apply weights based on VEREP priorities
+# Calculate total development potential score
+```
+
+## 3. Analysis & Results
+
+### 3.1 Congregation-Parcel Integration
+```{r join-results}
+# Show how you resolved the many-to-many issue
+# Summary statistics of joined dataset
+# Data quality checks
+
+```
+
+### 3.2 Development Potential Scoring
+```{r score-distribution}
+# Distribution of scores across all parcels
+# Visualization of scoring components
+# Identify high-potential clusters
+```
+
+### 3.3 Top 10 Developable Properties
+```{r top-10-analysis}
+# Detailed profiles of top 10
+# Maps showing locations
+# Comparative analysis
+```
+
+## 4. Deep Dive: Top Properties
+
+### Property 1: [Name/Address]
+- Parcel characteristics
+- Congregation context (health metrics, trends)
+- Development opportunities
+- Considerations/constraints
+
+[Repeat for each top 10]
+
+## 5. Recommendations & Next Steps
+
+## Appendices
+- Full methodology
+- Data dictionary
+- Additional maps/tables
