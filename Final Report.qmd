@@ -61,13 +61,24 @@ a:hover {
 
 ## Executive Summary
 
-This analysis examines properties belonging to congregations with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.
+This analysis examines properties properties of interest (defined in methodolgy) with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.
 
 ## Methodology
+
+### Data Origins 
 
 Lincoln Land Institue prepared data: 
 
 To be able to view and query parcels owned by congregations in the Episcopal Diocese of Virginia, CGS utilized its WHOA parcel ownership dataset as a starting point. CGS creates this dataset by cleaning, standardizing and combining parcel data from Regrid, additional property record data from ATTOM, and corporate entity registration data from OpenCorporates into a unified, national parcel dataset. Parcels are then assessed and classified, via an automated model created by CGS, into various ownership types. This includes a column to flag parcels, based on key word searches of the parcel owner name field, that are likely affiliated with a faith-based institution.
+
+### Defining Ownership Parameters
+
+The original Scope of Work defined the VEREP parcel dataset as a “dataset of parcels owned by congregations in the Episcopal Diocese of Virginia”. However, following conversations with VEREP, the scope of ownership was expanded to broadly cover “parcels of interest to VEREP”, where parcel ownership would fall into one of the following categories:
+* Owned by the Episcopal Diocese of Virginia
+* Owned by Congregations in the Episcopal Diocese of Virginia
+* Owned by Related Organizations
+* Owned by Affiliate Organizations
+CGS relied on VEREP and its partners to define these categories and to provide starting lists of site addresses, congregation and organization names for CGS to review.
 
 ## Setup
 ```{r setup}
