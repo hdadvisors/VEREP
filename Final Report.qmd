@@ -65,11 +65,11 @@ This analysis examines properties properties of interest (defined in methodolgy)
 
 ## Methodology
 
-### Data Origins 
+### Background and Approach 
 
-Lincoln Land Institue prepared data: 
+Prior to this work, the Lincoln Land Institute's Center for Geospatial Solutions (CGS) developed a comprehensive parcel dataset for Virginia Episcopal Real Estate Partners (VEREP) using an automated-plus-manual verification approach. The methodology combined CGS's Who Owns America® (WHOA) national parcel dataset with Diocese-specific knowledge to identify properties owned by the Episcopal Diocese of Virginia, its congregations, and related organizations.
 
-To be able to view and query parcels owned by congregations in the Episcopal Diocese of Virginia, CGS utilized its WHOA parcel ownership dataset as a starting point. CGS creates this dataset by cleaning, standardizing and combining parcel data from Regrid, additional property record data from ATTOM, and corporate entity registration data from OpenCorporates into a unified, national parcel dataset. Parcels are then assessed and classified, via an automated model created by CGS, into various ownership types. This includes a column to flag parcels, based on key word searches of the parcel owner name field, that are likely affiliated with a faith-based institution.
+To be able to view and query parcels owned by congregations in the Episcopal Diocese of Virginia, CGS utilized its WHOA parcel ownership dataset as a starting point. CGS created this dataset by cleaning, standardizing and combining parcel data from Regrid, additional property record data from ATTOM, and corporate entity registration data from OpenCorporates into a unified, national parcel dataset. Parcels are then assessed and classified, via an automated model created by CGS, into various ownership types. This includes a column to flag parcels, based on key word searches of the parcel owner name field, that are likely affiliated with a faith-based institution.
 
 ### Defining Ownership Parameters
 
@@ -82,11 +82,16 @@ CGS relied on VEREP and its partners to define these categories and to provide s
 
 CGS then performed a recursive parcel linkage process to identify all parcels connected through shared mailing addresses and owner names, maximizing the discovery of related property holdings across Virginia. 
 
-#### HDAdvisors's Role
+### HDAdvisors's Role
 
-HDAdvisors was hired after this comprehensive geospatial data creation and analysis work to manually 
+HDAdvisors was hired after this comprehensive geospatial data creation and analysis work to further integrate congregation statistics.
 
-Despite this
+CGS initially assumed a one-to-one relationship between parcels and congregations. However, field verification revealed that multiple congregations often share the same parcel (co-located congregations sharing worship space). This one-to-many relationship created a data structure challenge:
+
+"CGS was unable, in the project time allotment, develop a new relational table structure in Esri's web infrastructure to enable VEREP to query both congregation stats and parcel data in the same query."
+
+The current analysis addresses this limitation by developing appropriate join methodologies to link congregation performance metrics (attendance, membership, pledge data) with parcel characteristics, enabling integrated spatial-statistical analysis of how congregation vitality relates to property characteristics and neighborhood context.
+
 
 ## Setup
 ```{r setup}
