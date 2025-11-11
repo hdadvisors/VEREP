@@ -210,7 +210,6 @@ congregations_under30 |>
     table.font.size = 11
   )
 ```
-```
 
 ## Analysis Results
 
