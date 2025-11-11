@@ -80,6 +80,14 @@ The original Scope of Work defined the VEREP parcel dataset as a “dataset of p
 * Owned by Affiliate Organizations
 CGS relied on VEREP and its partners to define these categories and to provide starting lists of site addresses, congregation and organization names for CGS to review.
 
+CGS then performed a recursive parcel linkage process to identify all parcels connected through shared mailing addresses and owner names, maximizing the discovery of related property holdings across Virginia. 
+
+#### HDAdvisors's Role
+
+HDAdvisors was hired after this comprehensive geospatial data creation and analysis work to manually 
+
+Despite this
+
 ## Setup
 ```{r setup}
 #| label: setup
