@@ -21,18 +21,33 @@ codebook <- read_csv("data/CGS_VEREP_AppendixD_Codebook.xlsx.csv")
 # Read congregation attendance data
 congregation_data <- read_csv("data/congregation.csv")
 
-# Prepare attendance data with most recent year (2023) and average
+# Prepare attendance data with most recent year (2023), average, AND historical trends
 attendance_data <- congregation_data %>%
   select(
     quickref,
     congregation_name = name,
     short_name,
+    # Current data
     attendance_2023 = f2023_sunday_attendance,
     attendance_avg,
     members_2023 = f2023_members_this_year,
     plate_pledge_2023 = f2023_plate_and_pledge,
+    # Historical data for trend analysis
+    attendance_2014 = f2014_sunday_attendance,
+    plate_pledge_2014 = f2014_plate_and_pledge,
     attendance_pctinc,
     dio_reg
+  ) %>%
+  mutate(
+    # Calculate 10-year trends (2014-2023)
+    pct_change_attendance = case_when(
+      is.na(attendance_2014) | attendance_2014 == 0 ~ NA_real_,
+      TRUE ~ ((attendance_2023 - attendance_2014) / attendance_2014) * 100
+    ),
+    pct_change_pledge = case_when(
+      is.na(plate_pledge_2014) | plate_pledge_2014 == 0 ~ NA_real_,
+      TRUE ~ ((plate_pledge_2023 - plate_pledge_2014) / plate_pledge_2014) * 100
+    )
   )
 
 # Join property data with attendance data
@@ -331,6 +346,8 @@ property_profile <- analysis_subset %>%
   select(
     uid, pid, congregation_name, 
     attendance_2023, members_2023, attendance_avg,
+    attendance_2014, pct_change_attendance,  # ADD THESE
+    plate_pledge_2023, plate_pledge_2014, pct_change_pledge,  # ADD THESE
     lan_val, land_value_per_acre, rgisacre, deed_acres,
     zon, zon_desc, zon_type,
     qct, dda, 
@@ -340,7 +357,6 @@ property_profile <- analysis_subset %>%
     missing_wetland, missing_flood, missing_qct, missing_zoning,
     sadd, scity, scounty, sstate, szip,
     lat, lon,
-    # ADD THESE:
     walk_idx, church, parking, open_space, cemetery, school, residence
   ) %>%
   arrange(desc(data_completeness), desc(developable), desc(lan_val))

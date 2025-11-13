@@ -170,11 +170,13 @@ top_10 <- property_profile %>%
     name = congregation_name,
     avg_attendance = attendance_2023,
     walkability_score = walk_idx,
-    financial_need = case_when(
-      data_completeness < 4 ~ 3,
-      !is.na(lan_val) & lan_val >= 100000 ~ 2,
-      TRUE ~ 1
-    ),
+   financial_need = case_when(
+  !is.na(pct_change_pledge) & pct_change_pledge < -20 ~ 3,  # High need: >20% decline
+  !is.na(pct_change_pledge) & pct_change_pledge < 0 ~ 2,    # Moderate need: any decline
+  !is.na(pct_change_attendance) & pct_change_attendance < -20 ~ 2,  # Declining attendance
+  data_completeness < 4 ~ 1,  # Low data quality
+  TRUE ~ 1  # Neutral
+),
     # Add flags for property profile section
     use_church = !is.na(church) & church == 1,
     use_parking = !is.na(parking) & parking == 1,
