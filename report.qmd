@@ -670,6 +670,87 @@ Properties are classified into five tiers based on composite scores:
 
 ---
 
+## Understanding the Development Criteria
+
+### Why These Factors Matter
+
+Our scoring methodology reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.
+
+#### Property Size: The Goldilocks Principle
+
+**Optimal Range: 0.5-5 acres**
+
+Property size significantly influences development feasibility, but bigger isn't always better. Properties under a quarter-acre typically lack the critical mass needed for financially viable development—construction costs per unit rise sharply, and parking or open space requirements become impossible to meet. Conversely, parcels exceeding 10 acres often present unique challenges: they may require complex phasing, demand substantial upfront capital, or face community resistance to density.
+
+The "sweet spot" of 0.5-5 acres aligns with typical mixed-use development projects. A half-acre can accommodate a modest 20-30 unit building with ground-floor retail or community space. Two to three acres enables more ambitious projects—perhaps 75-100 residential units, structured parking, and meaningful ground-floor activation. Properties in this range also match the investment thresholds of most community development corporations and mission-driven developers who are natural partners for faith-based institutions.
+
+#### Current Use: Identifying Low-Hanging Fruit
+
+**Highest Potential: Parking Lots and Open Space**
+
+Not all church property serves its highest and best use. Surface parking lots represent prime redevelopment opportunities—they're already cleared and graded, typically have minimal environmental constraints, and often sit underutilized six days per week. A parking lot that serves 200 congregants on Sunday morning but stands empty Monday through Saturday represents an enormous opportunity cost.
+
+Open space scores similarly high, particularly when it's amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be reimagined while potentially retaining some green space within new development.
+
+Conversely, active church buildings score lower not because development is impossible, but because it's complex. Any project must navigate active programming, potential relocation needs, and the emotional attachment congregations feel toward sacred spaces. Cemeteries score lowest—they're essentially undevelopable under most state laws and carry profound cultural sensitivities.
+
+#### Location Quality: Following the Market
+
+**Key Metrics: Walkability Score and Transit Access**
+
+Real estate development fundamentally responds to location. A walkable, transit-rich site commands higher rents, attracts more diverse tenants, and often qualifies for density bonuses or reduced parking requirements—all factors that improve project economics.
+
+Walkability scores measure proximity to everyday needs: grocery stores, schools, employment centers, healthcare. High walkability (15-20 on our scale) indicates a property can support car-light or car-free households, expanding the potential tenant base to include young professionals, seniors aging in place, and lower-income families for whom car ownership is cost-prohibitive.
+
+Transit access amplifies these benefits. Properties within a quarter-mile of frequent bus service or half-mile of rail stations can often negotiate reduced parking requirements with municipalities—a significant cost savings when structured parking runs $25,000-$40,000 per space to construct.
+
+#### Financial Need: Aligning Development with Mission
+
+**Priority: Congregations with Declining Resources**
+
+This criterion explicitly centers mission over pure market return. Congregations experiencing sustained pledge declines often face a difficult reality: their historic buildings demand expensive maintenance, but shrinking budgets make upkeep increasingly burdensome. Many such congregations sit on valuable real estate that could, through thoughtful development, generate steady income streams while maintaining their worship and ministry.
+
+A ground lease arrangement, for example, might provide a struggling congregation with $50,000-$150,000 annually in stable income—enough to fund a part-time rector, maintain the building, and sustain core ministries. This approach transforms real estate from a drain on resources into a mission enabler.
+
+Properties associated with growing congregations score lower not because they lack development potential, but because the urgency is less acute. These communities likely have more options and less immediate financial pressure.
+
+#### Market Potential: Reading Economic Signals
+
+**Indicator: Area Median Income and LIHTC Eligibility**
+
+Development must respond to market demand. Properties in higher-income areas (median incomes above $75,000) typically support market-rate housing, ground-floor retail, or mixed-use projects that can cross-subsidize affordable components. These projects attract conventional financing and a broader range of development partners.
+
+Properties in Qualified Census Tracts (QCTs) gain additional scoring weight because they unlock Low-Income Housing Tax Credit (LIHTC) financing—the nation's primary mechanism for affordable housing production. LIHTC projects in QCTs receive point advantages in competitive funding rounds, improving their feasibility. For mission-driven institutions committed to affordable housing, QCT properties offer a rare alignment of social impact and financial viability.
+
+#### Zoning: Navigating Regulatory Reality
+
+**Favorable: Mixed-Use, Commercial, and Residential Districts**
+
+Zoning powerfully shapes what's buildable and how quickly projects move from concept to construction. Properties zoned for residential or mixed-use development typically offer by-right development opportunities—projects that don't require lengthy rezoning processes, conditional use permits, or special exceptions.
+
+Conversely, properties in restrictive single-family or conservation districts may require multi-year regulatory processes, neighborhood opposition, and uncertain outcomes. While such projects occasionally succeed, they demand patient capital and sophisticated development partners.
+
+#### Environmental and Regulatory Constraints: Deal-Breakers vs. Speed-Bumps
+
+**Critical: Flood Zones, Wetlands, Easements, Historic Districts**
+
+These constraints receive substantial score penalties because they materially affect project feasibility and cost. Properties in 100-year floodplains face expensive flood insurance, elevated construction costs, and increasingly cautious lenders post-climate-change. Development in such areas may be technically possible but financially marginal.
+
+Significant wetlands (>25% of parcel) trigger federal and state permitting, potential mitigation requirements, and uncertainty about buildable area. Easements—particularly those held by third parties—can restrict development rights, limit building envelopes, or prevent property subdivision.
+
+Historic district designation doesn't prohibit development but adds layers of design review, material requirements, and timeline uncertainty. Some historic commissions embrace creative contemporary additions; others mandate strict historicism that may conflict with modern construction economics.
+
+---
+
+### Bringing It All Together
+
+These six criteria, combined with constraint penalties, create a holistic picture of development potential. A property might score exceptionally well on size and location but face significant challenges from environmental constraints. Another might have modest physical attributes but represent an urgent opportunity to support a financially stressed congregation.
+
+The weighted scoring system allows us to compare apples to oranges—to evaluate whether a small, perfectly-located property in a historic district outweighs a larger, unrestricted site with less market demand. This methodology doesn't make decisions for stakeholders but rather creates a common language for discussing trade-offs and priorities.
+
+Ultimately, successful church real estate development requires more than high scores. It demands patient capital, mission-aligned partners, engaged congregations, and creative design. But by systematically evaluating these criteria, we can identify the properties where stars align—where market demand, congregational need, and regulatory environment converge to create genuine opportunity.
+
+
 # Analysis Results
 
 ## Development Opportunity Landscape
