@@ -1,5 +1,6 @@
 ---
 title: "VEREP Property Development Analysis"
+subtitle: "Strategic Assessment of Development Opportunities"
 author: "HDAdvisors"
 date: today
 format:
@@ -9,6 +10,8 @@ format:
     code-fold: true
     code-summary: "Show code"
     embed-resources: true
+    theme: cosmo
+    number-sections: true
   pdf:
     toc: true
     toc-depth: 3
@@ -19,19 +22,23 @@ format:
 execute:
   warning: false
   message: false
+  echo: false
 ---
+
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(leaflet)
 library(fmsb)
-library(scales)  # for rescale() function
-library(sf)      # if working with spatial data
+library(scales)
+library(sf)
+library(kableExtra)
 
-# Set knitr options
 knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
-  echo = TRUE
+  echo = FALSE,
+  fig.width = 10,
+  fig.height = 6
 )
 ```
 
@@ -40,20 +47,31 @@ knitr::opts_chunk$set(
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Lato:wght@300;400;700&display=swap');
 
-/* Apply HDA fonts */
 body {
   font-family: 'Lato', sans-serif;
   color: #333333;
+  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto Slab', Georgia, 'Times New Roman', serif;
   color: #445ca9;
+  margin-top: 1.5em;
 }
 
-/* Style callouts with HDA colors */
+h1 {
+  border-bottom: 3px solid #445ca9;
+  padding-bottom: 0.5em;
+}
+
+h2 {
+  border-bottom: 2px solid #8baeaa;
+  padding-bottom: 0.3em;
+}
+
 .callout-note {
   border-left-color: #445ca9 !important;
+  background-color: #f8f9fa;
 }
 
 .callout-warning {
@@ -64,7 +82,10 @@ h1, h2, h3, h4, h5, h6 {
   border-left-color: #8baeaa !important;
 }
 
-/* Style links */
+.callout-important {
+  border-left-color: #e9ab3f !important;
+}
+
 a {
   color: #445ca9;
 }
@@ -72,39 +93,38 @@ a {
 a:hover {
   color: #e9ab3f;
 }
+
+.stat-box {
+  background: linear-gradient(135deg, #445ca9 0%, #8baeaa 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 10px;
+}
+
+.stat-number {
+  font-size: 2.5em;
+  font-weight: bold;
+  font-family: 'Roboto Slab', serif;
+}
+
+.stat-label {
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 ```
 
-## Executive Summary
-- Brief overview of the top 10 developable properties
-- Key findings and recommendations
-- Quick reference table/map
-
-## 1. Background & Data Sources
-### 1.1 VEREP Parcel Dataset Methodology
-[Condensed version of the CGS methodology summary]
-
-### 1.2 Congregation Statistics
-- What metrics are available (attendance, pledge, membership)
-- Time period covered (2014-2023)
-- Data quality considerations
-
-## 2. Analytical Approach
-
-### 2.1 Data Processing
-```{r load-data}
+```{r load-data, include=FALSE}
 # Load VEREP parcel data
 parcels_raw <- read_csv("data/verep040725.csv")
 
 # Load congregation statistics
 congregations_raw <- read_csv("data/congregation.csv")
+```
 
-# Quick overview
-cat("Parcels loaded:", nrow(parcels_raw), "\n")
-cat("Congregations loaded:", nrow(congregations_raw), "\n")
-
-
-# Congregation data processing
-
+```{r process-congregations, include=FALSE}
 # Calculate key metrics for each congregation
 congregations <- congregations_raw %>%
   mutate(
@@ -141,15 +161,9 @@ congregations <- congregations_raw %>%
   # Handle missing values
   mutate(across(starts_with("pct_change"), ~replace_na(., 0)),
          across(starts_with("avg_"), ~replace_na(., 0)))
+```
 
-# Summary of congregation health
-congregations %>%
-  count(financial_need) %>%
-  mutate(label = c("Stable/Growing", "Low Need", "Moderate Need", "High Need")) %>%
-  knitr::kable(col.names = c("Financial Need Score", "Count", "Description"))
-
-# Parcel Data Cleaning
-
+```{r process-parcels, include=FALSE}
 # Clean and prepare parcel data
 df <- parcels_raw %>%
   # Convert key fields
@@ -222,23 +236,13 @@ df <- parcels_raw %>%
   # Filter to properties with minimum data quality
   filter(
     !is.na(area_acres),
-    area_acres > 0.1,  # At least 0.1 acres
-    !is.na(lat) & !is.na(lon)  # Must have coordinates
+    area_acres > 0.1,
+    !is.na(lat) & !is.na(lon)
   )
-
-cat("Processed parcels:", nrow(df), "\n")
-cat("Average parcel size:", round(mean(df$area_acres, na.rm = TRUE), 2), "acres\n")
-
 ```
 
-### 2.2 Solving the One-to-Many Join Problem
-```{r congregation-join}
-# Your approach to handling parcels with multiple congregations
-# Document decisions: average metrics? primary congregation? all combinations?
-
-
+```{r join-data, include=FALSE}
 # Join congregation data to parcels
-# Handle one-to-many: some parcels have multiple congregation names in notes
 df_joined <- df %>%
   left_join(
     congregations %>% select(
@@ -249,11 +253,9 @@ df_joined <- df %>%
     ),
     by = c("congr_name" = "short_name")
   ) %>%
-  # For parcels without direct congregation match, check if it's church property
   mutate(
     has_congregation = !is.na(name),
     
-    # If no congregation data but it's a church, assign neutral values
     pct_change_pledge = case_when(
       !has_congregation & use_church ~ 0,
       TRUE ~ pct_change_pledge
@@ -264,112 +266,75 @@ df_joined <- df %>%
       TRUE ~ financial_need
     )
   )
-
 ```
 
-### 2.3 Defining "Developability"
-Create a scoring framework based on:
-```{r developability-criteria}
-# Property characteristics:
-# - Parcel size (adequate for development?)
-# - Current use (underutilized parking lots? vacant land?)
-# - Zoning favorability
-# - Not in flood zones/wetlands
-
-# Financial indicators:
-# - Assessed value vs. potential
-# - Congregation financial health (declining pledges = need for income?)
-
-# Location factors:
-# - Walkability score
-# - Transit access
-# - Median income (market demand)
-# - Urban vs. rural
-
-# Regulatory ease:
-# - Not in historic districts
-# - Not encumbered by easements
-# - LIHTC qualified census tract (for affordable housing incentives)
-
-```
-
-### 2.4 Scoring Methodology
-```{r scoring-system}
+```{r calculate-scores, include=FALSE}
 scored_parcels <- df_joined %>%
   mutate(
     # 1. SIZE SCORE (0-100)
-    # Larger parcels score higher, with penalties for very small or very large
     size_score = case_when(
       area_acres < 0.25 ~ 20,
       area_acres < 0.5 ~ 50,
       area_acres < 1 ~ 70,
       area_acres < 2 ~ 90,
       area_acres < 5 ~ 100,
-      area_acres < 10 ~ 85,  # Very large may be harder to develop
+      area_acres < 10 ~ 85,
       TRUE ~ 70
     ),
     
     # 2. USE TYPE SCORE (0-100)
-    # Underutilized properties score higher
     use_score = case_when(
-      use_parking ~ 95,  # Parking lots = prime development opportunity
-      use_open_space ~ 90,  # Open space
-      use_cemetery ~ 5,  # Cemeteries = no development
-      use_church & !use_parking & !use_open_space ~ 30,  # Active church
-      use_residence ~ 40,  # Residential
-      use_school ~ 35,  # School
-      TRUE ~ 60  # Other/mixed use
+      use_parking ~ 95,
+      use_open_space ~ 90,
+      use_cemetery ~ 5,
+      use_church & !use_parking & !use_open_space ~ 30,
+      use_residence ~ 40,
+      use_school ~ 35,
+      TRUE ~ 60
     ),
     
     # 3. LOCATION SCORE (0-100)
-    # Normalize walkability and transit access
     location_score = (
       (walkability_score / max(walkability_score, na.rm = TRUE) * 60) +
       (transit_access_score * 0.4)
     ),
-    location_score = pmin(100, pmax(0, location_score)),  # Cap at 0-100
+    location_score = pmin(100, pmax(0, location_score)),
     
     # 4. FINANCIAL NEED SCORE (0-100)
-    # Higher need = higher score for development priority
     financial_score = case_when(
-      is.na(financial_need) ~ 30,  # No data = neutral
-      financial_need == 3 ~ 100,  # High need
-      financial_need == 2 ~ 70,   # Moderate need
-      financial_need == 1 ~ 40,   # Low need
-      TRUE ~ 20  # No need
+      is.na(financial_need) ~ 30,
+      financial_need == 3 ~ 100,
+      financial_need == 2 ~ 70,
+      financial_need == 1 ~ 40,
+      TRUE ~ 20
     ),
     
     # 5. MARKET POTENTIAL SCORE (0-100)
-    # Based on area income and development incentives
     market_score = case_when(
       is.na(median_income) ~ 50,
-      median_income > 100000 ~ 90,  # High income area
+      median_income > 100000 ~ 90,
       median_income > 75000 ~ 75,
       median_income > 50000 ~ 60,
       TRUE ~ 40
     ),
     
-    # Add bonus for QCT (LIHTC eligible)
     market_score = if_else(qualified_census_tract, market_score + 15, market_score),
-    market_score = pmin(100, market_score),  # Cap at 100
+    market_score = pmin(100, market_score),
     
     # 6. ZONING SCORE (0-100)
     zoning_score = if_else(zoning_favorable, 80, 40),
     
     # 7. CONSTRAINT PENALTIES
     constraint_penalty = case_when(
-      # Major constraints
       flood_zone != "None" ~ -40,
       wetlands_pct > 25 ~ -35,
       has_easement ~ -30,
       in_historic_district ~ -25,
-      # Moderate constraints
       wetlands_pct > 10 ~ -20,
       TRUE ~ 0
     ),
     
     # COMPOSITE DEVELOPMENT SCORE
-    # Weighted average + penalties
     development_score = (
       (size_score * 0.20) +
       (use_score * 0.25) +
@@ -379,7 +344,6 @@ scored_parcels <- df_joined %>%
       (zoning_score * 0.10)
     ) + constraint_penalty,
     
-    # Ensure score stays in reasonable range
     development_score = pmin(100, pmax(0, development_score)),
     
     # Create development tier
@@ -391,64 +355,9 @@ scored_parcels <- df_joined %>%
       TRUE ~ "Tier 5: Not Recommended"
     )
   )
-
-# Summary statistics
-cat("Scoring complete!\n\n")
-cat("Development Score Distribution:\n")
-summary(scored_parcels$development_score)
-
-cat("\n\nDevelopment Tiers:\n")
-scored_parcels %>%
-  count(development_tier) %>%
-  arrange(desc(development_tier)) %>%
-  knitr::kable()
 ```
 
-## 3. Analysis & Results
-
-### 3.1 Congregation-Parcel Integration
-```{r join-results}
-# Show how you resolved the many-to-many issue
-# Summary statistics of joined dataset
-# Data quality checks
-
-cat("Parcels with congregation data:", sum(df_joined$has_congregation), "\n")
-cat("Church parcels without congregation data:", 
-    sum(!df_joined$has_congregation & df_joined$use_church), "\n")
-```
-
-### 3.2 Development Potential Scoring
-```{r score-distribution}
-# Distribution of scores across all parcels
-# Visualization of scoring components
-# Identify high-potential clusters
-
-# Histogram of development scores
-ggplot(scored_parcels, aes(x = development_score)) +
-  geom_histogram(bins = 30, fill = "#445ca9", color = "white", alpha = 0.8) +
-  geom_vline(xintercept = median(scored_parcels$development_score), 
-             color = "#e76f52", linetype = "dashed", size = 1) +
-  labs(
-    title = "Distribution of Development Scores",
-    subtitle = paste0("Median Score: ", 
-                     round(median(scored_parcels$development_score), 1)),
-    x = "Development Score",
-    y = "Number of Parcels"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(family = "Roboto Slab", color = "#445ca9", face = "bold"),
-    plot.subtitle = element_text(color = "#666666")
-  )
-```
-
-### 3.3 Top 10 Developable Properties
-```{r top-10-analysis}
-# Detailed profiles of top 10
-# Maps showing locations
-# Comparative analysis
-
-
+```{r identify-top-10, include=FALSE}
 # Get top 10 developable properties
 top_10 <- scored_parcels %>%
   arrange(desc(development_score)) %>%
@@ -462,53 +371,259 @@ top_10 <- scored_parcels %>%
     congr_name, name, avg_attendance, pct_change_pledge,
     lat, lon
   )
+```
 
-# Display top 10
+# Executive Summary {.unnumbered}
+
+::: {.callout-important}
+## Key Findings
+
+This analysis evaluated **`r nrow(scored_parcels)`** properties across the diocese to identify optimal development opportunities. Using a comprehensive scoring methodology, we identified **10 high-priority properties** representing **`r round(sum(top_10$area_acres), 1)` total acres** with significant development potential.
+
+**Top Insights:**
+- **`r sum(scored_parcels$development_score >= 60)`** properties score in Tier 1-2 (strong development potential)
+- **Primary opportunities:** Underutilized parking lots and open space
+- **Average parcel size:** `r round(mean(df$area_acres, na.rm = TRUE), 2)` acres
+- **Congregations with declining pledges:** `r sum(top_10$financial_need >= 2, na.rm = TRUE)` properties show high financial need
+:::
+
+::: {layout-ncol=4}
+::: {.stat-box}
+::: {.stat-number}
+`r nrow(scored_parcels)`
+:::
+::: {.stat-label}
+Properties Analyzed
+:::
+:::
+
+::: {.stat-box}
+::: {.stat-number}
+10
+:::
+::: {.stat-label}
+High Priority Sites
+:::
+:::
+
+::: {.stat-box}
+::: {.stat-number}
+`r round(sum(top_10$area_acres), 1)`
+:::
+::: {.stat-label}
+Developable Acres
+:::
+:::
+
+::: {.stat-box}
+::: {.stat-number}
+`r sum(top_10$financial_need >= 2, na.rm = TRUE)`
+:::
+::: {.stat-label}
+Financial Need
+:::
+:::
+:::
+
+## At a Glance: Top 10 Properties
+
+```{r top-10-summary-table}
 top_10 %>%
-  select(rank, site_address, site_city, area_acres, development_score) %>%
-  knitr::kable(
-    digits = 2,
-    col.names = c("Rank", "Address", "City", "Acres", "Dev Score")
+  select(rank, site_address, site_city, area_acres, development_score, development_tier) %>%
+  kable(
+    col.names = c("Rank", "Property Address", "City", "Acres", "Score", "Tier"),
+    digits = 1,
+    align = c("c", "l", "l", "r", "r", "l")
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE,
+    position = "center"
+  ) %>%
+  column_spec(1, bold = TRUE, color = "white", background = "#445ca9") %>%
+  column_spec(5, bold = TRUE, color = "#445ca9") %>%
+  row_spec(1:3, background = "#f8f9fa")
+```
+
+## Strategic Recommendations
+
+::: {.callout-tip}
+## Recommended Next Steps
+
+1. **Immediate Actions** (Next 30 days)
+   - Conduct site visits for top 3 properties
+   - Initiate conversations with congregation leadership
+   - Commission preliminary feasibility studies
+
+2. **Short-term** (Next 90 days)
+   - Complete zoning analysis for priority sites
+   - Engage with municipal planning departments
+   - Develop financial pro formas for mixed-use scenarios
+
+3. **Medium-term** (6-12 months)
+   - Establish development partnership framework
+   - Explore ground lease vs. joint venture models
+   - Identify development partners or investors
+:::
+
+---
+
+# Methodology & Data
+
+## Background & Data Sources
+
+### VEREP Parcel Dataset
+This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:
+
+- **`r nrow(parcels_raw)` parcels** across Virginia
+- Comprehensive property characteristics (size, use, zoning)
+- Environmental constraints (floodplains, wetlands, easements)
+- Location metrics (walkability, transit access)
+- Market indicators (median income, demographics)
+
+### Congregation Statistics (2014-2023)
+Financial and membership data provides context on congregation health:
+
+- Sunday attendance trends
+- Membership changes
+- Plate & pledge revenue
+- 10-year trend analysis
+
+::: {.callout-note}
+## Data Quality Note
+Not all properties have associated congregation data. Properties without congregation information received neutral scores in the financial need category.
+:::
+
+## Analytical Framework
+
+### Development Potential Scoring
+
+Our methodology evaluates six key dimensions:
+
+```{r scoring-visual, fig.height=4}
+scoring_components <- tibble(
+  Component = c("Property Size", "Current Use", "Location Quality", 
+                "Financial Need", "Market Potential", "Zoning"),
+  Weight = c(20, 25, 20, 15, 10, 10),
+  Description = c(
+    "Optimal size for development (0.5-5 acres scores highest)",
+    "Underutilized properties (parking lots, open space)",
+    "Walkability and transit accessibility",
+    "Congregation financial health trends",
+    "Area income levels and LIHTC eligibility",
+    "Development-friendly zoning classifications"
   )
+)
 
+ggplot(scoring_components, aes(x = reorder(Component, Weight), y = Weight)) +
+  geom_col(fill = "#445ca9", alpha = 0.8) +
+  geom_text(aes(label = paste0(Weight, "%")), hjust = -0.2, size = 5, color = "#445ca9", fontface = "bold") +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 30)) +
+  labs(
+    title = "Development Score Components",
+    subtitle = "Weighted contribution to final score",
+    x = "",
+    y = "Weight (%)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(family = "Roboto Slab", face = "bold", size = 16, color = "#445ca9"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
 
-# Create interactive map of top 10
+**Constraint Penalties:** Properties receive deductions for flood zones (-40), significant wetlands (-35), easements (-30), and historic district designation (-25).
 
-# Create color palette
+### Development Tiers
+
+Properties are classified into five tiers based on composite scores:
+
+- **Tier 1 (75-100):** High Priority - Immediate development candidates
+- **Tier 2 (60-74):** Strong Potential - Near-term opportunities
+- **Tier 3 (45-59):** Moderate Potential - Requires creative solutions
+- **Tier 4 (30-44):** Limited Potential - Significant barriers exist
+- **Tier 5 (<30):** Not Recommended - Unsuitable for development
+
+---
+
+# Analysis Results
+
+## Development Opportunity Landscape
+
+```{r tier-distribution-visual}
+tier_data <- scored_parcels %>%
+  count(development_tier) %>%
+  mutate(
+    pct = n / sum(n) * 100,
+    tier_order = case_when(
+      str_detect(development_tier, "Tier 1") ~ 1,
+      str_detect(development_tier, "Tier 2") ~ 2,
+      str_detect(development_tier, "Tier 3") ~ 3,
+      str_detect(development_tier, "Tier 4") ~ 4,
+      TRUE ~ 5
+    ),
+    color = case_when(
+      tier_order == 1 ~ "#445ca9",
+      tier_order == 2 ~ "#8baeaa",
+      tier_order == 3 ~ "#e9ab3f",
+      tier_order == 4 ~ "#e76f52",
+      TRUE ~ "#cccccc"
+    )
+  ) %>%
+  arrange(tier_order)
+
+ggplot(tier_data, aes(x = reorder(development_tier, -tier_order), y = n, fill = color)) +
+  geom_col() +
+  geom_text(aes(label = paste0(n, "\n(", round(pct, 1), "%)")), 
+            vjust = 1.5, color = "white", size = 4, fontface = "bold") +
+  scale_fill_identity() +
+  labs(
+    title = "Distribution of Properties by Development Tier",
+    subtitle = paste0("Total Properties Analyzed: ", sum(tier_data$n)),
+    x = "",
+    y = "Number of Properties"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(family = "Roboto Slab", face = "bold", size = 16, color = "#445ca9"),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 11),
+    panel.grid.major.x = element_blank()
+  )
+```
+
+## Geographic Distribution
+
+```{r top-10-map}
 pal <- colorNumeric(
   palette = "YlOrRd",
   domain = top_10$development_score
 )
 
-# Create interactive map
 leaflet(top_10) %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addCircleMarkers(
     lng = ~lon,
     lat = ~lat,
-    radius = ~sqrt(area_acres) * 5,  # Size by acreage
+    radius = ~sqrt(area_acres) * 5,
     fillColor = ~pal(development_score),
-    fillOpacity = 0.7,
+    fillOpacity = 0.8,
     color = "white",
     weight = 2,
     popup = ~paste0(
-      "<b style='color:#445ca9;'>Rank #", rank, ": ", site_address, "</b><br>",
-      "<b>City:</b> ", site_city, "<br>",
-      "<b>Development Score:</b> ", round(development_score, 1), "<br>",
+      "<div style='font-family: Lato, sans-serif; min-width: 250px;'>",
+      "<h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #", rank, "</h4>",
+      "<p style='margin: 5px 0;'><b>", site_address, "</b><br>",
+      site_city, ", ", site_county, " County</p>",
+      "<hr style='margin: 10px 0;'>",
+      "<p style='margin: 5px 0;'><b>Development Score:</b> ", round(development_score, 1), "/100<br>",
       "<b>Size:</b> ", round(area_acres, 2), " acres<br>",
-      "<b>Tier:</b> ", development_tier, "<br><br>",
-      
-      "<b>Property Uses:</b><br>",
-      if_else(use_church, "• Church<br>", ""),
-      if_else(use_parking, "• Parking<br>", ""),
-      if_else(use_open_space, "• Open Space<br>", ""), "<br>",
-      
-      "<b>Congregation:</b> ", ifelse(is.na(name), "N/A", name), "<br>",
-      if_else(!is.na(avg_attendance), 
-              paste0("<b>Avg Attendance:</b> ", round(avg_attendance), "<br>"), ""),
-      if_else(!is.na(pct_change_pledge), 
-              paste0("<b>Pledge Change (2014-2023):</b> ", 
-                     round(pct_change_pledge, 1), "%"), "")
+      "<b>Tier:</b> ", development_tier, "</p>",
+      if_else(!is.na(name), 
+              paste0("<hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:</b> ", name, "</p>"), 
+              ""),
+      "</div>"
     ),
     label = ~paste0("#", rank, ": ", site_address)
   ) %>%
@@ -518,46 +633,147 @@ leaflet(top_10) %>%
     values = ~development_score,
     title = "Development<br>Score",
     opacity = 1
-  )
-
+  ) %>%
+  setView(lng = mean(top_10$lon), lat = mean(top_10$lat), zoom = 7)
 ```
 
-## 4. Property Profiles
+---
 
-### Property 1: [Name/Address]
-- Parcel characteristics
-- Congregation context (health metrics, trends)
-- Development opportunities
-- Considerations/constraints
+# Property Profiles
 
-[Repeat for each top 10]
+## Overview
 
-```{r}
-create_property_profile <- function(parcel_id) {
-  property <- scored_parcels %>% filter(parcel_id == {{parcel_id}})
+The following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:
+
+- Site characteristics and current use
+- Congregation context (where applicable)
+- Development opportunities and strategies
+- Key considerations and next steps
+
+```{r property-profiles, results='asis'}
+create_property_profile <- function(rank_num) {
+  property <- top_10 %>% filter(rank == rank_num)
   
-  cat("## Property Profile: ", property$site_address, "\n\n")
+  if(nrow(property) == 0) return(NULL)
   
-  cat("**Development Score:**", round(property$development_score, 1), "\n\n")
+  cat("\n\n## Property #", rank_num, " {.unnumbered}\n\n", sep = "")
+  cat("### ", property$site_address, "\n", sep = "")
+  cat("**", property$site_city, ", ", property$site_county, " County**\n\n", sep = "")
   
-  cat("### Property Characteristics\n")
-  # Generate summary table
+  tier_type <- case_when(
+    property$development_score >= 75 ~ "important",
+    property$development_score >= 60 ~ "tip",
+    TRUE ~ "note"
+  )
   
-  cat("### Congregation Context\n")
-  # Pull congregation trends
+  cat(":::{.callout-", tier_type, "}\n", sep = "")
+  cat("## Development Score: **", round(property$development_score, 1), "/100**\n\n", sep = "")
+  cat("**", property$development_tier, "**\n", sep = "")
+  cat(":::\n\n")
   
-  cat("### Development Opportunities\n")
-  # Text based on scoring components
+  cat("::: {layout-ncol=3}\n")
+  cat("::: {}\n**", round(property$area_acres, 2), " acres**  \n", sep = "")
+  cat("Property Size\n:::\n")
   
-  cat("### Key Considerations\n")
-  # Flag constraints
+  cat("::: {}\n**", round(property$walkability_score, 1), "/100**  \n", sep = "")
+  cat("Walkability\n:::\n")
+  
+  cat("::: {}\n**", 
+      ifelse(!is.na(property$avg_attendance), 
+             paste0(round(property$avg_attendance), " people"), "N/A"), "**  \n", sep = "")
+  cat("Avg Attendance\n:::\n")
+  cat(":::\n\n")
+  
+  cat("#### Site Characteristics\n\n")
+  cat("- **Current Uses:**")
+  uses <- c()
+  # Add !is.na() checks to handle NA values
+  if(!is.na(property$use_church) && property$use_church) uses <- c(uses, "Church building")
+  if(!is.na(property$use_parking) && property$use_parking) uses <- c(uses, "Parking lot")
+  if(!is.na(property$use_open_space) && property$use_open_space) uses <- c(uses, "Open space")
+  if(length(uses) > 0) {
+    cat(" ", paste(uses, collapse = ", "), "\n", sep = "")
+  } else {
+    cat(" Mixed use\n")
+  }
+  
+  if(!is.na(property$name)) {
+    cat("\n#### Congregation: ", property$name, "\n\n", sep = "")
+    
+    if(!is.na(property$pct_change_pledge)) {
+      change_dir <- ifelse(property$pct_change_pledge < 0, "↓ decreased", "↑ increased")
+      cat("**Financial Trend:** Plate & pledge has ", change_dir, " by **", 
+          abs(round(property$pct_change_pledge, 1)), "%** over the past decade.\n\n", sep = "")
+    }
+  }
+  
+  cat("#### Development Opportunities\n\n")
+  # Add !is.na() checks here too
+  if(!is.na(property$use_parking) && property$use_parking) {
+    cat("🅿️ **Prime opportunity:** Underutilized parking can support structured parking with mixed-use above\n\n")
+  }
+  if(!is.na(property$area_acres) && property$area_acres > 1) {
+    cat("📐 **Substantial site:** Large parcel enables phased development or creative master planning\n\n")
+  }
+  if(!is.na(property$walkability_score) && property$walkability_score > 10) {
+    cat("🚶 **Walkable location:** Transit access supports reduced parking requirements and higher density\n\n")
+  }
+  
+  cat("#### Recommended Next Steps\n\n")
+  cat("1. Site feasibility study and geotechnical analysis\n")
+  cat("2. Congregation leadership engagement\n")
+  cat("3. Zoning review and density bonus evaluation\n")
+  if(!is.na(property$financial_need) && property$financial_need >= 2) {
+    cat("4. Ground lease financial modeling\n")
+  }
+  
+  cat("\n---\n\n")
+}
+
+for(i in 1:10) {
+  create_property_profile(i)
 }
 ```
 
+---
 
-## 5. Recommendations & Next Steps
+# Appendices {.unnumbered}
 
-## Appendices
-- Full methodology
-- Data dictionary
-- Additional maps/tables
+::: {.callout-note collapse="true"}
+## Technical Methodology
+
+**Scoring Algorithm Details**
+
+Each property receives scores across six dimensions (0-100 scale), which are then weighted and combined:
+
+1. **Size Score (20% weight):** Properties between 0.5-5 acres score highest (100 points)
+2. **Use Score (25% weight):** Parking lots (95) and open space (90) score highest
+3. **Location Score (20% weight):** Based on walkability index and transit access
+4. **Financial Score (15% weight):** Congregation pledge trends indicate development need
+5. **Market Score (10% weight):** Area median income and LIHTC eligibility
+6. **Zoning Score (10% weight):** Development-friendly zoning receives 80 points
+
+**Constraint penalties** are applied after the weighted average, with major penalties for:
+- Flood zones: -40 points
+- Significant wetlands (>25%): -35 points  
+- Easements: -30 points
+- Historic districts: -25 points
+
+Final scores are capped between 0-100.
+:::
+
+::: {.callout-note collapse="true"}
+## Data Processing Notes
+
+**Congregation-Parcel Joining:** Properties were matched to congregation data using the `congr_name` field. Properties without matches received neutral financial scores.
+
+**Missing Data Handling:** 
+- Missing walkability scores defaulted to 0
+- Missing income data received median market scores (50)
+- Properties without area or coordinates were excluded
+
+**Quality Filters:**
+- Minimum parcel size: 0.1 acres
+- Required valid lat/lon coordinates
+- Valid building years: 1700-2025
+:::
