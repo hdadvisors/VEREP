@@ -445,28 +445,6 @@ top_10 %>%
   row_spec(1:3, background = "#f8f9fa")
 ```
 
-## Strategic Recommendations
-
-::: {.callout-tip}
-## Recommended Next Steps
-
-1. **Immediate Actions** (Next 30 days)
-   - Conduct site visits for top 3 properties
-   - Initiate conversations with congregation leadership
-   - Commission preliminary feasibility studies
-
-2. **Short-term** (Next 90 days)
-   - Complete zoning analysis for priority sites
-   - Engage with municipal planning departments
-   - Develop financial pro formas for mixed-use scenarios
-
-3. **Medium-term** (6-12 months)
-   - Establish development partnership framework
-   - Explore ground lease vs. joint venture models
-   - Identify development partners or investors
-:::
-
----
 
 # Methodology & Data
 
