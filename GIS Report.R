@@ -398,18 +398,54 @@ opportunity_matrix <- property_profile %>%
     high_opportunity = sum(qct == 1 & rgisacre >= 1 & !has_environmental_constraint, na.rm = TRUE),
     medium_opportunity = sum((qct == 1 | dda == 1) & rgisacre >= 0.5 & rgisacre < 1, na.rm = TRUE),
     constrained_properties = sum(has_environmental_constraint == TRUE, na.rm = TRUE),
-    small_parcels = sum(rgisacre < 0.5, na.rm = TRUE)
+    small_parcels = sum(rgisacre < 0.5, na.rm = TRUE),
+    missing_data = sum(is.na(qct) | is.na(rgisacre) | is.na(has_environmental_constraint)),
+    other_properties = n() - sum(
+      qct == 1 & rgisacre >= 1 & !has_environmental_constraint |
+        (qct == 1 | dda == 1) & rgisacre >= 0.5 & rgisacre < 1 |
+        has_environmental_constraint == TRUE |
+        rgisacre < 0.5 |
+        is.na(qct) | is.na(rgisacre) | is.na(has_environmental_constraint),
+      na.rm = TRUE
+    ),
+    total_parcels = n()
   )
 
-print("\n=== DEVELOPMENT OPPORTUNITY MATRIX ===")
+print("\n=== OPPORTUNITY MATRIX ===")
 print(opportunity_matrix)
+
+# Show properties with missing key data
+missing_key_data <- property_profile %>%
+  filter(is.na(qct) | is.na(rgisacre) | is.na(has_environmental_constraint)) %>%
+  select(congregation_name, rgisacre, qct, dda, has_environmental_constraint, 
+         missing_acreage, missing_qct, missing_wetland, missing_flood, data_completeness)
+
+if(nrow(missing_key_data) > 0) {
+  cat("\n=== PROPERTIES WITH MISSING KEY DATA ===\n")
+  print(missing_key_data)
+}
+
+
+# See what the "other" properties are that aren't fitting neatly in all categories
+other_properties <- property_profile %>%
+  filter(
+    !(qct == 1 & rgisacre >= 1 & !has_environmental_constraint) &
+      !((qct == 1 | dda == 1) & rgisacre >= 0.5 & rgisacre < 1) &
+      !(has_environmental_constraint == TRUE) &
+      !(rgisacre < 0.5) &
+      !is.na(qct) & !is.na(rgisacre) & !is.na(has_environmental_constraint)
+  ) %>%
+  select(congregation_name, rgisacre, qct, dda, has_environmental_constraint, development_potential)
+
+cat("\n=== 'OTHER' PROPERTIES (not fitting main categories) ===\n")
+print(other_properties)
 
 # ========================================
 # ATTENDANCE CONTEXT ANALYSIS
 # ========================================
 attendance_context <- analysis_subset %>%
-  filter(!is.na(attendance_2023)) %>%
   summarise(
+    total_properties = n(),
     mean_attendance = mean(attendance_2023, na.rm = TRUE),
     median_attendance = median(attendance_2023, na.rm = TRUE),
     zero_attendance = sum(attendance_2023 == 0, na.rm = TRUE),
@@ -417,7 +453,10 @@ attendance_context <- analysis_subset %>%
     attendance_11_20 = sum(attendance_2023 > 10 & attendance_2023 <= 20, na.rm = TRUE),
     attendance_21_29 = sum(attendance_2023 > 20 & attendance_2023 < 30, na.rm = TRUE),
     avg_members = mean(members_2023, na.rm = TRUE),
-    avg_plate_pledge = mean(plate_pledge_2023, na.rm = TRUE)
+    avg_plate_pledge = mean(plate_pledge_2023, na.rm = TRUE),
+    missing_attendance = sum(is.na(attendance_2023)),
+    missing_members = sum(is.na(members_2023)),
+    missing_plate_pledge = sum(is.na(plate_pledge_2023))
   )
 
 cat("\n=== ATTENDANCE PROFILE ===\n")
@@ -455,8 +494,72 @@ cat(sprintf("High Opportunity Properties: %d\n", opportunity_matrix$high_opportu
 cat(sprintf("  (QCT + ≥1 acre + no major constraints)\n"))
 cat(sprintf("Medium Opportunity Properties: %d\n", opportunity_matrix$medium_opportunity))
 cat(sprintf("  (QCT/DDA + 0.5-1 acre)\n"))
+cat("\n--- DATA QUALITY ISSUES ---\n")
+cat(sprintf("Properties with Missing Data: %d (%.1f%%)\n", 
+            sum(property_profile$data_completeness < 6),
+            sum(property_profile$data_completeness < 6) / nrow(property_profile) * 100))
+
+# Identify the "problem children" - properties with multiple missing fields
+problem_properties <- property_profile %>%
+  filter(data_completeness < 6) %>%
+  arrange(data_completeness) %>%
+  select(congregation_name, data_completeness, missing_land_value, missing_acreage, 
+         missing_wetland, missing_flood, missing_qct, missing_zoning)
+
+cat(sprintf("\nProperties with Most Missing Data (completeness score < 6):\n"))
+if(nrow(problem_properties) > 0) {
+  # Show top 10 worst cases
+  top_problems <- head(problem_properties, 10)
+  for(i in 1:nrow(top_problems)) {
+    missing_fields <- c()
+    if(top_problems$missing_land_value[i]) missing_fields <- c(missing_fields, "land value")
+    if(top_problems$missing_acreage[i]) missing_fields <- c(missing_fields, "acreage")
+    if(top_problems$missing_wetland[i]) missing_fields <- c(missing_fields, "wetlands")
+    if(top_problems$missing_flood[i]) missing_fields <- c(missing_fields, "flood zone")
+    if(top_problems$missing_qct[i]) missing_fields <- c(missing_fields, "QCT")
+    if(top_problems$missing_zoning[i]) missing_fields <- c(missing_fields, "zoning")
+    
+    cat(sprintf("  • %s (score: %d/6) - Missing: %s\n", 
+                top_problems$congregation_name[i],
+                top_problems$data_completeness[i],
+                paste(missing_fields, collapse = ", ")))
+  }
+} else {
+  cat("  None - all properties have complete data!\n")
+}
 cat("===========================================\n")
 
 # Export key findings
-cat("\nExporting results to 'verep_analysis_results.csv'\n")
-cat("Analysis complete!\n")
+# For leadership - high-level opportunities
+leadership_report <- property_profile %>%
+  filter(development_potential %in% c("High Potential", "Moderate Potential")) %>%
+  select(congregation_name, attendance_2023, lan_val, rgisacre, 
+         development_potential, qct, scity, sstate)
+
+write_csv(leadership_report, "output/verep_top_opportunities.csv")
+
+# For data team - properties needing follow-up (the "problem children")
+data_followup <- property_profile %>%
+  filter(data_completeness < 6) %>%
+  select(congregation_name, data_completeness, missing_land_value, 
+         missing_acreage, missing_wetland, missing_flood, missing_qct, missing_zoning,
+         scity, sstate) %>%
+  arrange(data_completeness)
+
+write_csv(data_followup, "output/verep_data_needed.csv")
+
+# Full detailed analysis
+write_csv(property_profile, "output/verep_full_analysis.csv")
+
+# Export summary statistics
+write_csv(attendance_context, "output/verep_attendance_summary.csv")
+write_csv(opportunity_matrix, "output/verep_opportunity_matrix.csv")
+
+cat("\n=== EXPORTS COMPLETE ===\n")
+cat("Files saved to output/ directory:\n")
+cat(sprintf("  • verep_top_opportunities.csv (%d properties)\n", nrow(leadership_report)))
+cat(sprintf("  • verep_data_needed.csv (%d properties with missing data)\n", nrow(data_followup)))
+cat(sprintf("  • verep_full_analysis.csv (%d properties)\n", nrow(property_profile)))
+cat("  • verep_attendance_summary.csv\n")
+cat("  • verep_opportunity_matrix.csv\n")
+cat("\nAnalysis complete!\n")
