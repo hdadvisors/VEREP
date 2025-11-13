@@ -1,0 +1,109 @@
+---
+title: "VEREP Development Opportunities"
+subtitle: "Executive Briefing"
+author: "HDAdvisors"
+date: today
+format:
+  pptx:
+    reference-doc: custom-template.pptx
+  revealjs:  # alternative: HTML slides
+    theme: serif
+    transition: slide
+---
+
+# Strategic Overview
+
+## Portfolio At-A-Glance
+
+- **357 properties** analyzed across diocese
+- **87 properties** with strong development potential
+- **31.4 acres** in top 10 opportunities
+- **6 sites** supporting financially stressed congregations
+
+---
+
+# Key Findings
+
+## Significant Underutilized Assets
+
+::: {.columns}
+::: {.column width="50%"}
+**Primary Opportunities:**
+
+- Parking lots
+- Open space parcels
+- Declining congregations
+:::
+
+::: {.column width="50%"}
+**Tier 1-2 Properties:**
+
+- 87 parcels
+- Strong scores (60-100)
+- Immediate potential
+:::
+:::
+
+---
+
+# Development Priorities
+
+## Top 5 Sites
+```{r}
+#| echo: false
+top_5_table <- top_10 %>%
+  slice_head(n = 5) %>%
+  select(rank, site_address, site_city, area_acres, development_score)
+
+kable(top_5_table, 
+      col.names = c("Rank", "Address", "City", "Acres", "Score"))
+```
+
+---
+
+# Scoring Framework
+
+## Six Key Dimensions
+```{r}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+
+# Your scoring visual from the main document
+scoring_components <- tibble(
+  Component = c("Property Size", "Current Use", "Location Quality", 
+                "Financial Need", "Market Potential", "Zoning"),
+  Weight = c(20, 25, 20, 15, 10, 10)
+)
+
+ggplot(scoring_components, aes(x = reorder(Component, Weight), y = Weight)) +
+  geom_col(fill = "#445ca9", alpha = 0.8) +
+  coord_flip() +
+  labs(title = "Component Weights", y = "Weight (%)") +
+  theme_minimal(base_size = 14)
+```
+
+---
+
+# Geographic Distribution
+
+## Interactive Map
+```{r}
+#| echo: false
+# Your leaflet map code
+```
+
+---
+
+# Conclusion
+
+## Key Takeaways
+
+::: {.incremental}
+- Substantial untapped development value in portfolio
+- 87 properties ready for strategic partnerships
+- Top 10 sites = 31+ developable acres
+- Immediate action: feasibility studies on top 3
+:::
+
+## Questions?
