@@ -7619,13 +7619,10 @@ function asArray(value) {
   <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive Summary</a>
   <ul class="collapse">
   <li><a href="#at-a-glance-top-10-properties" id="toc-at-a-glance-top-10-properties" class="nav-link" data-scroll-target="#at-a-glance-top-10-properties">At a Glance: Top 10 Properties</a></li>
-  <li><a href="#strategic-recommendations" id="toc-strategic-recommendations" class="nav-link" data-scroll-target="#strategic-recommendations">Strategic Recommendations</a></li>
-  </ul></li>
   <li><a href="#methodology-data" id="toc-methodology-data" class="nav-link" data-scroll-target="#methodology-data">Methodology &amp; Data</a>
   <ul class="collapse">
-  <li><a href="#background-data-sources" id="toc-background-data-sources" class="nav-link" data-scroll-target="#background-data-sources">Background &amp; Data Sources</a>
-  <ul class="collapse">
-  <li><a href="#verep-parcel-dataset" id="toc-verep-parcel-dataset" class="nav-link" data-scroll-target="#verep-parcel-dataset">VEREP Parcel Dataset</a></li>
+  <li><a href="#the-verep-parcel-dataset-origins-and-creation" id="toc-the-verep-parcel-dataset-origins-and-creation" class="nav-link" data-scroll-target="#the-verep-parcel-dataset-origins-and-creation">The VEREP Parcel Dataset: Origins and Creation</a></li>
+  <li><a href="#dataset-characteristics" id="toc-dataset-characteristics" class="nav-link" data-scroll-target="#dataset-characteristics">Dataset Characteristics</a></li>
   <li><a href="#congregation-statistics-2014-2023" id="toc-congregation-statistics-2014-2023" class="nav-link" data-scroll-target="#congregation-statistics-2014-2023">Congregation Statistics (2014-2023)</a></li>
   </ul></li>
   <li><a href="#analytical-framework" id="toc-analytical-framework" class="nav-link" data-scroll-target="#analytical-framework">Analytical Framework</a>
@@ -7822,6 +7819,7 @@ letter-spacing: 1px;
 </div>
 <section id="executive-summary" class="level1 unnumbered">
 <h1 class="unnumbered">Executive Summary</h1>
+<p>This analysis examines properties of interest (defined in methodology) with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -7973,50 +7971,37 @@ Key Findings
 </div>
 </div>
 </section>
-<section id="strategic-recommendations" class="level2">
-<h2 class="anchored" data-anchor-id="strategic-recommendations">Strategic Recommendations</h2>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Recommended Next Steps
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><strong>Immediate Actions</strong> (Next 30 days)
+<section id="methodology-data" class="level2">
+<h2 class="anchored" data-anchor-id="methodology-data">Methodology &amp; Data</h2>
+<section id="the-verep-parcel-dataset-origins-and-creation" class="level3">
+<h3 class="anchored" data-anchor-id="the-verep-parcel-dataset-origins-and-creation">The VEREP Parcel Dataset: Origins and Creation</h3>
+<p>Prior to this work, the <a href="https://www.lincolninst.edu/centers-initiatives/center-geospatial-solutions/">Center for Geospatial Solutions</a> at the Lincoln Institute of Land Policy developed a comprehensive parcel dataset for Virginia Episcopal Real Estate Partners (VEREP) using an automated-plus-manual verification approach. The methodology combined CGS’s <a href="https://www.lincolninst.edu/centers-initiatives/center-geospatial-solutions/key-initiatives/">Who Owns America®</a> (WHOA) national parcel dataset with Diocese-specific knowledge to identify properties owned by the Episcopal Diocese of Virginia, its congregations, and related organizations.</p>
+<section id="cgs-methodology-building-the-foundation" class="level4">
+<h4 class="anchored" data-anchor-id="cgs-methodology-building-the-foundation">CGS Methodology: Building the Foundation</h4>
+<p>To be able to view and query parcels owned by congregations in the Episcopal Diocese of Virginia, CGS utilized its WHOA parcel ownership dataset as a starting point. CGS created this dataset by cleaning, standardizing and combining parcel data from Regrid, additional property record data from ATTOM, and corporate entity registration data from OpenCorporates into a unified, national parcel dataset.</p>
+<p>Parcels are then assessed and classified, via an automated model created by CGS, into various ownership types. This includes a column to flag parcels, based on keyword searches of the parcel owner name field, that are likely affiliated with a faith-based institution.</p>
+</section>
+<section id="defining-ownership-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="defining-ownership-parameters">Defining Ownership Parameters</h4>
+<p>The original Scope of Work defined the VEREP parcel dataset as a “dataset of parcels owned by congregations in the Episcopal Diocese of Virginia”. However, following conversations with VEREP, the scope of ownership was expanded to broadly cover “parcels of interest to VEREP”, where parcel ownership would fall into one of the following categories:</p>
 <ul>
-<li>Conduct site visits for top 3 properties</li>
-<li>Initiate conversations with congregation leadership</li>
-<li>Commission preliminary feasibility studies</li>
-</ul></li>
-<li><strong>Short-term</strong> (Next 90 days)
-<ul>
-<li>Complete zoning analysis for priority sites</li>
-<li>Engage with municipal planning departments</li>
-<li>Develop financial pro formas for mixed-use scenarios</li>
-</ul></li>
-<li><strong>Medium-term</strong> (6-12 months)
-<ul>
-<li>Establish development partnership framework</li>
-<li>Explore ground lease vs. joint venture models</li>
-<li>Identify development partners or investors</li>
-</ul></li>
-</ol>
-</div>
-</div>
-<hr>
+<li>Owned by the Episcopal Diocese of Virginia</li>
+<li>Owned by Congregations in the Episcopal Diocese of Virginia</li>
+<li>Owned by Related Organizations</li>
+<li>Owned by Affiliate Organizations</li>
+</ul>
+<p>CGS relied on VEREP and its partners to define these categories and to provide starting lists of site addresses, congregation and organization names for CGS to review. CGS then performed a recursive parcel linkage process to identify all parcels connected through shared mailing addresses and owner names, maximizing the discovery of related property holdings across Virginia.</p>
+</section>
+<section id="hdadvisorss-role-and-the-congregation-parcel-challenge" class="level4">
+<h4 class="anchored" data-anchor-id="hdadvisorss-role-and-the-congregation-parcel-challenge">HDAdvisors’s Role and the Congregation-Parcel Challenge</h4>
+<p>HDAdvisors was engaged after this comprehensive geospatial data creation and analysis work to further integrate congregation statistics.</p>
+<p>CGS initially assumed a one-to-one relationship between parcels and congregations. However, field verification revealed that multiple congregations often share the same parcel (co-located congregations sharing worship space). This one-to-many relationship created a data structure challenge.</p>
+<p>The analysis performed in this report addresses this limitation by developing appropriate join methodologies to link congregation performance metrics (attendance, membership, pledge data) with parcel characteristics, enabling integrated spatial-statistical analysis of how congregation vitality relates to property characteristics and neighborhood context.</p>
 </section>
 </section>
-<section id="methodology-data" class="level1">
-<h1>Methodology &amp; Data</h1>
-<section id="background-data-sources" class="level2">
-<h2 class="anchored" data-anchor-id="background-data-sources">Background &amp; Data Sources</h2>
-<section id="verep-parcel-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="verep-parcel-dataset">VEREP Parcel Dataset</h3>
-<p>This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:</p>
+<section id="dataset-characteristics" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-characteristics">Dataset Characteristics</h3>
+<p>The final integrated dataset includes:</p>
 <ul>
 <li><strong>790 parcels</strong> across Virginia</li>
 <li>Comprehensive property characteristics (size, use, zoning)</li>
@@ -8157,8 +8142,8 @@ Data Quality Note
 <h2 class="anchored" data-anchor-id="geographic-distribution">Geographic Distribution</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-e2f7f0d3155508054f93" style="width:100%;height:390px;"></div>
-<script type="application/json" data-for="htmlwidget-e2f7f0d3155508054f93">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[37.579889,37.59668,38.869898,38.858092,39.000601,38.842139,37.026757,37.580379,37.579413,38.836695],[-77.52330900000001,-77.462231,-77.14319399999999,-77.19023300000001,-77.384157,-77.42569900000002,-76.368634,-77.522515,-77.520263,-77.11525],[10.3713427288852,10.37876437732353,7.007870575288901,8.093237918163533,7.870482831440521,5.570614867319406,8.730735936907037,3.918768939348172,26.0677818388907,9.182986986814258],null,null,{"interactive":true,"className":"","stroke":true,"color":"white","weight":2,"opacity":0.5,"fill":true,"fillColor":["#800026","#FD6F32","#FEA144","#FEA747","#FEB24C","#FEBA55","#FEDB7A","#FFDF83","#FFDF83","#FFFFCC"],"fillOpacity":0.8},null,null,["<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #1<\/h4><p style='margin: 5px 0;'><b>706 SAINT CHRISTOPHERS RD, RICHMOND 23226<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 84.2/100<br><b>Size:<\/b> 4.3 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #2<\/h4><p style='margin: 5px 0;'><b>1600 WESTBROOK AVE, RICHMOND 23227<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 80.9/100<br><b>Size:<\/b> 4.31 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #3<\/h4><p style='margin: 5px 0;'><b>600 NORTH MADISON ST, ARLINGTON 22203<\/b><br>ARLINGTON, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 80/100<br><b>Size:<\/b> 1.96 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #4<\/h4><p style='margin: 5px 0;'><b>WEST FALLS CHURCH 22042<\/b><br>WEST FALLS CHURCH, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 79.8/100<br><b>Size:<\/b> 2.62 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #5<\/h4><p style='margin: 5px 0;'><b>STERLING 20164<\/b><br>STERLING, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 79.5/100<br><b>Size:<\/b> 2.48 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #6<\/h4><p style='margin: 5px 0;'><b>CENTREVILLE 20120<\/b><br>CENTREVILLE, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 79.3/100<br><b>Size:<\/b> 1.24 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #7<\/h4><p style='margin: 5px 0;'><b>1242 WEST QUEEN ST, HAMPTON 23669<\/b><br>HAMPTON, HAMPTON County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 78.5/100<br><b>Size:<\/b> 3.05 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #8<\/h4><p style='margin: 5px 0;'><b>710 ST CHRISTOPHERS RD, RICHMOND 23226<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 78.2/100<br><b>Size:<\/b> 0.61 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #9<\/h4><p style='margin: 5px 0;'><b>719 ST CHRISTOPHERS RD, RICHMOND 23226<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 78.2/100<br><b>Size:<\/b> 27.18 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #10<\/h4><p style='margin: 5px 0;'><b>5101 FILLMORE AVE, ALEXANDRIA 22311<\/b><br>ALEXANDRIA, ALEXANDRIA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 76.6/100<br><b>Size:<\/b> 3.37 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>"],null,["#1: 706 SAINT CHRISTOPHERS RD, RICHMOND 23226","#2: 1600 WESTBROOK AVE, RICHMOND 23227","#3: 600 NORTH MADISON ST, ARLINGTON 22203","#4: WEST FALLS CHURCH 22042","#5: STERLING 20164","#6: CENTREVILLE 20120","#7: 1242 WEST QUEEN ST, HAMPTON 23669","#8: 710 ST CHRISTOPHERS RD, RICHMOND 23226","#9: 719 ST CHRISTOPHERS RD, RICHMOND 23226","#10: 5101 FILLMORE AVE, ALEXANDRIA 22311"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFCC , #FFF8BC 4.60526318421055%, #FFE58E 17.7631579210527%, #FFC762 30.9210526578948%, #FE9F43 44.0789473947369%, #FD6B31 57.236842131579%, #EC3221 70.3947368684211%, #C90923 83.5526316052632%, #900026 96.7105263421054%, #800026 "],"labels":["77","78","79","80","81","82","83","84"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"numeric","title":"Development<br>Score","extra":{"p_1":0.04605263184210551,"p_n":0.9671052634210535},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[37.026757,39.000601],"lng":[-77.52330900000001,-76.368634]},"setView":[[38.1770543,-77.26554850000001],7,[]]},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-3b962dcd9aa9178ce0e7" style="width:100%;height:390px;"></div>
+<script type="application/json" data-for="htmlwidget-3b962dcd9aa9178ce0e7">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[37.579889,37.59668,38.869898,38.858092,39.000601,38.842139,37.026757,37.580379,37.579413,38.836695],[-77.52330900000001,-77.462231,-77.14319399999999,-77.19023300000001,-77.384157,-77.42569900000002,-76.368634,-77.522515,-77.520263,-77.11525],[10.3713427288852,10.37876437732353,7.007870575288901,8.093237918163533,7.870482831440521,5.570614867319406,8.730735936907037,3.918768939348172,26.0677818388907,9.182986986814258],null,null,{"interactive":true,"className":"","stroke":true,"color":"white","weight":2,"opacity":0.5,"fill":true,"fillColor":["#800026","#FD6F32","#FEA144","#FEA747","#FEB24C","#FEBA55","#FEDB7A","#FFDF83","#FFDF83","#FFFFCC"],"fillOpacity":0.8},null,null,["<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #1<\/h4><p style='margin: 5px 0;'><b>706 SAINT CHRISTOPHERS RD, RICHMOND 23226<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 84.2/100<br><b>Size:<\/b> 4.3 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #2<\/h4><p style='margin: 5px 0;'><b>1600 WESTBROOK AVE, RICHMOND 23227<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 80.9/100<br><b>Size:<\/b> 4.31 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #3<\/h4><p style='margin: 5px 0;'><b>600 NORTH MADISON ST, ARLINGTON 22203<\/b><br>ARLINGTON, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 80/100<br><b>Size:<\/b> 1.96 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #4<\/h4><p style='margin: 5px 0;'><b>WEST FALLS CHURCH 22042<\/b><br>WEST FALLS CHURCH, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 79.8/100<br><b>Size:<\/b> 2.62 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #5<\/h4><p style='margin: 5px 0;'><b>STERLING 20164<\/b><br>STERLING, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 79.5/100<br><b>Size:<\/b> 2.48 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #6<\/h4><p style='margin: 5px 0;'><b>CENTREVILLE 20120<\/b><br>CENTREVILLE, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 79.3/100<br><b>Size:<\/b> 1.24 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #7<\/h4><p style='margin: 5px 0;'><b>1242 WEST QUEEN ST, HAMPTON 23669<\/b><br>HAMPTON, HAMPTON County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 78.5/100<br><b>Size:<\/b> 3.05 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #8<\/h4><p style='margin: 5px 0;'><b>710 ST CHRISTOPHERS RD, RICHMOND 23226<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 78.2/100<br><b>Size:<\/b> 0.61 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #9<\/h4><p style='margin: 5px 0;'><b>719 ST CHRISTOPHERS RD, RICHMOND 23226<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 78.2/100<br><b>Size:<\/b> 27.18 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #10<\/h4><p style='margin: 5px 0;'><b>5101 FILLMORE AVE, ALEXANDRIA 22311<\/b><br>ALEXANDRIA, ALEXANDRIA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 76.6/100<br><b>Size:<\/b> 3.37 acres<br><b>Tier:<\/b> Tier 1: High Priority<\/p><\/div>"],null,["#1: 706 SAINT CHRISTOPHERS RD, RICHMOND 23226","#2: 1600 WESTBROOK AVE, RICHMOND 23227","#3: 600 NORTH MADISON ST, ARLINGTON 22203","#4: WEST FALLS CHURCH 22042","#5: STERLING 20164","#6: CENTREVILLE 20120","#7: 1242 WEST QUEEN ST, HAMPTON 23669","#8: 710 ST CHRISTOPHERS RD, RICHMOND 23226","#9: 719 ST CHRISTOPHERS RD, RICHMOND 23226","#10: 5101 FILLMORE AVE, ALEXANDRIA 22311"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFCC , #FFF8BC 4.60526318421055%, #FFE58E 17.7631579210527%, #FFC762 30.9210526578948%, #FE9F43 44.0789473947369%, #FD6B31 57.236842131579%, #EC3221 70.3947368684211%, #C90923 83.5526316052632%, #900026 96.7105263421054%, #800026 "],"labels":["77","78","79","80","81","82","83","84"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"numeric","title":"Development<br>Score","extra":{"p_1":0.04605263184210551,"p_n":0.9671052634210535},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[37.026757,39.000601],"lng":[-77.52330900000001,-76.368634]},"setView":[[38.1770543,-77.26554850000001],7,[]]},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <hr>
@@ -8219,8 +8204,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-1" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-1">Recommended Next Steps</h4>
+<section id="recommended-next-steps" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8273,8 +8258,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-2" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-2">Recommended Next Steps</h4>
+<section id="recommended-next-steps-1" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-1">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8327,8 +8312,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-3" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-3">Recommended Next Steps</h4>
+<section id="recommended-next-steps-2" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-2">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8380,8 +8365,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-4" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-4">Recommended Next Steps</h4>
+<section id="recommended-next-steps-3" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-3">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8433,8 +8418,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-5" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-5">Recommended Next Steps</h4>
+<section id="recommended-next-steps-4" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-4">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8486,8 +8471,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-6" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-6">Recommended Next Steps</h4>
+<section id="recommended-next-steps-5" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-5">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8540,8 +8525,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-7" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-7">Recommended Next Steps</h4>
+<section id="recommended-next-steps-6" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-6">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8593,8 +8578,8 @@ Avg Attendance</p>
 <p>🅿️ <strong>Prime opportunity:</strong> Underutilized parking can support structured parking with mixed-use above</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-8" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-8">Recommended Next Steps</h4>
+<section id="recommended-next-steps-7" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-7">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8647,8 +8632,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-9" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-9">Recommended Next Steps</h4>
+<section id="recommended-next-steps-8" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-8">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8701,8 +8686,8 @@ Avg Attendance</p>
 <p>📐 <strong>Substantial site:</strong> Large parcel enables phased development or creative master planning</p>
 <p>🚶 <strong>Walkable location:</strong> Transit access supports reduced parking requirements and higher density</p>
 </section>
-<section id="recommended-next-steps-10" class="level4">
-<h4 class="anchored" data-anchor-id="recommended-next-steps-10">Recommended Next Steps</h4>
+<section id="recommended-next-steps-9" class="level4">
+<h4 class="anchored" data-anchor-id="recommended-next-steps-9">Recommended Next Steps</h4>
 <ol type="1">
 <li>Site feasibility study and geotechnical analysis</li>
 <li>Congregation leadership engagement</li>
@@ -8717,7 +8702,7 @@ Avg Attendance</p>
 <section id="appendices" class="level1 unnumbered">
 <h1 class="unnumbered">Appendices</h1>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -8726,7 +8711,7 @@ Technical Methodology
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Scoring Algorithm Details</strong></p>
 <p>Each property receives scores across six dimensions (0-100 scale), which are then weighted and combined:</p>
@@ -8745,7 +8730,7 @@ Technical Methodology
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -8754,7 +8739,7 @@ Data Processing Notes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Congregation-Parcel Joining:</strong> Properties were matched to congregation data using the <code>congr_name</code> field. Properties without matches received neutral financial scores.</p>
 <p><strong>Missing Data Handling:</strong> - Missing walkability scores defaulted to 0 - Missing income data received median market scores (50) - Properties without area or coordinates were excluded</p>

@@ -374,10 +374,10 @@ top_10 <- scored_parcels %>%
 ```
 
 # Executive Summary {.unnumbered}
+This analysis examines properties of interest (defined in methodology) with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.
 
 ::: {.callout-important}
 ## Key Findings
-
 This analysis evaluated **`r nrow(scored_parcels)`** properties across the diocese to identify optimal development opportunities. Using a comprehensive scoring methodology, we identified **10 high-priority properties** representing **`r round(sum(top_10$area_acres), 1)` total acres** with significant development potential.
 
 **Top Insights:**
@@ -446,12 +446,40 @@ top_10 %>%
 ```
 
 
-# Methodology & Data
+## Methodology & Data
 
-## Background & Data Sources
+### The VEREP Parcel Dataset: Origins and Creation
 
-### VEREP Parcel Dataset
-This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:
+Prior to this work, the [Center for Geospatial Solutions](https://www.lincolninst.edu/centers-initiatives/center-geospatial-solutions/) at the Lincoln Institute of Land Policy developed a comprehensive parcel dataset for Virginia Episcopal Real Estate Partners (VEREP) using an automated-plus-manual verification approach. The methodology combined CGS's [Who Owns America®](https://www.lincolninst.edu/centers-initiatives/center-geospatial-solutions/key-initiatives/) (WHOA) national parcel dataset with Diocese-specific knowledge to identify properties owned by the Episcopal Diocese of Virginia, its congregations, and related organizations.
+
+#### CGS Methodology: Building the Foundation
+
+To be able to view and query parcels owned by congregations in the Episcopal Diocese of Virginia, CGS utilized its WHOA parcel ownership dataset as a starting point. CGS created this dataset by cleaning, standardizing and combining parcel data from Regrid, additional property record data from ATTOM, and corporate entity registration data from OpenCorporates into a unified, national parcel dataset. 
+
+Parcels are then assessed and classified, via an automated model created by CGS, into various ownership types. This includes a column to flag parcels, based on keyword searches of the parcel owner name field, that are likely affiliated with a faith-based institution.
+
+#### Defining Ownership Parameters
+
+The original Scope of Work defined the VEREP parcel dataset as a "dataset of parcels owned by congregations in the Episcopal Diocese of Virginia". However, following conversations with VEREP, the scope of ownership was expanded to broadly cover "parcels of interest to VEREP", where parcel ownership would fall into one of the following categories:
+
+- Owned by the Episcopal Diocese of Virginia
+- Owned by Congregations in the Episcopal Diocese of Virginia
+- Owned by Related Organizations
+- Owned by Affiliate Organizations
+
+CGS relied on VEREP and its partners to define these categories and to provide starting lists of site addresses, congregation and organization names for CGS to review. CGS then performed a recursive parcel linkage process to identify all parcels connected through shared mailing addresses and owner names, maximizing the discovery of related property holdings across Virginia.
+
+#### HDAdvisors's Role and the Congregation-Parcel Challenge
+
+HDAdvisors was engaged after this comprehensive geospatial data creation and analysis work to further integrate congregation statistics.
+
+CGS initially assumed a one-to-one relationship between parcels and congregations. However, field verification revealed that multiple congregations often share the same parcel (co-located congregations sharing worship space). This one-to-many relationship created a data structure challenge. 
+
+The analysis performed in this report addresses this limitation by developing appropriate join methodologies to link congregation performance metrics (attendance, membership, pledge data) with parcel characteristics, enabling integrated spatial-statistical analysis of how congregation vitality relates to property characteristics and neighborhood context.
+
+### Dataset Characteristics
+
+The final integrated dataset includes:
 
 - **`r nrow(parcels_raw)` parcels** across Virginia
 - Comprehensive property characteristics (size, use, zoning)
@@ -473,6 +501,7 @@ Not all properties have associated congregation data. Properties without congreg
 :::
 
 ## Analytical Framework
+
 
 ### Development Potential Scoring
 
