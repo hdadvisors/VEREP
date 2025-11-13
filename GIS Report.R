@@ -167,7 +167,9 @@ print(zoning_type_summary)
 # ========================================
 acreage_summary <- analysis_subset %>%
   summarise(
+    total_properties = n(),  # Add this to show total
     properties_with_acreage = sum(!is.na(rgisacre)),
+    properties_missing_acreage = sum(is.na(rgisacre)),  # Add this to count NAs
     mean_acres = mean(rgisacre, na.rm = TRUE),
     median_acres = median(rgisacre, na.rm = TRUE),
     total_acres = sum(rgisacre, na.rm = TRUE),
@@ -197,26 +199,51 @@ acreage_categories <- analysis_subset %>%
 print("\n=== ACREAGE DISTRIBUTION ===")
 print(acreage_categories)
 
+# Show which properties are missing acreage data
+missing_acreage_properties <- analysis_subset %>%
+  filter(is.na(rgisacre)) %>%
+  select(congregation_name, short_name, attendance_2023, deed_acres, rgisacre)
+
+cat(sprintf("\nNote: %d properties excluded due to missing acreage data:\n", 
+            sum(is.na(analysis_subset$rgisacre))))
+print(missing_acreage_properties)
+
 # ========================================
 # METRIC 4: ENVIRONMENTAL LIMITATIONS
 # ========================================
 environmental_summary <- analysis_subset %>%
   summarise(
+    # Total properties
+    total_properties = n(),
+    
     # Wetlands
     properties_with_wetlands = sum(wet_perc > 0, na.rm = TRUE),
     avg_wetland_coverage = mean(wet_perc, na.rm = TRUE),
     significant_wetlands = sum(wet_perc > 10, na.rm = TRUE),
+    missing_wetland_data = sum(is.na(wet_perc)),  
     
     # Flood zones
     in_flood_zone = sum(!is.na(fema_fz) & fema_fz != "" & fema_fz != "X", na.rm = TRUE),
     in_high_risk_flood = sum(fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE"), na.rm = TRUE),
+    missing_flood_zone_data = sum(is.na(fema_fz) | fema_fz == ""),
     
     # FEMA Risk Rating
-    high_fema_risk = sum(fema_nri %in% c("Very High", "Relatively High"), na.rm = TRUE)
+    high_fema_risk = sum(fema_nri %in% c("Very High", "Relatively High"), na.rm = TRUE),
+    missing_fema_risk_data = sum(is.na(fema_nri))  
   )
 
-print("\n=== ENVIRONMENTAL LIMITATIONS SUMMARY ===")
+print("\n=== ENVIRONMENTAL CONDITIONS SUMMARY ===")
 print(environmental_summary)
+
+# Show which properties are missing environmental data
+missing_environmental <- analysis_subset %>%
+  filter(is.na(wet_perc) | is.na(fema_fz) | fema_fz == "" | is.na(fema_nri)) %>%
+  select(congregation_name, short_name, wet_perc, fema_fz, fema_nri)
+
+if(nrow(missing_environmental) > 0) {
+  cat("\n=== PROPERTIES WITH MISSING ENVIRONMENTAL DATA ===\n")
+  print(missing_environmental)
+}
 
 # Flood zone breakdown
 flood_zone_summary <- analysis_subset %>%
@@ -236,6 +263,7 @@ qct_summary <- analysis_subset %>%
     in_qct = sum(qct == 1, na.rm = TRUE),
     not_in_qct = sum(qct == 0, na.rm = TRUE),
     qct_percentage = sum(qct == 1, na.rm = TRUE) / n() * 100,
+    missing_qct = sum(is.na(qct)),
     
     # Also check DDA status
     in_dda = sum(dda == 1, na.rm = TRUE),
@@ -245,39 +273,122 @@ qct_summary <- analysis_subset %>%
 print("\n=== LIHTC QCT & DDA SUMMARY ===")
 print(qct_summary)
 
+# Show which properties are missing qct data
+missing_qct <- analysis_subset %>%
+  filter(is.na(qct) | is.na(dda)) %>%  # FIXED: Check for QCT and DDA, not environmental vars
+  select(congregation_name, short_name, qct, dda)  # FIXED: Select QCT/DDA columns
+
+if(nrow(missing_qct) > 0) {  # FIXED: Check missing_qct, not missing_environmental
+  cat("\n=== PROPERTIES WITH MISSING QCT/DDA DATA ===\n")  # FIXED: Updated message
+  print(missing_qct)
+}
+
 # ========================================
 # COMPREHENSIVE PROPERTY PROFILE
 # ========================================
 property_profile <- analysis_subset %>%
-  filter(!is.na(lan_val)) %>%
   mutate(
-    has_environmental_constraint = (wet_perc > 10) | 
-      (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE")),
-    developable = (rgisacre >= 1) & (!has_environmental_constraint),
+    # Flag missing crucial data
+    missing_land_value = is.na(lan_val),
+    missing_acreage = is.na(rgisacre),
+    missing_wetland = is.na(wet_perc),
+    missing_flood = is.na(fema_fz) | fema_fz == "",
+    missing_qct = is.na(qct),
+    missing_zoning = is.na(zon) | is.na(zon_desc),
+    
+    # Calculate data completeness score (0-6 points)
+    data_completeness = 6 - (missing_land_value + missing_acreage + 
+                               missing_wetland + missing_flood + 
+                               missing_qct + missing_zoning),
+    
+    # Environmental constraints (with NA handling)
+    has_environmental_constraint = case_when(
+      is.na(wet_perc) & is.na(fema_fz) ~ NA,  # Can't determine if both missing
+      (!is.na(wet_perc) & wet_perc > 10) ~ TRUE,
+      (!is.na(fema_fz) & fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE")) ~ TRUE,
+      TRUE ~ FALSE
+    ),
+    
+    # Developable flag (requires key data)
+    developable = case_when(
+      missing_acreage | is.na(has_environmental_constraint) ~ NA,  # Can't determine
+      rgisacre >= 1 & !has_environmental_constraint ~ TRUE,
+      TRUE ~ FALSE
+    ),
+    
+    # Development potential category
+    development_potential = case_when(
+      data_completeness < 4 ~ "Insufficient Data",
+      developable == TRUE & !missing_land_value & lan_val >= 100000 ~ "High Potential",
+      developable == TRUE ~ "Moderate Potential",
+      developable == FALSE ~ "Low Potential - Constraints",
+      is.na(developable) ~ "Unknown - Missing Data"
+    ),
     
     # Calculate land value per acre
     land_value_per_acre = if_else(rgisacre > 0, lan_val / rgisacre, NA_real_)
   ) %>%
   select(
-    uid, pid, congr_name, 
+    uid, pid, congregation_name, 
     attendance_2023, members_2023, attendance_avg,
     lan_val, land_value_per_acre, rgisacre, deed_acres,
     zon, zon_desc, zon_type,
     qct, dda, 
     wet_perc, fema_fz, fema_nri,
-    has_environmental_constraint, developable,
+    has_environmental_constraint, developable, development_potential,
+    data_completeness, missing_land_value, missing_acreage, 
+    missing_wetland, missing_flood, missing_qct, missing_zoning,
     sadd, scity, scounty, sstate, szip,
     lat, lon
   ) %>%
-  arrange(desc(developable), desc(lan_val))
+  arrange(desc(data_completeness), desc(developable), desc(lan_val))
 
 print("\n=== TOP DEVELOPMENT OPPORTUNITIES (First 10) ===")
 print(head(property_profile %>% 
-             select(congr_name, attendance_2023, lan_val, rgisacre, 
-                    qct, developable, scity), 10))
+             select(congregation_name, attendance_2023, lan_val, rgisacre, 
+                    development_potential, data_completeness, scity), 10))
 
-# Export filtered results
-write_csv(property_profile, "verep_analysis_results.csv")
+# Summary of development potential
+dev_potential_summary <- property_profile %>%
+  count(development_potential) %>%
+  mutate(percentage = n / sum(n) * 100)
+
+print("\n=== DEVELOPMENT POTENTIAL SUMMARY ===")
+print(dev_potential_summary)
+
+# Properties with insufficient data
+incomplete_data <- property_profile %>%
+  filter(data_completeness < 6) %>%
+  select(congregation_name, data_completeness, missing_land_value, 
+         missing_acreage, missing_wetland, missing_flood, missing_qct, missing_zoning)
+
+if(nrow(incomplete_data) > 0) {
+  cat("\n=== PROPERTIES WITH INCOMPLETE DATA ===\n")
+  print(incomplete_data)
+}
+
+## Exports 
+dir.create("output", showWarnings = FALSE)
+
+# For leadership - high-level opportunities
+leadership_report <- property_profile %>%
+  filter(development_potential %in% c("High Potential", "Moderate Potential")) %>%
+  select(congregation_name, attendance_2023, lan_val, rgisacre, 
+         development_potential, qct, scity, sstate)
+
+write_csv(leadership_report, "output/verep_top_opportunities.csv")
+
+# For data team - properties needing follow-up
+data_followup <- property_profile %>%
+  filter(data_completeness < 6) %>%
+  select(congregation_name, data_completeness, missing_land_value, 
+         missing_acreage, missing_wetland, missing_flood, missing_qct, missing_zoning,
+         scity, sstate)
+
+write_csv(data_followup, "output/verep_data_needed.csv")
+
+# Full detailed analysis
+write_csv(property_profile, "output/verep_full_analysis.csv")
 
 # ========================================
 # OPPORTUNITY MATRIX
