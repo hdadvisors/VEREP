@@ -5,10 +5,11 @@
 library(tidyverse)
 library(readr)
 library(scales)
-# install.packages("devtools")
-install.packages("devtools")
 library(devtools)
-devtools::install_github("hdadvisors/hdatools")
+devtools::install_github("hdadvisors/hdatools", force = TRUE)
+library(hdatools)
+library(ggplot2)
+library(dplyr)
 
 # Read the data
 verep_data <- read_csv("data/verep040725.csv")
@@ -35,10 +36,11 @@ attendance_data <- congregation_data %>%
   )
 
 # Join property data with attendance data
-verep_data <- verep_data %>%
+verep_data <- attendance_data %>%
   left_join(
-    attendance_data, 
-    by = c("congr_name" = "quickref")
+    verep_data, 
+    by = c("quickref" = "congr_name"),
+    suffix = c("_att", "_prop")  # Creates attendance_2023_att and attendance_2023_prop
   )
 
 # Display join results
@@ -62,12 +64,12 @@ analysis_subset <- verep_data %>%
 cat("=== FILTERING RESULTS ===\n")
 cat(sprintf("Properties with <30 Sunday attendees: %d\n", nrow(analysis_subset)))
 cat(sprintf("Unique congregations represented: %d\n\n", 
-            n_distinct(analysis_subset$congr_name[!is.na(analysis_subset$congr_name)])))
+            n_distinct(analysis_subset$congregation_name[!is.na(analysis_subset$congregation_name)])))
 
 # Show congregations included
 congregations_under30 <- analysis_subset %>%
-  filter(!is.na(congr_name)) %>%
-  distinct(congr_name, attendance_2023) %>%
+  filter(!is.na(congregation_name)) %>%
+  distinct(congregation_name, attendance_2023) %>%
   arrange(attendance_2023)
 
 cat("=== CONGREGATIONS WITH <30 ATTENDEES ===\n")
@@ -102,28 +104,63 @@ land_value_plot <- analysis_subset %>%
     x = "Land Value",
     y = "Count"
   ) +
-  theme_minimal() ## UPDATE TO THEME_HDA WHEN DEVTOOLS WORKS
+  theme_hda() 
 
 print(land_value_plot)
 
 # ========================================
 # METRIC 2: ZONING/DENSITY ANALYSIS
 # ========================================
-zoning_summary <- analysis_subset %>%
+
+# Create a lookup table from complete records
+zoning_lookup <- analysis_subset %>%
+  filter(!is.na(zon) & !is.na(zon_desc) & !is.na(zon_type)) %>%
+  # For each zoning code, get the most common description and type
+  group_by(zon) %>%
+  summarise(
+    zon_desc_lookup = names(sort(table(zon_desc), decreasing = TRUE))[1],
+    zon_type_lookup = names(sort(table(zon_type), decreasing = TRUE))[1],
+    .groups = 'drop'
+  )
+
+# View the lookup table
+print("=== ZONING LOOKUP TABLE ===")
+print(zoning_lookup)
+
+# Join the lookup back and fill in missing values
+analysis_subset_clean <- analysis_subset %>%
+  left_join(zoning_lookup, by = "zon") %>%
+  mutate(
+    zon_desc = coalesce(zon_desc, zon_desc_lookup),
+    zon_type = coalesce(zon_type, zon_type_lookup)
+  ) %>%
+  select(-zon_desc_lookup, -zon_type_lookup)  # Remove the lookup columns
+
+# Check how many were filled in
+cat("\n=== FILL RESULTS ===\n")
+cat(sprintf("Before: %d properties with zoning description\n", 
+            sum(!is.na(analysis_subset$zon_desc))))
+cat(sprintf("After: %d properties with zoning description\n", 
+            sum(!is.na(analysis_subset_clean$zon_desc))))
+cat(sprintf("Before: %d properties with zoning type\n", 
+            sum(!is.na(analysis_subset$zon_type))))
+cat(sprintf("After: %d properties with zoning type\n", 
+            sum(!is.na(analysis_subset_clean$zon_type))))
+
+# Now use the cleaned data for your analysis
+zoning_summary <- analysis_subset_clean %>%
   filter(!is.na(zon)) %>%
   count(zon, zon_desc, sort = TRUE) %>%
   mutate(percentage = n / sum(n) * 100)
 
-print("\n=== ZONING SUMMARY (Top 10) ===")
-print(head(zoning_summary, 10))
-
-# Zoning type summary
-zoning_type_summary <- analysis_subset %>%
+zoning_type_summary <- analysis_subset_clean %>%
   filter(!is.na(zon_type)) %>%
-  count(zon_type, sort = TRUE)
+  count(zon_type, sort = TRUE) %>%
+  mutate(percentage = n / sum(n) * 100)
 
-print("\n=== ZONING TYPE SUMMARY ===")
+print("\n=== ZONING TYPE SUMMARY (CLEANED) ===")
 print(zoning_type_summary)
+
 
 # ========================================
 # METRIC 3: ACREAGE ANALYSIS
