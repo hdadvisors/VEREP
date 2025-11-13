@@ -270,6 +270,12 @@ df_joined <- df %>%
       TRUE ~ financial_need
     )
   )
+
+cat(sprintf("Total properties: %d\n", nrow(verep_data)))
+cat(sprintf("Properties matched to congregation: %d\n", 
++             sum(!is.na(verep_data$attendance_2023))))
+cat(sprintf("Properties with attendance data: %d\n\n", 
++             sum(!is.na(verep_data$attendance_2023) & verep_data$attendance_2023 > 0)))
 ```
 
 ```{r calculate-scores, include=FALSE}
