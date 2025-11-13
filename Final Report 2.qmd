@@ -722,7 +722,7 @@ regional_stats %>%
 
 ## Building and Asset Statistics
 
-```{r building-stats}
+```{r building-stat, results='asis'}
 # Building statistics
 building_summary <- scored_parcels %>%
   summarise(
@@ -752,7 +752,7 @@ cat(":::\n\n")
 
 ## Congregation Vitality Metrics
 
-```{r congregation-metrics}
+```{r congregation-metrics, results='asis'}
 # Congregation statistics
 cong_stats <- df_joined %>%
   filter(has_congregation) %>%
@@ -778,7 +778,7 @@ cat("- **Congregations with declining pledges:** ", cong_stats$declining_pledges
 
 ### Comprehensive Developability Analysis
 
-```{r developable-summary}
+```{r developable-summary, results='asis'}
 # Summary of ALL developable land (not just top 10)
 developable_summary <- scored_parcels %>%
   filter(development_score >= 45) %>%  # Tier 3 and above
