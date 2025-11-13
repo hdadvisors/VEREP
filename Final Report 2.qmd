@@ -727,6 +727,290 @@ leaflet(top_10) %>%
   setView(lng = mean(top_10$lon), lat = mean(top_10$lat), zoom = 7)
 ```
 
+# Summary Statistics
+
+# Summary Statistics
+
+## Property Portfolio Overview
+
+### Ownership Distribution
+
+```{r ownership-breakdown}
+# Breakdown by ownership type
+# Check if v_owntype column exists
+if("v_owntype" %in% names(scored_parcels)) {
+  ownership_stats <- scored_parcels %>%
+    mutate(
+      ownership_type = case_when(
+        str_detect(tolower(v_owntype), "diocese") ~ "Diocese-Owned",
+        str_detect(tolower(v_owntype), "congregation") ~ "Congregation-Owned",
+        str_detect(tolower(v_owntype), "related") ~ "Related Organization",
+        TRUE ~ "Other"
+      )
+    ) %>%
+    group_by(ownership_type) %>%
+    summarise(
+      n_parcels = n(),
+      total_acres = sum(area_acres, na.rm = TRUE),
+      total_value = sum(assessed_value, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    arrange(desc(n_parcels))
+} else {
+  # Create a simplified version based on available data
+  ownership_stats <- scored_parcels %>%
+    mutate(
+      ownership_type = case_when(
+        diocese_related == 1 ~ "Diocese-Related",
+        has_congregation ~ "Congregation-Owned",
+        TRUE ~ "Other"
+      )
+    ) %>%
+    group_by(ownership_type) %>%
+    summarise(
+      n_parcels = n(),
+      total_acres = sum(area_acres, na.rm = TRUE),
+      total_value = sum(assessed_value, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    arrange(desc(n_parcels))
+}
+
+ownership_stats %>%
+  kable(
+    col.names = c("Ownership Type", "# Parcels", "Total Acres", "Assessed Value"),
+    digits = c(0, 0, 1, 0),
+    format.args = list(big.mark = ",")
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  row_spec(0, bold = TRUE, background = "#445ca9", color = "white")
+```
+
+### Property Use Types
+
+```{r use-type-breakdown}
+# Create use type classification
+use_stats <- scored_parcels %>%
+  mutate(
+    primary_use = case_when(
+      use_cemetery ~ "Cemetery",
+      use_school ~ "School",
+      use_parking ~ "Parking",
+      use_open_space ~ "Open Space",
+      use_residence ~ "Residential",
+      use_church ~ "Church/Worship",
+      TRUE ~ "Other/Mixed"
+    )
+  ) %>%
+  group_by(primary_use) %>%
+  summarise(
+    n_parcels = n(),
+    total_acres = sum(area_acres, na.rm = TRUE),
+    avg_value = mean(assessed_value, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(n_parcels))
+
+ggplot(use_stats, aes(x = reorder(primary_use, n_parcels), y = n_parcels)) +
+  geom_col(fill = "#445ca9", alpha = 0.8) +
+  geom_text(aes(label = n_parcels), hjust = -0.2, color = "#445ca9", fontface = "bold") +
+  coord_flip() +
+  labs(
+    title = "Property Distribution by Primary Use",
+    x = "",
+    y = "Number of Parcels"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14, color = "#445ca9")
+  )
+```
+
+## Geographic Distribution
+
+### Parcels by Diocesan Region
+
+```{r regional-distribution}
+# Check if dio_region column exists, otherwise use diocese or create placeholder
+if("dio_region" %in% names(scored_parcels)) {
+  regional_stats <- scored_parcels %>%
+    group_by(dio_region) %>%
+    summarise(
+      n_parcels = n(),
+      total_acres = sum(area_acres, na.rm = TRUE),
+      pct_of_total_acres = (total_acres / sum(scored_parcels$area_acres, na.rm = TRUE)) * 100,
+      avg_score = mean(development_score, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    arrange(desc(n_parcels))
+  
+  regional_stats %>%
+    kable(
+      col.names = c("Diocesan Region", "# Parcels", "Total Acres", "% of Total Acreage", "Avg Dev Score"),
+      digits = c(0, 0, 1, 1, 1)
+    ) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+    row_spec(0, bold = TRUE, background = "#8baeaa", color = "white")
+} else if("diocese" %in% names(scored_parcels)) {
+  # Use diocese column instead
+  regional_stats <- scored_parcels %>%
+    group_by(diocese) %>%
+    summarise(
+      n_parcels = n(),
+      total_acres = sum(area_acres, na.rm = TRUE),
+      pct_of_total_acres = (total_acres / sum(scored_parcels$area_acres, na.rm = TRUE)) * 100,
+      avg_score = mean(development_score, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    arrange(desc(n_parcels))
+  
+  regional_stats %>%
+    kable(
+      col.names = c("Diocese/Region", "# Parcels", "Total Acres", "% of Total Acreage", "Avg Dev Score"),
+      digits = c(0, 0, 1, 1, 1)
+    ) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+    row_spec(0, bold = TRUE, background = "#8baeaa", color = "white")
+} else {
+  # Show by county instead
+  regional_stats <- scored_parcels %>%
+    group_by(site_county) %>%
+    summarise(
+      n_parcels = n(),
+      total_acres = sum(area_acres, na.rm = TRUE),
+      pct_of_total_acres = (total_acres / sum(scored_parcels$area_acres, na.rm = TRUE)) * 100,
+      avg_score = mean(development_score, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    arrange(desc(n_parcels)) %>%
+    head(10)  # Top 10 counties
+  
+  regional_stats %>%
+    kable(
+      col.names = c("County", "# Parcels", "Total Acres", "% of Total Acreage", "Avg Dev Score"),
+      digits = c(0, 0, 1, 1, 1),
+      caption = "Top 10 Counties by Parcel Count"
+    ) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+    row_spec(0, bold = TRUE, background = "#8baeaa", color = "white")
+}
+```
+
+## Building and Asset Statistics
+
+```{r building-stats, results='asis'}
+# Building statistics
+building_summary <- scored_parcels %>%
+  summarise(
+    total_parcels = n(),
+    parcels_with_buildings = sum(!is.na(bldgcount) & bldgcount > 0, na.rm = TRUE),
+    total_buildings = sum(bldgcount, na.rm = TRUE),
+    avg_building_age = mean(2024 - year_built, na.rm = TRUE),
+    total_assessed_value = sum(assessed_value, na.rm = TRUE),
+    avg_assessed_value = mean(assessed_value, na.rm = TRUE)
+  )
+
+# Display as stat boxes
+cat("::: {layout-ncol=3}\n")
+cat("::: {.stat-box}\n")
+cat("::: {.stat-number}\n", scales::comma(building_summary$total_buildings), "\n:::\n", sep = "")
+cat("::: {.stat-label}\nTotal Buildings\n:::\n:::\n")
+
+cat("::: {.stat-box}\n")
+cat("::: {.stat-number}\n", round(building_summary$avg_building_age, 0), "\n:::\n", sep = "")
+cat("::: {.stat-label}\nAvg Building Age (years)\n:::\n:::\n")
+
+cat("::: {.stat-box}\n")
+cat("::: {.stat-number}\n$", scales::comma(building_summary$total_assessed_value / 1e6, accuracy = 0.1), "M\n:::\n", sep = "")
+cat("::: {.stat-label}\nTotal Assessed Value\n:::\n:::\n")
+cat(":::\n\n")
+```
+
+## Congregation Vitality Metrics
+
+```{r congregation-metrics, results='asis'}
+# Congregation statistics
+cong_stats <- df_joined %>%
+  filter(has_congregation) %>%
+  summarise(
+    parcels_with_cong_data = n(),
+    parcels_under_30_attendance = sum(avg_attendance < 30, na.rm = TRUE),
+    pct_under_30 = (parcels_under_30_attendance / n()) * 100,
+    avg_attendance_all = mean(avg_attendance, na.rm = TRUE),
+    avg_pledge_all = mean(avg_pledge, na.rm = TRUE),
+    declining_pledges = sum(pct_change_pledge < 0, na.rm = TRUE)
+  )
+
+cat("**Key Congregation Metrics:**\n\n")
+cat("- **Parcels with congregation data:** ", cong_stats$parcels_with_cong_data, "\n", sep = "")
+cat("- **Parcels with <30 Sunday attendance:** ", cong_stats$parcels_under_30_attendance, 
+    " (", round(cong_stats$pct_under_30, 1), "% of total diocese)\n", sep = "")
+cat("- **Average Sunday attendance:** ", round(cong_stats$avg_attendance_all, 0), " people\n", sep = "")
+cat("- **Average annual pledge:** $", scales::comma(cong_stats$avg_pledge_all, accuracy = 1), "\n", sep = "")
+cat("- **Congregations with declining pledges:** ", cong_stats$declining_pledges, "\n\n", sep = "")
+```
+
+## Developable Land Summary
+
+### Comprehensive Developability Analysis
+
+```{r developable-summary, results='asis'}
+# Summary of ALL developable land (not just top 10)
+developable_summary <- scored_parcels %>%
+  filter(development_score >= 45) %>%  # Tier 3 and above
+  summarise(
+    n_developable = n(),
+    total_dev_acres = sum(area_acres, na.rm = TRUE),
+    total_dev_value = sum(assessed_value, na.rm = TRUE),
+    avg_attendance = mean(avg_attendance, na.rm = TRUE),
+    avg_pledge = mean(avg_pledge, na.rm = TRUE),
+    parcels_under_30 = sum(avg_attendance < 30, na.rm = TRUE)
+  )
+
+# By tier
+tier_summary <- scored_parcels %>%
+  filter(development_score >= 45) %>%
+  group_by(development_tier) %>%
+  summarise(
+    n_parcels = n(),
+    total_acres = sum(area_acres, na.rm = TRUE),
+    total_value = sum(assessed_value, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(development_tier))
+
+cat("### All Developable Properties (Score ≥45)\n\n")
+
+cat("::: {layout-ncol=4}\n")
+cat("::: {.stat-box}\n")
+cat("::: {.stat-number}\n", developable_summary$n_developable, "\n:::\n", sep = "")
+cat("::: {.stat-label}\nDevelopable Parcels\n:::\n:::\n")
+
+cat("::: {.stat-box}\n")
+cat("::: {.stat-number}\n", round(developable_summary$total_dev_acres, 1), "\n:::\n", sep = "")
+cat("::: {.stat-label}\nDevelopable Acres\n:::\n:::\n")
+
+cat("::: {.stat-box}\n")
+cat("::: {.stat-number}\n$", scales::comma(developable_summary$total_dev_value / 1e6, accuracy = 0.1), "M\n:::\n", sep = "")
+cat("::: {.stat-label}\nAssessed Value\n:::\n:::\n")
+
+cat("::: {.stat-box}\n")
+cat("::: {.stat-number}\n", developable_summary$parcels_under_30, "\n:::\n", sep = "")
+cat("::: {.stat-label}\nWith <30 Attendance\n:::\n:::\n")
+cat(":::\n\n")
+
+cat("### Breakdown by Development Tier\n\n")
+```
+
+```{r tier-breakdown-table}
+tier_summary %>%
+  kable(
+    col.names = c("Tier", "# Parcels", "Total Acres", "Assessed Value"),
+    digits = c(0, 0, 1, 0),
+    format.args = list(big.mark = ",")
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
 ---
 
 # Property Profiles
@@ -824,7 +1108,6 @@ for(i in 1:10) {
   create_property_profile(i)
 }
 ```
-
 ---
 
 # Appendices {.unnumbered}
