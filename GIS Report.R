@@ -339,7 +339,9 @@ property_profile <- analysis_subset %>%
     data_completeness, missing_land_value, missing_acreage, 
     missing_wetland, missing_flood, missing_qct, missing_zoning,
     sadd, scity, scounty, sstate, szip,
-    lat, lon
+    lat, lon,
+    # ADD THESE:
+    walk_idx, church, parking, open_space, cemetery, school, residence
   ) %>%
   arrange(desc(data_completeness), desc(developable), desc(lan_val))
 
@@ -536,7 +538,7 @@ leadership_report <- property_profile %>%
   select(congregation_name, attendance_2023, lan_val, rgisacre, 
          development_potential, qct, scity, sstate)
 
-write_csv(leadership_report, "output/verep_top_opportunities.csv")
+write_csv(leadership_report, "data/output/verep_top_opportunities.csv")
 
 # For data team - properties needing follow-up (the "problem children")
 data_followup <- property_profile %>%
@@ -546,14 +548,14 @@ data_followup <- property_profile %>%
          scity, sstate) %>%
   arrange(data_completeness)
 
-write_csv(data_followup, "output/verep_data_needed.csv")
+write_csv(data_followup, "data/output/verep_data_needed.csv")
 
 # Full detailed analysis
-write_csv(property_profile, "output/verep_full_analysis.csv")
+write_csv(property_profile, "data/output/verep_full_analysis.csv")
 
 # Export summary statistics
-write_csv(attendance_context, "output/verep_attendance_summary.csv")
-write_csv(opportunity_matrix, "output/verep_opportunity_matrix.csv")
+write_csv(attendance_context, "data/output/verep_attendance_summary.csv")
+write_csv(opportunity_matrix, "data/output/verep_opportunity_matrix.csv")
 
 cat("\n=== EXPORTS COMPLETE ===\n")
 cat("Files saved to output/ directory:\n")
