@@ -1,6 +1,4 @@
-congregation_name,property_count,has_shared_address,shared_addresses,shared_cities,num_shared_addresses,unique_addresses,unique_coords,avg_data_completeness,min_data_completeness,max_data_completeness
-St Johns Episcopal Church,13,TRUE,"UNASSIGNED, WEST POINT 23181",WEST POINT,1,6,13,4.6923076923076925,4,5
-St Johns Church,12,TRUE,WARSAW 22572,WARSAW,1,12,12,4.333333333333333,4,5
-St Pauls Church,9,TRUE,"UNASSIGNED, WEST POINT 23181",WEST POINT,1,4,9,4.444444444444445,4,6
-North Farnham Parish Church,5,TRUE,WARSAW 22572,WARSAW,1,4,5,4,4,4
-St Pauls Church Nomini Grove,4,TRUE,WARSAW 22572,WARSAW,1,3,4,3.25,3,4
+congregation_name,property_count,address_status,has_shared_address,shared_addresses,shared_cities,num_shared_addresses,has_unassigned,num_unassigned,unassigned_addresses,unique_addresses,unique_coords,avg_data_completeness,min_data_completeness,max_data_completeness
+St Johns Church,12,Has shared addresses,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,12,12,4.333333333333333,4,5
+North Farnham Parish Church,5,Has shared addresses,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,4,5,4,4,4
+St Pauls Church Nomini Grove,4,Has shared addresses,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,3,4,3.25,3,4

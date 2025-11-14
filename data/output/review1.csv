@@ -1,0 +1,32 @@
+congregation_name,property_count,address_status,has_shared_address,shared_addresses,shared_cities,num_shared_addresses,has_unassigned,num_unassigned,unassigned_addresses,unique_addresses,unique_coords,avg_data_completeness,min_data_completeness,max_data_completeness
+St Johns Episcopal Church,13,Both shared AND unassigned addresses,TRUE,"UNASSIGNED, WEST POINT 23181",WEST POINT,1,TRUE,6,"UNASSIGNED, WEST POINT 23181 | UNASSIGNED 23181",6,13,4.6923076923076925,4,5
+St Pauls Church,9,Both shared AND unassigned addresses,TRUE,"UNASSIGNED, WEST POINT 23181",WEST POINT,1,TRUE,6,"UNASSIGNED, WEST POINT 23181",4,9,4.444444444444445,4,6
+St Stephens Church,6,Has unassigned addresses,FALSE,None,NA,0,TRUE,2,UNASSIGNED 20119,5,6,5.333333333333333,5,6
+St Andrews Church,3,Has unassigned addresses,FALSE,None,NA,0,TRUE,1,,2,3,2.6666666666666665,0,4
+Church of the Spirit,NA,Has unassigned addresses,FALSE,None,NA,0,TRUE,1,,NA,NA,NA,NA,NA
+La Iglesia de San Jose,NA,Has unassigned addresses,FALSE,None,NA,0,TRUE,1,,NA,NA,NA,NA,NA
+Olivet Church,NA,Has unassigned addresses,FALSE,None,NA,0,TRUE,1,,NA,NA,NA,NA,NA
+St Francis Korean Church,NA,Has unassigned addresses,FALSE,None,NA,0,TRUE,1,,NA,NA,NA,NA,NA
+St Johns Church,12,Has shared addresses,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,12,12,4.333333333333333,4,5
+North Farnham Parish Church,5,Has shared addresses,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,4,5,4,4,4
+St Pauls Church Nomini Grove,4,Has shared addresses,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,3,4,3.25,3,4
+Aquia Church,9,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,6,9,5.111111111111111,5,6
+St James Church,5,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,3,5,2.6,2,3
+Emmanuel Church,3,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,3,3,4.666666666666667,4,5
+Grace Church Emmanuel Parish,3,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,3,3,5,5,5
+Holy Cross Korean Episcopal Church,3,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,3,3,5,5,5
+Immanuel Church,3,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,3,3,4.333333333333333,4,5
+Meade Memorial Church,3,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,3,3,5,5,5
+St Asaphs Church,3,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,3,4,4,4
+St Peters Church,3,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,3,4.333333333333333,4,5
+All Saints Sharon Chapel,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,1,2,5,5,5
+Christ Ascension Church,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
+Church of the Good Shepherd,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
+Little Fork Episcopal Church,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,4.5,4,5
+Piedmont/Bromfield Parish,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,4,4,4
+St Davids Church,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,4,4,4
+St Marys Church,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
+St Patricks Anglo Vietnamese Church,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
+St Pauls on the Hill Church,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,5.5,5,6
+St Stephen & the Good Shepherd,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,3,3,3
+Vauters Church,2,All addresses unique and assigned,FALSE,None,NA,0,FALSE,0,NA,2,2,4,4,4
