@@ -541,10 +541,9 @@ leaflet(top_10) %>%
 ---
 ## Data Quality Issues 
 
-One of the challenges revealed through CGS' original analysis was that many congregations share properties or do not accurately record their permanent address. As a result, some of the data used in this analysis had these persistent problems, which we attempted to sort and organize for future manual review. 
+One of the challenges revealed through CGS' original analysis was that many congregations share properties or do not accurately record their permanent address. As a result, some of the data used in this analysis had these persistent problems, which we attempted to sort and organize for future manual review. A large portion of the 126 parcels had incomplete data, which impacted the overall analysis. 
 
-```{r}
-#| echo: false
+```{r summary-stats, echo=FALSE}
 
 total_props <- nrow(property_profile)
 incomplete_data <- sum(property_profile$data_completeness < 6)
@@ -556,7 +555,7 @@ missing_addresses <- sum(is.na(property_profile$sadd) |
 **Key Findings:**
 
 - Total properties analyzed: `r total_props`
-- Properties with incomplete data: `r incomplete_data` (`r round(incomplete_data/total_props*100, 1)`%)
+- Properties with incomplete data: `r incomplete_data/total_props*100` 
 - Properties with missing/unassigned addresses: `r missing_addresses`
 
 ### Missing and Unassigned Addresses

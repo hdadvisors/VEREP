@@ -1,86 +1,121 @@
-# Load required libraries
+# ========================================
+# PROBLEM PROPERTIES ANALYSIS
+# Analysis of data quality issues for properties with <30 attendees
+# ========================================
+
+# ----------------
+# SECTION 1: SETUP
+# ----------------
 library(tidyverse)
 library(readr)
 library(scales)
-library(devtools)
-devtools::install_github("hdadvisors/hdatools", force = TRUE)
-library(hdatools)
-library(ggplot2)
-library(dplyr)
 
-# Load the RDS file
+# Load processed property data
 property_profile <- readRDS("data/output/property_profile.rds")
 
-# Identify the "problem children" - properties with multiple missing fields
-problem_properties <- property_profile %>%
+cat("=== DATA LOADED ===\n")
+cat(sprintf("Total properties: %d\n", nrow(property_profile)))
+cat(sprintf("Properties with incomplete data (score <6): %d\n\n", 
+            sum(property_profile$data_completeness < 6)))
+
+# ----------------
+# SECTION 2: DATA COMPLETENESS ANALYSIS
+# ----------------
+
+cat("\n=== SECTION 2: DATA COMPLETENESS ===\n")
+
+# Identify properties with missing data
+incomplete_properties <- property_profile %>%
   filter(data_completeness < 6) %>%
   arrange(data_completeness) %>%
-  select(congregation_name, data_completeness, missing_land_value, missing_acreage, 
-         missing_wetland, missing_flood, missing_qct, missing_zoning)
+  select(congregation_name, data_completeness, sadd, scity, sstate, szip,
+         missing_land_value, missing_acreage, missing_wetland, 
+         missing_flood, missing_qct, missing_zoning)
 
-cat(sprintf("\nProperties with Most Missing Data (completeness score < 6):\n"))
-if(nrow(problem_properties) > 0) {
-  # Show top 10 worst cases
-  top_problems <- head(problem_properties, 10)
-  for(i in 1:nrow(top_problems)) {
-    missing_fields <- c()
-    if(top_problems$missing_land_value[i]) missing_fields <- c(missing_fields, "land value")
-    if(top_problems$missing_acreage[i]) missing_fields <- c(missing_fields, "acreage")
-    if(top_problems$missing_wetland[i]) missing_fields <- c(missing_fields, "wetlands")
-    if(top_problems$missing_flood[i]) missing_fields <- c(missing_fields, "flood zone")
-    if(top_problems$missing_qct[i]) missing_fields <- c(missing_fields, "QCT")
-    if(top_problems$missing_zoning[i]) missing_fields <- c(missing_fields, "zoning")
-    
-    cat(sprintf("  • %s (score: %d/6) - Missing: %s\n", 
-                top_problems$congregation_name[i],
-                top_problems$data_completeness[i],
-                paste(missing_fields, collapse = ", ")))
-  }
-} else {
-  cat("  None - all properties have complete data!\n")
+# Print summary of worst cases
+cat(sprintf("\nProperties with incomplete data: %d\n", nrow(incomplete_properties)))
+cat("\nTop 10 worst cases:\n")
+top_problems <- head(incomplete_properties, 10)
+for(i in 1:nrow(top_problems)) {
+  missing_fields <- c()
+  if(top_problems$missing_land_value[i]) missing_fields <- c(missing_fields, "land value")
+  if(top_problems$missing_acreage[i]) missing_fields <- c(missing_fields, "acreage")
+  if(top_problems$missing_wetland[i]) missing_fields <- c(missing_fields, "wetlands")
+  if(top_problems$missing_flood[i]) missing_fields <- c(missing_fields, "flood zone")
+  if(top_problems$missing_qct[i]) missing_fields <- c(missing_fields, "QCT")
+  if(top_problems$missing_zoning[i]) missing_fields <- c(missing_fields, "zoning")
+  
+  cat(sprintf("  • %s (score: %d/6) - Missing: %s\n", 
+              top_problems$congregation_name[i],
+              top_problems$data_completeness[i],
+              paste(missing_fields, collapse = ", ")))
 }
-cat("===========================================\n")
 
-# Export key findings
-# For leadership - high-level opportunities
-leadership_report <- property_profile %>%
-  filter(development_potential %in% c("High Potential", "Moderate Potential")) %>%
-  select(congregation_name, attendance_2023, lan_val, rgisacre, 
-         development_potential, qct, scity, sstate)
+# ----------------
+# SECTION 3: ADDRESS QUALITY ANALYSIS
+# ----------------
 
-write_csv(leadership_report, "data/output/verep_top_opportunities.csv")
+cat("\n=== SECTION 3: ADDRESS QUALITY ===\n")
 
-# For data team - properties needing follow-up (the "problem children")
-data_followup <- property_profile %>%
-  filter(data_completeness < 6) %>%
-  select(congregation_name, data_completeness, sadd, scity, sstate, szip, missing_land_value, 
-         missing_acreage, missing_wetland, missing_flood, missing_qct, missing_zoning,
-         scity, sstate) %>%
-  arrange(data_completeness)
+# 3A: Unassigned/Missing Addresses
+unassigned_addresses <- property_profile %>%
+  filter(is.na(sadd) | sadd == "" | grepl("UNASSIGNED", sadd, ignore.case = TRUE)) %>%
+  group_by(congregation_name) %>%
+  summarise(
+    num_unassigned = n(),
+    unassigned_addresses = paste(unique(sadd[!is.na(sadd) & sadd != ""]), collapse = " | "),
+    cities = paste(unique(scity[!is.na(scity)]), collapse = ", "),
+    has_coords = sum(!is.na(lat) & !is.na(lon)),
+    sample_lat = first(lat[!is.na(lat)]),
+    sample_lon = first(lon[!is.na(lon)]),
+    .groups = 'drop'
+  ) %>%
+  arrange(desc(num_unassigned))
 
-write_csv(data_followup, "data/output/verep_data_needed.csv")
+cat(sprintf("\nCongregations with unassigned/missing addresses: %d\n", 
+            nrow(unassigned_addresses)))
+cat(sprintf("Total properties affected: %d\n", 
+            sum(unassigned_addresses$num_unassigned)))
 
-# Full detailed analysis
-write_csv(property_profile, "data/output/verep_full_analysis.csv")
+# 3B: Shared Addresses (Different congregations at same location)
+shared_by_address <- property_profile %>%
+  filter(!is.na(sadd) & sadd != "") %>%
+  group_by(sadd, scity) %>%
+  filter(n_distinct(congregation_name) > 1) %>%
+  arrange(sadd, congregation_name) %>%
+  select(sadd, scity, congregation_name, attendance_2023, uid, pid) %>%
+  ungroup()
 
-# Export summary statistics
-write_csv(attendance_context, "data/output/verep_attendance_summary.csv")
-write_csv(opportunity_matrix, "data/output/verep_opportunity_matrix.csv")
+cat(sprintf("\nDifferent congregations at same address: %d addresses\n", 
+            n_distinct(shared_by_address$sadd)))
+cat(sprintf("Congregations affected: %d\n", 
+            n_distinct(shared_by_address$congregation_name)))
 
-cat("\n=== EXPORTS COMPLETE ===\n")
-cat("Files saved to output/ directory:\n")
-cat(sprintf("  • verep_top_opportunities.csv (%d properties)\n", nrow(leadership_report)))
-cat(sprintf("  • verep_data_needed.csv (%d properties with missing data)\n", nrow(data_followup)))
-cat(sprintf("  • verep_full_analysis.csv (%d properties)\n", nrow(property_profile)))
-cat("  • verep_attendance_summary.csv\n")
-cat("  • verep_opportunity_matrix.csv\n")
-cat("\nAnalysis complete!\n")
+# 3C: Shared Locations (by coordinates)
+shared_by_location <- property_profile %>%
+  filter(!is.na(lat) & !is.na(lon)) %>%
+  mutate(
+    lat_round = round(lat, 4),
+    lon_round = round(lon, 4)
+  ) %>%
+  group_by(lat_round, lon_round) %>%
+  filter(n_distinct(congregation_name) > 1) %>%
+  arrange(lat_round, lon_round, congregation_name) %>%
+  select(lat_round, lon_round, sadd, scity, congregation_name, attendance_2023) %>%
+  ungroup()
 
-# ========================================
-# INVESTIGATE POTENTIAL DUPLICATE/MULTIPLE PROPERTIES
-# ========================================
+if(nrow(shared_by_location) > 0) {
+  cat(sprintf("Different congregations at same coordinates: %d locations\n", 
+              n_distinct(paste(shared_by_location$lat_round, shared_by_location$lon_round))))
+}
 
-# 1. Count properties per congregation
+# ----------------
+# SECTION 4: MULTI-PROPERTY CONGREGATION ANALYSIS
+# ----------------
+
+cat("\n=== SECTION 4: MULTI-PROPERTY CONGREGATIONS ===\n")
+
+# Count properties per congregation
 properties_per_congregation <- property_profile %>%
   group_by(congregation_name) %>%
   summarise(
@@ -95,33 +130,38 @@ properties_per_congregation <- property_profile %>%
   ) %>%
   arrange(desc(property_count))
 
-cat("\n=== CONGREGATIONS WITH MULTIPLE PROPERTIES ===\n")
-print(head(properties_per_congregation, 20))
+cat(sprintf("Congregations with multiple properties: %d\n", 
+            sum(properties_per_congregation$property_count > 1)))
 
-# 2. Focus on congregations with incomplete data AND multiple properties
+# Identify "problem congregations" (multiple properties + incomplete data)
 problem_congregations <- properties_per_congregation %>%
   filter(property_count > 1 & min_data_completeness < 6)
 
-cat(sprintf("\n%d congregations have multiple properties with incomplete data\n", 
+cat(sprintf("Problem congregations (multiple properties + incomplete data): %d\n", 
             nrow(problem_congregations)))
 
-# First, identify congregations with unassigned addresses
-unassigned_addresses <- property_profile %>%
-  filter(is.na(sadd) | sadd == "" | grepl("UNASSIGNED", sadd, ignore.case = TRUE)) %>%
-  group_by(congregation_name) %>%
-  summarise(
-    has_unassigned = TRUE,
-    num_unassigned = n(),
-    unassigned_addresses = paste(unique(sadd[!is.na(sadd) & sadd != ""]), collapse = " | "),
-    .groups = 'drop'
-  )
+# Check for potential duplicates (same congregation, same coordinates)
+potential_duplicates <- property_profile %>%
+  filter(!is.na(lat) & !is.na(lon)) %>%
+  group_by(congregation_name, lat, lon) %>%
+  filter(n() > 1) %>%
+  arrange(congregation_name, lat, lon) %>%
+  select(congregation_name, uid, pid, sadd, scity, lat, lon, 
+         rgisacre, lan_val, data_completeness) %>%
+  ungroup()
 
-cat("\n=== CONGREGATIONS WITH UNASSIGNED ADDRESSES ===\n")
-cat(sprintf("Found %d congregations with unassigned/missing addresses\n\n", 
-            nrow(unassigned_addresses)))
-print(unassigned_addresses)
+if(nrow(potential_duplicates) > 0) {
+  cat(sprintf("Potential duplicate records (same location): %d properties\n", 
+              nrow(potential_duplicates)))
+}
 
-# Enhanced comparison with BOTH shared and unassigned addresses
+# ----------------
+# SECTION 5: COMPREHENSIVE PROBLEM IDENTIFICATION
+# ----------------
+
+cat("\n=== SECTION 5: COMPREHENSIVE PROBLEM MATRIX ===\n")
+
+# Combine all problem flags into one comprehensive view
 full_comparison <- problem_congregations %>%
   full_join(
     shared_by_address %>% 
@@ -137,18 +177,34 @@ full_comparison <- problem_congregations %>%
     by = "congregation_name"
   ) %>%
   full_join(
-    unassigned_addresses,
+    unassigned_addresses %>%
+      select(congregation_name, num_unassigned, unassigned_addresses, 
+             cities, has_coords, sample_lat, sample_lon),
+    by = "congregation_name"
+  ) %>%
+  left_join(
+    # Add location info from property_profile
+    property_profile %>%
+      group_by(congregation_name) %>%
+      summarise(
+        scity = first(scity[!is.na(scity)]),
+        scounty = first(scounty[!is.na(scounty)]),
+        szip = first(szip[!is.na(szip)]),
+        lat = first(lat[!is.na(lat)]),
+        lon = first(lon[!is.na(lon)]),
+        .groups = 'drop'
+      ),
     by = "congregation_name"
   ) %>%
   mutate(
     has_shared_address = replace_na(has_shared_address, FALSE),
-    has_unassigned = replace_na(has_unassigned, FALSE),
+    has_unassigned = !is.na(num_unassigned) & num_unassigned > 0,
     shared_addresses = replace_na(shared_addresses, "None"),
     num_shared_addresses = replace_na(num_shared_addresses, 0),
     num_unassigned = replace_na(num_unassigned, 0),
-    # Create a combined address status flag
+    # Create comprehensive address status flag
     address_status = case_when(
-      has_shared_address & has_unassigned ~ "Both shared AND unassigned addresses",
+      has_shared_address & has_unassigned ~ "Both shared AND unassigned",
       has_shared_address ~ "Has shared addresses",
       has_unassigned ~ "Has unassigned addresses",
       TRUE ~ "All addresses unique and assigned"
@@ -156,18 +212,13 @@ full_comparison <- problem_congregations %>%
   ) %>%
   arrange(desc(has_unassigned), desc(has_shared_address), desc(property_count)) %>%
   select(congregation_name, property_count, address_status,
+         scity, scounty, szip, lat, lon,  
          has_shared_address, shared_addresses, shared_cities, num_shared_addresses,
          has_unassigned, num_unassigned, unassigned_addresses,
          unique_addresses, unique_coords, avg_data_completeness,
          min_data_completeness, max_data_completeness)
 
-cat("\n=== FULL COMPARISON WITH SHARED & UNASSIGNED ADDRESSES ===\n")
-print(full_comparison)
-
-# Export
-write_csv(full_comparison, "data/output/review1.csv")
-
-# Break out specific problem categories (mutually exclusive)
+# Break out mutually exclusive categories
 shared_only <- full_comparison %>%
   filter(has_shared_address == TRUE & has_unassigned == FALSE)
 
@@ -177,117 +228,18 @@ unassigned_only <- full_comparison %>%
 both_issues <- full_comparison %>%
   filter(has_shared_address == TRUE & has_unassigned == TRUE)
 
-# Display summaries
-cat("\n=== SUMMARY BY ADDRESS STATUS ===\n")
-cat(sprintf("Problem congregations with shared addresses: %d\n", nrow(shared_only)))
-cat(sprintf("Problem congregations with unassigned addresses: %d\n", nrow(unassigned_only)))
-cat(sprintf("Problem congregations with BOTH issues: %d\n", nrow(both_issues)))
+cat("\nProblem categories:\n")
+cat(sprintf("  • Shared addresses only: %d\n", nrow(shared_only)))
+cat(sprintf("  • Unassigned addresses only: %d\n", nrow(unassigned_only)))
+cat(sprintf("  • Both issues: %d (HIGHEST PRIORITY)\n", nrow(both_issues)))
 
-# Export separate files for each category
-if(nrow(shared_only) > 0) {
-  cat("\n=== CONGREGATIONS WITH SHARED ADDRESSES ===\n")
-  print(shared_only)
-  write_csv(shared_only, "data/output/problem_congregations_with_shared_addresses.csv")
-}
+# ----------------
+# SECTION 6: CONGREGATION-LEVEL SUMMARY
+# ----------------
 
-if(nrow(unassigned_only) > 0) {
-  cat("\n=== CONGREGATIONS WITH UNASSIGNED ADDRESSES ===\n")
-  print(unassigned_only)
-  write_csv(unassigned_only, "data/output/problem_congregations_with_unassigned_addresses.csv")
-}
+cat("\n=== SECTION 6: CONGREGATION-LEVEL SUMMARY ===\n")
 
-if(nrow(both_issues) > 0) {
-  cat("\n=== CONGREGATIONS WITH BOTH SHARED AND UNASSIGNED ===\n")
-  print(both_issues)
-  write_csv(both_issues, "data/output/problem_congregations_with_both_issues.csv")
-}
-
-cat("\n=== EXPORTS COMPLETE ===\n")
-
-
-# 3. Detailed view of specific congregation's properties
-inspect_congregation <- function(congregation_name) {
-  cat(sprintf("\n=== DETAILED VIEW: %s ===\n", congregation_name))
-  
-  congregation_properties <- property_profile %>%
-    filter(congregation_name == congregation_name) %>%
-    select(uid, pid, sadd, scity, szip, lat, lon, 
-           rgisacre, lan_val, data_completeness,
-           missing_land_value, missing_acreage, missing_wetland, 
-           missing_flood, missing_qct, missing_zoning)
-  
-  print(congregation_properties)
-  
-  # Check if coordinates are truly different
-  if(nrow(congregation_properties) > 1) {
-    coords_check <- congregation_properties %>%
-      select(uid, pid, lat, lon) %>%
-      mutate(
-        lat_diff = abs(lat - lag(lat)),
-        lon_diff = abs(lon - lag(lon))
-      )
-    
-    cat("\nCoordinate differences:\n")
-    print(coords_check)
-    
-    # Flag likely duplicates (same coordinates)
-    same_location <- coords_check %>%
-      filter(lat_diff < 0.0001 | is.na(lat_diff)) %>%
-      nrow()
-    
-    if(same_location > 1) {
-      cat(sprintf("\n⚠️  WARNING: %d properties appear to be at the same location\n", same_location))
-    }
-  }
-}
-
-# Inspect a few examples
-if(nrow(problem_congregations) > 0) {
-  cat("\n=== INSPECTING TOP 3 PROBLEM CONGREGATIONS ===\n")
-  for(i in 1:min(3, nrow(problem_congregations))) {
-    inspect_congregation(problem_congregations$congregation_name[i])
-  }
-}
-
-# 4. Identify likely true duplicates (same congregation + same coordinates)
-potential_duplicates <- property_profile %>%
-  filter(!is.na(lat) & !is.na(lon)) %>%
-  group_by(congregation_name, lat, lon) %>%
-  filter(n() > 1) %>%
-  arrange(congregation_name, lat, lon) %>%
-  select(congregation_name, uid, pid, sadd, scity, lat, lon, 
-         rgisacre, lan_val, data_completeness)
-
-if(nrow(potential_duplicates) > 0) {
-  cat(sprintf("\n=== POTENTIAL DUPLICATES (Same Location) ===\n"))
-  cat(sprintf("Found %d properties that share coordinates with another property\n\n", 
-              nrow(potential_duplicates)))
-  print(potential_duplicates)
-} else {
-  cat("\nNo duplicate coordinates found - all properties are at unique locations\n")
-}
-
-# 5. Identify adjacent parcels (likely legitimately separate)
-adjacent_parcels <- property_profile %>%
-  filter(!is.na(lat) & !is.na(lon)) %>%
-  group_by(congregation_name) %>%
-  filter(n() > 1) %>%
-  arrange(congregation_name, sadd) %>%
-  select(congregation_name, uid, pid, sadd, scity, lat, lon, 
-         rgisacre, lan_val, data_completeness)
-
-cat(sprintf("\n=== ADJACENT/MULTIPLE PARCELS (Unique Coordinates) ===\n"))
-cat(sprintf("Found %d properties from %d congregations with multiple parcels\n\n",
-            nrow(adjacent_parcels),
-            n_distinct(adjacent_parcels$congregation_name)))
-
-# Show examples
-if(nrow(adjacent_parcels) > 0) {
-  cat("Examples of congregations with multiple distinct parcels:\n")
-  print(head(adjacent_parcels, 15))
-}
-
-# 6. Create a cleaner summary: one row per congregation
+# Roll up all properties to congregation level
 congregation_summary <- property_profile %>%
   group_by(congregation_name) %>%
   summarise(
@@ -302,20 +254,17 @@ congregation_summary <- property_profile %>%
     worst_data_completeness = min(data_completeness, na.rm = TRUE),
     addresses = paste(unique(sadd[!is.na(sadd)]), collapse = "; "),
     cities = paste(unique(scity[!is.na(scity)]), collapse = ", "),
-    # Keep key attendance data
     attendance_2023 = first(attendance_2023),
     members_2023 = first(members_2023),
     .groups = 'drop'
   ) %>%
   arrange(desc(num_parcels), desc(total_land_value))
 
-cat("\n=== CONGREGATION-LEVEL SUMMARY (All Parcels Combined) ===\n")
-print(head(congregation_summary, 20))
+cat(sprintf("Total unique congregations: %d\n", nrow(congregation_summary)))
+cat(sprintf("Congregations with multiple parcels: %d\n", 
+            sum(congregation_summary$num_parcels > 1)))
 
-# Export this cleaner view
-write_csv(congregation_summary, "data/output/verep_congregation_summary.csv")
-
-# 7. Decision matrix: What to do with each congregation
+# Create action plan
 action_needed <- congregation_summary %>%
   mutate(
     recommended_action = case_when(
@@ -334,121 +283,78 @@ action_needed <- congregation_summary %>%
          worst_data_completeness, recommended_action, total_acres, 
          total_land_value, addresses)
 
-cat("\n=== RECOMMENDED ACTIONS ===\n")
-print(action_needed %>% filter(worst_data_completeness < 6))
+# ----------------
+# SECTION 7: EXPORTS
+# ----------------
 
-write_csv(action_needed, "data/output/verep_action_plan.csv")
+cat("\n=== SECTION 7: EXPORTING RESULTS ===\n")
 
-# 8. Specific check for properties with "UNASSIGNED" addresses
-unassigned_properties <- property_profile %>%
-  filter(grepl("UNASSIGNED", sadd, ignore.case = TRUE)) %>%
-  select(congregation_name, uid, pid, sadd, scity, lat, lon, 
-         rgisacre, lan_val, data_completeness) %>%
-  arrange(congregation_name)
+# Create output directory if needed
+dir.create("data/output", recursive = TRUE, showWarnings = FALSE)
 
-if(nrow(unassigned_properties) > 0) {
-  cat(sprintf("\n=== PROPERTIES WITH 'UNASSIGNED' ADDRESSES ===\n"))
-  cat(sprintf("Found %d properties with unassigned addresses\n\n", 
-              nrow(unassigned_properties)))
-  print(unassigned_properties)
-}
+# Export data quality issues
+write_csv(incomplete_properties, "data/output/incomplete_properties.csv")
+cat("✓ Exported incomplete_properties.csv\n")
 
-cat("\n=== EXPORTS COMPLETE ===\n")
-cat("New analysis files saved:\n")
-cat("  • verep_congregation_summary.csv - One row per congregation\n")
-cat("  • verep_action_plan.csv - Recommended next steps\n")
+# Export address issues
+write_csv(unassigned_addresses, "data/output/unassigned_addresses.csv")
+cat("✓ Exported unassigned_addresses.csv\n")
 
-# ========================================
-# FIND DIFFERENT CONGREGATIONS AT SAME ADDRESS - SIMPLIFIED
-# ========================================
+write_csv(shared_by_address, "data/output/shared_addresses.csv")
+cat("✓ Exported shared_addresses.csv\n")
 
-# Method 1: Check by street address
-shared_by_address <- property_profile %>%
-  filter(!is.na(sadd) & sadd != "") %>%
-  group_by(sadd) %>%
-  filter(n_distinct(congregation_name) > 1) %>%
-  arrange(sadd, congregation_name) %>%
-  select(sadd, scity, congregation_name, attendance_2023, uid, pid) %>%
-  ungroup()
-
-cat("\n=== DIFFERENT CONGREGATIONS AT SAME ADDRESS ===\n")
-if(nrow(shared_by_address) > 0) {
-  cat(sprintf("Found %d properties with different congregations at same address\n\n", 
-              nrow(shared_by_address)))
-  print(shared_by_address)
-  write_csv(shared_by_address, "data/output/shared_addresses.csv")
-} else {
-  cat("No shared addresses found\n")
-}
-
-# Method 2: Check by coordinates (location)
-shared_by_location <- property_profile %>%
-  filter(!is.na(lat) & !is.na(lon)) %>%
-  mutate(
-    lat_round = round(lat, 4),
-    lon_round = round(lon, 4)
-  ) %>%
-  group_by(lat_round, lon_round) %>%
-  filter(n_distinct(congregation_name) > 1) %>%
-  arrange(lat_round, lon_round, congregation_name) %>%
-  select(lat_round, lon_round, sadd, scity, congregation_name, attendance_2023) %>%
-  ungroup()
-
-cat("\n=== DIFFERENT CONGREGATIONS AT SAME LOCATION ===\n")
 if(nrow(shared_by_location) > 0) {
-  cat(sprintf("Found %d properties with different congregations at same location\n\n", 
-              nrow(shared_by_location)))
-  print(shared_by_location)
   write_csv(shared_by_location, "data/output/shared_locations.csv")
-} else {
-  cat("No shared locations found\n")
+  cat("✓ Exported shared_locations.csv\n")
 }
 
-cat("\nDone!\n")
+# Export multi-property analysis
+write_csv(properties_per_congregation, "data/output/properties_per_congregation.csv")
+cat("✓ Exported properties_per_congregation.csv\n")
 
-cat("\n=== SUMMARY ===\n")
-cat(sprintf("Congregations with problems: %d\n", nrow(problem_congregations)))
-cat(sprintf("Congregations sharing addresses: %d\n", 
-            n_distinct(shared_by_address$congregation_name)))
-cat(sprintf("Congregations in BOTH lists: %d\n", 
-            sum(problem_congregations$congregation_name %in% shared_by_address$congregation_name)))
+if(nrow(potential_duplicates) > 0) {
+  write_csv(potential_duplicates, "data/output/potential_duplicates.csv")
+  cat("✓ Exported potential_duplicates.csv\n")
+}
 
-
-# Enhanced comparison with addresses included
-full_comparison <- problem_congregations %>%
-  full_join(
-    shared_by_address %>% 
-      group_by(congregation_name) %>%
-      summarise(
-        has_shared_address = TRUE,
-        shared_addresses = paste(unique(sadd), collapse = " | "),
-        shared_cities = paste(unique(scity), collapse = ", "),
-        num_shared_addresses = n_distinct(sadd),
-        other_congregations_at_address = n_distinct(congregation_name) - 1,
-        .groups = 'drop'
-      ),
-    by = "congregation_name"
-  ) %>%
-  mutate(
-    has_shared_address = replace_na(has_shared_address, FALSE),
-    shared_addresses = replace_na(shared_addresses, "None"),
-    num_shared_addresses = replace_na(num_shared_addresses, 0)
-  ) %>%
-  arrange(desc(has_shared_address), desc(property_count)) %>%
-  select(congregation_name, property_count, has_shared_address, 
-         shared_addresses, shared_cities, num_shared_addresses,
-         unique_addresses, unique_coords, avg_data_completeness,
-         min_data_completeness, max_data_completeness)
-
-cat("\n=== FULL COMPARISON WITH ADDRESSES ===\n")
-print(full_comparison)
-
-# Show just the ones WITH shared addresses for easier review
-shared_only <- full_comparison %>%
-  filter(has_shared_address == TRUE)
+# Export comprehensive problem matrix
+write_csv(full_comparison, "data/output/problem_matrix_comprehensive.csv")
+cat("✓ Exported problem_matrix_comprehensive.csv\n")
 
 if(nrow(shared_only) > 0) {
-  cat("\n=== PROBLEM CONGREGATIONS THAT SHARE ADDRESSES ===\n")
-  print(shared_only)
-  write_csv(shared_only, "data/output/problem_congregations_with_shared_addresses.csv")
+  write_csv(shared_only, "data/output/problem_shared_only.csv")
+  cat("✓ Exported problem_shared_only.csv\n")
 }
+
+if(nrow(unassigned_only) > 0) {
+  write_csv(unassigned_only, "data/output/problem_unassigned_only.csv")
+  cat("✓ Exported problem_unassigned_only.csv\n")
+}
+
+if(nrow(both_issues) > 0) {
+  write_csv(both_issues, "data/output/problem_both_issues.csv")
+  cat("✓ Exported problem_both_issues.csv (HIGHEST PRIORITY)\n")
+}
+
+# Export congregation summaries
+write_csv(congregation_summary, "data/output/congregation_summary.csv")
+cat("✓ Exported congregation_summary.csv\n")
+
+write_csv(action_needed, "data/output/action_plan.csv")
+cat("✓ Exported action_plan.csv\n")
+
+# ----------------
+# SECTION 8: FINAL SUMMARY
+# ----------------
+
+cat("\n")
+cat("===========================================\n")
+cat("PROBLEM PROPERTIES ANALYSIS COMPLETE\n")
+cat("===========================================\n")
+cat(sprintf("Total properties analyzed: %d\n", nrow(property_profile)))
+cat(sprintf("Properties with data issues: %d\n", nrow(incomplete_properties)))
+cat(sprintf("Congregations with address issues: %d\n", 
+            nrow(unassigned_addresses) + n_distinct(shared_by_address$congregation_name)))
+cat(sprintf("Congregations needing immediate attention: %d\n", nrow(both_issues)))
+cat("\nAll outputs saved to data/output/\n")
+cat("===========================================\n")
