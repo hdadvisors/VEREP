@@ -541,7 +541,7 @@ leaflet(top_10) %>%
 ---
 ## Data Quality Issues 
 
-One of the challenges revealed through CGS' original analysis was that many congregations share properties or do not accurately record their permanent address. Therefore, some of the data used in this analysis had these problems, which we attempted to sort and organize for future manual review. 
+One of the challenges revealed through CGS' original analysis was that many congregations share properties or do not accurately record their permanent address. As a result, some of the data used in this analysis had these persistent problems, which we attempted to sort and organize for future manual review. 
 
 ```{r}
 #| echo: false
@@ -561,7 +561,7 @@ missing_addresses <- sum(is.na(property_profile$sadd) |
 
 ### Missing and Unassigned Addresses
 
-These congregations have properties without proper street addresses, making them difficult to verify or inspect for development. Luckily, some have coordinates, which can be verified with county tax records. 
+These congregations have properties without proper street addresses, making them difficult to verify or inspect for development.  
 
 ```{r unassigned-analysis}
 #| echo: false
@@ -581,7 +581,7 @@ missing_addresses <- missing_addresses %>%
 ```
 ### Properties without coordinates
 
-
+which can be verified with county tax records. 
 
 
 
@@ -595,6 +595,12 @@ Properties sharing addresses may indicate:
 3. **Rental arrangements** - one congregation renting to another
 4. **Merged congregations** - maintaining separate legal entities
 5. **Data quality issues** - duplicate records or address errors
+
+These properties will require verification with diocese or congregation before full determinations can be made.
+
+**`r sum(full_comparison$has_unassigned & !full_comparison$has_shared_address)` congregations** with unassigned addresses - verify using coordinates or tax records.
+
+**`r sum(full_comparison$has_shared_address & !full_comparison$has_unassigned)` congregations** with shared addresses - confirm ownership and arrangements.
 
 ```
 # Summary Statistics
