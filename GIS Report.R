@@ -559,7 +559,7 @@ write_csv(leadership_report, "data/output/verep_top_opportunities.csv")
 # For data team - properties needing follow-up (the "problem children")
 data_followup <- property_profile %>%
   filter(data_completeness < 6) %>%
-  select(congregation_name, data_completeness, missing_land_value, 
+  select(congregation_name, data_completeness, sadd, scity, sstate, szip, missing_land_value, 
          missing_acreage, missing_wetland, missing_flood, missing_qct, missing_zoning,
          scity, sstate) %>%
   arrange(data_completeness)
