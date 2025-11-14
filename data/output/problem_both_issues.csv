@@ -1,0 +1,3 @@
+congregation_name,property_count,address_status,scity,scounty,szip,lat,lon,has_shared_address,shared_addresses,shared_cities,num_shared_addresses,has_unassigned,num_unassigned,unassigned_addresses,unique_addresses,unique_coords,avg_data_completeness,min_data_completeness,max_data_completeness
+St Johns Episcopal Church,13,Both shared AND unassigned,ARLINGTON,ARLINGTON,22204,38.862425,-77.12766,TRUE,"UNASSIGNED, WEST POINT 23181",WEST POINT,1,TRUE,6,"UNASSIGNED, WEST POINT 23181 | UNASSIGNED 23181",6,13,4.6923076923076925,4,5
+St Pauls Church,9,Both shared AND unassigned,SHENANDOAH,PAGE,22849,38.520194,-78.58212,TRUE,"UNASSIGNED, WEST POINT 23181",WEST POINT,1,TRUE,6,"UNASSIGNED, WEST POINT 23181",4,9,4.444444444444445,4,6

@@ -1,0 +1,4 @@
+congregation_name,property_count,address_status,scity,scounty,szip,lat,lon,has_shared_address,shared_addresses,shared_cities,num_shared_addresses,has_unassigned,num_unassigned,unassigned_addresses,unique_addresses,unique_coords,avg_data_completeness,min_data_completeness,max_data_completeness
+St Johns Church,12,Has shared addresses,WARSAW,RICHMOND,22572,37.957876,-76.755236,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,12,12,4.333333333333333,4,5
+North Farnham Parish Church,5,Has shared addresses,FARNHAM,RICHMOND,22460,37.886625,-76.624605,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,4,5,4,4,4
+St Pauls Church Nomini Grove,4,Has shared addresses,COLONIAL BEACH,WESTMORELAND,22443,38.228408,-77.037685,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,3,4,3.25,3,4

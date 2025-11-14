@@ -1,0 +1,9 @@
+congregation_name,num_unassigned,unassigned_addresses,cities,has_coords,sample_lat,sample_lon
+St Johns Episcopal Church,6,"UNASSIGNED, WEST POINT 23181 | UNASSIGNED 23181","WEST POINT, UNASSIGNED",6,37.533466,-76.797114
+St Pauls Church,6,"UNASSIGNED, WEST POINT 23181",WEST POINT,6,37.538384,-76.797358
+St Stephens Church,2,UNASSIGNED 20119,UNASSIGNED,2,38.681191,-77.668450000000007
+Church of the Spirit,1,,,0,NA,NA
+La Iglesia de San Jose,1,,,0,NA,NA
+Olivet Church,1,,,0,NA,NA
+St Andrews Church,1,,,0,NA,NA
+St Francis Korean Church,1,,,0,NA,NA

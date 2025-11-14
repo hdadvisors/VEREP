@@ -1,0 +1,7 @@
+congregation_name,property_count,address_status,scity,scounty,szip,lat,lon,has_shared_address,shared_addresses,shared_cities,num_shared_addresses,has_unassigned,num_unassigned,unassigned_addresses,unique_addresses,unique_coords,avg_data_completeness,min_data_completeness,max_data_completeness
+St Stephens Church,6,Has unassigned addresses,CATLETT,FAUQUIER,20119,38.679517,-77.667521,FALSE,None,NA,0,TRUE,2,UNASSIGNED 20119,5,6,5.333333333333333,5,6
+St Andrews Church,3,Has unassigned addresses,MOUNT JACKSON,SHENANDOAH,22842,38.747601,-78.641317,FALSE,None,NA,0,TRUE,1,,2,3,2.6666666666666665,0,4
+Church of the Spirit,NA,Has unassigned addresses,NA,NA,NA,NA,NA,FALSE,None,NA,0,TRUE,1,,NA,NA,NA,NA,NA
+La Iglesia de San Jose,NA,Has unassigned addresses,NA,NA,NA,NA,NA,FALSE,None,NA,0,TRUE,1,,NA,NA,NA,NA,NA
+Olivet Church,NA,Has unassigned addresses,NA,NA,NA,NA,NA,FALSE,None,NA,0,TRUE,1,,NA,NA,NA,NA,NA
+St Francis Korean Church,NA,Has unassigned addresses,NA,NA,NA,NA,NA,FALSE,None,NA,0,TRUE,1,,NA,NA,NA,NA,NA

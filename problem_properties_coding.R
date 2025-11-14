@@ -1,11 +1,10 @@
-# ========================================
-# PROBLEM PROPERTIES ANALYSIS
-# Analysis of data quality issues for properties with <30 attendees
-# ========================================
 
-# ----------------
-# SECTION 1: SETUP
-# ----------------
+# PROBLEM PROPERTIES ANALYSIS 
+# Analysis of data quality issues for properties with <30 attendees
+
+
+# SECTION 1: SETUP ----
+
 library(tidyverse)
 library(readr)
 library(scales)
@@ -18,13 +17,13 @@ cat(sprintf("Total properties: %d\n", nrow(property_profile)))
 cat(sprintf("Properties with incomplete data (score <6): %d\n\n", 
             sum(property_profile$data_completeness < 6)))
 
-# ----------------
-# SECTION 2: DATA COMPLETENESS ANALYSIS
-# ----------------
+
+# SECTION 2: DATA COMPLETENESS ANALYSIS ----
+
 
 cat("\n=== SECTION 2: DATA COMPLETENESS ===\n")
 
-# Identify properties with missing data
+## Identify properties with missing data ----
 incomplete_properties <- property_profile %>%
   filter(data_completeness < 6) %>%
   arrange(data_completeness) %>%
@@ -32,7 +31,7 @@ incomplete_properties <- property_profile %>%
          missing_land_value, missing_acreage, missing_wetland, 
          missing_flood, missing_qct, missing_zoning)
 
-# Print summary of worst cases
+## Print summary of worst cases ----
 cat(sprintf("\nProperties with incomplete data: %d\n", nrow(incomplete_properties)))
 cat("\nTop 10 worst cases:\n")
 top_problems <- head(incomplete_properties, 10)
@@ -51,13 +50,13 @@ for(i in 1:nrow(top_problems)) {
               paste(missing_fields, collapse = ", ")))
 }
 
-# ----------------
-# SECTION 3: ADDRESS QUALITY ANALYSIS
-# ----------------
+
+# SECTION 3: ADDRESS QUALITY ANALYSIS ----
+
 
 cat("\n=== SECTION 3: ADDRESS QUALITY ===\n")
 
-# 3A: Unassigned/Missing Addresses
+## 3A: Unassigned/Missing Addresses ----
 unassigned_addresses <- property_profile %>%
   filter(is.na(sadd) | sadd == "" | grepl("UNASSIGNED", sadd, ignore.case = TRUE)) %>%
   group_by(congregation_name) %>%
@@ -77,7 +76,7 @@ cat(sprintf("\nCongregations with unassigned/missing addresses: %d\n",
 cat(sprintf("Total properties affected: %d\n", 
             sum(unassigned_addresses$num_unassigned)))
 
-# 3B: Shared Addresses (Different congregations at same location)
+## 3B: Shared Addresses (Different congregations at same location) ----
 shared_by_address <- property_profile %>%
   filter(!is.na(sadd) & sadd != "") %>%
   group_by(sadd, scity) %>%
@@ -91,7 +90,7 @@ cat(sprintf("\nDifferent congregations at same address: %d addresses\n",
 cat(sprintf("Congregations affected: %d\n", 
             n_distinct(shared_by_address$congregation_name)))
 
-# 3C: Shared Locations (by coordinates)
+## 3C: Shared Locations (by coordinates) ----
 shared_by_location <- property_profile %>%
   filter(!is.na(lat) & !is.na(lon)) %>%
   mutate(
@@ -109,13 +108,13 @@ if(nrow(shared_by_location) > 0) {
               n_distinct(paste(shared_by_location$lat_round, shared_by_location$lon_round))))
 }
 
-# ----------------
-# SECTION 4: MULTI-PROPERTY CONGREGATION ANALYSIS
-# ----------------
+
+# SECTION 4: MULTI-PROPERTY CONGREGATION ANALYSIS ----
+
 
 cat("\n=== SECTION 4: MULTI-PROPERTY CONGREGATIONS ===\n")
 
-# Count properties per congregation
+## Count properties per congregation ----
 properties_per_congregation <- property_profile %>%
   group_by(congregation_name) %>%
   summarise(
@@ -133,14 +132,14 @@ properties_per_congregation <- property_profile %>%
 cat(sprintf("Congregations with multiple properties: %d\n", 
             sum(properties_per_congregation$property_count > 1)))
 
-# Identify "problem congregations" (multiple properties + incomplete data)
+## Identify "problem congregations" (multiple properties + incomplete data) ----
 problem_congregations <- properties_per_congregation %>%
   filter(property_count > 1 & min_data_completeness < 6)
 
 cat(sprintf("Problem congregations (multiple properties + incomplete data): %d\n", 
             nrow(problem_congregations)))
 
-# Check for potential duplicates (same congregation, same coordinates)
+## Check for potential duplicates (same congregation, same coordinates) ----
 potential_duplicates <- property_profile %>%
   filter(!is.na(lat) & !is.na(lon)) %>%
   group_by(congregation_name, lat, lon) %>%
@@ -155,13 +154,13 @@ if(nrow(potential_duplicates) > 0) {
               nrow(potential_duplicates)))
 }
 
-# ----------------
-# SECTION 5: COMPREHENSIVE PROBLEM IDENTIFICATION
-# ----------------
+
+# SECTION 5: COMPREHENSIVE PROBLEM IDENTIFICATION ----
+
 
 cat("\n=== SECTION 5: COMPREHENSIVE PROBLEM MATRIX ===\n")
 
-# Combine all problem flags into one comprehensive view
+## Combine all problem flags into one comprehensive view ----
 full_comparison <- problem_congregations %>%
   full_join(
     shared_by_address %>% 
@@ -218,7 +217,7 @@ full_comparison <- problem_congregations %>%
          unique_addresses, unique_coords, avg_data_completeness,
          min_data_completeness, max_data_completeness)
 
-# Break out mutually exclusive categories
+## Break out mutually exclusive categories ----
 shared_only <- full_comparison %>%
   filter(has_shared_address == TRUE & has_unassigned == FALSE)
 
@@ -233,13 +232,13 @@ cat(sprintf("  • Shared addresses only: %d\n", nrow(shared_only)))
 cat(sprintf("  • Unassigned addresses only: %d\n", nrow(unassigned_only)))
 cat(sprintf("  • Both issues: %d (HIGHEST PRIORITY)\n", nrow(both_issues)))
 
-# ----------------
-# SECTION 6: CONGREGATION-LEVEL SUMMARY
-# ----------------
+
+# SECTION 6: CONGREGATION-LEVEL SUMMARY ----
+
 
 cat("\n=== SECTION 6: CONGREGATION-LEVEL SUMMARY ===\n")
 
-# Roll up all properties to congregation level
+## Roll up all properties to congregation level ----
 congregation_summary <- property_profile %>%
   group_by(congregation_name) %>%
   summarise(
@@ -264,7 +263,7 @@ cat(sprintf("Total unique congregations: %d\n", nrow(congregation_summary)))
 cat(sprintf("Congregations with multiple parcels: %d\n", 
             sum(congregation_summary$num_parcels > 1)))
 
-# Create action plan
+## Create action plan ----
 action_needed <- congregation_summary %>%
   mutate(
     recommended_action = case_when(
@@ -283,9 +282,9 @@ action_needed <- congregation_summary %>%
          worst_data_completeness, recommended_action, total_acres, 
          total_land_value, addresses)
 
-# ----------------
-# SECTION 7: EXPORTS
-# ----------------
+
+# SECTION 7: EXPORTS ----
+
 
 cat("\n=== SECTION 7: EXPORTING RESULTS ===\n")
 
@@ -343,9 +342,9 @@ cat("✓ Exported congregation_summary.csv\n")
 write_csv(action_needed, "data/output/action_plan.csv")
 cat("✓ Exported action_plan.csv\n")
 
-# ----------------
-# SECTION 8: FINAL SUMMARY
-# ----------------
+
+# SECTION 8: FINAL SUMMARY ----
+
 
 cat("\n")
 cat("===========================================\n")
