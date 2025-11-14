@@ -521,7 +521,11 @@ cat("===========================================\n")
 cat(sprintf("Total Properties Analyzed: %d\n", nrow(analysis_subset)))
 cat(sprintf("Unique Congregations: %d\n", 
             n_distinct(analysis_subset$congr_name[!is.na(analysis_subset$congr_name)])))
+cat("\n--- ATTENDANCE TRENDS ---\n")
 cat(sprintf("Average 2023 Attendance: %.1f\n", attendance_context$mean_attendance_2023))
+cat(sprintf("Average 2014 Attendance: %.1f\n", attendance_context$mean_attendance_2014))
+cat(sprintf("10-Year Change in Attendance: %.1f%%\n", attendance_context$avg_pct_change_attendance))
+cat(sprintf("Median %% Change: %.1f%%%%\n", attendance_context$median_pct_change_attendance))
 cat("\n--- DEVELOPMENT METRICS ---\n")
 cat(sprintf("Properties in QCT Zones: %d (%.1f%%)\n", 
             qct_summary$in_qct, qct_summary$qct_percentage))
@@ -550,4 +554,3 @@ cat("\n--- DATA QUALITY ISSUES ---\n")
 cat(sprintf("Properties with Missing Data: %d (%.1f%%)\n", 
             sum(property_profile$data_completeness < 6),
             sum(property_profile$data_completeness < 6) / nrow(property_profile) * 100))
-
