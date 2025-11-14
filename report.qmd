@@ -539,7 +539,64 @@ leaflet(top_10) %>%
 ```
 
 ---
+## Data Quality Issues 
 
+One of the challenges revealed through CGS' original analysis was that many congregations share properties or do not accurately record their permanent address. Therefore, some of the data used in this analysis had these problems, which we attempted to sort and organize for future manual review. 
+
+```{r}
+#| echo: false
+
+total_props <- nrow(property_profile)
+incomplete_data <- sum(property_profile$data_completeness < 6)
+missing_addresses <- sum(is.na(property_profile$sadd) | 
+                        property_profile$sadd == "" | 
+                        grepl("UNASSIGNED", property_profile$sadd, ignore.case = TRUE))
+```
+
+**Key Findings:**
+
+- Total properties analyzed: `r total_props`
+- Properties with incomplete data: `r incomplete_data` (`r round(incomplete_data/total_props*100, 1)`%)
+- Properties with missing/unassigned addresses: `r missing_addresses`
+
+### Missing and Unassigned Addresses
+
+These congregations have properties without proper street addresses, making them difficult to verify or inspect for development. Luckily, some have coordinates, which can be verified with county tax records. 
+
+```{r unassigned-analysis}
+#| echo: false
+
+missing_addresses <- missing_addresses %>%
+  filter(is.na(sadd) | sadd == "" | grepl("UNASSIGNED", sadd, ignore.case = TRUE)) %>%
+  group_by(congregation_name) %>%
+  summarise(
+    num_unassigned = n(),
+    unassigned_addresses = paste(unique(sadd[!is.na(sadd) & sadd != ""]), collapse = " | "),
+    cities = paste(unique(scity[!is.na(scity)]), collapse = ", "),
+    has_coords = sum(!is.na(lat) & !is.na(lon)),
+    avg_data_completeness = round(mean(data_completeness, na.rm = TRUE), 1),
+    .groups = 'drop'
+  ) %>%
+  arrange(desc(num_unassigned), congregation_name)
+```
+### Properties without coordinates
+
+
+
+
+
+### Shared Addresses 
+These properties have different congregations sharing the same street address.
+
+Properties sharing addresses may indicate:
+
+1. **Ethnic/language congregations** sharing space (Korean, Vietnamese, Spanish services)
+2. **Church plants** using host congregation facilities
+3. **Rental arrangements** - one congregation renting to another
+4. **Merged congregations** - maintaining separate legal entities
+5. **Data quality issues** - duplicate records or address errors
+
+```
 # Summary Statistics
 
 ## Property Portfolio Overview
