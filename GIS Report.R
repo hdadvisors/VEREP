@@ -15,6 +15,9 @@ library(dplyr)
 verep_data <- read_csv("data/verep040725.csv")
 codebook <- read_csv("data/CGS_VEREP_AppendixD_Codebook.xlsx.csv")
 
+cat("Columns in verep_data CSV:\n")
+print(names(verep_data))
+
 # ========================================
 # STEP 1: LOAD AND JOIN ATTENDANCE DATA
 # ========================================
@@ -34,6 +37,7 @@ attendance_data <- congregation_data %>%
     plate_pledge_2023 = f2023_plate_and_pledge,
     # Historical data for trend analysis
     attendance_2014 = f2014_sunday_attendance,
+    members_2014 = f2014_members_this_year,
     plate_pledge_2014 = f2014_plate_and_pledge,
     attendance_pctinc,
     dio_reg
@@ -54,8 +58,8 @@ attendance_data <- congregation_data %>%
 verep_data <- attendance_data %>%
   left_join(
     verep_data, 
-    by = c("quickref" = "congr_name"),
-    suffix = c("_att", "_prop")  # Creates attendance_2023_att and attendance_2023_prop
+    by = c("quickref" = "congr_name"),  # FIX: Use "congr_name" from verep CSV
+    suffix = c("_att", "_prop")  # ADD: Prevents duplicate column names
   )
 
 # Display join results
@@ -464,25 +468,51 @@ print(other_properties)
 # ========================================
 # ATTENDANCE CONTEXT ANALYSIS
 # ========================================
-
-attendance_context <- analysis_subset %>%
+attendance_context <- analysis_subset %>%  # FIX: Use analysis_subset, not analysis_subset_clean
   summarise(
     total_properties = n(),
-    mean_attendance = mean(attendance_2023, na.rm = TRUE),
-    median_attendance = median(attendance_2023, na.rm = TRUE),
-    zero_attendance = sum(attendance_2023 == 0, na.rm = TRUE),
-    attendance_1_10 = sum(attendance_2023 > 0 & attendance_2023 <= 10, na.rm = TRUE),
-    attendance_11_20 = sum(attendance_2023 > 10 & attendance_2023 <= 20, na.rm = TRUE),
-    attendance_21_29 = sum(attendance_2023 > 20 & attendance_2023 < 30, na.rm = TRUE),
-    avg_members = mean(members_2023, na.rm = TRUE),
-    avg_plate_pledge = mean(plate_pledge_2023, na.rm = TRUE),
-    missing_attendance = sum(is.na(attendance_2023)),
-    missing_members = sum(is.na(members_2023)),
-    missing_plate_pledge = sum(is.na(plate_pledge_2023))
+    
+    # 2023 Attendance
+    mean_attendance_2023 = mean(attendance_2023, na.rm = TRUE),
+    median_attendance_2023 = median(attendance_2023, na.rm = TRUE),
+    zero_attendance_2023 = sum(attendance_2023 == 0, na.rm = TRUE),
+    attendance_1_10_2023 = sum(attendance_2023 > 0 & attendance_2023 <= 10, na.rm = TRUE),
+    attendance_11_20_2023 = sum(attendance_2023 > 10 & attendance_2023 <= 20, na.rm = TRUE),
+    attendance_21_29_2023 = sum(attendance_2023 > 20 & attendance_2023 < 30, na.rm = TRUE),
+    
+    # 2014 Attendance (for comparison)
+    mean_attendance_2014 = mean(attendance_2014, na.rm = TRUE),
+    median_attendance_2014 = median(attendance_2014, na.rm = TRUE),
+    zero_attendance_2014 = sum(attendance_2014 == 0, na.rm = TRUE),
+    attendance_1_10_2014 = sum(attendance_2014 > 0 & attendance_2014 <= 10, na.rm = TRUE),
+    attendance_11_20_2014 = sum(attendance_2014 > 10 & attendance_2014 <= 20, na.rm = TRUE),
+    attendance_21_29_2014 = sum(attendance_2014 > 20 & attendance_2014 < 30, na.rm = TRUE),
+    
+    # 10-year change in attendance
+    avg_pct_change_attendance = mean(pct_change_attendance, na.rm = TRUE),
+    median_pct_change_attendance = median(pct_change_attendance, na.rm = TRUE),
+    
+    # Members
+    avg_members_2023 = mean(members_2023, na.rm = TRUE),
+    avg_members_2014 = mean(members_2014, na.rm = TRUE),  # CHANGED THIS
+    
+    # Plate & Pledge
+    avg_plate_pledge_2023 = mean(plate_pledge_2023, na.rm = TRUE),
+    avg_plate_pledge_2014 = mean(plate_pledge_2014, na.rm = TRUE),
+    avg_pct_change_pledge = mean(pct_change_pledge, na.rm = TRUE),
+    
+    # Missing data counts
+    missing_attendance_2023 = sum(is.na(attendance_2023)),
+    missing_attendance_2014 = sum(is.na(attendance_2014)),
+    missing_members_2023 = sum(is.na(members_2023)),
+    missing_members_2014 = sum(is.na(members_2014)),  # CHANGED THIS
+    missing_plate_pledge_2023 = sum(is.na(plate_pledge_2023)),
+    missing_plate_pledge_2014 = sum(is.na(plate_pledge_2014))
   )
 
-cat("\n=== ATTENDANCE PROFILE ===\n")
+cat("\n=== ATTENDANCE PROFILE (2014 vs 2023) ===\n")
 print(attendance_context)
+
 
 # Create summary report
 cat("\n===========================================\n")
@@ -491,7 +521,7 @@ cat("===========================================\n")
 cat(sprintf("Total Properties Analyzed: %d\n", nrow(analysis_subset)))
 cat(sprintf("Unique Congregations: %d\n", 
             n_distinct(analysis_subset$congr_name[!is.na(analysis_subset$congr_name)])))
-cat(sprintf("Average 2023 Attendance: %.1f\n", attendance_context$mean_attendance))
+cat(sprintf("Average 2023 Attendance: %.1f\n", attendance_context$mean_attendance_2023))
 cat("\n--- DEVELOPMENT METRICS ---\n")
 cat(sprintf("Properties in QCT Zones: %d (%.1f%%)\n", 
             qct_summary$in_qct, qct_summary$qct_percentage))
