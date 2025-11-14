@@ -17,6 +17,7 @@ execute:
   message: false
   echo: false
 ---
+
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(leaflet)
@@ -541,52 +542,95 @@ leaflet(top_10) %>%
 ---
 ## Data Quality Issues 
 
-One of the challenges revealed through CGS' original analysis was that many congregations share properties or do not accurately record their permanent address. As a result, some of the data used in this analysis had these persistent problems, which we attempted to sort and organize for future manual review. A large portion of the 126 parcels had incomplete data, which impacted the overall analysis. 
+One of the challenges revealed through CGS' original analysis was that many congregations share properties or do not accurately record their permanent address. 
 
-```{r summary-stats, echo=FALSE}
+```{r data-quality-stats, echo=FALSE, results='asis'}
+# Load the exported data from your R script
+incomplete_properties <- read_csv("data/output/incomplete_properties.csv", show_col_types = FALSE)
+unassigned_addresses <- read_csv("data/output/unassigned_addresses.csv", show_col_types = FALSE)
+shared_addresses <- read_csv("data/output/shared_addresses.csv", show_col_types = FALSE)
+problem_matrix <- read_csv("data/output/problem_matrix_comprehensive.csv", show_col_types = FALSE)
 
+# Calculate summary stats
 total_props <- nrow(property_profile)
-incomplete_data <- sum(property_profile$data_completeness < 6)
-missing_addresses <- sum(is.na(property_profile$sadd) | 
-                        property_profile$sadd == "" | 
-                        grepl("UNASSIGNED", property_profile$sadd, ignore.case = TRUE))
+incomplete_data <- nrow(incomplete_properties)
+missing_addresses <- sum(unassigned_addresses$num_unassigned)
+
+# Create summary table
+summary_stats <- tibble(
+  Metric = c("Total properties analyzed",
+             "Properties with incomplete data",
+             "Properties with missing/unassigned addresses"),
+  Value = c(total_props,
+            paste0(incomplete_data, " (", round(incomplete_data/total_props*100, 1), "%)"),
+            missing_addresses)
+)
+
+# Display as formatted table
+summary_stats %>%
+  kable(align = c("l", "r")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), 
+                full_width = FALSE,
+                position = "left") %>%
+  column_spec(1, bold = TRUE, width = "20em") %>%
+  column_spec(2, width = "10em")
 ```
 
-**Key Findings:**
-
-- Total properties analyzed: `r total_props`
-- Properties with incomplete data: `r incomplete_data/total_props*100` 
-- Properties with missing/unassigned addresses: `r missing_addresses`
+---
 
 ### Missing and Unassigned Addresses
 
-These congregations have properties without proper street addresses, making them difficult to verify or inspect for development.  
-
-```{r unassigned-analysis}
-#| echo: false
-
-unassigned_addresses <- property_profile %>%
-  filter(is.na(sadd) | sadd == "" | grepl("UNASSIGNED", sadd, ignore.case = TRUE)) %>%
-  group_by(congregation_name) %>%
-  summarise(
-    has_unassigned = TRUE,
-    num_unassigned = n(),
-    unassigned_addresses = paste(unique(sadd[!is.na(sadd) & sadd != ""]), collapse = " | "),
-    .groups = 'drop'
-  )
-
-print(unassigned_addresses)
+These congregations have properties without proper street addresses, making them difficult to verify or inspect for development.
+```{r unassigned-table, echo=FALSE}
+unassigned_addresses %>%
+  select(congregation_name, num_unassigned, cities, has_coords) %>%
+  kable(
+    col.names = c("Congregation", "# Unassigned Properties", "Cities", "Has Coordinates"),
+    digits = 0
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  row_spec(which(unassigned_addresses$has_coords == 0), background = "#f8d7da")
 ```
-### Properties without coordinates
+```{r no-coords-warning, echo=FALSE, results='asis'}
+no_coords_count <- sum(unassigned_addresses$has_coords == 0)
 
-which can be verified with county tax records. 
+if(no_coords_count > 0) {
+  cat("::: {.callout-warning}\n")
+  cat("## Properties Without Coordinates\n")
+  cat("**", no_coords_count, "** properties have neither valid addresses nor coordinates. These require manual lookup using county tax records.\n", sep = "")
+  cat(":::\n")
+}
+```
 
+---
 
+### Shared Addresses
 
-### Shared Addresses 
-These properties have different congregations sharing the same street address.
+These properties have different congregations sharing the same street address, indicating potential shared facilities, rental arrangements, or data quality issues.
+```{r shared-summary, echo=FALSE}
+# Create summary from shared_addresses
+shared_summary <- shared_addresses %>%
+  group_by(sadd, scity) %>%
+  summarise(
+    num_congregations = n_distinct(congregation_name),
+    congregations = paste(unique(congregation_name), collapse = " | "),
+    total_attendance = sum(attendance_2023, na.rm = TRUE),
+    .groups = 'drop'
+  ) %>%
+  arrange(desc(num_congregations))
 
-Properties sharing addresses may indicate:
+# Calculate stats for callout
+unique_addresses <- n_distinct(shared_addresses$sadd)
+unique_congregations <- n_distinct(shared_addresses$congregation_name)
+```
+```{r shared-callout, echo=FALSE, results='asis'}
+cat("::: {.callout-note}\n")
+cat("## Findings\n")
+cat("**", unique_addresses, "** addresses are shared by multiple congregations, affecting **", unique_congregations, "** different congregations.\n", sep = "")
+cat(":::\n")
+```
+
+**Properties sharing addresses may indicate:**
 
 1. **Ethnic/language congregations** sharing space (Korean, Vietnamese, Spanish services)
 2. **Church plants** using host congregation facilities
@@ -594,48 +638,81 @@ Properties sharing addresses may indicate:
 4. **Merged congregations** - maintaining separate legal entities
 5. **Data quality issues** - duplicate records or address errors
 
+```{r shared-table, echo=FALSE}
+if(nrow(shared_summary) > 0) {
+  shared_summary %>%
+    kable(
+      col.names = c("Street Address", "City", "# Congregations", "Congregation Names", "Combined Attendance"),
+      digits = 0
+    ) %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+    column_spec(3, bold = TRUE) %>%
+    row_spec(which(shared_summary$num_congregations >= 3), background = "#d1ecf1")
+} else {
+  cat("✓ No shared addresses found\n")
+}
+```
 
-```{r}
-#| echo: false
+---
 
-shared_summary %>%
-  gt() %>%
-  tab_header(
-    title = "Addresses Shared by Multiple Congregations",
-    subtitle = "May indicate shared facilities or data errors"
+### Priority Issues Summary
+```{r priority-summary, echo=FALSE}
+# Categorize problems
+problem_categories <- problem_matrix %>%
+  count(address_status) %>%
+  arrange(desc(n))
+```
+
+**Problem Distribution:**
+```{r priority-table, echo=FALSE}
+problem_categories %>%
+  kable(
+    col.names = c("Issue Type", "# Congregations"),
+    digits = 0
   ) %>%
-  cols_label(
-    sadd = "Street Address",
-    scity = "City",
-    num_congregations = "# Congregations",
-    congregations = "Congregation Names",
-    total_attendance = "Combined Attendance"
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  row_spec(which(grepl("Both", problem_categories$address_status)), 
+           background = "#f8d7da", bold = TRUE)
+```
+
+### Other Data Quality Issues
+
+Beyond address matching, some properties were missing critical property and environmental data necessary for full development analysis.
+```{r other-issues, echo=FALSE}
+# Calculate missing data breakdown
+missing_breakdown <- incomplete_properties %>%
+  summarise(
+    missing_land_value = sum(missing_land_value),
+    missing_acreage = sum(missing_acreage),
+    missing_wetland = sum(missing_wetland),
+    missing_flood = sum(missing_flood),
+    missing_qct = sum(missing_qct),
+    missing_zoning = sum(missing_zoning)
   ) %>%
-  tab_style(
-    style = cell_fill(color = "#d1ecf1"),
-    locations = cells_body(
-      columns = num_congregations,
-      rows = num_congregations >= 3
-    )
+  pivot_longer(everything(), names_to = "data_type", values_to = "count") %>%
+  mutate(
+    data_type = str_remove(data_type, "missing_"),
+    data_type = str_to_title(str_replace_all(data_type, "_", " "))
   ) %>%
-  fmt_number(
-    columns = total_attendance,
-    decimals = 0
+  arrange(desc(count))
+```
+```{r missing-data-chart, echo=FALSE, fig.height=4}
+ggplot(missing_breakdown, aes(x = reorder(data_type, count), y = count)) +
+  geom_col(fill = "#e76f52", alpha = 0.8) +
+  geom_text(aes(label = count), hjust = -0.2, size = 4) +
+  coord_flip() +
+  labs(
+    title = "Missing Data by Category",
+    x = "",
+    y = "Number of Properties"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    panel.grid.major.y = element_blank()
   )
 ```
 
-These properties will require verification with diocese or congregation before full determinations can be made.
-
-**`r sum(full_comparison$has_unassigned & !full_comparison$has_shared_address)` congregations** with unassigned addresses - verify using coordinates or tax records.
-
-**`r sum(full_comparison$has_shared_address & !full_comparison$has_unassigned)` congregations** with shared addresses - confirm ownership and arrangements.
-
-
-### Other data quality issues
-
-In addition to the challenges listed above, related to address matching, some properties were missing property and environmental data necessary for a full analysis. 
-
-```
 # Summary Statistics
 
 ## Property Portfolio Overview
