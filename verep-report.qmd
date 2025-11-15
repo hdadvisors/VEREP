@@ -116,7 +116,7 @@ leadership_report <- read_csv("data/output/verep_top_opportunities.csv", show_co
 data_followup <- read_csv("data/output/verep_data_needed.csv", show_col_types = FALSE)
 
 # Create enhanced version with aliases and calculated fields
-property_profile <- property_profile %>%
+property_profile <- property_profile |>
   mutate(
     area_acres = rgisacre,
     development_score = case_when(
@@ -142,10 +142,10 @@ property_profile <- property_profile %>%
   )
 
 # Get top 10 for property profiles section
-top_10 <- property_profile %>%
-  filter(development_potential %in% c("High Potential", "Moderate Potential")) %>%
-  arrange(desc(lan_val)) %>%
-  slice_head(n = 10) %>%
+top_10 <- property_profile |>
+  filter(development_potential %in% c("High Potential", "Moderate Potential")) |>
+  arrange(desc(lan_val)) |>
+  slice_head(n = 10) |>
   mutate(
     rank = row_number(),
     site_address = sadd,
@@ -212,20 +212,20 @@ cat(":::\n")
 ## At a Glance: Top 10 Properties
 
 ```{r top-10-summary-table}
-top_10 %>%
-  select(rank, site_address, site_city, area_acres, development_score, development_tier) %>%
+top_10 |>
+  select(rank, site_address, site_city, area_acres, development_score, development_tier) |>
   kable(
     col.names = c("Rank", "Property Address", "City", "Acres", "Score", "Tier"),
     digits = 1,
     align = c("c", "l", "l", "r", "r", "l")
-  ) %>%
+  ) |>
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed"),
     full_width = FALSE,
     position = "center"
-  ) %>%
-  column_spec(1, bold = TRUE, color = "white", background = "#445ca9") %>%
-  column_spec(5, bold = TRUE, color = "#445ca9") %>%
+  ) |>
+  column_spec(1, bold = TRUE, color = "white", background = "#445ca9") |>
+  column_spec(5, bold = TRUE, color = "#445ca9") |>
   row_spec(1:3, background = "#f8f9fa")
 ```
 
@@ -442,8 +442,8 @@ Ultimately, successful church real estate development requires more than high sc
 ## Development Opportunity Landscape
 
 ```{r tier-distribution-visual}
-tier_data <- property_profile %>%
-  count(development_potential) %>%
+tier_data <- property_profile |>
+  count(development_potential) |>
   mutate(
     pct = n / sum(n) * 100,
     tier_order = case_when(
@@ -460,7 +460,7 @@ tier_data <- property_profile %>%
       tier_order == 4 ~ "#e76f52",
       TRUE ~ "#cccccc"
     )
-  ) %>%
+  ) |>
   arrange(tier_order)
 
 ggplot(tier_data, aes(x = reorder(development_potential, -tier_order), y = n, fill = color)) +
@@ -492,8 +492,8 @@ pal <- colorNumeric(
   domain = top_10$development_score
 )
 
-leaflet(top_10) %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
+leaflet(top_10) |>
+  addProviderTiles(providers$CartoDB.Positron) |>
   addCircleMarkers(
     lng = ~lon,
     lat = ~lat,
@@ -517,14 +517,14 @@ leaflet(top_10) %>%
       "</div>"
     ),
     label = ~paste0("#", rank, ": ", site_address)
-  ) %>%
+  ) |>
   addLegend(
     position = "bottomright",
     pal = pal,
     values = ~development_score,
     title = "Development<br>Score",
     opacity = 1
-  ) %>%
+  ) |>
   setView(lng = mean(top_10$lon, na.rm = TRUE), lat = mean(top_10$lat, na.rm = TRUE), zoom = 7)
 ```
 
@@ -532,7 +532,7 @@ leaflet(top_10) %>%
 
 ## Data Quality Issues
 
-One of the challenges revealed through CGS' original analysis was that many congregations share properties or do not accurately record their permanent address.
+One of the issues identified by CGS's initial study was that a large number of congregations either had incomplete or inconsistent data; many congregations share properties or fail to appropriately report their permanent address. Their final output data, which was utilized for this development analysis, reflected this.  While environmental constraints accounted for the majority of the missing data, many others contained incomplete property information.  For a closer look, we separated and classified these attributes below.  These properties can be more precisely assessed for development once they have greater data.
 
 ```{r data-quality-stats, echo=FALSE}
 # Load the exported data from your R script
@@ -546,6 +546,7 @@ total_props <- nrow(property_profile)
 incomplete_data <- nrow(incomplete_properties)
 missing_addresses <- sum(unassigned_addresses$num_unassigned)
 
+
 # Create summary table
 summary_stats <- tibble(
   Metric = c("Total properties analyzed",
@@ -557,29 +558,82 @@ summary_stats <- tibble(
 )
 
 # Display as formatted table
-summary_stats %>%
-  kable(align = c("l", "r")) %>%
+summary_stats |>
+  kable(align = c("l", "r")) |>
   kable_styling(bootstrap_options = c("striped", "hover"), 
                 full_width = FALSE,
-                position = "left") %>%
-  column_spec(1, bold = TRUE, width = "20em") %>%
+                position = "left") |>
+  column_spec(1, bold = TRUE, width = "20em") |>
   column_spec(2, width = "10em")
 ```
 
+```{r other-issues, echo=FALSE}
+# Calculate missing data breakdown
+missing_breakdown <- incomplete_properties |>
+  summarise(
+    missing_land_value = sum(missing_land_value),
+    missing_acreage = sum(missing_acreage),
+    missing_wetland = sum(missing_wetland),
+    missing_flood = sum(missing_flood),
+    missing_qct = sum(missing_qct),
+    missing_zoning = sum(missing_zoning)
+  ) |>
+  pivot_longer(everything(), names_to = "data_type", values_to = "count") |>
+  mutate(
+    data_type = str_remove(data_type, "missing_"),
+    data_type = str_to_title(str_replace_all(data_type, "_", " "))
+  ) |>
+  arrange(desc(count))
+
+# Calculate properties with address issues using simple $ notation
+props_with_incomplete_addr <- incomplete_properties$pin[
+  is.na(incomplete_properties$sadd) | 
+  incomplete_properties$sadd == "" | 
+  incomplete_properties$sadd == "INCOMPLETE"
+]
+
+address_issues <- nrow(shared_addresses) + nrow(unassigned_addresses) + 
+  nrow(incomplete_properties %>% filter(is.na(sadd) | sadd == ""))
+
+# Add Property Information row
+missing_breakdown <- missing_breakdown %>%
+  add_row(
+    data_type = "Property Information",
+    count = address_issues
+  ) %>%
+  arrange(desc(count))
+```
+
+```{r missing-data-chart, echo=FALSE, fig.height=4}
+ggplot(missing_breakdown, aes(x = reorder(data_type, count), y = count)) +
+  geom_col(fill = "#e76f52", alpha = 0.8) +
+  geom_text(aes(label = count), hjust = -0.2, size = 4) +
+  coord_flip() +
+  labs(
+    title = "Missing Data by Category",
+    x = "",
+    y = "Number of Properties"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    panel.grid.major.y = element_blank()
+  )
+```
 ---
 
 ### Missing and Unassigned Addresses
 
-These congregations have properties without proper street addresses, making them difficult to verify or inspect for development.
+The following congregations have properties without proper street addresses, making them difficult to verify or inspect for development.
 
 ```{r unassigned-table, echo=FALSE}
-unassigned_addresses %>%
-  select(congregation_name, num_unassigned, cities, has_coords) %>%
+unassigned_addresses |>
+  select(congregation_name, num_unassigned, cities, has_coords) |>
   kable(
     col.names = c("Congregation", "# Unassigned Properties", "Cities", "Has Coordinates"),
     digits = 0
-  ) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
   row_spec(which(unassigned_addresses$has_coords == 0), background = "#f8d7da")
 ```
 
@@ -602,14 +656,14 @@ These properties have different congregations sharing the same street address, i
 
 ```{r shared-summary, echo=FALSE}
 # Create summary from shared_addresses
-shared_summary <- shared_addresses %>%
-  group_by(sadd, scity) %>%
+shared_summary <- shared_addresses |>
+  group_by(sadd, scity) |>
   summarise(
     num_congregations = n_distinct(congregation_name),
     congregations = paste(unique(congregation_name), collapse = " | "),
     total_attendance = sum(attendance_2023, na.rm = TRUE),
     .groups = 'drop'
-  ) %>%
+  ) |>
   arrange(desc(num_congregations))
 
 # Calculate stats for callout
@@ -634,13 +688,13 @@ cat(":::\n")
 
 ```{r shared-table, echo=FALSE}
 if(nrow(shared_summary) > 0) {
-  shared_summary %>%
+  shared_summary |>
     kable(
       col.names = c("Street Address", "City", "# Congregations", "Congregation Names", "Combined Attendance"),
       digits = 0
-    ) %>%
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
-    column_spec(3, bold = TRUE) %>%
+    ) |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+    column_spec(3, bold = TRUE) |>
     row_spec(which(shared_summary$num_congregations >= 3), background = "#d1ecf1")
 } else {
   cat("✓ No shared addresses found\n")
@@ -653,62 +707,22 @@ if(nrow(shared_summary) > 0) {
 
 ```{r priority-summary, echo=FALSE}
 # Categorize problems
-problem_categories <- problem_matrix %>%
-  count(address_status) %>%
+problem_categories <- problem_matrix |>
+  count(address_status) |>
   arrange(desc(n))
 ```
 
 **Problem Distribution:**
 
 ```{r priority-table, echo=FALSE}
-problem_categories %>%
+problem_categories |>
   kable(
     col.names = c("Issue Type", "# Congregations"),
     digits = 0
-  ) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
   row_spec(which(grepl("Both", problem_categories$address_status)), 
            background = "#f8d7da", bold = TRUE)
-```
-
-### Other Data Quality Issues
-
-Beyond address matching, some properties were missing critical property and environmental data necessary for full development analysis.
-
-```{r other-issues, echo=FALSE}
-# Calculate missing data breakdown
-missing_breakdown <- incomplete_properties %>%
-  summarise(
-    missing_land_value = sum(missing_land_value),
-    missing_acreage = sum(missing_acreage),
-    missing_wetland = sum(missing_wetland),
-    missing_flood = sum(missing_flood),
-    missing_qct = sum(missing_qct),
-    missing_zoning = sum(missing_zoning)
-  ) %>%
-  pivot_longer(everything(), names_to = "data_type", values_to = "count") %>%
-  mutate(
-    data_type = str_remove(data_type, "missing_"),
-    data_type = str_to_title(str_replace_all(data_type, "_", " "))
-  ) %>%
-  arrange(desc(count))
-```
-
-```{r missing-data-chart, echo=FALSE, fig.height=4}
-ggplot(missing_breakdown, aes(x = reorder(data_type, count), y = count)) +
-  geom_col(fill = "#e76f52", alpha = 0.8) +
-  geom_text(aes(label = count), hjust = -0.2, size = 4) +
-  coord_flip() +
-  labs(
-    title = "Missing Data by Category",
-    x = "",
-    y = "Number of Properties"
-  ) +
-  theme_minimal(base_size = 12) +
-  theme(
-    plot.title = element_text(face = "bold", color = "#445ca9"),
-    panel.grid.major.y = element_blank()
-  )
 ```
 
 ---
@@ -721,7 +735,7 @@ ggplot(missing_breakdown, aes(x = reorder(data_type, count), y = count)) +
 
 ```{r use-type-breakdown}
 # Create use type classification
-use_stats <- property_profile %>%
+use_stats <- property_profile |>
   mutate(
     primary_use = case_when(
       use_cemetery ~ "Cemetery",
@@ -732,14 +746,14 @@ use_stats <- property_profile %>%
       use_church ~ "Church/Worship",
       TRUE ~ "Other/Mixed"
     )
-  ) %>%
-  group_by(primary_use) %>%
+  ) |>
+  group_by(primary_use) |>
   summarise(
     n_parcels = n(),
     total_acres = sum(area_acres, na.rm = TRUE),
     avg_value = mean(assessed_value, na.rm = TRUE),
     .groups = "drop"
-  ) %>%
+  ) |>
   arrange(desc(n_parcels))
 
 ggplot(use_stats, aes(x = reorder(primary_use, n_parcels), y = n_parcels)) +
@@ -763,24 +777,24 @@ ggplot(use_stats, aes(x = reorder(primary_use, n_parcels), y = n_parcels)) +
 
 ```{r regional-distribution-calc, include=FALSE}
 # Regional breakdown
-regional_stats <- property_profile %>%
+regional_stats <- property_profile |>
   summarise(
     n_parcels = n(),
     total_acres = sum(area_acres, na.rm = TRUE),
     pct_of_total_acres = (total_acres / sum(property_profile$area_acres, na.rm = TRUE)) * 100,
     avg_score = mean(development_score, na.rm = TRUE),
     .groups = "drop"
-  ) %>%
+  ) |>
   arrange(desc(n_parcels))
 ```
 
 ```{r regional-distribution-html}
-regional_stats %>%
+regional_stats |>
   kable(
     col.names = c("# Parcels", "Total Acres", "% of Total Acreage", "Avg Dev Score"),
     digits = c(0, 0, 1, 1, 1)
-  ) %>%
-  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover")) |>
   row_spec(0, bold = TRUE, background = "#8baeaa", color = "white")
 ```
 
@@ -788,8 +802,8 @@ regional_stats %>%
 
 ```{r congregation-metrics, echo=FALSE, results='asis'}
 # Congregation statistics
-cong_stats <- property_profile %>%
-  filter(has_congregation) %>%
+cong_stats <- property_profile |>
+  filter(has_congregation) |>
   summarise(
     parcels_with_cong_data = n(),
     parcels_under_30_attendance = sum(avg_attendance < 30, na.rm = TRUE),
@@ -814,8 +828,8 @@ cat("- **Congregations with declining pledges:** ", cong_stats$declining_pledges
 
 ```{r developable-summary, echo=FALSE}
 # Summary of ALL developable land (not just top 10)
-developable_summary <- property_profile %>%
-  filter(development_score >= 45) %>%  # Tier 3 and above
+developable_summary <- property_profile |>
+  filter(development_score >= 45) |>  # Tier 3 and above
   summarise(
     n_developable = n(),
     total_dev_acres = sum(area_acres, na.rm = TRUE),
@@ -826,15 +840,15 @@ developable_summary <- property_profile %>%
   )
 
 # By tier
-tier_summary <- property_profile %>%
-  filter(development_score >= 45) %>%
-  group_by(development_potential) %>%
+tier_summary <- property_profile |>
+  filter(development_score >= 45) |>
+  group_by(development_potential) |>
   summarise(
     n_parcels = n(),
     total_acres = sum(area_acres, na.rm = TRUE),
     total_value = sum(assessed_value, na.rm = TRUE),
     .groups = "drop"
-  ) %>%
+  ) |>
   arrange(desc(n_parcels))
 ```
 
@@ -866,12 +880,12 @@ cat("### Breakdown by Development Tier\n\n")
 ```
 
 ```{r tier-breakdown-html}
-tier_summary %>%
+tier_summary |>
   kable(
     col.names = c("Tier", "# Parcels", "Total Acres", "Assessed Value"),
     digits = c(0, 0, 1, 0),
     format.args = list(big.mark = ",")
-  ) %>%
+  ) |>
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
@@ -890,7 +904,7 @@ The following section provides detailed profiles for each of the top 10 developm
 
 ```{r property-profiles, results='asis'}
 create_property_profile <- function(rank_num) {
-  property <- top_10 %>% filter(rank == rank_num)
+  property <- top_10 |> filter(rank == rank_num)
   
   if(nrow(property) == 0) return(NULL)
   
