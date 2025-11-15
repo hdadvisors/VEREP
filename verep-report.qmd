@@ -567,6 +567,18 @@ summary_stats |>
                 position = "left") |>
   column_spec(1, bold = TRUE, width = "20em") |>
   column_spec(2, width = "10em")
+
+```
+
+```{r no-coords-warning, echo=FALSE, results='asis'}
+no_coords_count <- sum(unassigned_addresses$has_coords == 0)
+
+if(no_coords_count > 0) {
+  cat("::: {.callout-warning}\n")
+  cat("## Properties Without Coordinates\n")
+  cat("**", no_coords_count, "** properties have neither valid addresses nor coordinates. These require manual lookup using county tax records.\n", sep = "")
+  cat(":::\n")
+}
 ```
 
 ```{r other-issues, echo=FALSE}
@@ -627,7 +639,7 @@ ggplot(missing_breakdown, aes(x = reorder(data_type, count), y = count)) +
 
 ### Missing and Unassigned Addresses
 
-The following congregations comprise the 19 without proper street addresses, making them difficult to verify or inspect for development.
+The following congregations comprise the 19 "properties" without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising X of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code. 
 
 ```{r unassigned-table, echo=FALSE}
 unassigned_addresses |>
@@ -639,8 +651,6 @@ unassigned_addresses |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
   row_spec(which(unassigned_addresses$has_coords == 0), background = "#f8d7da")
 ```
-
-X of these congregations had coordinates, which allowed for reverse geocoding to identify the likely address or zip code. 
 
 ```{r}
 library(tidygeocoder)
@@ -673,16 +683,6 @@ geocoded_results %>%
 
 Congregations without coordinates will require additional review by the dioses to determine likely location. 
 
-```{r no-coords-warning, echo=FALSE, results='asis'}
-no_coords_count <- sum(unassigned_addresses$has_coords == 0)
-
-if(no_coords_count > 0) {
-  cat("::: {.callout-warning}\n")
-  cat("## Properties Without Coordinates\n")
-  cat("**", no_coords_count, "** properties have neither valid addresses nor coordinates. These require manual lookup using county tax records.\n", sep = "")
-  cat(":::\n")
-}
-```
 
 ------------------------------------------------------------------------
 
