@@ -666,9 +666,6 @@ geocoded_results <- needs_geocoding %>%
     full_results = FALSE
   )
 
-geocoded_results %>%
-  select(congregation_name, sample_lat, sample_lon, address)
-
 # Save the geocoded addresses
 write_csv(geocoded_results, "data/output/geocoded_unassigned_addresses.csv")
 
