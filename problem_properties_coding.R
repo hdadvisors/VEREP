@@ -135,6 +135,7 @@ shared_by_address <- property_profile %>%
   select(sadd, scity, congregation_name, attendance_2023, uid, pid) %>%
   ungroup()
 
+
 cat(sprintf("\nDifferent congregations at same address: %d addresses\n", 
             n_distinct(shared_by_address$sadd)))
 cat(sprintf("Congregations affected: %d\n", 
