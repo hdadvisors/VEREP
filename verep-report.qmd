@@ -576,7 +576,7 @@ no_coords_count <- sum(unassigned_addresses$has_coords == 0)
 if(no_coords_count > 0) {
   cat("::: {.callout-warning}\n")
   cat("## Properties Without Coordinates\n")
-  cat("**", no_coords_count, "** properties have neither valid addresses nor coordinates. These require manual lookup using county tax records.\n", sep = "")
+  cat("**", no_coords_count, "** properties have neither valid addresses nor coordinates. These will require manual lookup using county tax records or additional dioses review.\n", sep = "")
   cat(":::\n")
 }
 ```
@@ -639,7 +639,7 @@ ggplot(missing_breakdown, aes(x = reorder(data_type, count), y = count)) +
 
 ### Missing and Unassigned Addresses
 
-The following congregations comprise the 19 "properties" without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising X of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code. 
+The following congregations comprise the 19 "properties" without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising 14 of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code. 
 
 ```{r unassigned-table, echo=FALSE}
 unassigned_addresses |>
@@ -680,9 +680,6 @@ geocoded_results %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 
 ```
-
-Congregations without coordinates will require additional review by the dioses to determine likely location. 
-
 
 ------------------------------------------------------------------------
 
