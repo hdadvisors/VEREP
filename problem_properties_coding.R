@@ -126,8 +126,75 @@ cat(sprintf("\nCongregations with unassigned/missing addresses: %d\n",
 cat(sprintf("Total properties affected: %d\n", 
             sum(unassigned_addresses$num_unassigned)))
 
+property_profile %>%
+  filter(congregation_name %in% c("St Johns Episcopal Church", 
+                                  "St Pauls Church", 
+                                  "St Stephens Church")) %>%
+  select(congregation_name, sadd, lat, lon) %>%
+  print(n = 20)
+
+property_profile %>%
+  filter(is.na(sadd) | sadd == "") %>%
+  count(congregation_name)
+
+address_lookup_simple <- geocoded_results %>%
+  select(congregation_name, geocoded_address = address)
+
+# Update properties that have "UNASSIGNED" in the address
+property_profile_updated <- property_profile %>%
+  left_join(address_lookup_simple, by = "congregation_name") %>%
+  mutate(
+    sadd = case_when(
+      # Replace if address contains "UNASSIGNED" and we have a geocoded address
+      str_detect(sadd, "UNASSIGNED") & !is.na(geocoded_address) ~ geocoded_address,
+      TRUE ~ sadd
+    )
+  ) %>%
+  select(-geocoded_address)
+
+# Check the results
+property_profile_updated %>%
+  filter(congregation_name %in% c("St Johns Episcopal Church", 
+                                  "St Pauls Church", 
+                                  "St Stephens Church")) %>%
+  select(congregation_name, sadd, lat, lon) %>%
+  print(n = 20)
+
+# Simple summary showing just the shared attributes
+duplicate_summary <- property_profile_updated %>%
+  group_by(congregation_name, sadd, attendance_2023, plate_pledge_2023) %>%
+  filter(n() > 1) %>%
+  summarise(
+    n_entries = n(),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(n_entries))
+
+# Display
+duplicate_summary %>%
+  kable(
+    col.names = c("Congregation", "Address", "Attendance 2023", "Plate/Pledge 2023", "# Entries"),
+    digits = 0,
+    format.args = list(big.mark = ",")
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+
+# Then separately show the data quality issue for one example
+# Pick one congregation to illustrate the problem
+property_profile_updated %>%
+  filter(congregation_name == "St Johns Episcopal Church",  # or whichever has most duplicates
+         sadd == "902 MAIN ST, WEST POINT 23181") %>%  # adjust address
+  select(pid, lan_val, rgisacre, deed_acres, zon) %>%
+  kable(
+    col.names = c("PID", "Land Value", "GIS Acreage", "Deed Acreage", "Zoning"),
+    caption = "Example: Multiple entries with different property data for the same congregation/address",
+    digits = 2,
+    format.args = list(big.mark = ",")
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+
 ## 3B: Shared Addresses (Different congregations at same location) ----
-shared_by_address <- property_profile %>%
+shared_by_address <- property_profile_updated %>%
   filter(!is.na(sadd) & sadd != "") %>%
   group_by(sadd, scity) %>%
   filter(n_distinct(congregation_name) > 1) %>%

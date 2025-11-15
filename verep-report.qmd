@@ -548,7 +548,6 @@ total_props <- nrow(property_profile)
 incomplete_data <- nrow(incomplete_properties)
 missing_addresses <- sum(unassigned_addresses$num_unassigned)
 
-
 # Create summary table
 summary_stats <- tibble(
   Metric = c("Total properties analyzed",
