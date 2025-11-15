@@ -607,14 +607,14 @@ props_with_incomplete_addr <- incomplete_properties$pin[
 ]
 
 address_issues <- nrow(shared_addresses) + nrow(unassigned_addresses) + 
-  nrow(incomplete_properties %>% filter(is.na(sadd) | sadd == ""))
+  nrow(incomplete_properties |> filter(is.na(sadd) | sadd == ""))
 
 # Add Property Information row
-missing_breakdown <- missing_breakdown %>%
+missing_breakdown <- missing_breakdown |>
   add_row(
     data_type = "Property Information",
     count = address_issues
-  ) %>%
+  ) |>
   arrange(desc(count))
 ```
 
@@ -644,6 +644,7 @@ The following congregations comprise the 19 "properties" without proper street a
 ```{r unassigned-table, echo=FALSE}
 unassigned_addresses |>
   select(congregation_name, num_unassigned, cities, has_coords) |>
+  mutate(has_coords = if_else(has_coords > 0, "Yes", "No")) |>
   kable(
     col.names = c("Congregation", "# Unassigned Properties", "Cities", "Has Coordinates"),
     digits = 0
@@ -655,10 +656,10 @@ unassigned_addresses |>
 ```{r}
 library(tidygeocoder)
 
-needs_geocoding <- unassigned_addresses %>%
+needs_geocoding <- unassigned_addresses |>
   filter(!is.na(sample_lat) & !is.na(sample_lon))
 
-geocoded_results <- needs_geocoding %>%
+geocoded_results <- needs_geocoding |>
   reverse_geocode(
     lat = sample_lat,
     long = sample_lon,
@@ -669,11 +670,11 @@ geocoded_results <- needs_geocoding %>%
 # Save the geocoded addresses
 write_csv(geocoded_results, "data/output/geocoded_unassigned_addresses.csv")
 
-geocoded_results %>%
-  select(congregation_name, num_unassigned, cities, address) %>%
+geocoded_results |>
+  select(congregation_name, num_unassigned, cities, address) |>
   kable(
     col.names = c("Congregation", "# Properties", "Cities", "Geocoded Address")
-  ) %>%
+  ) |>
   kable_styling(bootstrap_options = c("striped", "hover"))
 
 ```
