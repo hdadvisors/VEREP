@@ -71,6 +71,56 @@ unassigned_addresses <- property_profile %>%
   ) %>%
   arrange(desc(num_unassigned))
 
+
+### Geocoding unassigned with coordinates ----
+
+unassigned_addresses |>
+  select(congregation_name, num_unassigned, cities, has_coords) |>
+  mutate(has_coords = if_else(has_coords > 0, "Yes", "No")) |>
+  kable(
+    col.names = c("Congregation", "# Unassigned Properties", "Cities", "Has Coordinates"),
+    digits = 0
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+  row_spec(which(unassigned_addresses$has_coords == 0), background = "#f8d7da")
+
+library(tidygeocoder)
+
+needs_geocoding <- unassigned_addresses |>
+  filter(!is.na(sample_lat) & !is.na(sample_lon))
+
+geocoded_results <- needs_geocoding |>
+  reverse_geocode(
+    lat = sample_lat,
+    long = sample_lon,
+    method = "arcgis",
+    full_results = FALSE
+  )
+
+# Save the geocoded addresses
+write_csv(geocoded_results, "data/output/geocoded_unassigned_addresses.csv")
+
+geocoded_results |>
+  select(congregation_name, num_unassigned, cities, address) |>
+  kable(
+    col.names = c("Congregation", "# Properties", "Cities", "Geocoded Address")
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover"))
+
+# Create a lookup table
+address_lookup <- geocoded_results %>%
+  select(congregation_name, sample_lat, sample_lon, geocoded_address = address)
+
+# Join back to property_profile to fill in missing addresses
+property_profile_updated <- property_profile %>%
+  left_join(address_lookup, by = c("congregation_name", "lat" = "sample_lat", "lon" = "sample_lon")) %>%
+  mutate(
+    sadd = if_else(is.na(sadd) | sadd == "", geocoded_address, sadd)
+  ) %>%
+  select(-geocoded_address)
+
+write_csv(property_profile_updated, "data/output/property_profile_updated.csv")
+
 cat(sprintf("\nCongregations with unassigned/missing addresses: %d\n", 
             nrow(unassigned_addresses)))
 cat(sprintf("Total properties affected: %d\n", 
