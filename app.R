@@ -161,6 +161,43 @@ scored_parcels <- df_joined %>%
     )
   )
 
+# ADU design library
+adu_designs <- tibble(
+  name = c("Modal 01", "Dwight", "Compact Studio", "Large 2BR"),
+  sqft = c(432, 594, 350, 850),
+  width_ft = c(20, 25, 15, 30),
+  length_ft = c(22, 24, 23, 28),
+  bedrooms = c(1, 1, 0, 2),
+  color = c("#445ca9", "#8baeaa", "#e85d75", "#f39c12")
+)
+
+# Function to convert feet to approximate degrees
+ft_to_degrees <- function(feet, lat) {
+  ft_to_deg_lat <- 1 / 364000
+  ft_to_deg_lng <- 1 / (288200 * cos(lat * pi / 180))
+  list(lat = feet * ft_to_deg_lat, lng = feet * ft_to_deg_lng)
+}
+
+# Function to create ADU polygon at a point
+create_adu_polygon <- function(lng, lat, width_ft, length_ft) {
+  deg <- ft_to_degrees(1, lat)
+  
+  half_width <- (width_ft * deg$lng) / 2
+  half_length <- (length_ft * deg$lat) / 2
+  
+  coords <- matrix(c(
+    lng - half_width, lat - half_length,
+    lng + half_width, lat - half_length,
+    lng + half_width, lat + half_length,
+    lng - half_width, lat + half_length,
+    lng - half_width, lat - half_length
+  ), ncol = 2, byrow = TRUE)
+  
+  st_polygon(list(coords)) %>%
+    st_sfc(crs = 4326)
+}
+
+
 # Get top 10
 top_10 <- scored_parcels %>%
   arrange(desc(development_score)) %>%
@@ -184,6 +221,7 @@ ui <- dashboardPage(
       menuItem("Property Rankings", tabName = "rankings", icon = icon("list-ol")),
       menuItem("Property Details", tabName = "details", icon = icon("info-circle")),
       menuItem("Methodology", tabName = "methodology", icon = icon("book")),
+      menuItem("ADU Placement Tool", tabName = "adu", icon = icon("home")),
       br(),
       downloadButton("download_pptx", "Download PowerPoint", 
                      style = "width: 90%; margin: 10px;"),
@@ -314,6 +352,84 @@ ui <- dashboardPage(
         )
       ),
       
+      # ADU Placement Tab
+      tabItem(
+        tabName = "adu",
+        h2("Interactive ADU Placement Tool"),
+        
+        fluidRow(
+          box(
+            title = "Select Property",
+            width = 12,
+            status = "primary",
+            selectInput("adu_property", "Choose a property to explore:",
+                        choices = setNames(top_10$objectid, 
+                                           paste0("#", top_10$rank, ": ", 
+                                                  top_10$site_address, " - ", 
+                                                  top_10$site_city)))
+          )
+        ),
+        
+        fluidRow(
+          box(
+            title = "ADU Design Controls",
+            width = 3,
+            status = "primary",
+            
+            selectInput("adu_design", "Select ADU Design:",
+                        choices = adu_designs$name,
+                        selected = adu_designs$name[1]),
+            
+            uiOutput("adu_design_info"),
+            
+            hr(),
+            
+            actionButton("clear_adus", "Clear All ADUs", 
+                         class = "btn-warning",
+                         style = "width: 100%; margin-bottom: 10px;"),
+            
+            actionButton("reset_view", "Reset View",
+                         class = "btn-secondary",
+                         style = "width: 100%;"),
+            
+            hr(),
+            
+            div(
+              style = "font-size: 0.9em; color: #666;",
+              h5("How to use:"),
+              tags$ol(
+                tags$li("Select a property from the dropdown above"),
+                tags$li("Choose an ADU design"),
+                tags$li("Click on the map to place the ADU"),
+                tags$li("Place multiple ADUs to explore layouts"),
+                tags$li("Toggle between Satellite and Street views")
+              ),
+              br(),
+              div(
+                style = "padding: 10px; background: #d1ecf1; border-radius: 5px;",
+                icon("info-circle"), " Use satellite view to see existing structures and identify open areas."
+              )
+            )
+          ),
+          
+          box(
+            title = "Property Map",
+            width = 9,
+            status = "info",
+            leafletOutput("adu_map", height = 700)
+          )
+        ),
+        
+        fluidRow(
+          box(
+            title = "Property Information",
+            width = 12,
+            status = "info",
+            uiOutput("adu_property_info")
+          )
+        )
+      )
+      
       # Property Details Tab
       tabItem(
         tabName = "details",
@@ -404,6 +520,10 @@ ui <- dashboardPage(
   )
 )
 
+
+
+
+
 # Server
 server <- function(input, output, session) {
   
@@ -423,6 +543,174 @@ server <- function(input, output, session) {
                   backgroundSize = "100% 90%",
                   backgroundRepeat = "no-repeat",
                   backgroundPosition = "center")
+  })
+  
+  # ADU Placement Functionality
+  
+  # Reactive values for ADU placement
+  adu_state <- reactiveValues(
+    placed_adus = list(),
+    counter = 0
+  )
+  
+  # Get selected property
+  selected_adu_property <- reactive({
+    req(input$adu_property)
+    top_10 %>% filter(objectid == input$adu_property)
+  })
+  
+  # Display ADU design info
+  output$adu_design_info <- renderUI({
+    design <- adu_designs %>% filter(name == input$adu_design)
+    
+    div(
+      style = sprintf(
+        "background: %s; color: white; padding: 15px; border-radius: 5px; margin-top: 10px;",
+        design$color
+      ),
+      h4(design$name, style = "margin: 0 0 10px 0; color: white;"),
+      tags$div(
+        style = "display: grid; grid-template-columns: 1fr 1fr; gap: 10px;",
+        div(tags$strong("Size:"), tags$br(), paste(design$sqft, "sqft")),
+        div(tags$strong("Bedrooms:"), tags$br(), design$bedrooms),
+        div(
+          style = "grid-column: 1 / -1;",
+          tags$strong("Dimensions:"), tags$br(),
+          paste(design$width_ft, "ft ×", design$length_ft, "ft")
+        )
+      )
+    )
+  })
+  
+  # Display property information
+  output$adu_property_info <- renderUI({
+    prop <- selected_adu_property()
+    
+    HTML(paste0(
+      "<div style='display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;'>",
+      "<div><strong>Address:</strong><br>", prop$site_address, "<br>", prop$site_city, "</div>",
+      "<div><strong>Size:</strong><br>", round(prop$area_acres, 2), " acres</div>",
+      "<div><strong>Development Score:</strong><br>", round(prop$development_score, 1), "/100</div>",
+      "<div><strong>Walkability:</strong><br>", round(prop$walkability_score, 1), "/100</div>",
+      "</div>"
+    ))
+  })
+  
+  # Initialize map
+  output$adu_map <- renderLeaflet({
+    prop <- selected_adu_property()
+    
+    leaflet() %>%
+      addProviderTiles(providers$Esri.WorldImagery, group = "Satellite") %>%
+      addProviderTiles(providers$CartoDB.Positron, group = "Street") %>%
+      addProviderTiles(providers$OpenStreetMap, group = "OpenStreetMap") %>%
+      addLayersControl(
+        baseGroups = c("Satellite", "Street", "OpenStreetMap"),
+        position = "topright"
+      ) %>%
+      setView(lng = prop$lon, lat = prop$lat, zoom = 19) %>%
+      addMarkers(
+        lng = prop$lon,
+        lat = prop$lat,
+        label = prop$site_address,
+        popup = paste0(
+          "<strong>", prop$site_address, "</strong><br>",
+          "Land Value: $", format(prop$assessed_value, big.mark = ","), "<br>",
+          "Acreage: ", round(prop$area_acres, 2)
+        ),
+        group = "Property Marker"
+      ) %>%
+      addScaleBar(position = "bottomleft") %>%
+      addMeasure(
+        position = "topleft",
+        primaryLengthUnit = "feet",
+        primaryAreaUnit = "sqfeet",
+        activeColor = "#3c8dbc",
+        completedColor = "#00a65a"
+      )
+  })
+  
+  # Update map when property changes
+  observeEvent(input$adu_property, {
+    prop <- selected_adu_property()
+    
+    leafletProxy("adu_map") %>%
+      clearMarkers() %>%
+      clearGroup("ADUs") %>%
+      setView(lng = prop$lon, lat = prop$lat, zoom = 19) %>%
+      addMarkers(
+        lng = prop$lon,
+        lat = prop$lat,
+        label = prop$site_address,
+        popup = paste0(
+          "<strong>", prop$site_address, "</strong><br>",
+          "Land Value: $", format(prop$assessed_value, big.mark = ","), "<br>",
+          "Acreage: ", round(prop$area_acres, 2)
+        ),
+        group = "Property Marker"
+      )
+    
+    # Reset ADU state
+    adu_state$placed_adus <- list()
+    adu_state$counter <- 0
+  })
+  
+  # Place ADU on map click
+  observeEvent(input$adu_map_click, {
+    click <- input$adu_map_click
+    design <- adu_designs %>% filter(name == input$adu_design)
+    
+    # Create ADU geometry
+    adu_geom <- create_adu_polygon(
+      click$lng, click$lat,
+      design$width_ft, design$length_ft
+    )
+    
+    adu_state$counter <- adu_state$counter + 1
+    adu_id <- paste0("adu_", adu_state$counter)
+    
+    # Add to map
+    leafletProxy("adu_map") %>%
+      addPolygons(
+        data = adu_geom,
+        layerId = adu_id,
+        fillColor = design$color,
+        fillOpacity = 0.7,
+        weight = 2,
+        color = "white",
+        label = paste(design$name, "-", design$sqft, "sqft"),
+        popup = paste0(
+          "<strong>", design$name, "</strong><br>",
+          "Size: ", design$sqft, " sqft<br>",
+          "Dimensions: ", design$width_ft, "' × ", design$length_ft, "'<br>",
+          "Bedrooms: ", design$bedrooms
+        ),
+        group = "ADUs"
+      )
+    
+    # Store ADU data
+    adu_state$placed_adus[[adu_id]] <- list(
+      geom = adu_geom,
+      design = design$name,
+      sqft = design$sqft,
+      lng = click$lng,
+      lat = click$lat
+    )
+  })
+  
+  # Clear all ADUs
+  observeEvent(input$clear_adus, {
+    leafletProxy("adu_map") %>%
+      clearGroup("ADUs")
+    adu_state$placed_adus <- list()
+    adu_state$counter <- 0
+  })
+  
+  # Reset view
+  observeEvent(input$reset_view, {
+    prop <- selected_adu_property()
+    leafletProxy("adu_map") %>%
+      setView(lng = prop$lon, lat = prop$lat, zoom = 19)
   })
   
   # Tier Distribution Chart

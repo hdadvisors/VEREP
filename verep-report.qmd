@@ -10,13 +10,9 @@ format:
     toc-depth: 3
     code-fold: true
     code-summary: "Show code"
-    embed-resources: false
+    embed-resources: true
     theme: cosmo
     number-sections: true
-runtime: shiny
-format:
-  html:
-    embed-resources: false
 execute:
   warning: false
   message: false
@@ -54,6 +50,7 @@ library(sf)
 library(scales)
 library(kableExtra)
 library(shiny)
+library(tidygeocoder)
 
 knitr::opts_chunk$set(
   warning = FALSE,
@@ -157,6 +154,13 @@ top_10 <- property_profile |>
       TRUE ~ 1
     )
   )
+
+if (!"lon" %in% names(top_10) || !"lat" %in% names(top_10)) {
+  top_10 <- top_10 %>%
+    mutate(full_address = paste(site_address, site_city, site_county, "VA")) %>%
+    geocode(address = full_address, method = "osm", quiet = TRUE) %>%
+    rename(lon = long, lat = lat)  # Keep as lon/lat for consistency
+}
 ```
 
 # Executive Summary {.unnumbered}
@@ -923,58 +927,6 @@ tier_summary |>
 
 ------------------------------------------------------------------------
 
-```{r}
-#| echo: false
-#| include: false
-
-# ADU design library
-adu_designs <- tibble(
-  name = c("Modal 01", "Dwight", "Compact Studio", "Large 2BR"),
-  sqft = c(432, 594, 350, 850),
-  width_ft = c(20, 25, 15, 30),
-  length_ft = c(22, 24, 23, 28),
-  bedrooms = c(1, 1, 0, 2),
-  color = c("#445ca9", "#8baeaa", "#e85d75", "#f39c12")
-)
-
-# Function to convert feet to approximate degrees
-ft_to_degrees <- function(feet, lat) {
-  ft_to_deg_lat <- 1 / 364000
-  ft_to_deg_lng <- 1 / (288200 * cos(lat * pi / 180))
-  list(lat = feet * ft_to_deg_lat, lng = feet * ft_to_deg_lng)
-}
-
-# Function to create ADU polygon at a point
-create_adu_polygon <- function(lng, lat, width_ft, length_ft) {
-  deg <- ft_to_degrees(1, lat)
-  
-  half_width <- (width_ft * deg$lng) / 2
-  half_length <- (length_ft * deg$lat) / 2
-  
-  coords <- matrix(c(
-    lng - half_width, lat - half_length,
-    lng + half_width, lat - half_length,
-    lng + half_width, lat + half_length,
-    lng - half_width, lat + half_length,
-    lng - half_width, lat - half_length
-  ), ncol = 2, byrow = TRUE)
-  
-  st_polygon(list(coords)) %>%
-    st_sfc(crs = 4326)
-}
-
-# Add geocoding if coordinates don't exist
-if (!"longitude" %in% names(top_10) || !"latitude" %in% names(top_10)) {
-  library(tidygeocoder)
-  
-  top_10 <- top_10 %>%
-    mutate(full_address = paste(site_address, site_city, site_county, "VA")) %>%
-    geocode(address = full_address, method = "osm", quiet = TRUE) %>%
-    rename(longitude = long, latitude = lat)
-}
-```
-
-
 # Property Profiles
 
 ## Overview
@@ -987,6 +939,7 @@ The following section provides detailed profiles for each of the top 10 developm
 -   Key considerations and next steps
 
 ```{r property-profiles, results='asis'}
+
 create_property_profile <- function(rank_num) {
   property <- top_10 |> filter(rank == rank_num)
   
@@ -1062,177 +1015,20 @@ create_property_profile <- function(rank_num) {
   if(!is.na(property$financial_need) && property$financial_need >= 2) {
     cat("4. Ground lease financial modeling\n")
   }
-  
-  # ADD INTERACTIVE ADU PLACEMENT HERE
-  cat("\n#### Interactive ADU Placement Tool\n\n")
-  cat("Explore potential ADU configurations on this property. Click on the map to place different ADU designs.\n\n")
-  
-  # Output the interactive UI using raw HTML
-  cat('<div style="margin: 20px 0;">\n')
-  cat('<div style="display: grid; grid-template-columns: 300px 1fr; gap: 20px;">\n')
-  
-  # Sidebar
-  cat('<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; height: fit-content;">\n')
-  cat('<h5 style="margin-top: 0;">ADU Design Tool</h5>\n')
-  cat('<div id="', prop_id, '_controls"></div>\n', sep = "")
-  cat('<hr>\n')
-  cat('<button id="', prop_id, '_clear" class="btn btn-warning btn-sm" style="width: 100%; margin-bottom: 10px;">Clear ADUs</button>\n', sep = "")
-  cat('<button id="', prop_id, '_reset" class="btn btn-secondary btn-sm" style="width: 100%;">Reset View</button>\n', sep = "")
-  cat('<hr>\n')
-  cat('<div style="font-size: 0.85em; color: #666;">\n')
-  cat('<strong>How to use:</strong>\n')
-  cat('<ol style="margin: 10px 0; padding-left: 20px;">\n')
-  cat('<li>Select an ADU design</li>\n')
-  cat('<li>Click on the map to place</li>\n')
-  cat('<li>Toggle between views</li>\n')
-  cat('</ol>\n')
-  cat('</div>\n')
-  cat('</div>\n')
-  
-  # Map
-  cat('<div id="', prop_id, '_map" style="height: 600px; border-radius: 8px; overflow: hidden;"></div>\n', sep = "")
-  
-  cat('</div>\n')
-  cat('</div>\n\n')
-  
-  cat("\n---\n\n")
-}
+
+cat("\n---\n\n")
+cat("## Interactive ADU Placement Tool\n\n")
+cat("For an interactive experience where you can place and explore ADU designs on these properties, ")
+cat('[**launch the interactive dashboard**](http://localhost:3838) (run `shiny::runApp("app.R")` in your R console).\n\n')
+cat("The dashboard includes:\n\n")
+cat("- Interactive map with click-to-place ADU functionality\n")
+cat("- Multiple ADU design options\n")
+cat("- Real-time property visualization\n")
+cat("- Satellite and street view toggles\n\n")
 
 # Generate all profiles
 for(i in 1:10) {
   create_property_profile(i)
-}
-```
-
-```{r}
-#| echo: false
-#| context: server
-
-for (i in 1:10) {
-  local({
-    idx <- i
-    property <- top_10[idx, ]
-    prop_id <- paste0("prop_", idx)
-    
-    # Skip if no coordinates
-    if (is.na(property$longitude) || is.na(property$latitude)) {
-      return(NULL)
-    }
-    
-    # Reactive values
-    placed_adus <- reactiveValues(adus = list(), counter = 0)
-    
-    parcel_lng <- property$longitude
-    parcel_lat <- property$latitude
-    
-    # Create UI namespace
-    ns <- NS(prop_id)
-    
-    # Render controls in the sidebar
-    output[[paste0(prop_id, "_controls")]] <- renderUI({
-      tagList(
-        selectInput(
-          ns("adu_type"),
-          "Select ADU Design:",
-          choices = adu_designs$name,
-          selected = adu_designs$name[1]
-        ),
-        uiOutput(ns("adu_info"))
-      )
-    })
-    
-    # ADU info card
-    output[[paste0(prop_id, "_adu_info")]] <- renderUI({
-      req(input[[paste0(prop_id, "_adu_type")]])
-      design <- adu_designs %>% filter(name == input[[paste0(prop_id, "_adu_type")]])
-      
-      div(
-        style = sprintf(
-          "background: %s; color: white; padding: 12px; border-radius: 5px; margin-top: 10px;",
-          design$color
-        ),
-        tags$strong(design$name),
-        tags$br(),
-        tags$small(paste(design$sqft, "sqft |", design$width_ft, "' ×", design$length_ft, "'")),
-        tags$br(),
-        tags$small(paste(design$bedrooms, "bedroom(s)"))
-      )
-    })
-    
-    # Initialize map
-    output[[paste0(prop_id, "_map")]] <- renderLeaflet({
-      leaflet() %>%
-        addProviderTiles(providers$Esri.WorldImagery, group = "Satellite") %>%
-        addProviderTiles(providers$CartoDB.Positron, group = "Street") %>%
-        addLayersControl(
-          baseGroups = c("Satellite", "Street"),
-          position = "topright"
-        ) %>%
-        setView(lng = parcel_lng, lat = parcel_lat, zoom = 19) %>%
-        addMarkers(
-          lng = parcel_lng,
-          lat = parcel_lat,
-          label = property$congregation_name,
-          popup = paste0(
-            "<strong>", property$site_address, "</strong><br>",
-            "Land Value: $", format(property$assessed_value, big.mark = ","), "<br>",
-            "Acreage: ", round(property$area_acres, 2)
-          )
-        ) %>%
-        addScaleBar(position = "bottomleft")
-    })
-    
-    # Place ADU on click
-    observeEvent(input[[paste0(prop_id, "_map_click")]], {
-      click <- input[[paste0(prop_id, "_map_click")]]
-      req(input[[paste0(prop_id, "_adu_type")]])
-      
-      design <- adu_designs %>% filter(name == input[[paste0(prop_id, "_adu_type")]])
-      
-      adu_geom <- create_adu_polygon(
-        click$lng, click$lat,
-        design$width_ft, design$length_ft
-      )
-      
-      placed_adus$counter <- placed_adus$counter + 1
-      adu_id <- paste0("adu_", prop_id, "_", placed_adus$counter)
-      
-      leafletProxy(paste0(prop_id, "_map")) %>%
-        addPolygons(
-          data = adu_geom,
-          layerId = adu_id,
-          fillColor = design$color,
-          fillOpacity = 0.7,
-          weight = 2,
-          color = "white",
-          label = paste(design$name, "-", design$sqft, "sqft"),
-          popup = paste0(
-            "<strong>", design$name, "</strong><br>",
-            design$sqft, " sqft | ", design$bedrooms, " bed"
-          ),
-          group = "ADUs"
-        )
-      
-      placed_adus$adus[[adu_id]] <- list(
-        geom = adu_geom,
-        design = design$name
-      )
-    })
-    
-    # Clear button
-    observeEvent(input[[paste0(prop_id, "_clear")]], {
-      leafletProxy(paste0(prop_id, "_map")) %>%
-        clearGroup("ADUs")
-      placed_adus$adus <- list()
-      placed_adus$counter <- 0
-    })
-    
-    # Reset view button
-    observeEvent(input[[paste0(prop_id, "_reset")]], {
-      leafletProxy(paste0(prop_id, "_map")) %>%
-        setView(lng = parcel_lng, lat = parcel_lat, zoom = 19)
-    })
-  })
 }
 ```
 
