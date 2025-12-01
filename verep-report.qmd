@@ -3,6 +3,7 @@ title: "VEREP Property Development Analysis"
 subtitle: "Strategic Assessment of Development Opportunities"
 author: "HDAdvisors"
 date: today
+css: hda-styles.css
 format:
   html:
     toc: true
@@ -11,7 +12,7 @@ format:
     code-summary: "Show code"
     embed-resources: true
     theme: cosmo
-    number-sections: false
+    number-sections: true
 execute:
   warning: false
   message: false
@@ -638,7 +639,7 @@ ggplot(missing_breakdown, aes(x = reorder(data_type, count), y = count)) +
 
 ### Missing and Unassigned Addresses
 
-The following congregations comprise the 19 "properties" without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising 14 of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code. 
+The following congregations comprise the 19 "properties" without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising 14 of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code.
 
 ```{r unassigned-table, echo=FALSE}
 unassigned_addresses |>
