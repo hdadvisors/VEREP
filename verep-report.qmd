@@ -18,73 +18,9 @@ execute:
   message: false
   echo: false
 ---
-
-```{r setup, include=FALSE}
-library(tidyverse)
-library(leaflet)
-library(scales)
-library(kableExtra)
-
-knitr::opts_chunk$set(
-  warning = FALSE,
-  message = FALSE,
-  echo = FALSE,
-  fig.width = 10,
-  fig.height = 6
-)
-```
-
 ```{css}
+
 #| echo: false
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Lato:wght@300;400;700&display=swap');
-
-body {
-  font-family: 'Lato', sans-serif;
-  color: #333333;
-  line-height: 1.6;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Roboto Slab', serif;
-  color: #445ca9;
-  margin-top: 1.5em;
-}
-
-h1 {
-  border-bottom: 3px solid #445ca9;
-  padding-bottom: 0.5em;
-}
-
-h2 {
-  border-bottom: 2px solid #8baeaa;
-  padding-bottom: 0.3em;
-}
-
-.callout-note {
-  border-left-color: #445ca9 !important;
-  background-color: #f8f9fa;
-}
-
-.callout-warning {
-  border-left-color: #e76f52 !important;
-}
-
-.callout-tip {
-  border-left-color: #8baeaa !important;
-}
-
-.callout-important {
-  border-left-color: #e9ab3f !important;
-}
-
-a {
-  color: #445ca9;
-}
-
-a:hover {
-  color: #e9ab3f;
-}
 
 .stat-box {
   background: linear-gradient(135deg, #445ca9 0%, #8baeaa 100%);
@@ -106,6 +42,21 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+```
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(leaflet)
+library(scales)
+library(kableExtra)
+
+knitr::opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  echo = FALSE,
+  fig.width = 10,
+  fig.height = 6
+)
 ```
 
 ```{r load-processed-data, include=FALSE}
