@@ -1,0 +1,252 @@
+# Understanding the Development Criteria
+
+## Why These Factors Matter
+
+The development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability.
+
+### Property Size: The Goldilocks Principle
+
+**Weight: 20%**
+
+::: {.column-margin}
+**Optimal Range**: 2-25 acres
+
+Properties that are "just right" for development.
+:::
+
+Not too small to be economically viable, not too large to be financially unwieldy.
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 400
+#| label: fig-size-scoring
+#| fig-cap: "Property Size Scoring Curve"
+
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("Property Size Scoring"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("acres", "Property Size (acres):",
+                  min = 0, max = 50, value = 10, step = 0.5),
+      verbatimTextOutput("score_text")
+    ),
+    
+    mainPanel(
+      plotOutput("scoring_curve", height = "300px")
+    )
+  )
+)
+
+server <- function(input, output) {
+  # Scoring function
+  calculate_score <- function(size) {
+    if (size < 2) return(size / 2 * 50)
+    if (size <= 25) return(100)
+    if (size <= 50) return(100 - (size - 25) * 2)
+    return(50)
+  }
+  
+  output$scoring_curve <- renderPlot({
+    sizes <- seq(0, 50, 0.1)
+    scores <- sapply(sizes, calculate_score)
+    
+    df <- data.frame(Size = sizes, Score = scores)
+    
+    ggplot(df, aes(x = Size, y = Score)) +
+      geom_line(color = "steelblue", size = 1.2) +
+      geom_vline(xintercept = input$acres, linetype = "dashed", 
+                 color = "red", size = 1) +
+      geom_hline(yintercept = calculate_score(input$acres), 
+                 linetype = "dashed", color = "red", size = 1) +
+      annotate("rect", xmin = 2, xmax = 25, ymin = 0, ymax = 100,
+               alpha = 0.1, fill = "green") +
+      labs(title = "Property Size Scoring Curve",
+           x = "Property Size (Acres)",
+           y = "Score") +
+      theme_minimal() +
+      theme(text = element_text(size = 12))
+  })
+  
+  output$score_text <- renderText({
+    score <- calculate_score(input$acres)
+    paste0("Score for ", input$acres, " acres: ", round(score, 1), "/100")
+  })
+}
+
+shinyApp(ui, server)
+```
+
+**Why This Matters**:
+- Too small (<2 acres): Limited development options, high per-unit costs
+- Optimal (2-25 acres): Maximum flexibility and economic efficiency
+- Too large (>25 acres): Requires significant capital, complex phasing
+
+### Current Use: Identifying Low-Hanging Fruit
+
+**Weight: 15%**
+
+Properties with minimal current utilization represent immediate opportunities.
+
+| Current Use | Score | Rationale |
+|-------------|-------|-----------|
+| Vacant Land | 100 | Immediate development potential |
+| Parking/Storage | 80 | Low-value use, easy conversion |
+| Underutilized Building | 60 | Requires demolition/renovation |
+| Active Use | 20 | Displacement costs high |
+
+### Location Quality: Following the Market
+
+**Weight: 20%**
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 500
+#| label: fig-location-scoring
+#| fig-cap: "Location Quality Analysis Tool"
+
+library(shiny)
+library(leaflet)
+
+ui <- fluidPage(
+  titlePanel("Location Quality Scoring"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      h4("Proximity Factors"),
+      sliderInput("transit", "Transit Access (miles):",
+                  min = 0, max = 5, value = 0.5, step = 0.1),
+      sliderInput("amenities", "Amenities (miles):",
+                  min = 0, max = 5, value = 1, step = 0.1),
+      sliderInput("employment", "Employment Centers (miles):",
+                  min = 0, max = 10, value = 3, step = 0.5),
+      hr(),
+      h4("Calculated Score"),
+      verbatimTextOutput("location_score")
+    ),
+    
+    mainPanel(
+      plotOutput("score_breakdown", height = "350px")
+    )
+  )
+)
+
+server <- function(input, output) {
+  scores <- reactive({
+    transit_score <- max(0, 100 - input$transit * 40)
+    amenity_score <- max(0, 100 - input$amenities * 30)
+    employment_score <- max(0, 100 - input$employment * 15)
+    
+    list(
+      transit = transit_score,
+      amenities = amenity_score,
+      employment = employment_score,
+      total = mean(c(transit_score, amenity_score, employment_score))
+    )
+  })
+  
+  output$location_score <- renderText({
+    s <- scores()
+    paste0("Overall Location Score: ", round(s$total, 1), "/100\n\n",
+           "Transit: ", round(s$transit, 1), "\n",
+           "Amenities: ", round(s$amenities, 1), "\n",
+           "Employment: ", round(s$employment, 1))
+  })
+  
+  output$score_breakdown <- renderPlot({
+    s <- scores()
+    df <- data.frame(
+      Factor = c("Transit", "Amenities", "Employment", "Overall"),
+      Score = c(s$transit, s$amenities, s$employment, s$total),
+      Type = c(rep("Component", 3), "Total")
+    )
+    
+    ggplot(df, aes(x = Factor, y = Score, fill = Type)) +
+      geom_bar(stat = "identity") +
+      scale_fill_manual(values = c("Component" = "steelblue", 
+                                    "Total" = "darkgreen")) +
+      ylim(0, 100) +
+      labs(title = "Location Quality Score Breakdown",
+           y = "Score (0-100)") +
+      theme_minimal() +
+      theme(legend.position = "none",
+            text = element_text(size = 12))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+### Financial Need: Aligning Development with Mission
+
+**Weight: 15%**
+
+Properties with higher financial need receive priority to support mission sustainability.
+
+### Market Potential: Reading Economic Signals
+
+**Weight: 15%**
+```{r}
+#| label: tbl-market-indicators
+#| tbl-cap: "Market Potential Scoring Criteria"
+
+library(knitr)
+kable(data.frame(
+  Indicator = c("Population Growth", "Median Income", "Housing Demand", 
+                "Commercial Activity", "Development Trends"),
+  Weight = c("25%", "20%", "25%", "15%", "15%"),
+  Data_Source = c("Census", "ACS", "MLS/RHNA", "County Records", "Planning Dept")
+))
+```
+
+### Zoning: Navigating Regulatory Reality
+
+**Weight: 10%**
+
+| Zoning Category | Score | Development Impact |
+|-----------------|-------|-------------------|
+| Residential | 100 | Aligned with housing mission |
+| Mixed Use | 90 | Flexible development options |
+| Commercial | 70 | Requires use variance |
+| Agricultural | 40 | Significant restrictions |
+| Conservation | 10 | Severe limitations |
+
+### Environmental and Regulatory Constraints: Deal-Breakers vs. Speed-Bumps
+
+**Weight: 5%**
+
+::: {.callout-note}
+## Assessment Framework
+
+**Deal-Breakers** (Score: 0-30):
+- Wetlands
+- Endangered species habitat
+- Superfund sites
+- Severe slope/flooding
+
+**Speed-Bumps** (Score: 60-90):
+- CEQA review required
+- Historic considerations
+- Moderate environmental mitigation
+- Standard permitting
+:::
+
+## Bringing It All Together
+
+The final Development Potential Score is calculated as:
+
+$$
+\text{Score} = \sum_{i=1}^{7} (w_i \times s_i)
+$$
+
+Where:
+- $w_i$ = weight of criterion $i$
+- $s_i$ = score for criterion $i$ (0-100)
+
+**Score Interpretation**:
+
+- **90-100**: Exceptional opportunity - immediate action recommended
+- **75-89**: High potential - priority consideration
+- **60-74**: Moderate potential - further evaluation needed
+- **<60**: Limited potential - monitoring status

@@ -3,51 +3,85 @@ project:
   output-dir: _book
 
 book:
-  title: "My Interactive Analysis Book"
-  author: "Your Name"
+  title: "Property Development Opportunity Analysis"
+  subtitle: "A Comprehensive Assessment of Underutilized Assets"
+  author: "Your Organization"
   date: today
   
-  # Important: List all your chapters in order
   chapters:
     - index.qmd
-    - intro.qmd
-    - analysis.qmd           # Chapter with shinylive apps
-    - advanced-analysis.qmd  # Another chapter with apps
-    - conclusion.qmd
-    - references.qmd
-  
-  # Optional: Add parts to organize chapters
-  # chapters:
-  #   - index.qmd
-  #   - part: "Getting Started"
-  #     chapters:
-  #       - intro.qmd
-  #       - setup.qmd
-  #   - part: "Analysis"
-  #     chapters:
-  #       - analysis.qmd
-  #       - advanced-analysis.qmd
+    
+    - part: "Executive Summary"
+      chapters:
+        - executive-summary.qmd
+    
+    - part: "Methodology & Data"
+      chapters:
+        - methodology-overview.qmd
+        - data-sources.qmd
+        - analytical-framework.qmd
+        - development-criteria.qmd
+    
+    - part: "Analysis Results"
+      chapters:
+        - development-landscape.qmd
+        - geographic-distribution.qmd
+        - data-quality-issues.qmd
+    
+    - part: "Summary Statistics"
+      chapters:
+        - property-portfolio.qmd
+        - geographic-stats.qmd
+        - vitality-metrics.qmd
+        - developable-land.qmd
+    
+    - part: "Property Profiles"
+      chapters:
+        - property-profiles.qmd
+    
+    - part: "Appendices"
+      chapters:
+        - appendix-technical.qmd
+        - references.qmd
 
-# Shinylive filter applies to entire book
+# Shinylive filter for interactive elements
 filters:
   - shinylive
 
-# Format options
 format:
   html:
-    theme: cosmo
+    theme: 
+      - cosmo
+      - custom.scss
     toc: true
-    toc-depth: 2
+    toc-depth: 3
+    toc-title: "Contents"
     number-sections: true
-    code-fold: show
+    number-depth: 3
+    code-fold: true
     code-tools: true
-    # CRITICAL: Don't embed resources for shinylive
+    smooth-scroll: true
     embed-resources: false
-    # Include service worker
+    search: true
     resources:
       - shinylive-sw.js
+    css: styles.css
   
-  # Optional: Also render as PDF (without shinylive)
-  # pdf:
-  #   documentclass: book
-  #   toc: true
+  pdf:
+    documentclass: report
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 3
+    geometry:
+      - margin=1in
+    fig-pos: 'H'
+    keep-tex: false
+
+# Cross-reference options
+crossref:
+  fig-title: "Figure"
+  tbl-title: "Table"
+  fig-prefix: "Figure"
+  tbl-prefix: "Table"
+  sec-prefix: "Section"

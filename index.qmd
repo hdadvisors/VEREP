@@ -1,0 +1,17 @@
+---
+title: "Welcome"
+---
+
+# Welcome to My Interactive Book
+
+This book contains interactive Shiny applications that run entirely in your browser!
+
+## What You'll Learn
+
+- Chapter 1: Introduction to the data
+- Chapter 2: Interactive exploratory analysis
+- Chapter 3: Advanced modeling techniques
+
+## How to Use This Book
+
+All interactive applications run directly in your browser - no installation required!
