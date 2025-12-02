@@ -1,0 +1,97 @@
+# Executive Summary {.unnumbered}
+
+This analysis examines properties with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.
+
+## At a Glance: Top 10 Properties
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 500
+#| label: fig-top-properties
+#| fig-cap: "Interactive Top 10 Properties Dashboard"
+
+library(shiny)
+library(bslib)
+library(DT)
+
+# Sample data - replace with your actual data
+top_properties <- data.frame(
+  Property = paste("Property", 1:10),
+  Score = c(95, 92, 88, 85, 82, 78, 75, 72, 68, 65),
+  Location = rep(c("North", "South", "East", "West"), length.out = 10),
+  Size_Acres = round(runif(10, 1, 50), 1),
+  Development_Potential = c("High", "High", "High", "Medium", "Medium", 
+                           "Medium", "Medium", "Low", "Low", "Low")
+)
+
+ui <- page_sidebar(
+  title = "Top 10 Development Opportunities",
+  sidebar = sidebar(
+    selectInput("region", "Filter by Region:",
+                choices = c("All", unique(top_properties$Location))),
+    sliderInput("min_score", "Minimum Score:",
+                min = 0, max = 100, value = 60)
+  ),
+  card(
+    card_header("Property Rankings"),
+    DTOutput("property_table")
+  )
+)
+
+server <- function(input, output, session) {
+  filtered_data <- reactive({
+    data <- top_properties
+    
+    if (input$region != "All") {
+      data <- data[data$Location == input$region, ]
+    }
+    
+    data <- data[data$Score >= input$min_score, ]
+    data
+  })
+  
+  output$property_table <- renderDT({
+    datatable(filtered_data(), 
+              options = list(pageLength = 10, dom = 't'),
+              rownames = FALSE)
+  })
+}
+
+shinyApp(ui, server)
+```
+
+## Key Findings
+
+### Significant Underutilized Assets
+
+Our analysis identified **XX properties** with substantial development potential, representing approximately **$XX million** in potential value creation.
+
+  **Parking lots** (highest development scores): Structured parking with mixed-use above
+- **Open space parcels**: Well-located vacant land ideal for ground lease arrangements
+- **Properties with declining congregations**: Sites where development can provide financial stability
+
+### Geographic Distribution
+
+- **Northern Region**: XX properties (XX% of portfolio)
+- **Southern Region**: XX properties (XX% of portfolio)
+- **Eastern Region**: XX properties (XX% of portfolio)
+- **Western Region**: XX properties (XX% of portfolio)
+
+Development opportunities are distributed across Virginia, with concentrations in:
+
+-   Urban/suburban areas with strong walkability scores
+-   Markets with favorable demographics and LIHTC eligibility
+-   Transit-accessible locations supporting reduced parking requirements
+
+### Financial Sustainability Imperative
+
+::: {.callout-warning}
+## Critical Finding
+Development of identified properties is essential for long-term financial sustainability and mission fulfillment.
+:::
+
+## Next Steps
+
+1. **Priority Assessment**: Review top-ranked properties for immediate action
+2. **Feasibility Studies**: Conduct detailed feasibility analysis for top candidates
+3. **Stakeholder Engagement**: Engage relevant stakeholders for high-priority sites
+4. **Financial Planning**: Develop funding strategies and timelines
