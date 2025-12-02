@@ -18,6 +18,7 @@ execute:
   message: false
   echo: false
 ---
+
 ```{css, echo=FALSE}
 
 .stat-box {
@@ -1037,6 +1038,7 @@ for(i in 1:10) {
   create_property_profile(i)
 }
 ```
+
 ```{r}
 cat("\n---\n\n")
 cat("# Interactive ADU Placement Tool\n\n")
