@@ -1,0 +1,182 @@
+# Property Portfolio Overview
+
+## Property Use Types
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+#| label: fig-portfolio-overview
+#| fig-cap: "Interactive Property Portfolio Dashboard"
+
+library(shiny)
+library(bslib)
+library(ggplot2)
+library(plotly)
+
+# Sample data
+set.seed(123)
+properties <- data.frame(
+  Use_Type = sample(c("Church", "School", "Vacant Land", "Parish Hall", 
+                      "Parking", "Rectory", "Other"), 100, replace = TRUE),
+  Region = sample(c("North", "South", "East", "West", "Central"), 100, replace = TRUE),
+  Size_Acres = round(runif(100, 0.5, 30), 1),
+  Dev_Score = round(runif(100, 20, 95), 0)
+)
+
+ui <- page_sidebar(
+  title = "Property Portfolio Dashboard",
+  
+  sidebar = sidebar(
+    selectInput("region_filter", "Region:",
+                choices = c("All", unique(properties$Region))),
+    selectInput("use_filter", "Property Use:",
+                choices = c("All", unique(properties$Use_Type))),
+    sliderInput("score_filter", "Min Development Score:",
+                min = 0, max = 100, value = 0)
+  ),
+  
+  layout_columns(
+    value_box(
+      title = "Total Properties",
+      value = textOutput("total_count"),
+      showcase = bsicons::bs_icon("building")
+    ),
+    value_box(
+      title = "Total Acres",
+      value = textOutput("total_acres"),
+      showcase = bsicons::bs_icon("map")
+    ),
+    value_box(
+      title = "Avg Dev Score",
+      value = textOutput("avg_score"),
+      showcase = bsicons::bs_icon("graph-up")
+    )
+  ),
+  
+  layout_columns(
+    card(
+      card_header("Properties by Use Type"),
+      plotlyOutput("use_plot", height = "300px")
+    ),
+    card(
+      card_header("Development Score Distribution"),
+      plotlyOutput("score_dist", height = "300px")
+    )
+  ),
+  
+  card(
+    card_header("Property Size vs Development Score"),
+    plotlyOutput("scatter", height = "400px")
+  )
+)
+
+server <- function(input, output, session) {
+  filtered_data <- reactive({
+    data <- properties
+    
+    if (input$region_filter != "All") {
+      data <- data[data$Region == input$region_filter, ]
+    }
+    
+    if (input$use_filter != "All") {
+      data <- data[data$Use_Type == input$use_filter, ]
+    }
+    
+    data <- data[data$Dev_Score >= input$score_filter, ]
+    data
+  })
+  
+  output$total_count <- renderText({
+    nrow(filtered_data())
+  })
+  
+  output$total_acres <- renderText({
+    paste(round(sum(filtered_data()$Size_Acres), 1), "ac")
+  })
+  
+  output$avg_score <- renderText({
+    round(mean(filtered_data()$Dev_Score), 1)
+  })
+  
+  output$use_plot <- renderPlotly({
+    use_counts <- table(filtered_data()$Use_Type)
+    plot_ly(x = names(use_counts), y = as.numeric(use_counts), 
+            type = 'bar', marker = list(color = 'steelblue')) %>%
+      layout(xaxis = list(title = "Use Type"),
+             yaxis = list(title = "Count"),
+             margin = list(b = 100))
+  })
+  
+  output$score_dist <- renderPlotly({
+    plot_ly(x = filtered_data()$Dev_Score, type = 'histogram',
+            marker = list(color = 'lightgreen'),
+            nbinsx = 20) %>%
+      layout(xaxis = list(title = "Development Score"),
+             yaxis = list(title = "Frequency"))
+  })
+  
+  output$scatter <- renderPlotly({
+    plot_ly(data = filtered_data(), 
+            x = ~Size_Acres, y = ~Dev_Score,
+            color = ~Use_Type, colors = 'Set2',
+            type = 'scatter', mode = 'markers',
+            marker = list(size = 10),
+            text = ~paste('Use:', Use_Type, '<br>',
+                         'Size:', Size_Acres, 'ac<br>',
+                         'Score:', Dev_Score),
+            hoverinfo = 'text') %>%
+      layout(xaxis = list(title = "Property Size (acres)", type = "log"),
+             yaxis = list(title = "Development Score"),
+             legend = list(orientation = 'h', y = -0.2))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+## Summary Metrics
+
+::: {.panel-tabset}
+
+### By Region
+```{r}
+#| label: tbl-by-region
+#| tbl-cap: "Property Distribution by Region"
+
+library(knitr)
+kable(data.frame(
+  Region = c("North", "South", "East", "West", "Central"),
+  Properties = c(25, 18, 22, 20, 15),
+  Total_Acres = c(245.3, 189.7, 312.5, 276.8, 145.2),
+  Avg_Score = c(72.3, 68.5, 75.2, 71.8, 69.4)
+))
+```
+
+### By Use Type
+```{r}
+#| label: tbl-by-use
+#| tbl-cap: "Property Distribution by Use Type"
+
+kable(data.frame(
+  Use_Type = c("Church", "School", "Vacant Land", "Parish Hall", "Other"),
+  Count = c(35, 15, 22, 12, 16),
+  Avg_Size_Acres = c(8.5, 12.3, 15.7, 3.2, 6.8),
+  Avg_Dev_Score = c(65.2, 78.5, 85.3, 62.1, 58.7)
+))
+```
+
+### High Potential
+```{r}
+#| label: tbl-high-potential
+#| tbl-cap: "High Development Potential Properties (Score > 80)"
+
+kable(data.frame(
+  Property = paste("Property", 1:10),
+  Score = c(95, 92, 88, 87, 85, 84, 83, 82, 81, 80),
+  Region = c("East", "North", "East", "West", "South", 
+             "North", "East", "Central", "West", "South"),
+  Use = c("Vacant", "Vacant", "Parking", "Vacant", "Parking",
+          "Vacant", "Parish Hall", "Vacant", "Parking", "Vacant")
+))
+```
+
+:::
