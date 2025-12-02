@@ -939,13 +939,10 @@ The following section provides detailed profiles for each of the top 10 developm
 -   Key considerations and next steps
 
 ```{r property-profiles, results='asis'}
-
 create_property_profile <- function(rank_num) {
   property <- top_10 |> filter(rank == rank_num)
   
   if(nrow(property) == 0) return(NULL)
-  
-  prop_id <- paste0("prop_", rank_num)
   
   cat("\n\n## Property #", rank_num, " {.unnumbered}\n\n", sep = "")
   cat("### ", property$site_address, "\n", sep = "")
@@ -1015,21 +1012,25 @@ create_property_profile <- function(rank_num) {
   if(!is.na(property$financial_need) && property$financial_need >= 2) {
     cat("4. Ground lease financial modeling\n")
   }
-
-cat("\n---\n\n")
-cat("## Interactive ADU Placement Tool\n\n")
-cat("For an interactive experience where you can place and explore ADU designs on these properties, ")
-cat('[**launch the interactive dashboard**](http://localhost:3838) (run `shiny::runApp("app.R")` in your R console).\n\n')
-cat("The dashboard includes:\n\n")
-cat("- Interactive map with click-to-place ADU functionality\n")
-cat("- Multiple ADU design options\n")
-cat("- Real-time property visualization\n")
-cat("- Satellite and street view toggles\n\n")
+  
+  cat("\n---\n\n")
+}
 
 # Generate all profiles
 for(i in 1:10) {
   create_property_profile(i)
 }
+```
+```{r}
+cat("\n---\n\n")
+cat("# Interactive ADU Placement Tool\n\n")
+cat("For an interactive experience where you can place and explore ADU designs on these properties, ")
+cat("**launch the interactive Shiny dashboard** by running `shiny::runApp('app.R')` in your R console.\n\n")
+cat("The dashboard includes:\n\n")
+cat("- **Interactive map** with click-to-place ADU functionality\n")
+cat("- **Multiple ADU design options** (Modal 01, Dwight, Compact Studio, Large 2BR)\n")
+cat("- **Real-time property visualization** with satellite and street view toggles\n")
+cat("- **Complete property analysis** with all scoring metrics and filters\n\n")
 ```
 
 ------------------------------------------------------------------------

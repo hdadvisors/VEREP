@@ -13,54 +13,28 @@ library(officer)
 library(flextable)
 library(sf)
 
-# Load and process data (using your existing code)
-parcels_raw <- read_csv("data/verep040725.csv")
-congregations_raw <- read_csv("data/congregation.csv")
+# Load PRE-PROCESSED data (same as Quarto)
+property_profile <- read_csv("data/output/verep_full_analysis.csv")
 
-# Process congregations
-congregations <- congregations_raw %>%
+# Use the same processing as Quarto
+scored_parcels <- property_profile %>%
   mutate(
-    pct_change_attendance = ((f2023_sunday_attendance - f2014_sunday_attendance) / 
-                               f2014_sunday_attendance) * 100,
-    pct_change_members = ((f2023_members_this_year - f2014_members_this_year) / 
-                            f2014_members_this_year) * 100,
-    pct_change_pledge = ((f2023_plate_and_pledge - f2014_plate_and_pledge) / 
-                           f2014_plate_and_pledge) * 100,
-    avg_attendance = attendance_avg,
-    avg_members = member_avg,
-    avg_pledge = platepledge_avg,
-    financial_need = case_when(
-      pct_change_pledge < -20 ~ 3,
-      pct_change_pledge < 0 ~ 2,
-      pct_change_pledge < 10 ~ 1,
-      TRUE ~ 0
+    area_acres = rgisacre,
+    development_score = case_when(
+      development_potential == "High Potential" ~ 85,
+      development_potential == "Moderate Potential" ~ 70,
+      development_potential == "Low Potential - Constraints" ~ 40,
+      development_potential == "Insufficient Data" ~ 30,
+      TRUE ~ 20
     ),
-    size_category = case_when(
-      avg_attendance < 25 ~ "Very Small",
-      avg_attendance < 50 ~ "Small",
-      avg_attendance < 100 ~ "Medium",
-      avg_attendance < 200 ~ "Large",
-      TRUE ~ "Very Large"
-    )
-  ) %>%
-  mutate(across(starts_with("pct_change"), ~replace_na(., 0)),
-         across(starts_with("avg_"), ~replace_na(., 0)))
-
-# Process parcels
-df <- parcels_raw %>%
-  mutate(
-    area_acres = case_when(
-      !is.na(rgisacre) ~ rgisacre,
-      !is.na(rgissqft) ~ rgissqft / 43560,
-      !is.na(deed_acres) ~ deed_acres,
-      TRUE ~ NA_real_
-    ),
-    use_church = church == 1,
-    use_cemetery = cemetery == 1,
-    use_school = school == 1,
-    use_parking = parking == 1,
-    use_open_space = open_space == 1,
-    use_residence = residence == 1,
+    development_tier = development_potential,
+    assessed_value = lan_val,
+    use_church = !is.na(church) & church == 1,
+    use_cemetery = !is.na(cemetery) & cemetery == 1,
+    use_school = !is.na(school) & school == 1,
+    use_parking = !is.na(parking) & parking == 1,
+    use_open_space = !is.na(open_space) & open_space == 1,
+    use_residence = !is.na(residence) & residence == 1,
     flood_zone = case_when(
       is.na(fema_fz) | fema_fz == "X" ~ "None",
       TRUE ~ fema_fz
@@ -69,16 +43,6 @@ df <- parcels_raw %>%
     has_easement = !is.na(easement) & easement != "",
     in_historic_district = !is.na(hist_dist) & hist_dist != "",
     walkability_score = replace_na(walk_idx, 0),
-    transit_access_score = case_when(
-      trans_acc >= 3 ~ 100,
-      trans_acc == 2 ~ 60,
-      trans_acc == 1 ~ 30,
-      TRUE ~ 0
-    ),
-    zoning_favorable = case_when(
-      str_detect(zon_desc, regex("mixed|commercial|residential", ignore_case = TRUE)) ~ TRUE,
-      TRUE ~ FALSE
-    ),
     median_income = medinc,
     poverty_rate = pov_prc,
     qualified_census_tract = !is.na(qct) & qct != 0,
@@ -86,36 +50,10 @@ df <- parcels_raw %>%
       yr_blt_num > 1700 & yr_blt_num < 2025 ~ yr_blt_num,
       TRUE ~ NA_real_
     ),
-    assessed_value = par_val,
     site_address = sadd,
     site_city = scity,
-    site_county = scounty
-  ) %>%
-  filter(!is.na(area_acres), area_acres > 0.1, !is.na(lat) & !is.na(lon))
-
-# Join data
-df_joined <- df %>%
-  left_join(
-    congregations %>% select(name, short_name, pct_change_attendance, pct_change_members, 
-                             pct_change_pledge, avg_attendance, avg_members, avg_pledge,
-                             financial_need, size_category),
-    by = c("congr_name" = "short_name")
-  ) %>%
-  mutate(
-    has_congregation = !is.na(name),
-    pct_change_pledge = case_when(
-      !has_congregation & use_church ~ 0,
-      TRUE ~ pct_change_pledge
-    ),
-    financial_need = case_when(
-      !has_congregation & use_church ~ 1,
-      TRUE ~ financial_need
-    )
-  )
-
-# Calculate scores
-scored_parcels <- df_joined %>%
-  mutate(
+    site_county = scounty,
+    # Calculate component scores for the score breakdown chart
     size_score = case_when(
       area_acres < 0.25 ~ 20, area_acres < 0.5 ~ 50, area_acres < 1 ~ 70,
       area_acres < 2 ~ 90, area_acres < 5 ~ 100, area_acres < 10 ~ 85,
@@ -126,42 +64,36 @@ scored_parcels <- df_joined %>%
       use_church & !use_parking & !use_open_space ~ 30,
       use_residence ~ 40, use_school ~ 35, TRUE ~ 60
     ),
-    location_score = (
-      (walkability_score / max(walkability_score, na.rm = TRUE) * 60) +
-        (transit_access_score * 0.4)
-    ),
-    location_score = pmin(100, pmax(0, location_score)),
+    location_score = pmin(100, pmax(0, (walkability_score / max(walkability_score, na.rm = TRUE) * 60))),
     financial_score = case_when(
-      is.na(financial_need) ~ 30, financial_need == 3 ~ 100,
-      financial_need == 2 ~ 70, financial_need == 1 ~ 40, TRUE ~ 20
+      !is.na(pct_change_pledge) & pct_change_pledge < -20 ~ 100,
+      !is.na(pct_change_pledge) & pct_change_pledge < 0 ~ 70,
+      TRUE ~ 30
     ),
     market_score = case_when(
-      is.na(median_income) ~ 50, median_income > 100000 ~ 90,
-      median_income > 75000 ~ 75, median_income > 50000 ~ 60, TRUE ~ 40
+      is.na(median_income) ~ 50, 
+      median_income > 100000 ~ 90,
+      median_income > 75000 ~ 75, 
+      median_income > 50000 ~ 60, 
+      TRUE ~ 40
     ),
     market_score = if_else(qualified_census_tract, market_score + 15, market_score),
     market_score = pmin(100, market_score),
-    zoning_score = if_else(zoning_favorable, 80, 40),
-    constraint_penalty = case_when(
-      flood_zone != "None" ~ -40, wetlands_pct > 25 ~ -35,
-      has_easement ~ -30, in_historic_district ~ -25,
-      wetlands_pct > 10 ~ -20, TRUE ~ 0
+    zoning_score = 50,  # Default since we don't have zoning in preprocessed
+    # Keep existing congregation data
+    avg_attendance = attendance_2023,
+    avg_members = replace_na(member_avg, 0),
+    avg_pledge = plate_pledge_2023,
+    financial_need = case_when(
+      !is.na(pct_change_pledge) & pct_change_pledge < -20 ~ 3,
+      !is.na(pct_change_pledge) & pct_change_pledge < 0 ~ 2,
+      TRUE ~ 1
     ),
-    development_score = (
-      (size_score * 0.20) + (use_score * 0.25) + (location_score * 0.20) +
-        (financial_score * 0.15) + (market_score * 0.10) + (zoning_score * 0.10)
-    ) + constraint_penalty,
-    development_score = pmin(100, pmax(0, development_score)),
-    development_tier = case_when(
-      development_score >= 75 ~ "Tier 1: High Priority",
-      development_score >= 60 ~ "Tier 2: Strong Potential",
-      development_score >= 45 ~ "Tier 3: Moderate Potential",
-      development_score >= 30 ~ "Tier 4: Limited Potential",
-      TRUE ~ "Tier 5: Not Recommended"
-    )
-  )
+    name = congregation_name
+  ) %>%
+  filter(!is.na(area_acres), area_acres > 0.1, !is.na(lat) & !is.na(lon))
 
-# ADU design library
+# ADU design library (keep this - it's already correct)
 adu_designs <- tibble(
   name = c("Modal 01", "Dwight", "Compact Studio", "Large 2BR"),
   sqft = c(432, 594, 350, 850),
@@ -171,14 +103,14 @@ adu_designs <- tibble(
   color = c("#445ca9", "#8baeaa", "#e85d75", "#f39c12")
 )
 
-# Function to convert feet to approximate degrees
+# Function to convert feet to approximate degrees (keep this)
 ft_to_degrees <- function(feet, lat) {
   ft_to_deg_lat <- 1 / 364000
   ft_to_deg_lng <- 1 / (288200 * cos(lat * pi / 180))
   list(lat = feet * ft_to_deg_lat, lng = feet * ft_to_deg_lng)
 }
 
-# Function to create ADU polygon at a point
+# Function to create ADU polygon at a point (keep this)
 create_adu_polygon <- function(lng, lat, width_ft, length_ft) {
   deg <- ft_to_degrees(1, lat)
   
@@ -197,10 +129,10 @@ create_adu_polygon <- function(lng, lat, width_ft, length_ft) {
     st_sfc(crs = 4326)
 }
 
-
-# Get top 10
+# Get top 10 using SAME LOGIC as Quarto
 top_10 <- scored_parcels %>%
-  arrange(desc(development_score)) %>%
+  filter(development_potential %in% c("High Potential", "Moderate Potential")) %>%
+  arrange(desc(assessed_value)) %>%  # Sort by land value, not score
   slice_head(n = 10) %>%
   mutate(rank = row_number())
 
@@ -428,7 +360,7 @@ ui <- dashboardPage(
             uiOutput("adu_property_info")
           )
         )
-      )
+      ),
       
       # Property Details Tab
       tabItem(
