@@ -229,66 +229,6 @@ cat('<div style="margin: 40px 0;">',
     '<img src="./images/5.jpeg" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">',
     '</div></div>')
 ```
-------------------------------------------------------------------------
-
-## At a Glance: Top 10 Properties
-
-```{r top-10-summary-table}
-top_10 |>
-  select(rank, site_address, site_city, area_acres, development_score, development_tier) |>
-  kable(
-    col.names = c("Rank", "Property Address", "City", "Acres", "Score", "Tier"),
-    digits = 1,
-    align = c("c", "l", "l", "r", "r", "l")
-  ) |>
-  kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed"),
-    full_width = FALSE,
-    position = "center"
-  ) |>
-  column_spec(1, bold = TRUE, color = "white", background = "#445ca9") |>
-  column_spec(5, bold = TRUE, color = "#445ca9") |>
-  row_spec(1:3, background = "#f8f9fa")
-```
-
-------------------------------------------------------------------------
-
-# Key Findings
-
-```{r key-findings-stats, echo=FALSE}
-tier_1_2 <- sum(property_profile$development_score >= 60, na.rm = TRUE)
-financial_decline <- sum(top_10$financial_need >= 2, na.rm = TRUE)
-```
-
-## Significant Underutilized Assets
-
-```{r output-findings, echo=FALSE, results='asis'}
-cat("**", tier_1_2, " properties** score in Tier 1-2 (strong development potential), representing substantial untapped value across the diocese. Primary opportunities exist in:\n\n", sep = "")
-```
-
--   **Parking lots** (highest development scores): Structured parking with mixed-use above
--   **Open space parcels**: Well-located vacant land ideal for ground lease arrangements
--   **Properties with declining congregations**: Sites where development can provide financial stability
-
-## Geographic Distribution
-
-Development opportunities are distributed across Virginia, with concentrations in:
-
--   Urban/suburban areas with strong walkability scores
--   Markets with favorable demographics and LIHTC eligibility
--   Transit-accessible locations supporting reduced parking requirements
-
-## Financial Sustainability Imperative
-
-```{r output-financial, echo=FALSE, results='asis'}
-cat("**", financial_decline, " of the top 10 properties** are associated with congregations showing significant financial decline (pledge revenue down 20%+ over past decade). Strategic development can provide:\n\n", sep = "")
-```
-
--   Long-term ground lease revenue
--   Capital for building improvements
--   Sustainable financial model for congregation vitality
-
-------------------------------------------------------------------------
 
 # Methodology & Data
 

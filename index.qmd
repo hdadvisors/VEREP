@@ -1,17 +1,41 @@
 ---
-title: "Welcome"
+title: "Property Development Opportunity Analysis"
 ---
 
-# Welcome to My Interactive Book
+# Welcome {.unnumbered}
 
-This book contains interactive Shiny applications that run entirely in your browser!
+This comprehensive analysis identifies and evaluates development opportunities across the property portfolio, focusing on underutilized assets with significant potential.
 
-## What You'll Learn
+## Report Purpose
 
-- Chapter 1: Introduction to the data
-- Chapter 2: Interactive exploratory analysis
-- Chapter 3: Advanced modeling techniques
+This analysis provides:
 
-## How to Use This Book
+- **Strategic Insights**: Identification of high-potential development opportunities
+- **Data-Driven Decisions**: Evidence-based property assessments
+- **Financial Planning**: Resource allocation guidance
+- **Geographic Analysis**: Regional distribution and market potential
 
-All interactive applications run directly in your browser - no installation required!
+## Key Highlights
+
+::: {.callout-important}
+## Top Finding
+Significant underutilized assets identified with strong development potential across multiple geographic regions.
+:::
+
+## How to Use This Report
+
+- **Executive Summary**: Quick overview and key findings
+- **Methodology**: Understanding our analytical approach
+- **Analysis Results**: Detailed findings and insights
+- **Summary Statistics**: Portfolio-wide metrics
+- **Property Profiles**: Individual property assessments
+- **Appendices**: Technical details and references
+
+::: {.callout-tip}
+## Interactive Features
+This report includes interactive visualizations and tools. Use the filters and controls to explore the data dynamically.
+:::
+
+## Navigation
+
+Use the table of contents on the left to navigate between sections, or use the search function to find specific topics.
