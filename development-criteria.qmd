@@ -2,7 +2,7 @@
 
 ## Why These Factors Matter
 
-The development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability.
+The development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.
 
 ### Property Size: The Goldilocks Principle
 
@@ -84,6 +84,8 @@ shinyApp(ui, server)
 - Optimal (2-25 acres): Maximum flexibility and economic efficiency
 - Too large (>25 acres): Requires significant capital, complex phasing
 
+Property size significantly influences development feasibility, but bigger isn't always better. Properties under a quarter-acre typically lack the critical mass needed for financially viable development—construction costs per unit rise sharply, and parking or open space requirements become impossible to meet. Conversely, parcels exceeding 10 acres often present unique challenges: they may require complex phasing, demand substantial upfront capital, or face community resistance to density.
+
 ### Current Use: Identifying Low-Hanging Fruit
 
 **Weight: 15%**
@@ -96,6 +98,12 @@ Properties with minimal current utilization represent immediate opportunities.
 | Parking/Storage | 80 | Low-value use, easy conversion |
 | Underutilized Building | 60 | Requires demolition/renovation |
 | Active Use | 20 | Displacement costs high |
+
+**Highest Potential: Parking Lots and Open Space**
+
+Not all church property serves its highest and best use. Surface parking lots represent prime redevelopment opportunities—they're already cleared and graded, typically have minimal environmental constraints, and often sit underutilized six days per week. A parking lot that serves 200 congregants on Sunday morning but stands empty Monday through Saturday represents an enormous opportunity cost.
+
+Open space scores similarly high, particularly when it's amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be reimagined while potentially retaining some green space within new development.
 
 ### Location Quality: Following the Market
 
