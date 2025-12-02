@@ -1,0 +1,53 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "My Interactive Analysis Book"
+  author: "Your Name"
+  date: today
+  
+  # Important: List all your chapters in order
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - analysis.qmd           # Chapter with shinylive apps
+    - advanced-analysis.qmd  # Another chapter with apps
+    - conclusion.qmd
+    - references.qmd
+  
+  # Optional: Add parts to organize chapters
+  # chapters:
+  #   - index.qmd
+  #   - part: "Getting Started"
+  #     chapters:
+  #       - intro.qmd
+  #       - setup.qmd
+  #   - part: "Analysis"
+  #     chapters:
+  #       - analysis.qmd
+  #       - advanced-analysis.qmd
+
+# Shinylive filter applies to entire book
+filters:
+  - shinylive
+
+# Format options
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    # CRITICAL: Don't embed resources for shinylive
+    embed-resources: false
+    # Include service worker
+    resources:
+      - shinylive-sw.js
+  
+  # Optional: Also render as PDF (without shinylive)
+  # pdf:
+  #   documentclass: book
+  #   toc: true
