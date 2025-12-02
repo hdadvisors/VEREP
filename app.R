@@ -72,13 +72,20 @@ scored_parcels <- property_profile %>%
   ) %>%
   filter(!is.na(area_acres), area_acres > 0.1, !is.na(lat) & !is.na(lon))
 
-# ADU design library
+# Design library - Development Options
 adu_designs <- tibble(
-  name = c("Modal 01", "Dwight", "Compact Studio", "Large 2BR"),
-  sqft = c(432, 594, 350, 850),
-  width_ft = c(20, 25, 15, 30),
-  length_ft = c(22, 24, 23, 28),
-  bedrooms = c(1, 1, 0, 2),
+  name = c("Small ADU", "2BR DU", "Small Duplex", "20-Unit Building"),
+  sqft = c(400, 800, 1600, 7200),  # sqft represents footprint for multi-unit
+  width_ft = c(20, 28, 50, 120),
+  length_ft = c(20, 28, 32, 60),
+  bedrooms = c(1, 2, 4, 40),  # For duplex: total beds, for building: total beds
+  units = c(1, 1, 2, 20),  # Number of dwelling units
+  description = c(
+    "400 sqft studio/1BR",
+    "800 sqft 2-bedroom",
+    "Two 800 sqft units (side-by-side)",
+    "3-story building, ~1,000 sqft/unit"
+  ),
   color = c("#445ca9", "#8baeaa", "#e85d75", "#f39c12")
 )
 
@@ -473,7 +480,7 @@ server <- function(input, output, session) {
     top_10 %>% filter(objectid == input$adu_property)
   })
   
-  # Display ADU design info
+  # Display Design info
   output$adu_design_info <- renderUI({
     design <- adu_designs %>% filter(name == input$adu_design)
     
@@ -485,12 +492,17 @@ server <- function(input, output, session) {
       h4(design$name, style = "margin: 0 0 10px 0; color: white;"),
       tags$div(
         style = "display: grid; grid-template-columns: 1fr 1fr; gap: 10px;",
-        div(tags$strong("Size:"), tags$br(), paste(design$sqft, "sqft")),
+        div(tags$strong("Footprint:"), tags$br(), paste(design$sqft, "sqft")),
+        div(tags$strong("Units:"), tags$br(), design$units),
         div(tags$strong("Bedrooms:"), tags$br(), design$bedrooms),
         div(
           style = "grid-column: 1 / -1;",
           tags$strong("Dimensions:"), tags$br(),
-          paste(design$width_ft, "ft ×", design$length_ft, "ft")
+          paste(design$width_ft, "ft × ", design$length_ft, "ft")
+        ),
+        div(
+          style = "grid-column: 1 / -1; font-size: 0.9em; font-style: italic;",
+          design$description
         )
       )
     )
@@ -595,12 +607,11 @@ server <- function(input, output, session) {
         label = paste(design$name, "-", design$sqft, "sqft"),
         popup = paste0(
           "<strong>", design$name, "</strong><br>",
-          "Size: ", design$sqft, " sqft<br>",
+          "Footprint: ", design$sqft, " sqft<br>",
           "Dimensions: ", design$width_ft, "' × ", design$length_ft, "'<br>",
-          "Bedrooms: ", design$bedrooms
-        ),
-        group = "ADUs"
-      )
+          "Units: ", design$units, " | Total Bedrooms: ", design$bedrooms, "<br>",
+          "<em>", design$description, "</em>"
+        ))
     
     # Store ADU data
     adu_state$placed_adus[[adu_id]] <- list(

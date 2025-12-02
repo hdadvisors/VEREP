@@ -8,6 +8,7 @@ format:
   html:
     toc: true
     toc-depth: 3
+    toc-location: left
     code-fold: true
     code-summary: "Show code"
     embed-resources: true
@@ -364,7 +365,7 @@ ggplot(scoring_components, aes(x = reorder(Component, Weight), y = Weight)) +
 
 **Constraint Penalties:** Properties receive deductions for flood zones (-40), significant wetlands (-35), easements (-30), and historic district designation (-25).
 
-### Development Tiers
+**Development Tiers**
 
 Properties are classified into five tiers based on composite scores:
 
