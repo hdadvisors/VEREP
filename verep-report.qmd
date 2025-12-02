@@ -211,6 +211,22 @@ cat('<div class="stat-label">Financial Need</div>\n')
 cat('</div>\n\n')
 
 cat('</div>\n')
+
+
+```
+
+```{r chunk-name, echo=FALSE, results='asis'}
+
+cat('
+<div style="margin: 40px 0;">
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+    <div style="height: 300px; background-image: url(\'./images/1.png\'); background-size: cover; background-position: center; border-radius: 8px;"></div>
+    <div style="height: 300px; background-image: url(\'./images/2.png\'); background-size: cover; background-position: center; border-radius: 8px;"></div>
+    <div style="height: 300px; background-image: url(\'./images/3.png\'); background-size: cover; background-position: center; border-radius: 8px;"></div>
+    <div style="height: 300px; background-image: url(\'./images/4.png\'); background-size: cover; background-position: center; border-radius: 8px;"></div>
+  </div>
+</div>
+')
 ```
 
 ------------------------------------------------------------------------

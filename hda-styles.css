@@ -35,3 +35,44 @@ a:hover {
   color: #e9ab3f;
 }
 
+
+* Parallax styling */
+.parallax-container {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  margin: 40px 0;
+}
+
+.parallax-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Optional: Add overlay for text readability */
+.parallax-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(68, 92, 169, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.parallax-text {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
