@@ -1,0 +1,29 @@
+# Background & Data Sources
+
+## VEREP Parcel Dataset
+
+This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:
+
+```{r verep-count, echo=FALSE, results='asis'}
+cat("- **", nrow(property_profile), " parcels** across Virginia\n", sep = "")
+```
+
+-   Comprehensive property characteristics (size, use, zoning)
+-   Environmental constraints (floodplains, wetlands, easements)
+-   Location metrics (walkability, transit access)
+-   Market indicators (median income, demographics)
+
+## Congregation Statistics (2014-2023)
+
+Financial and membership data provides context on congregation health:
+
+-   Sunday attendance trends
+-   Membership changes
+-   Plate & pledge revenue
+-   10-year trend analysis
+
+::: callout-note
+## Data Quality Note
+
+Not all properties have associated congregation data. Properties without congregation information received neutral scores in the financial need category.
+:::
