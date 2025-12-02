@@ -53,6 +53,8 @@ library(scales)
 library(kableExtra)
 library(shiny)
 library(tidygeocoder)
+library(shinylive)
+
 
 knitr::opts_chunk$set(
   warning = FALSE,
