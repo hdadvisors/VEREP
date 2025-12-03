@@ -40,7 +40,7 @@ book:
     
     - part: "Appendices"
       chapters:
-        - appendix-technical.qmd
+        - appendix.qmd
         - references.qmd
 
 # Shinylive filter for interactive elements

@@ -1,0 +1,31 @@
+# Appendices {.unnumbered}
+
+::: {.callout-note collapse="true"}
+## Technical Methodology
+
+**Scoring Algorithm Details**
+
+Each property receives scores across six dimensions (0-100 scale), which are then weighted and combined:
+
+1.  **Size Score (20% weight):** Properties between 0.5-5 acres score highest (100 points)
+2.  **Use Score (25% weight):** Parking lots (95) and open space (90) score highest
+3.  **Location Score (20% weight):** Based on walkability index and transit access
+4.  **Financial Score (15% weight):** Congregation pledge trends indicate development need
+5.  **Market Score (10% weight):** Area median income and LIHTC eligibility
+6.  **Zoning Score (10% weight):** Development-friendly zoning receives 80 points
+
+**Constraint penalties** are applied after the weighted average, with major penalties for: - Flood zones: -40 points - Significant wetlands (\>25%): -35 points\
+- Easements: -30 points - Historic districts: -25 points
+
+Final scores are capped between 0-100.
+:::
+
+::: {.callout-note collapse="true"}
+## Data Processing Notes
+
+**Congregation-Parcel Joining:** Properties were matched to congregation data using the `congr_name` field. Properties without matches received neutral financial scores.
+
+**Missing Data Handling:** - Missing walkability scores defaulted to 0 - Missing income data received median market scores (50) - Properties without area or coordinates were excluded
+
+**Quality Filters:** - Minimum parcel size: 0.1 acres - Required valid lat/lon coordinates - Valid building years: 1700-2025
+:::

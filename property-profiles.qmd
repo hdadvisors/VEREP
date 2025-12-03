@@ -1,0 +1,108 @@
+
+# Property Profiles
+
+## Overview
+
+The following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:
+
+-   Site characteristics and current use
+-   Congregation context (where applicable)
+-   Development opportunities and strategies
+-   Key considerations and next steps
+
+```{r property-profiles, results='asis'}
+create_property_profile <- function(rank_num) {
+  property <- top_10 |> filter(rank == rank_num)
+  
+  if(nrow(property) == 0) return(NULL)
+  
+  cat("\n\n## Property #", rank_num, " {.unnumbered}\n\n", sep = "")
+  cat("### ", property$site_address, "\n", sep = "")
+  cat("**", property$site_city, ", ", property$site_county, " County**\n\n", sep = "")
+  
+  tier_type <- case_when(
+    property$development_score >= 75 ~ "important",
+    property$development_score >= 60 ~ "tip",
+    TRUE ~ "note"
+  )
+  
+  cat(":::{.callout-", tier_type, "}\n", sep = "")
+  cat("## Development Score: **", round(property$development_score, 1), "/100**\n\n", sep = "")
+  cat("**", property$development_tier, "**\n", sep = "")
+  cat(":::\n\n")
+  
+  cat("::: {layout-ncol=3}\n")
+  cat("::: {}\n**", round(property$area_acres, 2), " acres**  \n", sep = "")
+  cat("Property Size\n:::\n")
+  
+  cat("::: {}\n**", round(property$walkability_score, 1), "/100**  \n", sep = "")
+  cat("Walkability\n:::\n")
+  
+  cat("::: {}\n**", 
+      ifelse(!is.na(property$avg_attendance), 
+             paste0(round(property$avg_attendance), " people"), "N/A"), "**  \n", sep = "")
+  cat("Avg Attendance\n:::\n")
+  cat(":::\n\n")
+  
+  cat("#### Site Characteristics\n\n")
+  cat("- **Current Uses:**")
+  uses <- c()
+  if(!is.na(property$use_church) && property$use_church) uses <- c(uses, "Church building")
+  if(!is.na(property$use_parking) && property$use_parking) uses <- c(uses, "Parking lot")
+  if(!is.na(property$use_open_space) && property$use_open_space) uses <- c(uses, "Open space")
+  if(length(uses) > 0) {
+    cat(" ", paste(uses, collapse = ", "), "\n", sep = "")
+  } else {
+    cat(" Mixed use\n")
+  }
+  
+  if(!is.na(property$name)) {
+    cat("\n#### Congregation: ", property$name, "\n\n", sep = "")
+    
+    if(!is.na(property$pct_change_pledge)) {
+      change_dir <- ifelse(property$pct_change_pledge < 0, "↓ decreased", "↑ increased")
+      cat("**Financial Trend:** Plate & pledge has ", change_dir, " by **", 
+          abs(round(property$pct_change_pledge, 1)), "%** over the past decade.\n\n", sep = "")
+    }
+  }
+  
+  cat("#### Development Opportunities\n\n")
+  if(!is.na(property$use_parking) && property$use_parking) {
+    cat("🅿️ **Prime opportunity:** Underutilized parking can support structured parking with mixed-use above\n\n")
+  }
+  if(!is.na(property$area_acres) && property$area_acres > 1) {
+    cat("📐 **Substantial site:** Large parcel enables phased development or creative master planning\n\n")
+  }
+  if(!is.na(property$walkability_score) && property$walkability_score > 10) {
+    cat("🚶 **Walkable location:** Transit access supports reduced parking requirements and higher density\n\n")
+  }
+  
+  cat("#### Recommended Next Steps\n\n")
+  cat("1. Site feasibility study and geotechnical analysis\n")
+  cat("2. Congregation leadership engagement\n")
+  cat("3. Zoning review and density bonus evaluation\n")
+  if(!is.na(property$financial_need) && property$financial_need >= 2) {
+    cat("4. Ground lease financial modeling\n")
+  }
+  
+  cat("\n---\n\n")
+}
+
+# Generate all profiles
+for(i in 1:10) {
+  create_property_profile(i)
+}
+```
+
+```{r}
+cat("\n---\n\n")
+cat("# Interactive ADU Placement Tool\n\n")
+cat("For an interactive experience where you can place and explore ADU designs on these properties, ")
+cat("**launch the interactive Shiny dashboard** by running `shiny::runApp('app.R')` in your R console.\n\n")
+cat("The dashboard includes:\n\n")
+cat("- **Interactive map** with click-to-place ADU functionality\n")
+cat("- **Multiple ADU design options** (Modal 01, Dwight, Compact Studio, Large 2BR)\n")
+cat("- **Real-time property visualization** with satellite and street view toggles\n")
+cat("- **Complete property analysis** with all scoring metrics and filters\n\n")
+```
+

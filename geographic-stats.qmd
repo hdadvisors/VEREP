@@ -1,0 +1,27 @@
+
+## Geographic Distribution
+
+### Parcels by Diocesan Region
+
+```{r regional-distribution-calc, include=FALSE}
+# Regional breakdown
+regional_stats <- property_profile |>
+  summarise(
+    n_parcels = n(),
+    total_acres = sum(area_acres, na.rm = TRUE),
+    pct_of_total_acres = (total_acres / sum(property_profile$area_acres, na.rm = TRUE)) * 100,
+    avg_score = mean(development_score, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(n_parcels))
+```
+
+```{r regional-distribution-html}
+regional_stats |>
+  kable(
+    col.names = c("# Parcels", "Total Acres", "% of Total Acreage", "Avg Dev Score"),
+    digits = c(0, 0, 1, 1, 1)
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover")) |>
+  row_spec(0, bold = TRUE, background = "#8baeaa", color = "white")
+```
