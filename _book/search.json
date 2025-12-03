@@ -48,5 +48,49 @@
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Property Development Opportunity Analysis</span>"
     ]
+  },
+  {
+    "objectID": "executive-summary.html",
+    "href": "executive-summary.html",
+    "title": "Executive Summary",
+    "section": "",
+    "text": "At a Glance: Top 10 Properties\nThis analysis examines properties with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.",
+    "crumbs": [
+      "Executive Summary",
+      "Executive Summary"
+    ]
+  },
+  {
+    "objectID": "executive-summary.html#at-a-glance-top-10-properties",
+    "href": "executive-summary.html#at-a-glance-top-10-properties",
+    "title": "Executive Summary",
+    "section": "",
+    "text": "#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 500\n#| label: fig-top-properties\n#| fig-cap: \"Interactive Top 10 Properties Dashboard\"\n\nlibrary(shiny)\nlibrary(bslib)\nlibrary(DT)\n\n# Sample data - replace with your actual data\ntop_properties &lt;- data.frame(\n  Property = paste(\"Property\", 1:10),\n  Score = c(95, 92, 88, 85, 82, 78, 75, 72, 68, 65),\n  Location = rep(c(\"North\", \"South\", \"East\", \"West\"), length.out = 10),\n  Size_Acres = round(runif(10, 1, 50), 1),\n  Development_Potential = c(\"High\", \"High\", \"High\", \"Medium\", \"Medium\", \n                           \"Medium\", \"Medium\", \"Low\", \"Low\", \"Low\")\n)\n\nui &lt;- page_sidebar(\n  title = \"Top 10 Development Opportunities\",\n  sidebar = sidebar(\n    selectInput(\"region\", \"Filter by Region:\",\n                choices = c(\"All\", unique(top_properties$Location))),\n    sliderInput(\"min_score\", \"Minimum Score:\",\n                min = 0, max = 100, value = 60)\n  ),\n  card(\n    card_header(\"Property Rankings\"),\n    DTOutput(\"property_table\")\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  filtered_data &lt;- reactive({\n    data &lt;- top_properties\n    \n    if (input$region != \"All\") {\n      data &lt;- data[data$Location == input$region, ]\n    }\n    \n    data &lt;- data[data$Score &gt;= input$min_score, ]\n    data\n  })\n  \n  output$property_table &lt;- renderDT({\n    datatable(filtered_data(), \n              options = list(pageLength = 10, dom = 't'),\n              rownames = FALSE)\n  })\n}\n\nshinyApp(ui, server)",
+    "crumbs": [
+      "Executive Summary",
+      "Executive Summary"
+    ]
+  },
+  {
+    "objectID": "executive-summary.html#key-findings",
+    "href": "executive-summary.html#key-findings",
+    "title": "Executive Summary",
+    "section": "Key Findings",
+    "text": "Key Findings\n\nSignificant Underutilized Assets\nOur analysis identified XX properties with substantial development potential, representing approximately $XX million in potential value creation.\nParking lots (highest development scores): Structured parking with mixed-use above - Open space parcels: Well-located vacant land ideal for ground lease arrangements - Properties with declining congregations: Sites where development can provide financial stability\n\n\nGeographic Distribution\n\nNorthern Region: XX properties (XX% of portfolio)\nSouthern Region: XX properties (XX% of portfolio)\nEastern Region: XX properties (XX% of portfolio)\nWestern Region: XX properties (XX% of portfolio)\n\nDevelopment opportunities are distributed across Virginia, with concentrations in:\n\nUrban/suburban areas with strong walkability scores\nMarkets with favorable demographics and LIHTC eligibility\nTransit-accessible locations supporting reduced parking requirements\n\n\n\nFinancial Sustainability Imperative\n\n\n\n\n\n\nCritical Finding\n\n\n\nDevelopment of identified properties is essential for long-term financial sustainability and mission fulfillment.",
+    "crumbs": [
+      "Executive Summary",
+      "Executive Summary"
+    ]
+  },
+  {
+    "objectID": "executive-summary.html#next-steps",
+    "href": "executive-summary.html#next-steps",
+    "title": "Executive Summary",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nPriority Assessment: Review top-ranked properties for immediate action\nFeasibility Studies: Conduct detailed feasibility analysis for top candidates\nStakeholder Engagement: Engage relevant stakeholders for high-priority sites\nFinancial Planning: Develop funding strategies and timelines",
+    "crumbs": [
+      "Executive Summary",
+      "Executive Summary"
+    ]
   }
 ]
