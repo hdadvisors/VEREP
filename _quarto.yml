@@ -51,7 +51,6 @@ format:
   html:
     theme: 
       - cosmo
-      - hda-styles.css
     toc: true
     toc-depth: 3
     toc-title: "Contents"
@@ -64,7 +63,7 @@ format:
     search: true
     resources:
       - shinylive-sw.js
-    css: styles.css
+    css: hda-styles.css
   
   pdf:
     documentclass: report
