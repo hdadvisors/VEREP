@@ -92,5 +92,16 @@
       "Executive Summary",
       "Executive Summary"
     ]
+  },
+  {
+    "objectID": "geographic-distribution.html",
+    "href": "geographic-distribution.html",
+    "title": "7  Geographic Distribution",
+    "section": "",
+    "text": "Code\npal &lt;- colorNumeric(\n  palette = \"YlOrRd\",\n  domain = top_10$development_score\n)\n\nleaflet(top_10) |&gt;\n  addProviderTiles(providers$CartoDB.Positron) |&gt;\n  addCircleMarkers(\n    lng = ~lon,\n    lat = ~lat,\n    radius = ~sqrt(area_acres) * 5,\n    fillColor = ~pal(development_score),\n    fillOpacity = 0.8,\n    color = \"white\",\n    weight = 2,\n    popup = ~paste0(\n      \"&lt;div style='font-family: Lato, sans-serif; min-width: 250px;'&gt;\",\n      \"&lt;h4 style='color: #445ca9; margin-bottom: 10px;'&gt;Rank #\", rank, \"&lt;/h4&gt;\",\n      \"&lt;p style='margin: 5px 0;'&gt;&lt;b&gt;\", site_address, \"&lt;/b&gt;&lt;br&gt;\",\n      site_city, \", \", site_county, \" County&lt;/p&gt;\",\n      \"&lt;hr style='margin: 10px 0;'&gt;\",\n      \"&lt;p style='margin: 5px 0;'&gt;&lt;b&gt;Development Score:&lt;/b&gt; \", round(development_score, 1), \"/100&lt;br&gt;\",\n      \"&lt;b&gt;Size:&lt;/b&gt; \", round(area_acres, 2), \" acres&lt;br&gt;\",\n      \"&lt;b&gt;Tier:&lt;/b&gt; \", development_tier, \"&lt;/p&gt;\",\n      if_else(!is.na(name), \n              paste0(\"&lt;hr style='margin: 10px 0;'&gt;&lt;p style='margin: 5px 0;'&gt;&lt;b&gt;Congregation:&lt;/b&gt; \", name, \"&lt;/p&gt;\"), \n              \"\"),\n      \"&lt;/div&gt;\"\n    ),\n    label = ~paste0(\"#\", rank, \": \", site_address)\n  ) |&gt;\n  addLegend(\n    position = \"bottomright\",\n    pal = pal,\n    values = ~development_score,\n    title = \"Development&lt;br&gt;Score\",\n    opacity = 1\n  ) |&gt;\n  setView(lng = mean(top_10$lon, na.rm = TRUE), lat = mean(top_10$lat, na.rm = TRUE), zoom = 7)",
+    "crumbs": [
+      "Analysis Results",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Geographic Distribution</span>"
+    ]
   }
 ]
