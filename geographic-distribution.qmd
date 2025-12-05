@@ -1,5 +1,11 @@
 ## Geographic Distribution
 
+```{r}
+#| include: false
+source("R/common.R")
+```
+
+
 ```{r top-10-map-html}
 pal <- colorNumeric(
   palette = "YlOrRd",

@@ -1,5 +1,11 @@
 ## Development Opportunity Landscape
 
+```{r}
+#| include: false
+source("R/common.R")
+```
+
+
 ```{r tier-distribution-visual}
 tier_data <- property_profile |>
   count(development_potential) |>

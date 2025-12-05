@@ -1,5 +1,10 @@
-
 # Property Profiles
+
+```{r}
+#| include: false
+source("R/common.R")
+```
+
 
 ## Overview
 

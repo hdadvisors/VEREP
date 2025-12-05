@@ -1,5 +1,10 @@
 # Analytical Framework
 
+```{r}
+#| include: false
+source("R/common.R")
+```
+
 ## Development Potential Scoring
 
 Our methodology evaluates six key dimensions:

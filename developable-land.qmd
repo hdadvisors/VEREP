@@ -1,5 +1,10 @@
 ## Developable Land Summary
 
+```{r}
+#| include: false
+source("R/common.R")
+```
+
 ### Comprehensive Developability Analysis
 
 ```{r developable-summary, echo=FALSE}

@@ -1,6 +1,12 @@
 
 ## Geographic Distribution
 
+```{r}
+#| include: false
+source("R/common.R")
+```
+
+
 ### Parcels by Diocesan Region
 
 ```{r regional-distribution-calc, include=FALSE}

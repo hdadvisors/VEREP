@@ -137,6 +137,12 @@ shinyApp(ui, server)
 
 ::: {.panel-tabset}
 
+```{r}
+#| include: false
+source("R/common.R")
+```
+
+
 ### By Region
 ```{r}
 #| label: tbl-by-region

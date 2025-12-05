@@ -1,5 +1,11 @@
 ## Congregation Vitality Metrics
 
+```{r}
+#| include: false
+source("R/common.R")
+```
+
+
 ```{r congregation-metrics, echo=FALSE, results='asis'}
 # Congregation statistics
 cong_stats <- property_profile |>
