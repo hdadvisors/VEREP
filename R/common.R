@@ -1,0 +1,17 @@
+# _common.R
+library(tidyverse)
+library(shiny)
+library(bslib)
+library(DT)
+library(ggplot2)
+library(plotly)
+
+property_profile <- read_csv("data/output/verep_full_analysis.csv", show_col_types = FALSE)
+attendance_context <- read_csv("data/output/verep_attendance_summary.csv", show_col_types = FALSE)
+opportunity_matrix <- read_csv("data/output/verep_opportunity_matrix.csv", show_col_types = FALSE)
+leadership_report <- read_csv("data/output/verep_top_opportunities.csv", show_col_types = FALSE)
+data_followup <- read_csv("data/output/verep_data_needed.csv", show_col_types = FALSE)
+incomplete_properties <- read_csv("data/output/incomplete_properties.csv", show_col_types = FALSE)
+unassigned_addresses <- read_csv("data/output/unassigned_addresses.csv", show_col_types = FALSE)
+shared_addresses <- read_csv("data/output/shared_addresses.csv", show_col_types = FALSE)
+problem_matrix <- read_csv("data/output/problem_matrix_comprehensive.csv", show_col_types = FALSE)
