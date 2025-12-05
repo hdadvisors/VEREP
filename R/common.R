@@ -5,6 +5,7 @@ library(bslib)
 library(DT)
 library(ggplot2)
 library(plotly)
+library(rsconnect)
 
 property_profile <- read_csv("data/output/verep_full_analysis.csv", show_col_types = FALSE)
 attendance_context <- read_csv("data/output/verep_attendance_summary.csv", show_col_types = FALSE)

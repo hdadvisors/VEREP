@@ -348,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This analysis examines properties with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.</p>
+<p>This analysis examines properties in the Episcopal Diosese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.</p>
 <section id="at-a-glance-top-10-properties" class="level2">
 <h2 class="anchored" data-anchor-id="at-a-glance-top-10-properties">At a Glance: Top 10 Properties</h2>
 <pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
@@ -358,10 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #| viewerHeight: 500
 #| label: fig-top-properties
 #| fig-cap: "Interactive Top 10 Properties Dashboard"
-
-library(shiny)
-library(bslib)
-library(DT)
+#| include: false
 
 # Sample data - replace with your actual data
 top_properties &lt;- data.frame(
@@ -926,101 +923,98 @@ Critical Finding
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Executive Summary {.unnumbered}</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>This analysis examines properties with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status.</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>This analysis examines properties in the Episcopal Diosese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## At a Glance: Top 10 Properties</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="in">```{shinylive-r}</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#| standalone: true</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| viewerHeight: 500</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-top-properties</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Interactive Top 10 Properties Dashboard"</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ex">library</span><span class="er">(</span><span class="ex">shiny</span><span class="kw">)</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="ex">library</span><span class="er">(</span><span class="ex">bslib</span><span class="kw">)</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="ex">library</span><span class="er">(</span><span class="ex">DT</span><span class="kw">)</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data - replace with your actual data</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ex">top_properties</span> <span class="op">&lt;</span>- data.frame<span class="er">(</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Property</span> = paste<span class="er">(</span><span class="st">"Property"</span><span class="ex">,</span> 1:10<span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Score</span> = c<span class="er">(</span><span class="ex">95,</span> 92, 88, 85, 82, 78, 75, 72, 68, 65<span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Location</span> = rep<span class="er">(</span><span class="ex">c</span><span class="er">(</span><span class="st">"North"</span><span class="ex">,</span> <span class="st">"South"</span>, <span class="st">"East"</span>, <span class="st">"West"</span><span class="kw">)</span><span class="ex">,</span> length.out = 10<span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Size_Acres</span> = round<span class="er">(</span><span class="ex">runif</span><span class="er">(</span><span class="ex">10,</span> 1, 50<span class="kw">)</span><span class="ex">,</span> 1<span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Development_Potential</span> = c<span class="er">(</span><span class="st">"High"</span><span class="ex">,</span> <span class="st">"High"</span>, <span class="st">"High"</span>, <span class="st">"Medium"</span>, <span class="st">"Medium"</span>, </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Medium"</span><span class="ex">,</span> <span class="st">"Medium"</span>, <span class="st">"Low"</span>, <span class="st">"Low"</span>, <span class="st">"Low"</span><span class="kw">)</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="ex">ui</span> <span class="op">&lt;</span>- page_sidebar<span class="er">(</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="ex">title</span> = <span class="st">"Top 10 Development Opportunities"</span>,</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="ex">sidebar</span> = sidebar<span class="er">(</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="ex">selectInput</span><span class="er">(</span><span class="st">"region"</span><span class="ex">,</span> <span class="st">"Filter by Region:"</span>,</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                <span class="ex">choices</span> = c<span class="er">(</span><span class="st">"All"</span><span class="ex">,</span> unique<span class="er">(</span><span class="ex">top_properties</span><span class="va">$Location</span><span class="kw">)))</span><span class="ex">,</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="ex">sliderInput</span><span class="er">(</span><span class="st">"min_score"</span><span class="ex">,</span> <span class="st">"Minimum Score:"</span>,</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                <span class="ex">min</span> = 0, max = 100, value = 60<span class="kw">)</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="ex">card</span><span class="er">(</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="ex">card_header</span><span class="er">(</span><span class="st">"Property Rankings"</span><span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="ex">DTOutput</span><span class="er">(</span><span class="st">"property_table"</span><span class="kw">)</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="kw">)</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="ex">server</span> <span class="op">&lt;</span>- function<span class="er">(</span><span class="ex">input,</span> output, session<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="ex">filtered_data</span> <span class="op">&lt;</span>- reactive<span class="er">(</span><span class="kw">{</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="ex">data</span> <span class="op">&lt;</span>- top_properties</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">(</span><span class="ex">input</span><span class="va">$region</span> != <span class="st">"All"</span><span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>      <span class="ex">data</span> <span class="op">&lt;</span>- data[data<span class="va">$Location</span> == input<span class="va">$region</span>, ]</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="ex">data</span> <span class="op">&lt;</span>- data[data<span class="va">$Score</span> <span class="op">&gt;</span>= input<span class="va">$min_score</span>, ]</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="ex">data</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="kw">})</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="ex">output</span><span class="va">$property_table</span> <span class="op">&lt;</span>- renderDT<span class="er">(</span><span class="kw">{</span></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    <span class="ex">datatable</span><span class="er">(</span><span class="fu">filtered_data()</span><span class="ex">,</span> </span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>              <span class="ex">options</span> = list<span class="er">(</span><span class="ex">pageLength</span> = 10, dom = <span class="st">'t'</span><span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>              <span class="ex">rownames</span> = FALSE<span class="kw">)</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="kw">})</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="ex">shinyApp</span><span class="er">(</span><span class="ex">ui,</span> server<span class="kw">)</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{shinylive-r}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| standalone: true</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| viewerHeight: 500</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-top-properties</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Interactive Top 10 Properties Dashboard"</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data - replace with your actual data</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="ex">top_properties</span> <span class="op">&lt;</span>- data.frame<span class="er">(</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Property</span> = paste<span class="er">(</span><span class="st">"Property"</span><span class="ex">,</span> 1:10<span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Score</span> = c<span class="er">(</span><span class="ex">95,</span> 92, 88, 85, 82, 78, 75, 72, 68, 65<span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Location</span> = rep<span class="er">(</span><span class="ex">c</span><span class="er">(</span><span class="st">"North"</span><span class="ex">,</span> <span class="st">"South"</span>, <span class="st">"East"</span>, <span class="st">"West"</span><span class="kw">)</span><span class="ex">,</span> length.out = 10<span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Size_Acres</span> = round<span class="er">(</span><span class="ex">runif</span><span class="er">(</span><span class="ex">10,</span> 1, 50<span class="kw">)</span><span class="ex">,</span> 1<span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="ex">Development_Potential</span> = c<span class="er">(</span><span class="st">"High"</span><span class="ex">,</span> <span class="st">"High"</span>, <span class="st">"High"</span>, <span class="st">"Medium"</span>, <span class="st">"Medium"</span>, </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Medium"</span><span class="ex">,</span> <span class="st">"Medium"</span>, <span class="st">"Low"</span>, <span class="st">"Low"</span>, <span class="st">"Low"</span><span class="kw">)</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="ex">ui</span> <span class="op">&lt;</span>- page_sidebar<span class="er">(</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="ex">title</span> = <span class="st">"Top 10 Development Opportunities"</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="ex">sidebar</span> = sidebar<span class="er">(</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="ex">selectInput</span><span class="er">(</span><span class="st">"region"</span><span class="ex">,</span> <span class="st">"Filter by Region:"</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                <span class="ex">choices</span> = c<span class="er">(</span><span class="st">"All"</span><span class="ex">,</span> unique<span class="er">(</span><span class="ex">top_properties</span><span class="va">$Location</span><span class="kw">)))</span><span class="ex">,</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="ex">sliderInput</span><span class="er">(</span><span class="st">"min_score"</span><span class="ex">,</span> <span class="st">"Minimum Score:"</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                <span class="ex">min</span> = 0, max = 100, value = 60<span class="kw">)</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="ex">card</span><span class="er">(</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="ex">card_header</span><span class="er">(</span><span class="st">"Property Rankings"</span><span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="ex">DTOutput</span><span class="er">(</span><span class="st">"property_table"</span><span class="kw">)</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">)</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="ex">server</span> <span class="op">&lt;</span>- function<span class="er">(</span><span class="ex">input,</span> output, session<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="ex">filtered_data</span> <span class="op">&lt;</span>- reactive<span class="er">(</span><span class="kw">{</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="ex">data</span> <span class="op">&lt;</span>- top_properties</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">(</span><span class="ex">input</span><span class="va">$region</span> != <span class="st">"All"</span><span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>      <span class="ex">data</span> <span class="op">&lt;</span>- data[data<span class="va">$Location</span> == input<span class="va">$region</span>, ]</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="ex">data</span> <span class="op">&lt;</span>- data[data<span class="va">$Score</span> <span class="op">&gt;</span>= input<span class="va">$min_score</span>, ]</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="ex">data</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="kw">})</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="ex">output</span><span class="va">$property_table</span> <span class="op">&lt;</span>- renderDT<span class="er">(</span><span class="kw">{</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="ex">datatable</span><span class="er">(</span><span class="fu">filtered_data()</span><span class="ex">,</span> </span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>              <span class="ex">options</span> = list<span class="er">(</span><span class="ex">pageLength</span> = 10, dom = <span class="st">'t'</span><span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>              <span class="ex">rownames</span> = FALSE<span class="kw">)</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="kw">})</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="ex">shinyApp</span><span class="er">(</span><span class="ex">ui,</span> server<span class="kw">)</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Findings</span></span>
 <span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Findings</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="fu">### Significant Underutilized Assets</span></span>
 <span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="fu">### Significant Underutilized Assets</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>Our analysis identified **XX properties** with substantial development potential, representing approximately **\$XX million** in potential value creation.</span>
 <span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>Our analysis identified **XX properties** with substantial development potential, representing approximately **$XX million** in potential value creation.</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>**Parking lots** (highest development scores): Structured parking with mixed-use above - **Open space parcels**: Well-located vacant land ideal for ground lease arrangements - **Properties with declining congregations**: Sites where development can provide financial stability</span>
 <span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  **Parking lots** (highest development scores): Structured parking with mixed-use above</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Open space parcels**: Well-located vacant land ideal for ground lease arrangements</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Properties with declining congregations**: Sites where development can provide financial stability</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### Geographic Distribution</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Northern Region**: XX properties (XX% of portfolio)</span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Southern Region**: XX properties (XX% of portfolio)</span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Eastern Region**: XX properties (XX% of portfolio)</span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Western Region**: XX properties (XX% of portfolio)</span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>Development opportunities are distributed across Virginia, with concentrations in:</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="fu">### Geographic Distribution</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Northern Region**: XX properties (XX% of portfolio)</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Southern Region**: XX properties (XX% of portfolio)</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Eastern Region**: XX properties (XX% of portfolio)</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Western Region**: XX properties (XX% of portfolio)</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>Development opportunities are distributed across Virginia, with concentrations in:</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Urban/suburban areas with strong walkability scores</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Markets with favorable demographics and LIHTC eligibility</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Transit-accessible locations supporting reduced parking requirements</span>
 <span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Urban/suburban areas with strong walkability scores</span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Markets with favorable demographics and LIHTC eligibility</span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Transit-accessible locations supporting reduced parking requirements</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### Financial Sustainability Imperative</span></span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="fu">## Critical Finding</span></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>Development of identified properties is essential for long-term financial sustainability and mission fulfillment.</span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Next Steps</span></span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Priority Assessment**: Review top-ranked properties for immediate action</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Feasibility Studies**: Conduct detailed feasibility analysis for top candidates</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Stakeholder Engagement**: Engage relevant stakeholders for high-priority sites</span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Financial Planning**: Develop funding strategies and timelines</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="fu">### Financial Sustainability Imperative</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="fu">## Critical Finding</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>Development of identified properties is essential for long-term financial sustainability and mission fulfillment.</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="fu">## Next Steps</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Priority Assessment**: Review top-ranked properties for immediate action</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Feasibility Studies**: Conduct detailed feasibility analysis for top candidates</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Stakeholder Engagement**: Engage relevant stakeholders for high-priority sites</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Financial Planning**: Develop funding strategies and timelines</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

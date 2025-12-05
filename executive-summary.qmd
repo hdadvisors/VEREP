@@ -1,17 +1,15 @@
 # Executive Summary {.unnumbered}
 
-This analysis examines properties in the Episcopal Diosese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating. 
+This analysis examines properties in the Episcopal Diosese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.
 
 ## At a Glance: Top 10 Properties
+
 ```{shinylive-r}
 #| standalone: true
 #| viewerHeight: 500
 #| label: fig-top-properties
 #| fig-cap: "Interactive Top 10 Properties Dashboard"
-
-library(shiny)
-library(bslib)
-library(DT)
+#| include: false
 
 # Sample data - replace with your actual data
 top_properties <- data.frame(
@@ -63,18 +61,16 @@ shinyApp(ui, server)
 
 ### Significant Underutilized Assets
 
-Our analysis identified **XX properties** with substantial development potential, representing approximately **$XX million** in potential value creation.
+Our analysis identified **XX properties** with substantial development potential, representing approximately **\$XX million** in potential value creation.
 
-  **Parking lots** (highest development scores): Structured parking with mixed-use above
-- **Open space parcels**: Well-located vacant land ideal for ground lease arrangements
-- **Properties with declining congregations**: Sites where development can provide financial stability
+**Parking lots** (highest development scores): Structured parking with mixed-use above - **Open space parcels**: Well-located vacant land ideal for ground lease arrangements - **Properties with declining congregations**: Sites where development can provide financial stability
 
 ### Geographic Distribution
 
-- **Northern Region**: XX properties (XX% of portfolio)
-- **Southern Region**: XX properties (XX% of portfolio)
-- **Eastern Region**: XX properties (XX% of portfolio)
-- **Western Region**: XX properties (XX% of portfolio)
+-   **Northern Region**: XX properties (XX% of portfolio)
+-   **Southern Region**: XX properties (XX% of portfolio)
+-   **Eastern Region**: XX properties (XX% of portfolio)
+-   **Western Region**: XX properties (XX% of portfolio)
 
 Development opportunities are distributed across Virginia, with concentrations in:
 
@@ -84,14 +80,15 @@ Development opportunities are distributed across Virginia, with concentrations i
 
 ### Financial Sustainability Imperative
 
-::: {.callout-warning}
+::: callout-warning
 ## Critical Finding
+
 Development of identified properties is essential for long-term financial sustainability and mission fulfillment.
 :::
 
 ## Next Steps
 
-1. **Priority Assessment**: Review top-ranked properties for immediate action
-2. **Feasibility Studies**: Conduct detailed feasibility analysis for top candidates
-3. **Stakeholder Engagement**: Engage relevant stakeholders for high-priority sites
-4. **Financial Planning**: Develop funding strategies and timelines
+1.  **Priority Assessment**: Review top-ranked properties for immediate action
+2.  **Feasibility Studies**: Conduct detailed feasibility analysis for top candidates
+3.  **Stakeholder Engagement**: Engage relevant stakeholders for high-priority sites
+4.  **Financial Planning**: Develop funding strategies and timelines
