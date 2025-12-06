@@ -53,8 +53,7 @@ format:
     toc: true
     toc-depth: 3
     toc-title: "Contents"
-    number-sections: true
-    number-depth: 3
+    number-sections: false
     smooth-scroll: true
     embed-resources: false
     search: true
