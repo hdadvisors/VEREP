@@ -43,8 +43,8 @@ book:
   
   - part: "Appendices"
     chapters:
-      - appendix.qmd
-      - references.qmd
+      - Appendix.qmd
+      - References.qmd
 
 format:
   html:

@@ -1,5 +1,5 @@
 ---
-title: "references"
+title: "References"
 format: html
 editor: visual
 ---
