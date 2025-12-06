@@ -1,6 +1,8 @@
 project:
   type: book
   output-dir: _book
+  
+number-sections: false
 
 execute:
   execute-dir: project
@@ -54,6 +56,7 @@ format:
     toc-depth: 3
     toc-title: "Contents"
     number-sections: false
+    number-depth: 3
     smooth-scroll: true
     embed-resources: false
     search: true
