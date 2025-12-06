@@ -16,14 +16,14 @@ book:
     
     - part: "Executive Summary"
       chapters:
-        - executive-summary.qmd
+        - executive-summary1.qmd
     
     - part: "Methodology & Data"
       chapters:
-        - methodology-overview.qmd
+        - methodology-overview1.qmd
         - data-sources.qmd
-        - analytical-framework.qmd
-        - development-criteria.qmd
+        - analytical-framework1.qmd
+        - development-criteria1.qmd
     
     - part: "Analysis Results"
       chapters:
