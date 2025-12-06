@@ -1,0 +1,228 @@
+# Executive Summary {.unnumbered}
+
+```{r}
+#| include: false
+source("R/common.R")
+```
+
+This analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.
+
+## At a Glance: Top 10 Properties
+
+```{r}
+#| label: tbl-top-10
+#| tbl-cap: "Top 10 Development Opportunities"
+
+top_10 |>
+  select(rank, site_address, site_city, area_acres, development_score, development_tier) |>
+  kable(
+    col.names = c("Rank", "Address", "City", "Acres", "Score", "Tier"),
+    digits = c(0, 0, 0, 2, 1, 0),
+    align = c("c", "l", "l", "r", "r", "l")
+  ) |>
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE
+  ) |>
+  column_spec(1, bold = TRUE, width = "3em") |>
+  column_spec(5, color = "white", 
+              background = spec_color(top_10$development_score, 
+                                      scale_from = c(0, 100),
+                                      palette = "YlOrRd",
+                                      direction = -1))
+```
+
+```{r}
+#| label: fig-top-10-scores
+#| fig-cap: "Development Scores for Top 10 Properties"
+#| fig-height: 5
+
+top_10 |>
+  ggplot(aes(x = reorder(paste0("#", rank, ": ", site_address), -rank), 
+             y = development_score,
+             fill = development_tier)) +
+  geom_col() +
+  geom_text(aes(label = round(development_score, 1)), 
+            hjust = -0.2, size = 3.5, color = "#333") +
+  coord_flip() +
+  scale_fill_manual(values = c(
+    "High Potential" = "#445ca9",
+    "Moderate Potential" = "#8baeaa",
+    "Low Potential - Constraints" = "#e9ab3f",
+    "Insufficient Data" = "#e76f52"
+  )) +
+  scale_y_continuous(limits = c(0, 105)) +
+  labs(
+    x = "",
+    y = "Development Score",
+    fill = "Tier"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    legend.position = "bottom",
+    panel.grid.major.y = element_blank()
+  )
+```
+
+## Key Findings
+
+### Portfolio Summary
+
+```{r}
+#| label: portfolio-summary
+#| echo: false
+#| results: asis
+
+# Calculate summary statistics
+total_props <- nrow(scored_parcels)
+high_potential <- sum(scored_parcels$development_potential == "High Potential", na.rm = TRUE)
+moderate_potential <- sum(scored_parcels$development_potential == "Moderate Potential", na.rm = TRUE)
+strong_potential <- high_potential + moderate_potential
+total_acres <- sum(scored_parcels$area_acres, na.rm = TRUE)
+top_10_acres <- sum(top_10$area_acres, na.rm = TRUE)
+
+cat("::: {layout-ncol=4}\n\n")
+
+cat("::: {.callout-note appearance='minimal'}\n")
+cat("## ", total_props, "\n", sep = "")
+cat("Properties Analyzed\n")
+cat(":::\n\n")
+
+cat("::: {.callout-tip appearance='minimal'}\n")
+cat("## ", strong_potential, "\n", sep = "")
+cat("Strong Potential (Tier 1-2)\n")
+cat(":::\n\n")
+
+cat("::: {.callout-warning appearance='minimal'}\n")
+cat("## ", round(top_10_acres, 1), "\n", sep = "")
+cat("Top 10 Developable Acres\n")
+cat(":::\n\n")
+
+cat("::: {.callout-important appearance='minimal'}\n")
+cat("## ", round(total_acres, 0), "\n", sep = "")
+cat("Total Portfolio Acres\n")
+cat(":::\n\n")
+
+cat(":::\n")
+```
+
+### Significant Underutilized Assets
+
+```{r}
+#| echo: false
+#| results: asis
+
+parking_count <- sum(scored_parcels$use_parking, na.rm = TRUE)
+open_space_count <- sum(scored_parcels$use_open_space, na.rm = TRUE)
+
+cat("Our analysis identified **", strong_potential, " properties** with substantial development potential.\n\n", sep = "")
+```
+
+**Primary opportunities include:**
+
+- **Parking lots** (highest development scores): `r sum(scored_parcels$use_parking, na.rm = TRUE)` properties with underutilized parking suitable for structured parking with mixed-use above
+- **Open space parcels**: `r sum(scored_parcels$use_open_space, na.rm = TRUE)` well-located vacant land parcels ideal for ground lease arrangements
+- **Properties with declining congregations**: Sites where development can provide financial stability
+
+### Geographic Distribution
+
+```{r}
+#| label: fig-geographic-dist
+#| fig-cap: "Properties by County"
+#| fig-height: 4
+
+county_summary <- scored_parcels |>
+  count(site_county, name = "n_properties") |>
+  arrange(desc(n_properties)) |>
+  slice_head(n = 10)
+
+ggplot(county_summary, aes(x = reorder(site_county, n_properties), y = n_properties)) +
+  geom_col(fill = "#445ca9", alpha = 0.8) +
+  geom_text(aes(label = n_properties), hjust = -0.2, size = 3.5) +
+  coord_flip() +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Top 10 Counties by Property Count",
+    x = "",
+    y = "Number of Properties"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    panel.grid.major.y = element_blank()
+  )
+```
+
+Development opportunities are distributed across Virginia, with concentrations in:
+
+- Urban/suburban areas with strong walkability scores
+- Markets with favorable demographics and LIHTC eligibility
+- Transit-accessible locations supporting reduced parking requirements
+
+### Financial Sustainability Imperative
+
+::: {.callout-warning}
+## Critical Finding
+
+```{r}
+#| echo: false
+#| results: asis
+
+declining_count <- sum(scored_parcels$financial_need >= 2, na.rm = TRUE)
+cat("**", declining_count, " properties** are associated with congregations showing declining financial trends. Development of identified properties is essential for long-term financial sustainability and mission fulfillment.\n", sep = "")
+```
+:::
+
+## Development Tier Overview
+
+```{r}
+#| label: fig-tier-distribution
+#| fig-cap: "Distribution of Properties by Development Potential"
+#| fig-height: 4
+
+tier_summary <- scored_parcels |>
+  count(development_potential) |>
+  mutate(
+    pct = n / sum(n) * 100,
+    tier_order = case_when(
+      development_potential == "High Potential" ~ 1,
+      development_potential == "Moderate Potential" ~ 2,
+      development_potential == "Low Potential - Constraints" ~ 3,
+      development_potential == "Insufficient Data" ~ 4,
+      TRUE ~ 5
+    )
+  ) |>
+  arrange(tier_order)
+
+ggplot(tier_summary, aes(x = reorder(development_potential, -tier_order), y = n,
+                          fill = development_potential)) +
+  geom_col() +
+  geom_text(aes(label = paste0(n, " (", round(pct, 1), "%)")), 
+            vjust = -0.5, size = 3.5) +
+  scale_fill_manual(values = c(
+    "High Potential" = "#445ca9",
+    "Moderate Potential" = "#8baeaa",
+    "Low Potential - Constraints" = "#e9ab3f",
+    "Insufficient Data" = "#e76f52"
+  )) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    x = "",
+    y = "Number of Properties"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    axis.text.x = element_text(angle = 25, hjust = 1),
+    panel.grid.major.x = element_blank(),
+    legend.position = "none"
+  )
+```
+
+## Next Steps
+
+1. **Priority Assessment**: Review top-ranked properties for immediate action
+2. **Feasibility Studies**: Conduct detailed feasibility analysis for top candidates
+3. **Stakeholder Engagement**: Engage relevant stakeholders for high-priority sites
+4. **Financial Planning**: Develop funding strategies and timelines

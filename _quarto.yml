@@ -13,7 +13,7 @@ book:
     
     - part: "Executive Summary"
       chapters:
-        - executive-summary.qmd
+        - executive-summary1.qmd
     
     - part: "Methodology & Data"
       chapters:
@@ -43,10 +43,6 @@ book:
         - appendix.qmd
         - references.qmd
 
-# Shinylive filter for interactive elements
-filters:
-  - shinylive
-
 format:
   html:
     theme: 
@@ -61,8 +57,6 @@ format:
     smooth-scroll: true
     embed-resources: false
     search: true
-    resources:
-      - shinylive-sw.js
     css: hda-styles.css
   
   pdf:
