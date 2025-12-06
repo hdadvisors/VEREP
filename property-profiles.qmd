@@ -9,6 +9,8 @@ source("R/app.R")
 
 ## Overview
 
+In this analysis, the top 10 properties all scored the same, which means they are listed in no particular order, but as the top group of high-possibility sites.
+
 The following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:
 
 -   Site characteristics and current use
@@ -102,18 +104,9 @@ for(i in 1:10) {
 }
 ```
 
-```{r}
 
-#| echo: false 
+## Interactive ADU Placement Tool
 
-cat("\n---\n\n")
-cat("# Interactive ADU Placement Tool\n\n")
-cat("For an interactive experience where you can place and explore ADU designs on these properties, ")
-cat("**launch the interactive Shiny dashboard** by running `shiny::runApp('app.R')` in your R console.\n\n")
-cat("The dashboard includes:\n\n")
-cat("- **Interactive map** with click-to-place ADU functionality\n")
-cat("- **Multiple ADU design options** (Modal 01, Dwight, Compact Studio, Large 2BR)\n")
-cat("- **Real-time property visualization** with satellite and street view toggles\n")
-cat("- **Complete property analysis** with all scoring metrics and filters\n\n")
+For an interactive experience, [**launch the ADU Placement Dashboard**](https://your-account.shinyapps.io/verep-dashboard){target="_blank"}.
 ```
 
