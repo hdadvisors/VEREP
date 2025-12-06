@@ -15,7 +15,7 @@ source("R/app.R")
 regional_stats <- property_profile |>
   summarise(
     n_parcels = n(),
-    total_acres = sum(area_acres, na.rm = TRUE),
+    total_acres = sum(rgisacre, na.rm = TRUE),
     pct_of_total_acres = (total_acres / sum(property_profile$area_acres, na.rm = TRUE)) * 100,
     avg_score = mean(development_score, na.rm = TRUE),
     .groups = "drop"
