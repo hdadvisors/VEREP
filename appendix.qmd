@@ -1,6 +1,6 @@
 # Appendices {.unnumbered}
 
-::: {.callout-note collapse="true"}
+::: {.callout-note collapse="false"}
 ## Technical Methodology
 
 **Scoring Algorithm Details**
@@ -20,7 +20,7 @@ Each property receives scores across six dimensions (0-100 scale), which are the
 Final scores are capped between 0-100.
 :::
 
-::: {.callout-note collapse="true"}
+::: {.callout-note collapse="false"}
 ## Data Processing Notes
 
 **Congregation-Parcel Joining:** Properties were matched to congregation data using the `congr_name` field. Properties without matches received neutral financial scores.
