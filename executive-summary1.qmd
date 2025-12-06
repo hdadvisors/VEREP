@@ -1,18 +1,20 @@
 # Executive Summary {.unnumbered}
 
-```{r}
-#| include: false
-source("R/common.R")
-source("R/app.R")
-```
-
 This analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.
 
 ## At a Glance: Top 10 Properties
 
 ```{r}
+#| echo: false
+source("R/common.R")
+source("R/app.R")
+
+```
+
+```{r}
 #| label: tbl-top-10
 #| tbl-cap: "Top 10 Development Opportunities"
+#| echo: false
 
 top_10 |>
   select(rank, site_address, site_city, area_acres, development_score, development_tier) |>
@@ -35,34 +37,31 @@ top_10 |>
 
 ```{r}
 #| label: fig-top-10-scores
-#| fig-cap: "Development Scores for Top 10 Properties"
+#| fig-cap: "Development Scores for All Properties"
 #| fig-height: 5
 
-top_10 |>
-  ggplot(aes(x = reorder(paste0("#", rank, ": ", site_address), -rank), 
-             y = development_score,
-             fill = development_tier)) +
-  geom_col() +
-  geom_text(aes(label = round(development_score, 1)), 
-            hjust = -0.2, size = 3.5, color = "#333") +
-  coord_flip() +
+
+
+scored_parcels |>
+  filter(!is.na(development_score)) |>
+  ggplot(aes(x = development_score, fill = development_potential)) +
+  geom_histogram(binwidth = 5, color = "white") +
   scale_fill_manual(values = c(
     "High Potential" = "#445ca9",
     "Moderate Potential" = "#8baeaa",
     "Low Potential - Constraints" = "#e9ab3f",
     "Insufficient Data" = "#e76f52"
   )) +
-  scale_y_continuous(limits = c(0, 105)) +
   labs(
-    x = "",
-    y = "Development Score",
+    title = "Distribution of Development Scores",
+    x = "Development Score",
+    y = "Number of Properties",
     fill = "Tier"
   ) +
   theme_minimal(base_size = 12) +
   theme(
     plot.title = element_text(face = "bold", color = "#445ca9"),
-    legend.position = "bottom",
-    panel.grid.major.y = element_blank()
+    legend.position = "bottom"
   )
 ```
 
@@ -122,9 +121,9 @@ cat("Our analysis identified **", strong_potential, " properties** with substant
 
 **Primary opportunities include:**
 
-- **Parking lots** (highest development scores): `r sum(scored_parcels$use_parking, na.rm = TRUE)` properties with underutilized parking suitable for structured parking with mixed-use above
-- **Open space parcels**: `r sum(scored_parcels$use_open_space, na.rm = TRUE)` well-located vacant land parcels ideal for ground lease arrangements
-- **Properties with declining congregations**: Sites where development can provide financial stability
+-   **Parking lots** (highest development scores): `r sum(scored_parcels$use_parking, na.rm = TRUE)` properties with underutilized parking suitable for structured parking with mixed-use above
+-   **Open space parcels**: `r sum(scored_parcels$use_open_space, na.rm = TRUE)` well-located vacant land parcels ideal for ground lease arrangements
+-   **Properties with declining congregations**: Sites where development can provide financial stability
 
 ### Geographic Distribution
 
@@ -157,13 +156,13 @@ ggplot(county_summary, aes(x = reorder(site_county, n_properties), y = n_propert
 
 Development opportunities are distributed across Virginia, with concentrations in:
 
-- Urban/suburban areas with strong walkability scores
-- Markets with favorable demographics and LIHTC eligibility
-- Transit-accessible locations supporting reduced parking requirements
+-   Urban/suburban areas with strong walkability scores
+-   Markets with favorable demographics and LIHTC eligibility
+-   Transit-accessible locations supporting reduced parking requirements
 
 ### Financial Sustainability Imperative
 
-::: {.callout-warning}
+::: callout-warning
 ## Critical Finding
 
 ```{r}
@@ -223,7 +222,7 @@ ggplot(tier_summary, aes(x = reorder(development_potential, -tier_order), y = n,
 
 ## Next Steps
 
-1. **Priority Assessment**: Review top-ranked properties for immediate action
-2. **Feasibility Studies**: Conduct detailed feasibility analysis for top candidates
-3. **Stakeholder Engagement**: Engage relevant stakeholders for high-priority sites
-4. **Financial Planning**: Develop funding strategies and timelines
+1.  **Priority Assessment**: Review top-ranked properties for immediate action
+2.  **Feasibility Studies**: Conduct detailed feasibility analysis for top candidates
+3.  **Stakeholder Engagement**: Engage relevant stakeholders for high-priority sites
+4.  **Financial Planning**: Develop funding strategies and timelines
