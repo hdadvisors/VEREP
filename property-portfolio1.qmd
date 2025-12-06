@@ -1,0 +1,366 @@
+# Property Portfolio Overview
+
+```{r}
+#| include: false
+source("R/common.R")
+```
+
+## Portfolio Summary
+
+```{r}
+#| label: portfolio-metrics
+#| echo: false
+#| results: asis
+
+# Calculate key metrics
+total_properties <- nrow(property_profile)
+total_acres <- sum(property_profile$area_acres, na.rm = TRUE)
+avg_score <- mean(property_profile$development_score, na.rm = TRUE)
+high_potential <- sum(property_profile$development_potential == "High Potential", na.rm = TRUE)
+
+cat("::: {layout-ncol=4}\n\n")
+
+cat("::: {.callout-note appearance='minimal'}\n")
+cat("## ", total_properties, "\n", sep = "")
+cat("Total Properties\n")
+cat(":::\n\n")
+
+cat("::: {.callout-tip appearance='minimal'}\n")
+cat("## ", format(round(total_acres, 0), big.mark = ","), "\n", sep = "")
+cat("Total Acres\n")
+cat(":::\n\n")
+
+cat("::: {.callout-warning appearance='minimal'}\n")
+cat("## ", round(avg_score, 1), "\n", sep = "")
+cat("Avg Development Score\n")
+cat(":::\n\n")
+
+cat("::: {.callout-important appearance='minimal'}\n")
+cat("## ", high_potential, "\n", sep = "")
+cat("High Potential Properties\n")
+cat(":::\n\n")
+
+cat(":::\n")
+```
+
+## Property Use Types
+
+```{r}
+#| label: fig-use-types
+#| fig-cap: "Distribution of Properties by Primary Use"
+#| fig-height: 5
+
+# Summarize use types
+use_summary <- property_profile |>
+  summarise(
+    Church = sum(use_church, na.rm = TRUE),
+    Parking = sum(use_parking, na.rm = TRUE),
+    `Open Space` = sum(use_open_space, na.rm = TRUE),
+    Residence = sum(use_residence, na.rm = TRUE),
+    School = sum(use_school, na.rm = TRUE),
+    Cemetery = sum(use_cemetery, na.rm = TRUE)
+  ) |>
+  pivot_longer(everything(), names_to = "Use Type", values_to = "Count") |>
+  filter(Count > 0) |>
+  arrange(desc(Count)) |>
+  mutate(pct = Count / sum(Count) * 100)
+
+ggplot(use_summary, aes(x = reorder(`Use Type`, Count), y = Count, fill = `Use Type`)) +
+  geom_col() +
+  geom_text(aes(label = paste0(Count, " (", round(pct, 1), "%)")), 
+            hjust = -0.1, size = 3.5) +
+  coord_flip() +
+  scale_fill_manual(values = c(
+    "Church" = "#445ca9",
+    "Parking" = "#8baeaa",
+    "Open Space" = "#e9ab3f",
+    "Residence" = "#e76f52",
+    "School" = "#9b59b6",
+    "Cemetery" = "#7f8c8d"
+  )) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.2))) +
+  labs(
+    title = "Properties by Use Type",
+    x = "",
+    y = "Number of Properties"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    panel.grid.major.y = element_blank(),
+    legend.position = "none"
+  )
+```
+
+## Development Score Distribution
+
+```{r}
+#| label: fig-score-distribution
+#| fig-cap: "Distribution of Development Scores Across Portfolio"
+#| fig-height: 4
+
+ggplot(property_profile, aes(x = development_score, fill = development_potential)) +
+  geom_histogram(binwidth = 5, color = "white", alpha = 0.9) +
+  scale_fill_manual(values = c(
+    "High Potential" = "#445ca9",
+    "Moderate Potential" = "#8baeaa",
+    "Low Potential - Constraints" = "#e9ab3f",
+    "Insufficient Data" = "#e76f52"
+  )) +
+  labs(
+    title = "Development Score Distribution",
+    x = "Development Score",
+    y = "Number of Properties",
+    fill = "Development Tier"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    legend.position = "bottom"
+  ) +
+  guides(fill = guide_legend(nrow = 2))
+```
+
+## Property Size vs Development Score
+
+```{r}
+#| label: fig-size-vs-score
+#| fig-cap: "Relationship Between Property Size and Development Score"
+#| fig-height: 5
+
+property_profile |>
+  filter(!is.na(area_acres), !is.na(development_score), area_acres < 50) |>
+  ggplot(aes(x = area_acres, y = development_score, color = development_potential)) +
+  geom_point(alpha = 0.6, size = 3) +
+  scale_color_manual(values = c(
+    "High Potential" = "#445ca9",
+    "Moderate Potential" = "#8baeaa",
+    "Low Potential - Constraints" = "#e9ab3f",
+    "Insufficient Data" = "#e76f52"
+  )) +
+  scale_x_log10(labels = scales::comma) +
+  labs(
+    title = "Property Size vs. Development Score",
+    subtitle = "Properties sized under 50 acres (log scale)",
+    x = "Property Size (Acres)",
+    y = "Development Score",
+    color = "Development Tier"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    legend.position = "bottom"
+  ) +
+  guides(color = guide_legend(nrow = 2))
+```
+
+## Summary Metrics
+
+::: {.panel-tabset}
+
+### By County
+
+```{r}
+#| label: tbl-by-county
+#| tbl-cap: "Property Distribution by County"
+
+county_summary <- property_profile |>
+  group_by(scounty) |>
+  summarise(
+    Properties = n(),
+    `Total Acres` = round(sum(area_acres, na.rm = TRUE), 1),
+    `Avg Score` = round(mean(development_score, na.rm = TRUE), 1),
+    `High Potential` = sum(development_potential == "High Potential", na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(Properties)) |>
+  slice_head(n = 15)
+
+county_summary |>
+  kable(align = c("l", "r", "r", "r", "r")) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+  row_spec(0, bold = TRUE, background = "#445ca9", color = "white")
+```
+
+### By Use Type
+
+```{r}
+#| label: tbl-by-use
+#| tbl-cap: "Property Statistics by Use Type"
+
+use_stats <- property_profile |>
+  summarise(
+    `Church Properties` = list(c(
+      n = sum(use_church, na.rm = TRUE),
+      acres = sum(area_acres[use_church], na.rm = TRUE),
+      score = mean(development_score[use_church], na.rm = TRUE)
+    )),
+    `Parking Properties` = list(c(
+      n = sum(use_parking, na.rm = TRUE),
+      acres = sum(area_acres[use_parking], na.rm = TRUE),
+      score = mean(development_score[use_parking], na.rm = TRUE)
+    )),
+    `Open Space` = list(c(
+      n = sum(use_open_space, na.rm = TRUE),
+      acres = sum(area_acres[use_open_space], na.rm = TRUE),
+      score = mean(development_score[use_open_space], na.rm = TRUE)
+    ))
+  )
+
+# Create cleaner summary table
+use_type_summary <- tibble(
+  `Use Type` = c("Church", "Parking", "Open Space", "Residence", "School", "Cemetery"),
+  Count = c(
+    sum(property_profile$use_church, na.rm = TRUE),
+    sum(property_profile$use_parking, na.rm = TRUE),
+    sum(property_profile$use_open_space, na.rm = TRUE),
+    sum(property_profile$use_residence, na.rm = TRUE),
+    sum(property_profile$use_school, na.rm = TRUE),
+    sum(property_profile$use_cemetery, na.rm = TRUE)
+  ),
+  `Avg Size (Acres)` = c(
+    mean(property_profile$area_acres[property_profile$use_church], na.rm = TRUE),
+    mean(property_profile$area_acres[property_profile$use_parking], na.rm = TRUE),
+    mean(property_profile$area_acres[property_profile$use_open_space], na.rm = TRUE),
+    mean(property_profile$area_acres[property_profile$use_residence], na.rm = TRUE),
+    mean(property_profile$area_acres[property_profile$use_school], na.rm = TRUE),
+    mean(property_profile$area_acres[property_profile$use_cemetery], na.rm = TRUE)
+  ),
+  `Avg Dev Score` = c(
+    mean(property_profile$development_score[property_profile$use_church], na.rm = TRUE),
+    mean(property_profile$development_score[property_profile$use_parking], na.rm = TRUE),
+    mean(property_profile$development_score[property_profile$use_open_space], na.rm = TRUE),
+    mean(property_profile$development_score[property_profile$use_residence], na.rm = TRUE),
+    mean(property_profile$development_score[property_profile$use_school], na.rm = TRUE),
+    mean(property_profile$development_score[property_profile$use_cemetery], na.rm = TRUE)
+  )
+) |>
+  filter(Count > 0) |>
+  arrange(desc(Count))
+
+use_type_summary |>
+  mutate(
+    `Avg Size (Acres)` = round(`Avg Size (Acres)`, 2),
+    `Avg Dev Score` = round(`Avg Dev Score`, 1)
+  ) |>
+  kable(align = c("l", "r", "r", "r")) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+  row_spec(0, bold = TRUE, background = "#8baeaa", color = "white")
+```
+
+### High Potential
+
+```{r}
+#| label: tbl-high-potential
+#| tbl-cap: "Top 20 High Development Potential Properties"
+
+property_profile |>
+  filter(development_potential %in% c("High Potential", "Moderate Potential")) |>
+  arrange(desc(development_score)) |>
+  slice_head(n = 20) |>
+  mutate(Rank = row_number()) |>
+  select(Rank, sadd, site_city, site_county, area_acres, development_score, development_potential) |>
+  kable(
+    col.names = c("Rank", "Address", "City", "County", "Acres", "Score", "Tier"),
+    digits = c(0, 0, 0, 0, 2, 1, 0),
+    align = c("c", "l", "l", "l", "r", "r", "l")
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+  row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
+  row_spec(1:5, bold = TRUE)
+```
+
+### Development Tiers
+
+```{r}
+#| label: tbl-tiers
+#| tbl-cap: "Summary by Development Tier"
+
+tier_summary <- property_profile |>
+  group_by(development_potential) |>
+  summarise(
+    `# Properties` = n(),
+    `Total Acres` = round(sum(area_acres, na.rm = TRUE), 1),
+    `Avg Acres` = round(mean(area_acres, na.rm = TRUE), 2),
+    `Avg Score` = round(mean(development_score, na.rm = TRUE), 1),
+    `Avg Walkability` = round(mean(walk_idx, na.rm = TRUE), 1),
+    .groups = "drop"
+  ) |>
+  arrange(desc(`Avg Score`))
+
+tier_summary |>
+  kable(
+    col.names = c("Development Tier", "# Properties", "Total Acres", "Avg Acres", "Avg Score", "Avg Walkability"),
+    align = c("l", "r", "r", "r", "r", "r")
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover")) |>
+  row_spec(0, bold = TRUE, background = "#e9ab3f", color = "white") |>
+  row_spec(which(tier_summary$development_potential == "High Potential"), 
+           background = "#d4edda")
+```
+
+:::
+
+## Geographic Distribution
+
+```{r}
+#| label: fig-county-map
+#| fig-cap: "Properties by County (Top 15)"
+#| fig-height: 5
+
+county_counts <- property_profile |>
+  count(site_county, name = "n_properties") |>
+  arrange(desc(n_properties)) |>
+  slice_head(n = 15)
+
+ggplot(county_counts, aes(x = reorder(site_county, n_properties), y = n_properties)) +
+  geom_col(fill = "#445ca9", alpha = 0.8) +
+  geom_text(aes(label = n_properties), hjust = -0.2, size = 3.5) +
+  coord_flip() +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Top 15 Counties by Property Count",
+    x = "",
+    y = "Number of Properties"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    panel.grid.major.y = element_blank()
+  )
+```
+
+## Congregation Health Indicators
+
+```{r}
+#| label: fig-attendance-pledge
+#| fig-cap: "Relationship Between Attendance and Pledge Revenue"
+#| fig-height: 5
+
+property_profile |>
+  filter(!is.na(avg_attendance), !is.na(avg_pledge), 
+         avg_attendance > 0, avg_pledge > 0) |>
+  ggplot(aes(x = avg_attendance, y = avg_pledge / 1000, color = development_potential)) +
+  geom_point(alpha = 0.6, size = 3) +
+  scale_color_manual(values = c(
+    "High Potential" = "#445ca9",
+    "Moderate Potential" = "#8baeaa",
+    "Low Potential - Constraints" = "#e9ab3f",
+    "Insufficient Data" = "#e76f52"
+  )) +
+  scale_x_log10() +
+  scale_y_log10(labels = scales::dollar_format(suffix = "K")) +
+  labs(
+    title = "Attendance vs. Pledge Revenue",
+    subtitle = "Log scale on both axes",
+    x = "Average Sunday Attendance",
+    y = "Annual Plate & Pledge ($K)",
+    color = "Development Tier"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    legend.position = "bottom"
+  ) +
+  guides(color = guide_legend(nrow = 2))
+```
