@@ -64,7 +64,7 @@ format:
     documentclass: report
     toc: true
     toc-depth: 3
-    number-sections: true
+    number-sections: false
     number-depth: 3
     geometry:
       - margin=1in
