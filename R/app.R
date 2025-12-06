@@ -137,6 +137,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     width = 300,
     sidebarMenu(
+      id = "sidebar",
       menuItem("Executive Summary", tabName = "summary", icon = icon("chart-line")),
       menuItem("Interactive Map", tabName = "map", icon = icon("map")),
       menuItem("Property Rankings", tabName = "rankings", icon = icon("list-ol")),
@@ -447,6 +448,15 @@ ui <- dashboardPage(
 
 # Server
 server <- function(input, output, session) {
+  
+  # Open to specific tab based on URL parameter
+  
+  observe({
+    query <- parseQueryString(session$clientData$url_search)
+    if (!is.null(query$tab)) {
+      updateTabItems(session, "sidebar", selected = query$tab)
+    }
+  })
   
   # Top 10 Table
   output$top10_table <- renderDT({
