@@ -328,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./methodology-overview.html">Methodology &amp; Data</a></li><li class="breadcrumb-item"><a href="./methodology-overview.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background &amp; Data Sources</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background &amp; Data Sources</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Background &amp; Data Sources</span></h1>
 </div>
 
 
@@ -422,11 +422,6 @@ Properties Without Coordinates
 </div>
 </div>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Unknown or uninitialised column: `pin`.</code></pre>
-</div>
-</div>
-<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -504,39 +499,33 @@ Properties Without Coordinates
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygeocoder)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>needs_geocoding <span class="ot">&lt;-</span> unassigned_addresses <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(sample_lat) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(sample_lon))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>geocoded_results <span class="ot">&lt;-</span> needs_geocoding <span class="sc">|&gt;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reverse_geocode</span>(</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> sample_lat,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">long =</span> sample_lon,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"arcgis"</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_results =</span> <span class="cn">FALSE</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygeocoder)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>needs_geocoding <span class="ot">&lt;-</span> unassigned_addresses <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(sample_lat) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(sample_lon))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>geocoded_results <span class="ot">&lt;-</span> needs_geocoding <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reverse_geocode</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> sample_lat,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">long =</span> sample_lon,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"arcgis"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_results =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Passing 3 coordinates to the ArcGIS single coordinate geocoder</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Query completed in: 0.3 seconds</code></pre>
+<pre><code>Query completed in: 0.2 seconds</code></pre>
 </div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the geocoded addresses</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(geocoded_results, <span class="st">"data/output/geocoded_unassigned_addresses.csv"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>geocoded_results <span class="sc">|&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(congregation_name, num_unassigned, cities, address) <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Congregation"</span>, <span class="st">"# Properties"</span>, <span class="st">"Cities"</span>, <span class="st">"Geocoded Address"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the geocoded addresses</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(geocoded_results, <span class="st">"data/output/geocoded_unassigned_addresses.csv"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>geocoded_results <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(congregation_name, num_unassigned, cities, address) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Congregation"</span>, <span class="st">"# Properties"</span>, <span class="st">"Cities"</span>, <span class="st">"Geocoded Address"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
 <thead>
@@ -664,8 +653,6 @@ Findings
 </div>
 
 
-<!-- -->
-
 </section>
 </section>
 
@@ -739,57 +726,6 @@ Findings
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
-    }
-    const viewSource = window.document.getElementById('quarto-view-source') ||
-                       window.document.getElementById('quarto-code-tools-source');
-    if (viewSource) {
-      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-      viewSource.addEventListener("click", function(e) {
-        if (sourceUrl) {
-          // rstudio viewer pane
-          if (/\bcapabilities=\b/.test(window.location)) {
-            window.open(sourceUrl);
-          } else {
-            window.location.href = sourceUrl;
-          }
-        } else {
-          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-          modal.show();
-        }
-        return false;
-      });
-    }
-    function toggleCodeHandler(show) {
-      return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
-          if (show) {
-            details.open = true;
-          } else {
-            details.removeAttribute("open");
-          }
-        }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-        const fromCls = show ? "hidden" : "unhidden";
-        const toCls = show ? "unhidden" : "hidden";
-        for (let i=0; i<cellCodeDivs.length; i++) {
-          const codeDiv = cellCodeDivs[i];
-          if (codeDiv.classList.contains(fromCls)) {
-            codeDiv.classList.remove(fromCls);
-            codeDiv.classList.add(toCls);
-          } 
-        }
-        return false;
-      }
-    }
-    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-    if (hideAllCode) {
-      hideAllCode.addEventListener("click", toggleCodeHandler(false));
-    }
-    const showAllCode = window.document.getElementById("quarto-show-all-code");
-    if (showAllCode) {
-      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -1131,262 +1067,7 @@ Findings
         <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Source Details</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/common.R"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu"># Background &amp; Data Sources</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## VEREP Parcel Dataset</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r verep-count, echo=FALSE, results='asis'}</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"- **"</span>, <span class="fu">nrow</span>(property_profile), <span class="st">" parcels** across Virginia</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Comprehensive property characteristics (size, use, zoning)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Environmental constraints (floodplains, wetlands, easements)</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Location metrics (walkability, transit access)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Market indicators (median income, demographics)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Congregation Statistics (2014-2023)</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>Financial and membership data provides context on congregation health:</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sunday attendance trends</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Membership changes</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Plate &amp; pledge revenue</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>10-year trend analysis</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Quality Note</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>Not all properties have associated congregation data. Properties without congregation information received neutral scores in the financial need category.</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Quality Issues</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>One of the issues identified by CGS's initial study was that a large number of congregations either had incomplete or inconsistent data; many congregations share properties or fail to appropriately report their permanent address. Their final output data, which was utilized for this development analysis, reflected this. While environmental constraints accounted for the majority of the missing data, many others contained incomplete property information. For a closer look, we separated and classified these attributes below. These properties can be more precisely assessed for development once they have greater data.</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r data-quality-stats, echo=FALSE}</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate summary stats</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>total_props <span class="ot">&lt;-</span> <span class="fu">nrow</span>(property_profile)</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>incomplete_data <span class="ot">&lt;-</span> <span class="fu">nrow</span>(incomplete_properties)</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>missing_addresses <span class="ot">&lt;-</span> <span class="fu">sum</span>(unassigned_addresses<span class="sc">$</span>num_unassigned)</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Create summary table</span></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Total properties analyzed"</span>,</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Properties with incomplete data"</span>,</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Properties with missing/unassigned addresses"</span>),</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(total_props,</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>            <span class="fu">paste0</span>(incomplete_data, <span class="st">" ("</span>, <span class="fu">round</span>(incomplete_data<span class="sc">/</span>total_props<span class="sc">*</span><span class="dv">100</span>, <span class="dv">1</span>), <span class="st">"%)"</span>),</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>            missing_addresses)</span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Display as formatted table</span></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="sc">|&gt;</span></span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>), </span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>                <span class="at">position =</span> <span class="st">"left"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>, <span class="at">width =</span> <span class="st">"20em"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">2</span>, <span class="at">width =</span> <span class="st">"10em"</span>)</span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="in">```{r no-coords-warning, echo=FALSE, results='asis'}</span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>no_coords_count <span class="ot">&lt;-</span> <span class="fu">sum</span>(unassigned_addresses<span class="sc">$</span>has_coords <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(no_coords_count <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"::: {.callout-warning}</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"## Properties Without Coordinates</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"**"</span>, no_coords_count, <span class="st">"** properties have neither valid addresses nor coordinates. These will require manual lookup using county tax records or additional dioses review.</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">":::</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r other-issues, echo=FALSE}</span></span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate missing data breakdown</span></span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>missing_breakdown <span class="ot">&lt;-</span> incomplete_properties <span class="sc">|&gt;</span></span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_land_value =</span> <span class="fu">sum</span>(missing_land_value),</span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_acreage =</span> <span class="fu">sum</span>(missing_acreage),</span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_wetland =</span> <span class="fu">sum</span>(missing_wetland),</span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_flood =</span> <span class="fu">sum</span>(missing_flood),</span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_qct =</span> <span class="fu">sum</span>(missing_qct),</span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_zoning =</span> <span class="fu">sum</span>(missing_zoning)</span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"data_type"</span>, <span class="at">values_to =</span> <span class="st">"count"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_type =</span> <span class="fu">str_remove</span>(data_type, <span class="st">"missing_"</span>),</span>
-<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_type =</span> <span class="fu">str_to_title</span>(<span class="fu">str_replace_all</span>(data_type, <span class="st">"_"</span>, <span class="st">" "</span>))</span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count))</span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate properties with address issues using simple $ notation</span></span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>props_with_incomplete_addr <span class="ot">&lt;-</span> incomplete_properties<span class="sc">$</span>pin[</span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">is.na</span>(incomplete_properties<span class="sc">$</span>sadd) <span class="sc">|</span> </span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>  incomplete_properties<span class="sc">$</span>sadd <span class="sc">==</span> <span class="st">""</span> <span class="sc">|</span> </span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>  incomplete_properties<span class="sc">$</span>sadd <span class="sc">==</span> <span class="st">"INCOMPLETE"</span></span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>address_issues <span class="ot">&lt;-</span> <span class="fu">nrow</span>(shared_addresses) <span class="sc">+</span> <span class="fu">nrow</span>(unassigned_addresses) <span class="sc">+</span> </span>
-<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>(incomplete_properties <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(sadd) <span class="sc">|</span> sadd <span class="sc">==</span> <span class="st">""</span>))</span>
-<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Property Information row</span></span>
-<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>missing_breakdown <span class="ot">&lt;-</span> missing_breakdown <span class="sc">|&gt;</span></span>
-<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_row</span>(</span>
-<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_type =</span> <span class="st">"Property Information"</span>,</span>
-<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>    <span class="at">count =</span> address_issues</span>
-<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count))</span>
-<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missing-data-chart, echo=FALSE, fig.height=4}</span></span>
-<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(missing_breakdown, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(data_type, count), <span class="at">y =</span> count)) <span class="sc">+</span></span>
-<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#e76f52"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> count), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Missing Data by Category"</span>,</span>
-<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
-<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Properties"</span></span>
-<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"#445ca9"</span>),</span>
-<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
-<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a><span class="fu">### Missing and Unassigned Addresses</span></span>
-<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a>The following congregations comprise the 19 "properties" without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising 14 of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code.</span>
-<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a><span class="in">```{r unassigned-table, echo=FALSE}</span></span>
-<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a>unassigned_addresses <span class="sc">|&gt;</span></span>
-<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(congregation_name, num_unassigned, cities, has_coords) <span class="sc">|&gt;</span></span>
-<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">has_coords =</span> <span class="fu">if_else</span>(has_coords <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Congregation"</span>, <span class="st">"# Unassigned Properties"</span>, <span class="st">"Cities"</span>, <span class="st">"Has Coordinates"</span>),</span>
-<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">0</span></span>
-<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="fu">which</span>(unassigned_addresses<span class="sc">$</span>has_coords <span class="sc">==</span> <span class="dv">0</span>), <span class="at">background =</span> <span class="st">"#f8d7da"</span>)</span>
-<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygeocoder)</span>
-<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a>needs_geocoding <span class="ot">&lt;-</span> unassigned_addresses <span class="sc">|&gt;</span></span>
-<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(sample_lat) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(sample_lon))</span>
-<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>geocoded_results <span class="ot">&lt;-</span> needs_geocoding <span class="sc">|&gt;</span></span>
-<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reverse_geocode</span>(</span>
-<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> sample_lat,</span>
-<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>    <span class="at">long =</span> sample_lon,</span>
-<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"arcgis"</span>,</span>
-<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_results =</span> <span class="cn">FALSE</span></span>
-<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the geocoded addresses</span></span>
-<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(geocoded_results, <span class="st">"data/output/geocoded_unassigned_addresses.csv"</span>)</span>
-<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>geocoded_results <span class="sc">|&gt;</span></span>
-<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(congregation_name, num_unassigned, cities, address) <span class="sc">|&gt;</span></span>
-<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Congregation"</span>, <span class="st">"# Properties"</span>, <span class="st">"Cities"</span>, <span class="st">"Geocoded Address"</span>)</span>
-<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>))</span>
-<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
-<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### Shared Addresses</span></span>
-<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a>These properties have different congregations sharing the same street address, indicating potential shared facilities, rental arrangements, or data quality issues.</span>
-<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r shared-summary, echo=FALSE}</span></span>
-<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a><span class="co"># Create summary from shared_addresses</span></span>
-<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a>shared_summary <span class="ot">&lt;-</span> shared_addresses <span class="sc">|&gt;</span></span>
-<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sadd, scity) <span class="sc">|&gt;</span></span>
-<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>    <span class="at">num_congregations =</span> <span class="fu">n_distinct</span>(congregation_name),</span>
-<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a>    <span class="at">congregations =</span> <span class="fu">paste</span>(<span class="fu">unique</span>(congregation_name), <span class="at">collapse =</span> <span class="st">" | "</span>),</span>
-<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_attendance =</span> <span class="fu">sum</span>(attendance_2023, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">'drop'</span></span>
-<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_congregations))</span>
-<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate stats for callout</span></span>
-<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a>unique_addresses <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(shared_addresses<span class="sc">$</span>sadd)</span>
-<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a>unique_congregations <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(shared_addresses<span class="sc">$</span>congregation_name)</span>
-<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r shared-callout, echo=FALSE, results='asis'}</span></span>
-<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"::: {.callout-note}</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"## Findings</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"**"</span>, unique_addresses, <span class="st">"** addresses are shared by multiple congregations, affecting **"</span>, unique_congregations, <span class="st">"** different congregations.</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">":::</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a>**Properties sharing addresses may indicate:**</span>
-<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Ethnic/language congregations** sharing space (Korean, Vietnamese, Spanish services)</span>
-<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Church plants** using host congregation facilities</span>
-<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Rental arrangements** - one congregation renting to another</span>
-<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Merged congregations** - maintaining separate legal entities</span>
-<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>**Data quality issues** - duplicate records or address errors</span>
-<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a><span class="in">```{r shared-table, echo=FALSE}</span></span>
-<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">nrow</span>(shared_summary) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>  shared_summary <span class="sc">|&gt;</span></span>
-<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(</span>
-<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Street Address"</span>, <span class="st">"City"</span>, <span class="st">"# Congregations"</span>, <span class="st">"Congregation Names"</span>, <span class="st">"Combined Attendance"</span>),</span>
-<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">0</span></span>
-<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>    <span class="fu">column_spec</span>(<span class="dv">3</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="fu">which</span>(shared_summary<span class="sc">$</span>num_congregations <span class="sc">&gt;=</span> <span class="dv">3</span>), <span class="at">background =</span> <span class="st">"#d1ecf1"</span>)</span>
-<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"✓ No shared addresses found</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
-<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a><span class="fu">### Priority Issues Summary</span></span>
-<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a><span class="in">```{r priority-summary, echo=FALSE}</span></span>
-<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a><span class="co"># Categorize problems</span></span>
-<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a>problem_categories <span class="ot">&lt;-</span> problem_matrix <span class="sc">|&gt;</span></span>
-<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(address_status) <span class="sc">|&gt;</span></span>
-<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
-<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a>**Problem Distribution:**</span>
-<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a><span class="in">```{r priority-table, echo=FALSE}</span></span>
-<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a>problem_categories <span class="sc">|&gt;</span></span>
-<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Issue Type"</span>, <span class="st">"# Congregations"</span>),</span>
-<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">0</span></span>
-<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="fu">which</span>(<span class="fu">grepl</span>(<span class="st">"Both"</span>, problem_categories<span class="sc">$</span>address_status)), </span>
-<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a>           <span class="at">background =</span> <span class="st">"#f8d7da"</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
-</div></div></div></div></div>
+</nav>
 </div> <!-- /content -->
 
 

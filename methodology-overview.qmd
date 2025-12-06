@@ -96,11 +96,9 @@ missing_breakdown <- incomplete_properties |>
   arrange(desc(count))
 
 # Calculate properties with address issues using simple $ notation
-props_with_incomplete_addr <- incomplete_properties$pin[
-  is.na(incomplete_properties$sadd) | 
-  incomplete_properties$sadd == "" | 
-  incomplete_properties$sadd == "INCOMPLETE"
-]
+props_with_incomplete_addr <- incomplete_properties |> 
+  filter(is.na(sadd) | sadd == "" | sadd == "INCOMPLETE") |>
+  nrow()
 
 address_issues <- nrow(shared_addresses) + nrow(unassigned_addresses) + 
   nrow(incomplete_properties |> filter(is.na(sadd) | sadd == ""))
