@@ -10,6 +10,7 @@ source("R/common.R")
 ```{r}
 #| label: portfolio-metrics
 #| results: asis
+#| echo: false
 
 # Calculate key metrics
 total_properties <- nrow(property_profile)
@@ -48,6 +49,7 @@ cat(":::\n")
 #| label: fig-use-types
 #| fig-cap: "Distribution of Properties by Primary Use"
 #| fig-height: 5
+#| echo: false
 
 # Summarize use types
 use_summary <- property_profile |>
@@ -97,6 +99,7 @@ ggplot(use_summary, aes(x = reorder(`Use Type`, Count), y = Count, fill = `Use T
 #| label: fig-score-distribution
 #| fig-cap: "Distribution of Development Scores Across Portfolio"
 #| fig-height: 4
+#| echo: false
 
 ggplot(property_profile, aes(x = development_score, fill = development_potential)) +
   geom_histogram(binwidth = 5, color = "white", alpha = 0.9) +
@@ -126,6 +129,7 @@ ggplot(property_profile, aes(x = development_score, fill = development_potential
 #| label: fig-size-vs-score
 #| fig-cap: "Relationship Between Property Size and Development Score"
 #| fig-height: 5
+#| echo: false
 
 property_profile |>
   filter(!is.na(area_acres), !is.na(development_score), area_acres < 50) |>
@@ -162,6 +166,7 @@ property_profile |>
 ```{r}
 #| label: tbl-by-county
 #| tbl-cap: "Property Distribution by County"
+#| echo: false
 
 county_summary <- property_profile |>
   group_by(scounty) |>
@@ -186,6 +191,7 @@ county_summary |>
 ```{r}
 #| label: tbl-by-use
 #| tbl-cap: "Property Statistics by Use Type"
+#| echo: false
 
 use_stats <- property_profile |>
   summarise(
@@ -252,6 +258,7 @@ use_type_summary |>
 ```{r}
 #| label: tbl-high-potential
 #| tbl-cap: "Top 20 High Development Potential Properties"
+#| echo: false
 
 property_profile |>
   filter(development_potential %in% c("High Potential", "Moderate Potential")) |>
@@ -274,6 +281,7 @@ property_profile |>
 ```{r}
 #| label: tbl-tiers
 #| tbl-cap: "Summary by Development Tier"
+#| echo: false
 
 tier_summary <- property_profile |>
   group_by(development_potential) |>
@@ -306,6 +314,7 @@ tier_summary |>
 #| label: fig-county-map
 #| fig-cap: "Properties by County (Top 15)"
 #| fig-height: 5
+#| echo: false
 
 county_counts <- property_profile |>
   count(scounty, name = "n_properties") |>
@@ -335,6 +344,7 @@ ggplot(county_counts, aes(x = reorder(scounty, n_properties), y = n_properties))
 #| label: fig-attendance-pledge
 #| fig-cap: "Relationship Between Attendance and Pledge Revenue"
 #| fig-height: 5
+#| echo: false 
 
 property_profile |>
   filter(!is.na(avg_attendance), !is.na(avg_pledge), 
