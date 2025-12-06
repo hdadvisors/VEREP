@@ -16,26 +16,26 @@ book:
     
     - part: "Executive Summary"
       chapters:
-        - executive-summary1.qmd
+        - executive-summary.qmd
     
     - part: "Methodology & Data"
       chapters:
-        - methodology-overview1.qmd
+        - methodology-overview.qmd
         - data-sources.qmd
-        - analytical-framework1.qmd
-        - development-criteria1.qmd
+        - analytical-framework.qmd
+        - development-criteria.qmd
     
     - part: "Analysis Results"
       chapters:
-        - development-landscape1.qmd
-        - geographic-distribution1.qmd
+        - development-landscape.qmd
+        - geographic-distribution.qmd
     
     - part: "Summary Statistics"
       chapters:
-        - property-portfolio1.qmd
-        - geographic-stats1.qmd
-        - vitality-metrics1.qmd
-        - developable-land1.qmd
+        - property-portfolio.qmd
+        - geographic-stats.qmd
+        - vitality-metrics.qmd
+        - developable-land.qmd
     
     - part: "Property Profiles"
       chapters:
