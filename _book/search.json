@@ -114,5 +114,313 @@
       "Summary Statistics",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Geographic Distribution</span>"
     ]
+  },
+  {
+    "objectID": "vitality-metrics.html",
+    "href": "vitality-metrics.html",
+    "title": "10  Congregation Vitality Metrics",
+    "section": "",
+    "text": "Key Congregation Metrics:\n\nParcels with congregation data: 126\nParcels with &lt;30 Sunday attendance: 126 (100% of properties analyzed)\nAverage Sunday attendance: 16 people\nAverage annual pledge: $49,047\nCongregations with declining pledges: 70",
+    "crumbs": [
+      "Summary Statistics",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Congregation Vitality Metrics</span>"
+    ]
+  },
+  {
+    "objectID": "developable-land.html",
+    "href": "developable-land.html",
+    "title": "11  Developable Land Summary",
+    "section": "",
+    "text": "11.0.1 Comprehensive Developability Analysis\nAll Developable Properties (Score ≥45)\n\n\n\n\n44\n\n\nDevelopable Parcels\n\n\n\n\n192.1\n\n\nDevelopable Acres\n\n\n\n\n$18.7M\n\n\nAssessed Value\n\n\n\n\n1\n\n\nWith &lt;30 Attendance\n\n\n\n\n\n\n11.0.2 Breakdown by Development Tier\n\n\nCode\ntier_summary |&gt;\n  kable(\n    col.names = c(\"Tier\", \"# Parcels\", \"Total Acres\", \"Assessed Value\"),\n    digits = c(0, 0, 1, 0),\n    format.args = list(big.mark = \",\")\n  ) |&gt;\n  kable_styling(bootstrap_options = c(\"striped\", \"hover\"))\n\n\n\n\n\nTier\n# Parcels\nTotal Acres\nAssessed Value\n\n\n\n\nHigh Potential\n30\n146.1\n18,124,500\n\n\nModerate Potential\n14\n46.0\n553,409",
+    "crumbs": [
+      "Summary Statistics",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Developable Land Summary</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html",
+    "href": "property-profiles.html",
+    "title": "12  Property Profiles",
+    "section": "",
+    "text": "12.1 Overview\nThe following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#overview",
+    "href": "property-profiles.html#overview",
+    "title": "12  Property Profiles",
+    "section": "",
+    "text": "Site characteristics and current use\nCongregation context (where applicable)\nDevelopment opportunities and strategies\nKey considerations and next steps\n\n\nCode\ncreate_property_profile &lt;- function(rank_num) {\n  property &lt;- top_10 |&gt; filter(rank == rank_num)\n  \n  if(nrow(property) == 0) return(NULL)\n  \n  cat(\"\\n\\n## Property #\", rank_num, \" {.unnumbered}\\n\\n\", sep = \"\")\n  cat(\"### \", property$site_address, \"\\n\", sep = \"\")\n  cat(\"**\", property$site_city, \", \", property$site_county, \" County**\\n\\n\", sep = \"\")\n  \n  tier_type &lt;- case_when(\n    property$development_score &gt;= 75 ~ \"important\",\n    property$development_score &gt;= 60 ~ \"tip\",\n    TRUE ~ \"note\"\n  )\n  \n  cat(\":::{.callout-\", tier_type, \"}\\n\", sep = \"\")\n  cat(\"## Development Score: **\", round(property$development_score, 1), \"/100**\\n\\n\", sep = \"\")\n  cat(\"**\", property$development_tier, \"**\\n\", sep = \"\")\n  cat(\":::\\n\\n\")\n  \n  cat(\"::: {layout-ncol=3}\\n\")\n  cat(\"::: {}\\n**\", round(property$area_acres, 2), \" acres**  \\n\", sep = \"\")\n  cat(\"Property Size\\n:::\\n\")\n  \n  cat(\"::: {}\\n**\", round(property$walkability_score, 1), \"/100**  \\n\", sep = \"\")\n  cat(\"Walkability\\n:::\\n\")\n  \n  cat(\"::: {}\\n**\", \n      ifelse(!is.na(property$avg_attendance), \n             paste0(round(property$avg_attendance), \" people\"), \"N/A\"), \"**  \\n\", sep = \"\")\n  cat(\"Avg Attendance\\n:::\\n\")\n  cat(\":::\\n\\n\")\n  \n  cat(\"#### Site Characteristics\\n\\n\")\n  cat(\"- **Current Uses:**\")\n  uses &lt;- c()\n  if(!is.na(property$use_church) && property$use_church) uses &lt;- c(uses, \"Church building\")\n  if(!is.na(property$use_parking) && property$use_parking) uses &lt;- c(uses, \"Parking lot\")\n  if(!is.na(property$use_open_space) && property$use_open_space) uses &lt;- c(uses, \"Open space\")\n  if(length(uses) &gt; 0) {\n    cat(\" \", paste(uses, collapse = \", \"), \"\\n\", sep = \"\")\n  } else {\n    cat(\" Mixed use\\n\")\n  }\n  \n  if(!is.na(property$name)) {\n    cat(\"\\n#### Congregation: \", property$name, \"\\n\\n\", sep = \"\")\n    \n    if(!is.na(property$pct_change_pledge)) {\n      change_dir &lt;- ifelse(property$pct_change_pledge &lt; 0, \"↓ decreased\", \"↑ increased\")\n      cat(\"**Financial Trend:** Plate & pledge has \", change_dir, \" by **\", \n          abs(round(property$pct_change_pledge, 1)), \"%** over the past decade.\\n\\n\", sep = \"\")\n    }\n  }\n  \n  cat(\"#### Development Opportunities\\n\\n\")\n  if(!is.na(property$use_parking) && property$use_parking) {\n    cat(\"🅿️ **Prime opportunity:** Underutilized parking can support structured parking with mixed-use above\\n\\n\")\n  }\n  if(!is.na(property$area_acres) && property$area_acres &gt; 1) {\n    cat(\"📐 **Substantial site:** Large parcel enables phased development or creative master planning\\n\\n\")\n  }\n  if(!is.na(property$walkability_score) && property$walkability_score &gt; 10) {\n    cat(\"🚶 **Walkable location:** Transit access supports reduced parking requirements and higher density\\n\\n\")\n  }\n  \n  cat(\"#### Recommended Next Steps\\n\\n\")\n  cat(\"1. Site feasibility study and geotechnical analysis\\n\")\n  cat(\"2. Congregation leadership engagement\\n\")\n  cat(\"3. Zoning review and density bonus evaluation\\n\")\n  if(!is.na(property$financial_need) && property$financial_need &gt;= 2) {\n    cat(\"4. Ground lease financial modeling\\n\")\n  }\n  \n  cat(\"\\n---\\n\\n\")\n}\n\n# Generate all profiles\nfor(i in 1:10) {\n  create_property_profile(i)\n}",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-1",
+    "href": "property-profiles.html#property-1",
+    "title": "12  Property Profiles",
+    "section": "Property #1",
+    "text": "Property #1\n\n12.1.1 10520 MAIN ST, FAIRFAX 22030\nFAIRFAX, FAIRFAX-CITY County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n4.11 acres\nProperty Size\n\n\n16.3/100\nWalkability\n\n\n25 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: Holy Cross Korean Episcopal Church\nFinancial Trend: Plate & pledge has ↑ increased by 42% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-2",
+    "href": "property-profiles.html#property-2",
+    "title": "12  Property Profiles",
+    "section": "Property #2",
+    "text": "Property #2\n\n12.1.2 1 TRURO LN, FAIRFAX 22030\nFAIRFAX, FAIRFAX-CITY County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n3.44 acres\nProperty Size\n\n\n16.3/100\nWalkability\n\n\n25 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Open space\n\n\n\nCongregation: Holy Cross Korean Episcopal Church\nFinancial Trend: Plate & pledge has ↑ increased by 42% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-3",
+    "href": "property-profiles.html#property-3",
+    "title": "12  Property Profiles",
+    "section": "Property #3",
+    "text": "Property #3\n\n12.1.3 AQUIA HARBOUR 22554\nAQUIA HARBOUR, STAFFORD County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n31.38 acres\nProperty Size\n\n\n6.8/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Open space\n\n\n\nCongregation: Aquia Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-4",
+    "href": "property-profiles.html#property-4",
+    "title": "12  Property Profiles",
+    "section": "Property #4",
+    "text": "Property #4\n\n12.1.4 3241 BRUSH DR, FALLS CHURCH 22042\nFALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n5.64 acres\nProperty Size\n\n\n13/100\nWalkability\n\n\n21 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Patricks Anglo Vietnamese Church\nFinancial Trend: Plate & pledge has ↓ decreased by 55.2% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-5",
+    "href": "property-profiles.html#property-5",
+    "title": "12  Property Profiles",
+    "section": "Property #5",
+    "text": "Property #5\n\n12.1.5 WEST FALLS CHURCH 22042\nWEST FALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.62 acres\nProperty Size\n\n\n13/100\nWalkability\n\n\n21 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building, Open space\n\n\n\nCongregation: St Patricks Anglo Vietnamese Church\nFinancial Trend: Plate & pledge has ↓ decreased by 55.2% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-6",
+    "href": "property-profiles.html#property-6",
+    "title": "12  Property Profiles",
+    "section": "Property #6",
+    "text": "Property #6\n\n12.1.6 3421 FRANCONIA RD, ALEXANDRIA 22310\nALEXANDRIA, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n4.39 acres\nProperty Size\n\n\n11/100\nWalkability\n\n\n28 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: All Saints Sharon Chapel\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-7",
+    "href": "property-profiles.html#property-7",
+    "title": "12  Property Profiles",
+    "section": "Property #7",
+    "text": "Property #7\n\n12.1.7 37018 GLENDALE ST, PURCELLVILLE 20132\nPURCELLVILLE, LOUDOUN County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.02 acres\nProperty Size\n\n\n8.5/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Peters Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-8",
+    "href": "property-profiles.html#property-8",
+    "title": "12  Property Profiles",
+    "section": "Property #8",
+    "text": "Property #8\n\n12.1.8 2918 RICHMOND HWY, STAFFORD 22554\nSTAFFORD, STAFFORD County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n8.15 acres\nProperty Size\n\n\n6.8/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: Aquia Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-9",
+    "href": "property-profiles.html#property-9",
+    "title": "12  Property Profiles",
+    "section": "Property #9",
+    "text": "Property #9\n\n12.1.9 3439 PAYNE ST, FALLS CHURCH 22041\nFALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.24 acres\nProperty Size\n\n\n18.3/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Pauls Church\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "property-profiles.html#property-10",
+    "href": "property-profiles.html#property-10",
+    "title": "12  Property Profiles",
+    "section": "Property #10",
+    "text": "Property #10\n\n12.1.10 10627 PATTERSON AVE, HENRICO 23238\nHENRICO, HENRICO County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n5.08 acres\nProperty Size\n\n\n8.3/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Bartholomews Episcopal Church\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\n\n\n\n\nCode\ncat(\"\\n---\\n\\n\")\n\n\n\n---\n\n\nCode\ncat(\"# Interactive ADU Placement Tool\\n\\n\")\n\n\n# Interactive ADU Placement Tool\n\n\nCode\ncat(\"For an interactive experience where you can place and explore ADU designs on these properties, \")\n\n\nFor an interactive experience where you can place and explore ADU designs on these properties, \n\n\nCode\ncat(\"**launch the interactive Shiny dashboard** by running `shiny::runApp('app.R')` in your R console.\\n\\n\")\n\n\n**launch the interactive Shiny dashboard** by running `shiny::runApp('app.R')` in your R console.\n\n\nCode\ncat(\"The dashboard includes:\\n\\n\")\n\n\nThe dashboard includes:\n\n\nCode\ncat(\"- **Interactive map** with click-to-place ADU functionality\\n\")\n\n\n- **Interactive map** with click-to-place ADU functionality\n\n\nCode\ncat(\"- **Multiple ADU design options** (Modal 01, Dwight, Compact Studio, Large 2BR)\\n\")\n\n\n- **Multiple ADU design options** (Modal 01, Dwight, Compact Studio, Large 2BR)\n\n\nCode\ncat(\"- **Real-time property visualization** with satellite and street view toggles\\n\")\n\n\n- **Real-time property visualization** with satellite and street view toggles\n\n\nCode\ncat(\"- **Complete property analysis** with all scoring metrics and filters\\n\\n\")\n\n\n- **Complete property analysis** with all scoring metrics and filters",
+    "crumbs": [
+      "Property Profiles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
+    ]
+  },
+  {
+    "objectID": "appendix.html",
+    "href": "appendix.html",
+    "title": "Appendices",
+    "section": "",
+    "text": "Technical Methodology\n\n\n\n\n\nScoring Algorithm Details\nEach property receives scores across six dimensions (0-100 scale), which are then weighted and combined:\n\nSize Score (20% weight): Properties between 0.5-5 acres score highest (100 points)\nUse Score (25% weight): Parking lots (95) and open space (90) score highest\nLocation Score (20% weight): Based on walkability index and transit access\nFinancial Score (15% weight): Congregation pledge trends indicate development need\nMarket Score (10% weight): Area median income and LIHTC eligibility\nZoning Score (10% weight): Development-friendly zoning receives 80 points\n\nConstraint penalties are applied after the weighted average, with major penalties for: - Flood zones: -40 points - Significant wetlands (&gt;25%): -35 points\n- Easements: -30 points - Historic districts: -25 points\nFinal scores are capped between 0-100.\n\n\n\n\n\n\n\n\n\nData Processing Notes\n\n\n\n\n\nCongregation-Parcel Joining: Properties were matched to congregation data using the congr_name field. Properties without matches received neutral financial scores.\nMissing Data Handling: - Missing walkability scores defaulted to 0 - Missing income data received median market scores (50) - Properties without area or coordinates were excluded\nQuality Filters: - Minimum parcel size: 0.1 acres - Required valid lat/lon coordinates - Valid building years: 1700-2025",
+    "crumbs": [
+      "Appendices",
+      "Appendices"
+    ]
+  },
+  {
+    "objectID": "methodology-overview.html",
+    "href": "methodology-overview.html",
+    "title": "2  Background & Data Sources",
+    "section": "",
+    "text": "2.1 VEREP Parcel Dataset\nThis analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Background & Data Sources</span>"
+    ]
+  },
+  {
+    "objectID": "methodology-overview.html#verep-parcel-dataset",
+    "href": "methodology-overview.html#verep-parcel-dataset",
+    "title": "2  Background & Data Sources",
+    "section": "",
+    "text": "126 parcels across Virginia\nComprehensive property characteristics (size, use, zoning)\nEnvironmental constraints (floodplains, wetlands, easements)\nLocation metrics (walkability, transit access)\nMarket indicators (median income, demographics)",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Background & Data Sources</span>"
+    ]
+  },
+  {
+    "objectID": "methodology-overview.html#congregation-statistics-2014-2023",
+    "href": "methodology-overview.html#congregation-statistics-2014-2023",
+    "title": "2  Background & Data Sources",
+    "section": "2.2 Congregation Statistics (2014-2023)",
+    "text": "2.2 Congregation Statistics (2014-2023)\nFinancial and membership data provides context on congregation health:\n\nSunday attendance trends\nMembership changes\nPlate & pledge revenue\n10-year trend analysis\n\n\n\n\n\n\n\nData Quality Note\n\n\n\nNot all properties have associated congregation data. Properties without congregation information received neutral scores in the financial need category.",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Background & Data Sources</span>"
+    ]
+  },
+  {
+    "objectID": "methodology-overview.html#data-quality-issues",
+    "href": "methodology-overview.html#data-quality-issues",
+    "title": "2  Background & Data Sources",
+    "section": "2.3 Data Quality Issues",
+    "text": "2.3 Data Quality Issues\nOne of the issues identified by CGS’s initial study was that a large number of congregations either had incomplete or inconsistent data; many congregations share properties or fail to appropriately report their permanent address. Their final output data, which was utilized for this development analysis, reflected this. While environmental constraints accounted for the majority of the missing data, many others contained incomplete property information. For a closer look, we separated and classified these attributes below. These properties can be more precisely assessed for development once they have greater data.\n\n\n\n\n\nMetric\nValue\n\n\n\n\nTotal properties analyzed\n126\n\n\nProperties with incomplete data\n121 (96%)\n\n\nProperties with missing/unassigned addresses\n19\n\n\n\n\n\n\n\n\n\n\n\nProperties Without Coordinates\n\n\n\n5 properties have neither valid addresses nor coordinates. These will require manual lookup using county tax records or additional dioses review.\n\n\n\n\nWarning: Unknown or uninitialised column: `pin`.\n\n\n\n\n\n\n\n\n\n\n\n\n\n2.3.1 Missing and Unassigned Addresses\nThe following congregations comprise the 19 “properties” without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising 14 of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code.\n\n\n\n\n\nCongregation\n# Unassigned Properties\nCities\nHas Coordinates\n\n\n\n\nSt Johns Episcopal Church\n6\nWEST POINT, UNASSIGNED\nYes\n\n\nSt Pauls Church\n6\nWEST POINT\nYes\n\n\nSt Stephens Church\n2\nUNASSIGNED\nYes\n\n\nChurch of the Spirit\n1\nNA\nNo\n\n\nLa Iglesia de San Jose\n1\nNA\nNo\n\n\nOlivet Church\n1\nNA\nNo\n\n\nSt Andrews Church\n1\nNA\nNo\n\n\nSt Francis Korean Church\n1\nNA\nNo\n\n\n\n\n\n\n\nCode\nlibrary(tidygeocoder)\n\nneeds_geocoding &lt;- unassigned_addresses |&gt;\n  filter(!is.na(sample_lat) & !is.na(sample_lon))\n\ngeocoded_results &lt;- needs_geocoding |&gt;\n  reverse_geocode(\n    lat = sample_lat,\n    long = sample_lon,\n    method = \"arcgis\",\n    full_results = FALSE\n  )\n\n\nPassing 3 coordinates to the ArcGIS single coordinate geocoder\n\n\nQuery completed in: 0.3 seconds\n\n\nCode\n# Save the geocoded addresses\nwrite_csv(geocoded_results, \"data/output/geocoded_unassigned_addresses.csv\")\n\ngeocoded_results |&gt;\n  select(congregation_name, num_unassigned, cities, address) |&gt;\n  kable(\n    col.names = c(\"Congregation\", \"# Properties\", \"Cities\", \"Geocoded Address\")\n  ) |&gt;\n  kable_styling(bootstrap_options = c(\"striped\", \"hover\"))\n\n\n\n\n\nCongregation\n# Properties\nCities\nGeocoded Address\n\n\n\n\nSt Johns Episcopal Church\n6\nWEST POINT, UNASSIGNED\n916 Main Street, West Point, VA, 23181, USA\n\n\nSt Pauls Church\n6\nWEST POINT\n532 15th St, West Point, VA, 23181, USA\n\n\nSt Stephens Church\n2\nUNASSIGNED\n20119, Catlett, VA, USA\n\n\n\n\n\n\n\n\n2.3.2 Shared Addresses\nThese properties have different congregations sharing the same street address, indicating potential shared facilities, rental arrangements, or data quality issues.\n\n\n\n\n\n\nFindings\n\n\n\n2 addresses are shared by multiple congregations, affecting 5 different congregations.\n\n\nProperties sharing addresses may indicate:\n\nEthnic/language congregations sharing space (Korean, Vietnamese, Spanish services)\nChurch plants using host congregation facilities\nRental arrangements - one congregation renting to another\nMerged congregations - maintaining separate legal entities\nData quality issues - duplicate records or address errors\n\n\n\n\n\n\nStreet Address\nCity\n# Congregations\nCongregation Names\nCombined Attendance\n\n\n\n\nWARSAW 22572\nWARSAW\n3\nNorth Farnham Parish Church &#124; St Johns Church &#124; St Pauls Church Nomini Grove\n116\n\n\nUNASSIGNED, WEST POINT 23181\nWEST POINT\n2\nSt Johns Episcopal Church &#124; St Pauls Church\n140\n\n\n\n\n\n\n\n\n2.3.3 Priority Issues Summary\nProblem Distribution:\n\n\n\n\n\nIssue Type\n# Congregations\n\n\n\n\nAll addresses unique and assigned\n20\n\n\nHas unassigned addresses\n6\n\n\nHas shared addresses\n3\n\n\nBoth shared AND unassigned\n2",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Background & Data Sources</span>"
+    ]
+  },
+  {
+    "objectID": "analytical-framework.html",
+    "href": "analytical-framework.html",
+    "title": "4  Analytical Framework",
+    "section": "",
+    "text": "4.1 Development Potential Scoring\nOur methodology evaluates six key dimensions:\nCode\nscoring_components &lt;- tibble(\n  Component = c(\"Property Size\", \"Current Use\", \"Location Quality\", \n                \"Financial Need\", \"Market Potential\", \"Zoning\"),\n  Weight = c(20, 25, 20, 15, 10, 10),\n  Description = c(\n    \"Optimal size for development (0.5-5 acres scores highest)\",\n    \"Underutilized properties (parking lots, open space)\",\n    \"Walkability and transit accessibility\",\n    \"Congregation financial health trends\",\n    \"Area income levels and LIHTC eligibility\",\n    \"Development-friendly zoning classifications\"\n  )\n)\n\nggplot(scoring_components, aes(x = reorder(Component, Weight), y = Weight)) +\n  geom_col(fill = \"#445ca9\", alpha = 0.8) +\n  geom_text(aes(label = paste0(Weight, \"%\")), hjust = -0.2, size = 5, \n            color = \"#445ca9\", fontface = \"bold\") +\n  coord_flip() +\n  scale_y_continuous(limits = c(0, 30)) +\n  labs(\n    title = \"Development Score Components\",\n    subtitle = \"Weighted contribution to final score\",\n    x = \"\",\n    y = \"Weight (%)\"\n  ) +\n  theme_minimal(base_size = 13) +\n  theme(\n    plot.title = element_text(face = \"bold\", size = 16, color = \"#445ca9\"),\n    panel.grid.major.y = element_blank(),\n    panel.grid.minor = element_blank()\n  )\nConstraint Penalties: Properties receive deductions for flood zones (-40), significant wetlands (-35), easements (-30), and historic district designation (-25).\nDevelopment Tiers\nProperties are classified into five tiers based on composite scores:",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Analytical Framework</span>"
+    ]
+  },
+  {
+    "objectID": "analytical-framework.html#development-potential-scoring",
+    "href": "analytical-framework.html#development-potential-scoring",
+    "title": "4  Analytical Framework",
+    "section": "",
+    "text": "Tier 1 (75-100): High Priority - Immediate development candidates\nTier 2 (60-74): Strong Potential - Near-term opportunities\nTier 3 (45-59): Moderate Potential - Requires creative solutions\nTier 4 (30-44): Limited Potential - Significant barriers exist\nTier 5 (&lt;30): Not Recommended - Unsuitable for development",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Analytical Framework</span>"
+    ]
+  },
+  {
+    "objectID": "development-criteria.html",
+    "href": "development-criteria.html",
+    "title": "5  Understanding the Development Criteria",
+    "section": "",
+    "text": "5.1 Why These Factors Matter\nThe development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Understanding the Development Criteria</span>"
+    ]
+  },
+  {
+    "objectID": "development-criteria.html#why-these-factors-matter",
+    "href": "development-criteria.html#why-these-factors-matter",
+    "title": "5  Understanding the Development Criteria",
+    "section": "",
+    "text": "5.1.1 Property Size: The Goldilocks Principle\nWeight: 20%\n\n\nOptimal Range: 2-25 acres\nProperties that are “just right” for development.\nNot too small to be economically viable, not too large to be financially unwieldy.\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 400\n#| label: fig-size-scoring\n#| fig-cap: \"Property Size Scoring Curve\"\n\nlibrary(shiny)\nlibrary(ggplot2)\n\nui &lt;- fluidPage(\n  titlePanel(\"Property Size Scoring\"),\n  \n  sidebarLayout(\n    sidebarPanel(\n      sliderInput(\"acres\", \"Property Size (acres):\",\n                  min = 0, max = 50, value = 10, step = 0.5),\n      verbatimTextOutput(\"score_text\")\n    ),\n    \n    mainPanel(\n      plotOutput(\"scoring_curve\", height = \"300px\")\n    )\n  )\n)\n\nserver &lt;- function(input, output) {\n  # Scoring function\n  calculate_score &lt;- function(size) {\n    if (size &lt; 2) return(size / 2 * 50)\n    if (size &lt;= 25) return(100)\n    if (size &lt;= 50) return(100 - (size - 25) * 2)\n    return(50)\n  }\n  \n  output$scoring_curve &lt;- renderPlot({\n    sizes &lt;- seq(0, 50, 0.1)\n    scores &lt;- sapply(sizes, calculate_score)\n    \n    df &lt;- data.frame(Size = sizes, Score = scores)\n    \n    ggplot(df, aes(x = Size, y = Score)) +\n      geom_line(color = \"steelblue\", size = 1.2) +\n      geom_vline(xintercept = input$acres, linetype = \"dashed\", \n                 color = \"red\", size = 1) +\n      geom_hline(yintercept = calculate_score(input$acres), \n                 linetype = \"dashed\", color = \"red\", size = 1) +\n      annotate(\"rect\", xmin = 2, xmax = 25, ymin = 0, ymax = 100,\n               alpha = 0.1, fill = \"green\") +\n      labs(title = \"Property Size Scoring Curve\",\n           x = \"Property Size (Acres)\",\n           y = \"Score\") +\n      theme_minimal() +\n      theme(text = element_text(size = 12))\n  })\n  \n  output$score_text &lt;- renderText({\n    score &lt;- calculate_score(input$acres)\n    paste0(\"Score for \", input$acres, \" acres: \", round(score, 1), \"/100\")\n  })\n}\n\nshinyApp(ui, server)\nWhy This Matters: - Too small (&lt;2 acres): Limited development options, high per-unit costs - Optimal (2-25 acres): Maximum flexibility and economic efficiency - Too large (&gt;25 acres): Requires significant capital, complex phasing\nProperty size significantly influences development feasibility, but bigger isn’t always better. Properties under a quarter-acre typically lack the critical mass needed for financially viable development—construction costs per unit rise sharply, and parking or open space requirements become impossible to meet. Conversely, parcels exceeding 10 acres often present unique challenges: they may require complex phasing, demand substantial upfront capital, or face community resistance to density.\n\n\n5.1.2 Current Use: Identifying Low-Hanging Fruit\nWeight: 15%\nProperties with minimal current utilization represent immediate opportunities.\n\n\n\nCurrent Use\nScore\nRationale\n\n\n\n\nVacant Land\n100\nImmediate development potential\n\n\nParking/Storage\n80\nLow-value use, easy conversion\n\n\nUnderutilized Building\n60\nRequires demolition/renovation\n\n\nActive Use\n20\nDisplacement costs high\n\n\n\nHighest Potential: Parking Lots and Open Space\nNot all church property serves its highest and best use. Surface parking lots represent prime redevelopment opportunities—they’re already cleared and graded, typically have minimal environmental constraints, and often sit underutilized six days per week. A parking lot that serves 200 congregants on Sunday morning but stands empty Monday through Saturday represents an enormous opportunity cost.\nOpen space scores similarly high, particularly when it’s amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be reimagined while potentially retaining some green space within new development.\n\n\n5.1.3 Location Quality: Following the Market\nWeight: 20%\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 500\n#| label: fig-location-scoring\n#| fig-cap: \"Location Quality Analysis Tool\"\n\nlibrary(shiny)\nlibrary(leaflet)\n\nui &lt;- fluidPage(\n  titlePanel(\"Location Quality Scoring\"),\n  \n  sidebarLayout(\n    sidebarPanel(\n      h4(\"Proximity Factors\"),\n      sliderInput(\"transit\", \"Transit Access (miles):\",\n                  min = 0, max = 5, value = 0.5, step = 0.1),\n      sliderInput(\"amenities\", \"Amenities (miles):\",\n                  min = 0, max = 5, value = 1, step = 0.1),\n      sliderInput(\"employment\", \"Employment Centers (miles):\",\n                  min = 0, max = 10, value = 3, step = 0.5),\n      hr(),\n      h4(\"Calculated Score\"),\n      verbatimTextOutput(\"location_score\")\n    ),\n    \n    mainPanel(\n      plotOutput(\"score_breakdown\", height = \"350px\")\n    )\n  )\n)\n\nserver &lt;- function(input, output) {\n  scores &lt;- reactive({\n    transit_score &lt;- max(0, 100 - input$transit * 40)\n    amenity_score &lt;- max(0, 100 - input$amenities * 30)\n    employment_score &lt;- max(0, 100 - input$employment * 15)\n    \n    list(\n      transit = transit_score,\n      amenities = amenity_score,\n      employment = employment_score,\n      total = mean(c(transit_score, amenity_score, employment_score))\n    )\n  })\n  \n  output$location_score &lt;- renderText({\n    s &lt;- scores()\n    paste0(\"Overall Location Score: \", round(s$total, 1), \"/100\\n\\n\",\n           \"Transit: \", round(s$transit, 1), \"\\n\",\n           \"Amenities: \", round(s$amenities, 1), \"\\n\",\n           \"Employment: \", round(s$employment, 1))\n  })\n  \n  output$score_breakdown &lt;- renderPlot({\n    s &lt;- scores()\n    df &lt;- data.frame(\n      Factor = c(\"Transit\", \"Amenities\", \"Employment\", \"Overall\"),\n      Score = c(s$transit, s$amenities, s$employment, s$total),\n      Type = c(rep(\"Component\", 3), \"Total\")\n    )\n    \n    ggplot(df, aes(x = Factor, y = Score, fill = Type)) +\n      geom_bar(stat = \"identity\") +\n      scale_fill_manual(values = c(\"Component\" = \"steelblue\", \n                                    \"Total\" = \"darkgreen\")) +\n      ylim(0, 100) +\n      labs(title = \"Location Quality Score Breakdown\",\n           y = \"Score (0-100)\") +\n      theme_minimal() +\n      theme(legend.position = \"none\",\n            text = element_text(size = 12))\n  })\n}\n\nshinyApp(ui, server)\nKey Metrics: Walkability Score and Transit Access\nReal estate development fundamentally responds to location. A walkable, transit-rich site commands higher rents, attracts more diverse tenants, and often qualifies for density bonuses or reduced parking requirements—all factors that improve project economics.\nWalkability scores measure proximity to everyday needs: grocery stores, schools, employment centers, healthcare. High walkability (15-20 on our scale) indicates a property can support car-light or car-free households, expanding the potential tenant base to include young professionals, seniors aging in place, and lower-income families for whom car ownership is cost-prohibitive.\nTransit access amplifies these benefits. Properties within a quarter-mile of frequent bus service or half-mile of rail stations can often negotiate reduced parking requirements with municipalities—a significant cost savings when structured parking runs $25,000-$40,000 per space to construct.\n\n\n5.1.4 Financial Need: Aligning Development with Mission\nWeight: 15%\nPriority: Congregations with Declining Resources\nThis criterion explicitly centers mission over pure market return. Congregations experiencing sustained pledge declines often face a difficult reality: their historic buildings demand expensive maintenance, but shrinking budgets make upkeep increasingly burdensome. Many such congregations sit on valuable real estate that could, through thoughtful development, generate steady income streams while maintaining their worship and ministry.\nA ground lease arrangement, for example, might provide a struggling congregation with $50,000-$150,000 annually in stable income—enough to fund a part-time rector, maintain the building, and sustain core ministries. This approach transforms real estate from a drain on resources into a mission enabler.\nProperties associated with growing congregations score lower not because they lack development potential, but because the urgency is less acute. These communities likely have more options and less immediate financial pressure.\n\n\n5.1.5 Market Potential: Reading Economic Signals\nWeight: 15%\n\n\nCode\nlibrary(knitr)\nkable(data.frame(\n  Indicator = c(\"Population Growth\", \"Median Income\", \"Housing Demand\", \n                \"Commercial Activity\", \"Development Trends\"),\n  Weight = c(\"25%\", \"20%\", \"25%\", \"15%\", \"15%\"),\n  Data_Source = c(\"Census\", \"ACS\", \"MLS/RHNA\", \"County Records\", \"Planning Dept\")\n))\n\n\n\n\nTable 5.1: Market Potential Scoring Criteria\n\n\n\n\n\n\nIndicator\nWeight\nData_Source\n\n\n\n\nPopulation Growth\n25%\nCensus\n\n\nMedian Income\n20%\nACS\n\n\nHousing Demand\n25%\nMLS/RHNA\n\n\nCommercial Activity\n15%\nCounty Records\n\n\nDevelopment Trends\n15%\nPlanning Dept\n\n\n\n\n\n\n\n\nIndicator: Area Median Income and LIHTC Eligibility\nDevelopment must respond to market demand. Properties in higher-income areas (median incomes above $75,000) typically support market-rate housing, ground-floor retail, or mixed-use projects that can cross-subsidize affordable components. These projects attract conventional financing and a broader range of development partners.\nProperties in Qualified Census Tracts (QCTs) gain additional scoring weight because they unlock Low-Income Housing Tax Credit (LIHTC) financing—the nation’s primary mechanism for affordable housing production. LIHTC projects in QCTs receive point advantages in competitive funding rounds, improving their feasibility. For mission-driven institutions committed to affordable housing, QCT properties offer a rare alignment of social impact and financial viability.\n\n\n5.1.6 Zoning: Navigating Regulatory Reality\nWeight: 10%\n\n\n\nZoning Category\nScore\nDevelopment Impact\n\n\n\n\nResidential\n100\nAligned with housing mission\n\n\nMixed Use\n90\nFlexible development options\n\n\nCommercial\n70\nRequires use variance\n\n\nAgricultural\n40\nSignificant restrictions\n\n\nConservation\n10\nSevere limitations\n\n\n\nFavorable: Mixed-Use, Commercial, and Residential Districts\nZoning powerfully shapes what’s buildable and how quickly projects move from concept to construction. Properties zoned for residential or mixed-use development typically offer by-right development opportunities—projects that don’t require lengthy rezoning processes, conditional use permits, or special exceptions.\nConversely, properties in restrictive single-family or conservation districts may require multi-year regulatory processes, neighborhood opposition, and uncertain outcomes. While such projects occasionally succeed, they demand patient capital and sophisticated development partners.\n\n\n5.1.7 Environmental and Regulatory Constraints: Deal-Breakers vs. Speed-Bumps\nWeight: 5%\n\n\n\n\n\n\nAssessment Framework\n\n\n\nDeal-Breakers (Score: 0-30): - Wetlands - Endangered species habitat - Superfund sites - Severe slope/flooding\nSpeed-Bumps (Score: 60-90): - CEQA review required - Historic considerations - Moderate environmental mitigation - Standard permitting\n\n\nCritical: Flood Zones, Wetlands, Easements, Historic Districts\nThese constraints receive substantial score penalties because they materially affect project feasibility and cost. Properties in 100-year floodplains face expensive flood insurance, elevated construction costs, and increasingly cautious lenders post-climate-change. Development in such areas may be technically possible but financially marginal.\nSignificant wetlands (&gt;25% of parcel) trigger federal and state permitting, potential mitigation requirements, and uncertainty about buildable area. Easements—particularly those held by third parties—can restrict development rights, limit building envelopes, or prevent property subdivision.\nHistoric district designation doesn’t prohibit development but adds layers of design review, material requirements, and timeline uncertainty. Some historic commissions embrace creative contemporary additions; others mandate strict historicism that may conflict with modern construction economics.",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Understanding the Development Criteria</span>"
+    ]
+  },
+  {
+    "objectID": "development-criteria.html#bringing-it-all-together",
+    "href": "development-criteria.html#bringing-it-all-together",
+    "title": "5  Understanding the Development Criteria",
+    "section": "5.2 Bringing It All Together",
+    "text": "5.2 Bringing It All Together\nThe final Development Potential Score is calculated as:\n\\[\n\\text{Score} = \\sum_{i=1}^{7} (w_i \\times s_i)\n\\]\nWhere: - \\(w_i\\) = weight of criterion \\(i\\) - \\(s_i\\) = score for criterion \\(i\\) (0-100)\nScore Interpretation:\n\n90-100: Exceptional opportunity - immediate action recommended\n75-89: High potential - priority consideration\n60-74: Moderate potential - further evaluation needed\n&lt;60: Limited potential - monitoring status\n\nThese six criteria, combined with constraint penalties, create a holistic picture of development potential. A property might score exceptionally well on size and location but face significant challenges from environmental constraints. Another might have modest physical attributes but represent an urgent opportunity to support a financially stressed congregation.\nThe weighted scoring system allows us to compare apples to oranges—to evaluate whether a small, perfectly-located property in a historic district outweighs a larger, unrestricted site with less market demand. This methodology doesn’t make decisions for stakeholders but rather creates a common language for discussing trade-offs and priorities.\nUltimately, successful church real estate development requires more than high scores. It demands patient capital, mission-aligned partners, engaged congregations, and creative design. But by systematically evaluating these criteria, we can identify the properties where stars align—where market demand, congregational need, and regulatory environment converge to create genuine opportunity.",
+    "crumbs": [
+      "Methodology & Data",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Understanding the Development Criteria</span>"
+    ]
+  },
+  {
+    "objectID": "development-landscape.html",
+    "href": "development-landscape.html",
+    "title": "6  Development Opportunity Landscape",
+    "section": "",
+    "text": "Code\ntier_data &lt;- property_profile |&gt;\n  count(development_potential) |&gt;\n  mutate(\n    pct = n / sum(n) * 100,\n    tier_order = case_when(\n      development_potential == \"High Potential\" ~ 1,\n      development_potential == \"Moderate Potential\" ~ 2,\n      development_potential == \"Low Potential - Constraints\" ~ 3,\n      development_potential == \"Insufficient Data\" ~ 4,\n      TRUE ~ 5\n    ),\n    color = case_when(\n      tier_order == 1 ~ \"#445ca9\",\n      tier_order == 2 ~ \"#8baeaa\",\n      tier_order == 3 ~ \"#e9ab3f\",\n      tier_order == 4 ~ \"#e76f52\",\n      TRUE ~ \"#cccccc\"\n    )\n  ) |&gt;\n  arrange(tier_order)\n\nggplot(tier_data, aes(x = reorder(development_potential, -tier_order), y = n, fill = color)) +\n  geom_col() +\n  geom_text(aes(label = paste0(n, \"\\n(\", round(pct, 1), \"%)\")), \n            vjust = 1.5, color = \"white\", size = 4, fontface = \"bold\") +\n  scale_fill_identity() +\n  labs(\n    title = \"Distribution of Properties by Development Tier\",\n    subtitle = paste0(\"Total Properties Analyzed: \", sum(tier_data$n)),\n    x = \"\",\n    y = \"Number of Properties\"\n  ) +\n  theme_minimal(base_size = 13) +\n  theme(\n    plot.title = element_text(face = \"bold\", size = 16, color = \"#445ca9\"),\n    axis.text.x = element_text(angle = 45, hjust = 1, size = 11),\n    panel.grid.major.x = element_blank()\n  )",
+    "crumbs": [
+      "Analysis Results",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Development Opportunity Landscape</span>"
+    ]
+  },
+  {
+    "objectID": "property-portfolio.html",
+    "href": "property-portfolio.html",
+    "title": "8  Property Portfolio Overview",
+    "section": "",
+    "text": "8.1 Property Use Types",
+    "crumbs": [
+      "Summary Statistics",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
+    ]
+  },
+  {
+    "objectID": "property-portfolio.html#property-use-types",
+    "href": "property-portfolio.html#property-use-types",
+    "title": "8  Property Portfolio Overview",
+    "section": "",
+    "text": "#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 600\n#| label: fig-portfolio-overview\n#| fig-cap: \"Interactive Property Portfolio Dashboard\"\n\nlibrary(shiny)\nlibrary(bslib)\nlibrary(ggplot2)\nlibrary(plotly)\n\n# Sample data\nset.seed(123)\nproperties &lt;- data.frame(\n  Use_Type = sample(c(\"Church\", \"School\", \"Vacant Land\", \"Parish Hall\", \n                      \"Parking\", \"Rectory\", \"Other\"), 100, replace = TRUE),\n  Region = sample(c(\"North\", \"South\", \"East\", \"West\", \"Central\"), 100, replace = TRUE),\n  Size_Acres = round(runif(100, 0.5, 30), 1),\n  Dev_Score = round(runif(100, 20, 95), 0)\n)\n\nui &lt;- page_sidebar(\n  title = \"Property Portfolio Dashboard\",\n  \n  sidebar = sidebar(\n    selectInput(\"region_filter\", \"Region:\",\n                choices = c(\"All\", unique(properties$Region))),\n    selectInput(\"use_filter\", \"Property Use:\",\n                choices = c(\"All\", unique(properties$Use_Type))),\n    sliderInput(\"score_filter\", \"Min Development Score:\",\n                min = 0, max = 100, value = 0)\n  ),\n  \n  layout_columns(\n    value_box(\n      title = \"Total Properties\",\n      value = textOutput(\"total_count\"),\n      showcase = bsicons::bs_icon(\"building\")\n    ),\n    value_box(\n      title = \"Total Acres\",\n      value = textOutput(\"total_acres\"),\n      showcase = bsicons::bs_icon(\"map\")\n    ),\n    value_box(\n      title = \"Avg Dev Score\",\n      value = textOutput(\"avg_score\"),\n      showcase = bsicons::bs_icon(\"graph-up\")\n    )\n  ),\n  \n  layout_columns(\n    card(\n      card_header(\"Properties by Use Type\"),\n      plotlyOutput(\"use_plot\", height = \"300px\")\n    ),\n    card(\n      card_header(\"Development Score Distribution\"),\n      plotlyOutput(\"score_dist\", height = \"300px\")\n    )\n  ),\n  \n  card(\n    card_header(\"Property Size vs Development Score\"),\n    plotlyOutput(\"scatter\", height = \"400px\")\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  filtered_data &lt;- reactive({\n    data &lt;- properties\n    \n    if (input$region_filter != \"All\") {\n      data &lt;- data[data$Region == input$region_filter, ]\n    }\n    \n    if (input$use_filter != \"All\") {\n      data &lt;- data[data$Use_Type == input$use_filter, ]\n    }\n    \n    data &lt;- data[data$Dev_Score &gt;= input$score_filter, ]\n    data\n  })\n  \n  output$total_count &lt;- renderText({\n    nrow(filtered_data())\n  })\n  \n  output$total_acres &lt;- renderText({\n    paste(round(sum(filtered_data()$Size_Acres), 1), \"ac\")\n  })\n  \n  output$avg_score &lt;- renderText({\n    round(mean(filtered_data()$Dev_Score), 1)\n  })\n  \n  output$use_plot &lt;- renderPlotly({\n    use_counts &lt;- table(filtered_data()$Use_Type)\n    plot_ly(x = names(use_counts), y = as.numeric(use_counts), \n            type = 'bar', marker = list(color = 'steelblue')) %&gt;%\n      layout(xaxis = list(title = \"Use Type\"),\n             yaxis = list(title = \"Count\"),\n             margin = list(b = 100))\n  })\n  \n  output$score_dist &lt;- renderPlotly({\n    plot_ly(x = filtered_data()$Dev_Score, type = 'histogram',\n            marker = list(color = 'lightgreen'),\n            nbinsx = 20) %&gt;%\n      layout(xaxis = list(title = \"Development Score\"),\n             yaxis = list(title = \"Frequency\"))\n  })\n  \n  output$scatter &lt;- renderPlotly({\n    plot_ly(data = filtered_data(), \n            x = ~Size_Acres, y = ~Dev_Score,\n            color = ~Use_Type, colors = 'Set2',\n            type = 'scatter', mode = 'markers',\n            marker = list(size = 10),\n            text = ~paste('Use:', Use_Type, '&lt;br&gt;',\n                         'Size:', Size_Acres, 'ac&lt;br&gt;',\n                         'Score:', Dev_Score),\n            hoverinfo = 'text') %&gt;%\n      layout(xaxis = list(title = \"Property Size (acres)\", type = \"log\"),\n             yaxis = list(title = \"Development Score\"),\n             legend = list(orientation = 'h', y = -0.2))\n  })\n}\n\nshinyApp(ui, server)",
+    "crumbs": [
+      "Summary Statistics",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
+    ]
+  },
+  {
+    "objectID": "property-portfolio.html#summary-metrics",
+    "href": "property-portfolio.html#summary-metrics",
+    "title": "8  Property Portfolio Overview",
+    "section": "8.2 Summary Metrics",
+    "text": "8.2 Summary Metrics\n\nBy RegionBy Use TypeHigh Potential\n\n\n\n\nCode\nlibrary(knitr)\nkable(data.frame(\n  Region = c(\"North\", \"South\", \"East\", \"West\", \"Central\"),\n  Properties = c(25, 18, 22, 20, 15),\n  Total_Acres = c(245.3, 189.7, 312.5, 276.8, 145.2),\n  Avg_Score = c(72.3, 68.5, 75.2, 71.8, 69.4)\n))\n\n\n\n\nTable 8.1: Property Distribution by Region\n\n\n\n\n\n\nRegion\nProperties\nTotal_Acres\nAvg_Score\n\n\n\n\nNorth\n25\n245.3\n72.3\n\n\nSouth\n18\n189.7\n68.5\n\n\nEast\n22\n312.5\n75.2\n\n\nWest\n20\n276.8\n71.8\n\n\nCentral\n15\n145.2\n69.4\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nkable(data.frame(\n  Use_Type = c(\"Church\", \"School\", \"Vacant Land\", \"Parish Hall\", \"Other\"),\n  Count = c(35, 15, 22, 12, 16),\n  Avg_Size_Acres = c(8.5, 12.3, 15.7, 3.2, 6.8),\n  Avg_Dev_Score = c(65.2, 78.5, 85.3, 62.1, 58.7)\n))\n\n\n\n\nTable 8.2: Property Distribution by Use Type\n\n\n\n\n\n\nUse_Type\nCount\nAvg_Size_Acres\nAvg_Dev_Score\n\n\n\n\nChurch\n35\n8.5\n65.2\n\n\nSchool\n15\n12.3\n78.5\n\n\nVacant Land\n22\n15.7\n85.3\n\n\nParish Hall\n12\n3.2\n62.1\n\n\nOther\n16\n6.8\n58.7\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nkable(data.frame(\n  Property = paste(\"Property\", 1:10),\n  Score = c(95, 92, 88, 87, 85, 84, 83, 82, 81, 80),\n  Region = c(\"East\", \"North\", \"East\", \"West\", \"South\", \n             \"North\", \"East\", \"Central\", \"West\", \"South\"),\n  Use = c(\"Vacant\", \"Vacant\", \"Parking\", \"Vacant\", \"Parking\",\n          \"Vacant\", \"Parish Hall\", \"Vacant\", \"Parking\", \"Vacant\")\n))\n\n\n\n\nTable 8.3: High Development Potential Properties (Score &gt; 80)\n\n\n\n\n\n\nProperty\nScore\nRegion\nUse\n\n\n\n\nProperty 1\n95\nEast\nVacant\n\n\nProperty 2\n92\nNorth\nVacant\n\n\nProperty 3\n88\nEast\nParking\n\n\nProperty 4\n87\nWest\nVacant\n\n\nProperty 5\n85\nSouth\nParking\n\n\nProperty 6\n84\nNorth\nVacant\n\n\nProperty 7\n83\nEast\nParish Hall\n\n\nProperty 8\n82\nCentral\nVacant\n\n\nProperty 9\n81\nWest\nParking\n\n\nProperty 10\n80\nSouth\nVacant",
+    "crumbs": [
+      "Summary Statistics",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
+    ]
   }
 ]
