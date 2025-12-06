@@ -422,5 +422,49 @@
       "Summary Statistics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
     ]
+  },
+  {
+    "objectID": "executive-summary1.html",
+    "href": "executive-summary1.html",
+    "title": "Executive Summary",
+    "section": "",
+    "text": "At a Glance: Top 10 Properties\nThis analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.\nCode\ntop_10 |&gt;\n  select(rank, site_address, site_city, area_acres, development_score, development_tier) |&gt;\n  kable(\n    col.names = c(\"Rank\", \"Address\", \"City\", \"Acres\", \"Score\", \"Tier\"),\n    digits = c(0, 0, 0, 2, 1, 0),\n    align = c(\"c\", \"l\", \"l\", \"r\", \"r\", \"l\")\n  ) |&gt;\n  kable_styling(\n    bootstrap_options = c(\"striped\", \"hover\", \"condensed\"),\n    full_width = FALSE\n  ) |&gt;\n  column_spec(1, bold = TRUE, width = \"3em\") |&gt;\n  column_spec(5, color = \"white\", \n              background = spec_color(top_10$development_score, \n                                      scale_from = c(0, 100),\n                                      palette = \"YlOrRd\",\n                                      direction = -1))\n\n\n\n\nTable 1: Top 10 Development Opportunities\n\n\n\n\n\n\nRank\nAddress\nCity\nAcres\nScore\nTier\n\n\n\n\n1\n10520 MAIN ST, FAIRFAX 22030\nFAIRFAX\n4.11\n85\nHigh Potential\n\n\n2\n1 TRURO LN, FAIRFAX 22030\nFAIRFAX\n3.44\n85\nHigh Potential\n\n\n3\nAQUIA HARBOUR 22554\nAQUIA HARBOUR\n31.38\n85\nHigh Potential\n\n\n4\n3241 BRUSH DR, FALLS CHURCH 22042\nFALLS CHURCH\n5.64\n85\nHigh Potential\n\n\n5\nWEST FALLS CHURCH 22042\nWEST FALLS CHURCH\n2.62\n85\nHigh Potential\n\n\n6\n3421 FRANCONIA RD, ALEXANDRIA 22310\nALEXANDRIA\n4.39\n85\nHigh Potential\n\n\n7\n37018 GLENDALE ST, PURCELLVILLE 20132\nPURCELLVILLE\n2.02\n85\nHigh Potential\n\n\n8\n2918 RICHMOND HWY, STAFFORD 22554\nSTAFFORD\n8.15\n85\nHigh Potential\n\n\n9\n3439 PAYNE ST, FALLS CHURCH 22041\nFALLS CHURCH\n2.24\n85\nHigh Potential\n\n\n10\n10627 PATTERSON AVE, HENRICO 23238\nHENRICO\n5.08\n85\nHigh Potential\nCode\ntop_10 |&gt;\n  ggplot(aes(x = reorder(paste0(\"#\", rank, \": \", site_address), -rank), \n             y = development_score,\n             fill = development_tier)) +\n  geom_col() +\n  geom_text(aes(label = round(development_score, 1)), \n            hjust = -0.2, size = 3.5, color = \"#333\") +\n  coord_flip() +\n  scale_fill_manual(values = c(\n    \"High Potential\" = \"#445ca9\",\n    \"Moderate Potential\" = \"#8baeaa\",\n    \"Low Potential - Constraints\" = \"#e9ab3f\",\n    \"Insufficient Data\" = \"#e76f52\"\n  )) +\n  scale_y_continuous(limits = c(0, 105)) +\n  labs(\n    x = \"\",\n    y = \"Development Score\",\n    fill = \"Tier\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(\n    plot.title = element_text(face = \"bold\", color = \"#445ca9\"),\n    legend.position = \"bottom\",\n    panel.grid.major.y = element_blank()\n  )\n\n\n\n\n\n\n\n\nFigure 1: Development Scores for Top 10 Properties",
+    "crumbs": [
+      "Executive Summary",
+      "Executive Summary"
+    ]
+  },
+  {
+    "objectID": "executive-summary1.html#key-findings",
+    "href": "executive-summary1.html#key-findings",
+    "title": "Executive Summary",
+    "section": "Key Findings",
+    "text": "Key Findings\n\nPortfolio Summary\n\n\n\n\n\n\n\n\n\n117\n\n\n\nProperties Analyzed\n\n\n\n\n\n\n\n\n\n\n44\n\n\n\nStrong Potential (Tier 1-2)\n\n\n\n\n\n\n\n\n\n\n69.1\n\n\n\nTop 10 Developable Acres\n\n\n\n\n\n\n\n\n\n\n339\n\n\n\nTotal Portfolio Acres\n\n\n\n\n\n\n\nSignificant Underutilized Assets\nOur analysis identified 44 properties with substantial development potential.\nPrimary opportunities include:\n\nParking lots (highest development scores): 3 properties with underutilized parking suitable for structured parking with mixed-use above\nOpen space parcels: 30 well-located vacant land parcels ideal for ground lease arrangements\nProperties with declining congregations: Sites where development can provide financial stability\n\n\n\nGeographic Distribution\n\n\nCode\ncounty_summary &lt;- scored_parcels |&gt;\n  count(site_county, name = \"n_properties\") |&gt;\n  arrange(desc(n_properties)) |&gt;\n  slice_head(n = 10)\n\nggplot(county_summary, aes(x = reorder(site_county, n_properties), y = n_properties)) +\n  geom_col(fill = \"#445ca9\", alpha = 0.8) +\n  geom_text(aes(label = n_properties), hjust = -0.2, size = 3.5) +\n  coord_flip() +\n  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +\n  labs(\n    title = \"Top 10 Counties by Property Count\",\n    x = \"\",\n    y = \"Number of Properties\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(\n    plot.title = element_text(face = \"bold\", color = \"#445ca9\"),\n    panel.grid.major.y = element_blank()\n  )\n\n\n\n\n\n\n\n\nFigure 2: Properties by County\n\n\n\n\n\nDevelopment opportunities are distributed across Virginia, with concentrations in:\n\nUrban/suburban areas with strong walkability scores\nMarkets with favorable demographics and LIHTC eligibility\nTransit-accessible locations supporting reduced parking requirements\n\n\n\nFinancial Sustainability Imperative\n\n\n\n\n\n\nCritical Finding\n\n\n\n67 properties are associated with congregations showing declining financial trends. Development of identified properties is essential for long-term financial sustainability and mission fulfillment.",
+    "crumbs": [
+      "Executive Summary",
+      "Executive Summary"
+    ]
+  },
+  {
+    "objectID": "executive-summary1.html#development-tier-overview",
+    "href": "executive-summary1.html#development-tier-overview",
+    "title": "Executive Summary",
+    "section": "Development Tier Overview",
+    "text": "Development Tier Overview\n\n\nCode\ntier_summary &lt;- scored_parcels |&gt;\n  count(development_potential) |&gt;\n  mutate(\n    pct = n / sum(n) * 100,\n    tier_order = case_when(\n      development_potential == \"High Potential\" ~ 1,\n      development_potential == \"Moderate Potential\" ~ 2,\n      development_potential == \"Low Potential - Constraints\" ~ 3,\n      development_potential == \"Insufficient Data\" ~ 4,\n      TRUE ~ 5\n    )\n  ) |&gt;\n  arrange(tier_order)\n\nggplot(tier_summary, aes(x = reorder(development_potential, -tier_order), y = n,\n                          fill = development_potential)) +\n  geom_col() +\n  geom_text(aes(label = paste0(n, \" (\", round(pct, 1), \"%)\")), \n            vjust = -0.5, size = 3.5) +\n  scale_fill_manual(values = c(\n    \"High Potential\" = \"#445ca9\",\n    \"Moderate Potential\" = \"#8baeaa\",\n    \"Low Potential - Constraints\" = \"#e9ab3f\",\n    \"Insufficient Data\" = \"#e76f52\"\n  )) +\n  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +\n  labs(\n    x = \"\",\n    y = \"Number of Properties\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(\n    plot.title = element_text(face = \"bold\", color = \"#445ca9\"),\n    axis.text.x = element_text(angle = 25, hjust = 1),\n    panel.grid.major.x = element_blank(),\n    legend.position = \"none\"\n  )\n\n\n\n\n\n\n\n\nFigure 3: Distribution of Properties by Development Potential",
+    "crumbs": [
+      "Executive Summary",
+      "Executive Summary"
+    ]
+  },
+  {
+    "objectID": "executive-summary1.html#next-steps",
+    "href": "executive-summary1.html#next-steps",
+    "title": "Executive Summary",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nPriority Assessment: Review top-ranked properties for immediate action\nFeasibility Studies: Conduct detailed feasibility analysis for top candidates\nStakeholder Engagement: Engage relevant stakeholders for high-priority sites\nFinancial Planning: Develop funding strategies and timelines",
+    "crumbs": [
+      "Executive Summary",
+      "Executive Summary"
+    ]
   }
 ]
