@@ -9,7 +9,6 @@ source("R/common.R")
 
 ```{r}
 #| label: portfolio-metrics
-#| echo: false
 #| results: asis
 
 # Calculate key metrics

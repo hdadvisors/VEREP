@@ -57,8 +57,6 @@ format:
     toc-title: "Contents"
     number-sections: true
     number-depth: 3
-    code-fold: true
-    code-tools: true
     smooth-scroll: true
     embed-resources: false
     search: true
