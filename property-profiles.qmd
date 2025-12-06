@@ -17,6 +17,8 @@ The following section provides detailed profiles for each of the top 10 developm
 -   Key considerations and next steps
 
 ```{r property-profiles, results='asis'}
+#| echo: false 
+
 create_property_profile <- function(rank_num) {
   property <- top_10 |> filter(rank == rank_num)
   
@@ -101,6 +103,9 @@ for(i in 1:10) {
 ```
 
 ```{r}
+
+#| echo: false 
+
 cat("\n---\n\n")
 cat("# Interactive ADU Placement Tool\n\n")
 cat("For an interactive experience where you can place and explore ADU designs on these properties, ")
