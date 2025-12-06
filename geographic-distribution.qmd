@@ -7,25 +7,26 @@ source("R/app.R")
 ```
 
 
-```{r top-10-map-html}
+```{r all-properties-map-html}
+#| echo: false
+
 pal <- colorNumeric(
   palette = "YlOrRd",
-  domain = top_10$development_score
+  domain = scored_parcels$development_score
 )
 
-leaflet(top_10) |>
+leaflet(scored_parcels) |>
   addProviderTiles(providers$CartoDB.Positron) |>
   addCircleMarkers(
     lng = ~lon,
     lat = ~lat,
-    radius = ~sqrt(area_acres) * 5,
+    radius = ~sqrt(area_acres) * 3,  # Reduced size since there are more points
     fillColor = ~pal(development_score),
-    fillOpacity = 0.8,
+    fillOpacity = 0.7,
     color = "white",
-    weight = 2,
+    weight = 1,
     popup = ~paste0(
       "<div style='font-family: Lato, sans-serif; min-width: 250px;'>",
-      "<h4 style='color: #445ca9; margin-bottom: 10px;'>Rank #", rank, "</h4>",
       "<p style='margin: 5px 0;'><b>", site_address, "</b><br>",
       site_city, ", ", site_county, " County</p>",
       "<hr style='margin: 10px 0;'>",
@@ -37,7 +38,7 @@ leaflet(top_10) |>
               ""),
       "</div>"
     ),
-    label = ~paste0("#", rank, ": ", site_address)
+    label = ~paste0(site_address, " (", round(development_score, 1), ")")
   ) |>
   addLegend(
     position = "bottomright",
@@ -46,6 +47,6 @@ leaflet(top_10) |>
     title = "Development<br>Score",
     opacity = 1
   ) |>
-  setView(lng = mean(top_10$lon, na.rm = TRUE), lat = mean(top_10$lat, na.rm = TRUE), zoom = 7)
+  setView(lng = mean(scored_parcels$lon, na.rm = TRUE), lat = mean(scored_parcels$lat, na.rm = TRUE), zoom = 7)
 ```
 
