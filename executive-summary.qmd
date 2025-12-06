@@ -17,7 +17,7 @@ source("R/app.R")
 #| echo: false
 
 top_10 |>
-  select(rank, site_address, site_city, area_acres, development_score, development_tier) |>
+  select(rank, sadd, scity, rgisacre, development_tier) |>
   kable(
     col.names = c("Rank", "Address", "City", "Acres", "Tier"),
     digits = c(0, 0, 0, 2, 1, 0),

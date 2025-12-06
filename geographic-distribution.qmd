@@ -1,14 +1,16 @@
 ## Geographic Distribution
-
 ```{r}
 #| include: false
 source("R/common.R")
 source("R/app.R")
 ```
 
+## Interactive Map
 
+::: {.content-visible when-format="html"}
 ```{r all-properties-map-html}
 #| echo: false
+#| eval: !expr knitr::is_html_output()
 
 pal <- colorNumeric(
   palette = "YlOrRd",
@@ -16,11 +18,12 @@ pal <- colorNumeric(
 )
 
 leaflet(scored_parcels) |>
-  addProviderTiles(providers$CartoDB.Positron) |>
+
+addProviderTiles(providers$CartoDB.Positron) |>
   addCircleMarkers(
     lng = ~lon,
     lat = ~lat,
-    radius = ~sqrt(area_acres) * 3,  # Reduced size since there are more points
+    radius = ~sqrt(area_acres) * 3,
     fillColor = ~pal(development_score),
     fillOpacity = 0.7,
     color = "white",
@@ -50,3 +53,10 @@ leaflet(scored_parcels) |>
   setView(lng = mean(scored_parcels$lon, na.rm = TRUE), lat = mean(scored_parcels$lat, na.rm = TRUE), zoom = 7)
 ```
 
+:::
+
+::: {.content-visible when-format="pdf"}
+
+*The interactive map is available in the HTML version of this report.*
+
+:::

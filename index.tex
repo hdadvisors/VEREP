@@ -1,0 +1,2311 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+]{report}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{sidenotes}{}{\usepackage{sidenotes}}
+\@ifpackageloaded{marginnote}{}{\usepackage{marginnote}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Property Development Opportunity Analysis},
+  pdfauthor={HDAdvisors},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Property Development Opportunity Analysis}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{A Comprehensive Assessment of Underutilized Assets}
+\author{HDAdvisors}
+\date{2025-12-06}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+
+\bookmarksetup{startatroot}
+
+\chapter{Property Development Opportunity
+Analysis}\label{property-development-opportunity-analysis}
+
+\bookmarksetup{startatroot}
+
+\chapter*{Welcome}\label{welcome}
+\addcontentsline{toc}{chapter}{Welcome}
+
+\markboth{Welcome}{Welcome}
+
+This comprehensive analysis identifies and evaluates development
+opportunities across the property portfolio, focusing on underutilized
+assets with significant potential.
+
+\section{Report Purpose}\label{report-purpose}
+
+This analysis provides:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Strategic Insights}: Identification of high-potential
+  development opportunities
+\item
+  \textbf{Data-Driven Decisions}: Evidence-based property assessments
+\item
+  \textbf{Financial Planning}: Resource allocation guidance
+\item
+  \textbf{Geographic Analysis}: Regional distribution and market
+  potential
+\end{itemize}
+
+\section{Key Highlights}\label{key-highlights}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Top Finding}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+Significant underutilized assets identified with strong development
+potential across multiple geographic regions.
+
+\end{tcolorbox}
+
+\section{How to Use This Report}\label{how-to-use-this-report}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Executive Summary}: Quick overview and key findings
+\item
+  \textbf{Methodology}: Understanding our analytical approach
+\item
+  \textbf{Analysis Results}: Detailed findings and insights
+\item
+  \textbf{Summary Statistics}: Portfolio-wide metrics
+\item
+  \textbf{Property Profiles}: Individual property assessments
+\item
+  \textbf{Appendices}: Technical details and references
+\end{itemize}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Interactive Features}, bottomrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-tip-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+This report includes interactive visualizations and tools. Use the
+filters and controls to explore the data dynamically.
+
+\end{tcolorbox}
+
+\section{Navigation}\label{navigation}
+
+Use the table of contents on the left to navigate between sections, or
+use the search function to find specific topics.
+
+\bookmarksetup{startatroot}
+
+\chapter*{Executive Summary}\label{executive-summary}
+\addcontentsline{toc}{chapter}{Executive Summary}
+
+\markboth{Executive Summary}{Executive Summary}
+
+This analysis examines properties in the Episcopal Diocese of Virginia
+with fewer than 30 Sunday attendees, focusing on development potential
+through five key metrics: land value, zoning/density, acreage,
+environmental limitations, and Qualified Census Tract (QCT) status. This
+report was done for VEREP (Virginia Episcopal Real Estate Partners) in
+conjunction with case study projects HDAdvisors is facilitating.
+
+\section*{At a Glance: Top 10
+Properties}\label{at-a-glance-top-10-properties}
+\addcontentsline{toc}{section}{At a Glance: Top 10 Properties}
+
+\markright{At a Glance: Top 10 Properties}
+
+\begin{longtable}[t]{>{\centering\arraybackslash}p{3em}llr>{}r}
+
+\caption{\label{tbl-top-10}Top 10 Development Opportunities}
+
+\tabularnewline
+
+\toprule
+Rank & Address & City & Acres & Tier\\
+\midrule
+\textbf{1} & 10520 MAIN ST, FAIRFAX 22030 & FAIRFAX & 4.11 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\textbf{2} & 1 TRURO LN, FAIRFAX 22030 & FAIRFAX & 3.44 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\textbf{3} & AQUIA HARBOUR 22554 & AQUIA HARBOUR & 31.38 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\textbf{4} & 3241 BRUSH DR, FALLS CHURCH 22042 & FALLS CHURCH & 5.64 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\textbf{5} & WEST FALLS CHURCH 22042 & WEST FALLS CHURCH & 2.62 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\addlinespace
+\textbf{6} & 3421 FRANCONIA RD, ALEXANDRIA 22310 & ALEXANDRIA & 4.39 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\textbf{7} & 37018 GLENDALE ST, PURCELLVILLE 20132 & PURCELLVILLE & 2.02 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\textbf{8} & 2918 RICHMOND HWY, STAFFORD 22554 & STAFFORD & 8.15 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\textbf{9} & 3439 PAYNE ST, FALLS CHURCH 22041 & FALLS CHURCH & 2.24 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\textbf{10} & 10627 PATTERSON AVE, HENRICO 23238 & HENRICO & 5.08 & \cellcolor{YlOrRd}{\textcolor{white}{High Potential}}\\
+\bottomrule
+
+\end{longtable}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{executive-summary_files/figure-pdf/fig-tier-distribution-1.pdf}}
+
+}
+
+\caption{\label{fig-tier-distribution}Distribution of Properties by
+Development Potential}
+
+\end{figure}%
+
+\section*{Key Findings}\label{key-findings}
+\addcontentsline{toc}{section}{Key Findings}
+
+\markright{Key Findings}
+
+\subsection*{Portfolio Summary}\label{portfolio-summary}
+\addcontentsline{toc}{subsection}{Portfolio Summary}
+
+\begin{figure}
+
+\begin{minipage}{0.25\linewidth}
+
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, colback=white, left=2mm, bottomrule=.15mm, breakable, leftrule=.75mm, colframe=quarto-callout-note-color-frame, toprule=.15mm, rightrule=.15mm]
+
+\vspace{-3mm}\textbf{117}\vspace{3mm}
+
+Properties Analyzed
+
+\end{tcolorbox}
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, colback=white, left=2mm, bottomrule=.15mm, breakable, leftrule=.75mm, colframe=quarto-callout-tip-color-frame, toprule=.15mm, rightrule=.15mm]
+
+\vspace{-3mm}\textbf{44}\vspace{3mm}
+
+Strong Potential (Tier 1-2)
+
+\end{tcolorbox}
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, colback=white, left=2mm, bottomrule=.15mm, breakable, leftrule=.75mm, colframe=quarto-callout-warning-color-frame, toprule=.15mm, rightrule=.15mm]
+
+\vspace{-3mm}\textbf{69.1}\vspace{3mm}
+
+Top 10 Developable Acres
+
+\end{tcolorbox}
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, colback=white, left=2mm, bottomrule=.15mm, breakable, leftrule=.75mm, colframe=quarto-callout-important-color-frame, toprule=.15mm, rightrule=.15mm]
+
+\vspace{-3mm}\textbf{339}\vspace{3mm}
+
+Total Portfolio Acres
+
+\end{tcolorbox}
+
+\end{minipage}%
+
+\end{figure}%
+
+\subsection*{Significant Underutilized
+Assets}\label{significant-underutilized-assets}
+\addcontentsline{toc}{subsection}{Significant Underutilized Assets}
+
+Our analysis identified \textbf{44 properties} with substantial
+development potential.
+
+\textbf{Primary opportunities include:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Parking lots} (highest development scores): 3 properties with
+  underutilized parking suitable for structured parking with mixed-use
+  above
+\item
+  \textbf{Open space parcels}: 30 well-located vacant land parcels ideal
+  for ground lease arrangements
+\item
+  \textbf{Properties with declining congregations}: Sites where
+  development can provide financial stability
+\end{itemize}
+
+\subsection*{Geographic Distribution}\label{geographic-distribution}
+\addcontentsline{toc}{subsection}{Geographic Distribution}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{executive-summary_files/figure-pdf/fig-geographic-dist-1.pdf}}
+
+}
+
+\caption{\label{fig-geographic-dist}Properties by County}
+
+\end{figure}%
+
+Development opportunities are distributed across Virginia, with
+concentrations in:
+
+\begin{itemize}
+\tightlist
+\item
+  Urban/suburban areas with strong walkability scores
+\item
+  Markets with favorable demographics and LIHTC eligibility
+\item
+  Transit-accessible locations supporting reduced parking requirements
+\end{itemize}
+
+\subsection*{Financial Sustainability
+Imperative}\label{financial-sustainability-imperative}
+\addcontentsline{toc}{subsection}{Financial Sustainability Imperative}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Critical Finding}, bottomrule=.15mm, colbacktitle=quarto-callout-warning-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-warning-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{67 properties} are associated with congregations showing
+declining financial trends. Development of identified properties is
+essential for long-term financial sustainability and mission
+fulfillment.
+
+\end{tcolorbox}
+
+\section*{Next Steps}\label{next-steps}
+\addcontentsline{toc}{section}{Next Steps}
+
+\markright{Next Steps}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Priority Assessment}: Review top-ranked properties for
+  immediate action
+\item
+  \textbf{Feasibility Studies}: Conduct detailed feasibility analysis
+  for top candidates
+\item
+  \textbf{Stakeholder Engagement}: Engage relevant stakeholders for
+  high-priority sites
+\item
+  \textbf{Financial Planning}: Develop funding strategies and timelines
+\end{enumerate}
+
+\part{Methodology \& Data}
+
+\chapter{Background \& Data Sources}\label{background-data-sources}
+
+\section{VEREP Parcel Dataset}\label{verep-parcel-dataset}
+
+This analysis utilizes the Virginia Episcopal Real Estate Portfolio
+(VEREP) parcel dataset, compiled by CGS Consultants. The dataset
+includes:
+
+\begin{itemize}
+\item
+  \textbf{126 parcels} across Virginia
+\item
+  Comprehensive property characteristics (size, use, zoning)
+\item
+  Environmental constraints (floodplains, wetlands, easements)
+\item
+  Location metrics (walkability, transit access)
+\item
+  Market indicators (median income, demographics)
+\end{itemize}
+
+\section{Congregation Statistics
+(2014-2023)}\label{congregation-statistics-2014-2023}
+
+Financial and membership data provides context on congregation health:
+
+\begin{itemize}
+\tightlist
+\item
+  Sunday attendance trends
+\item
+  Membership changes
+\item
+  Plate \& pledge revenue
+\item
+  10-year trend analysis
+\end{itemize}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Data Quality Note}, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+Not all properties have associated congregation data. Properties without
+congregation information received neutral scores in the financial need
+category.
+
+\end{tcolorbox}
+
+\section{Data Quality Issues}\label{data-quality-issues}
+
+One of the issues identified by CGS's initial study was that a large
+number of congregations either had incomplete or inconsistent data; many
+congregations share properties or fail to appropriately report their
+permanent address. Their final output data, which was utilized for this
+development analysis, reflected this. While environmental constraints
+accounted for the majority of the missing data, many others contained
+incomplete property information. For a closer look, we separated and
+classified these attributes below. These properties can be more
+precisely assessed for development once they have greater data.
+
+\begin{longtable*}[l]{>{\raggedright\arraybackslash}p{20em}>{\raggedleft\arraybackslash}p{10em}}
+\toprule
+Metric & Value\\
+\midrule
+\textbf{Total properties analyzed} & 126\\
+\textbf{Properties with incomplete data} & 121 (96\%)\\
+\textbf{Properties with missing/unassigned addresses} & 19\\
+\bottomrule
+\end{longtable*}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Properties Without Coordinates}, bottomrule=.15mm, colbacktitle=quarto-callout-warning-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-warning-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{5} properties have neither valid addresses nor coordinates.
+These will require manual lookup using county tax records or additional
+dioses review.
+
+\end{tcolorbox}
+
+\pandocbounded{\includegraphics[keepaspectratio]{methodology-overview_files/figure-pdf/missing-data-chart-1.pdf}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Missing and Unassigned
+Addresses}\label{missing-and-unassigned-addresses}
+
+The following congregations comprise the 19 ``properties'' without
+proper street addresses, making them difficult to verify or inspect for
+development. 3 of these congregations (comprising 14 of the total 19)
+had coordinates, which allowed for reverse geocoding to identify the
+likely address or zip code.
+
+\begin{longtable*}[t]{lrll}
+\toprule
+Congregation & \# Unassigned Properties & Cities & Has Coordinates\\
+\midrule
+St Johns Episcopal Church & 6 & WEST POINT, UNASSIGNED & Yes\\
+St Pauls Church & 6 & WEST POINT & Yes\\
+St Stephens Church & 2 & UNASSIGNED & Yes\\
+\cellcolor[HTML]{f8d7da}{Church of the Spirit} & \cellcolor[HTML]{f8d7da}{1} & \cellcolor[HTML]{f8d7da}{NA} & \cellcolor[HTML]{f8d7da}{No}\\
+\cellcolor[HTML]{f8d7da}{La Iglesia de San Jose} & \cellcolor[HTML]{f8d7da}{1} & \cellcolor[HTML]{f8d7da}{NA} & \cellcolor[HTML]{f8d7da}{No}\\
+\addlinespace
+\cellcolor[HTML]{f8d7da}{Olivet Church} & \cellcolor[HTML]{f8d7da}{1} & \cellcolor[HTML]{f8d7da}{NA} & \cellcolor[HTML]{f8d7da}{No}\\
+\cellcolor[HTML]{f8d7da}{St Andrews Church} & \cellcolor[HTML]{f8d7da}{1} & \cellcolor[HTML]{f8d7da}{NA} & \cellcolor[HTML]{f8d7da}{No}\\
+\cellcolor[HTML]{f8d7da}{St Francis Korean Church} & \cellcolor[HTML]{f8d7da}{1} & \cellcolor[HTML]{f8d7da}{NA} & \cellcolor[HTML]{f8d7da}{No}\\
+\bottomrule
+\end{longtable*}
+
+\begin{longtable*}[t]{lrll}
+\toprule
+Congregation & \# Properties & Cities & Geocoded Address\\
+\midrule
+St Johns Episcopal Church & 6 & WEST POINT, UNASSIGNED & 916 Main Street, West Point, VA, 23181, USA\\
+St Pauls Church & 6 & WEST POINT & 532 15th St, West Point, VA, 23181, USA\\
+St Stephens Church & 2 & UNASSIGNED & 20119, Catlett, VA, USA\\
+\bottomrule
+\end{longtable*}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Shared Addresses}\label{shared-addresses}
+
+These properties have different congregations sharing the same street
+address, indicating potential shared facilities, rental arrangements, or
+data quality issues.
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Findings}, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{2} addresses are shared by multiple congregations, affecting
+\textbf{5} different congregations.
+
+\end{tcolorbox}
+
+\textbf{Properties sharing addresses may indicate:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Ethnic/language congregations} sharing space (Korean,
+  Vietnamese, Spanish services)
+\item
+  \textbf{Church plants} using host congregation facilities
+\item
+  \textbf{Rental arrangements} - one congregation renting to another
+\item
+  \textbf{Merged congregations} - maintaining separate legal entities
+\item
+  \textbf{Data quality issues} - duplicate records or address errors
+\end{enumerate}
+
+\begin{longtable*}[t]{ll>{}rlr}
+\toprule
+Street Address & City & \# Congregations & Congregation Names & Combined Attendance\\
+\midrule
+\cellcolor[HTML]{d1ecf1}{WARSAW 22572} & \cellcolor[HTML]{d1ecf1}{WARSAW} & \cellcolor[HTML]{d1ecf1}{\textbf{3}} & \cellcolor[HTML]{d1ecf1}{North Farnham Parish Church \&\#124; St Johns Church \&\#124; St Pauls Church Nomini Grove} & \cellcolor[HTML]{d1ecf1}{116}\\
+UNASSIGNED, WEST POINT 23181 & WEST POINT & \textbf{2} & St Johns Episcopal Church \&\#124; St Pauls Church & 140\\
+\bottomrule
+\end{longtable*}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Priority Issues Summary}\label{priority-issues-summary}
+
+\textbf{Problem Distribution:}
+
+\begin{longtable*}[t]{lr}
+\toprule
+Issue Type & \# Congregations\\
+\midrule
+All addresses unique and assigned & 20\\
+Has unassigned addresses & 6\\
+Has shared addresses & 3\\
+\cellcolor[HTML]{f8d7da}{\textbf{Both shared AND unassigned}} & \cellcolor[HTML]{f8d7da}{\textbf{2}}\\
+\bottomrule
+\end{longtable*}
+
+\chapter{Data Source Details}\label{data-source-details}
+
+\chapter{Analytical Framework}\label{analytical-framework}
+
+\section{Development Potential
+Scoring}\label{development-potential-scoring}
+
+Our methodology evaluates six key dimensions:
+
+\pandocbounded{\includegraphics[keepaspectratio]{analytical-framework_files/figure-pdf/scoring-visual-1.pdf}}
+
+\textbf{Constraint Penalties:} Properties receive deductions for flood
+zones (-40), significant wetlands (-35), easements (-30), and historic
+district designation (-25).
+
+\textbf{Development Tiers}
+
+Properties are classified into five tiers based on composite scores:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tier 1 (75-100):} High Priority - Immediate development
+  candidates
+\item
+  \textbf{Tier 2 (60-74):} Strong Potential - Near-term opportunities
+\item
+  \textbf{Tier 3 (45-59):} Moderate Potential - Requires creative
+  solutions
+\item
+  \textbf{Tier 4 (30-44):} Limited Potential - Significant barriers
+  exist
+\item
+  \textbf{Tier 5 (\textless30):} Not Recommended - Unsuitable for
+  development
+\end{itemize}
+
+\chapter{Understanding the Development
+Criteria}\label{understanding-the-development-criteria}
+
+\section{Why These Factors Matter}\label{why-these-factors-matter}
+
+The development potential score is calculated using seven key criteria,
+each weighted according to its importance in determining development
+viability. Our scoring methodology reflects decades of real estate
+development experience and incorporates both market realities and
+mission-aligned priorities. Each criterion was selected to balance
+financial viability with community impact, ensuring that recommended
+properties can support sustainable development while serving
+congregational needs.
+
+\subsection{Property Size: The Goldilocks
+Principle}\label{property-size-the-goldilocks-principle}
+
+\textbf{Weight: 20\%}
+
+\marginnote{\begin{footnotesize}
+
+\textbf{Optimal Range}: 0.5-5 acres
+
+Properties that are ``just right'' for development.
+
+\end{footnotesize}}
+
+Not too small to be economically viable, not too large to be financially
+unwieldy.
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{development-criteria_files/figure-pdf/fig-size-scoring-1.pdf}}
+
+}
+
+\caption{\label{fig-size-scoring}Property Size Scoring Curve}
+
+\end{figure}%
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{development-criteria_files/figure-pdf/fig-size-distribution-1.pdf}}
+
+}
+
+\caption{\label{fig-size-distribution}Distribution of Property Sizes in
+Portfolio}
+
+\end{figure}%
+
+\textbf{Why This Matters}:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Too small (\textless0.5 acres)}: Limited development options,
+  high per-unit costs
+\item
+  \textbf{Optimal (0.5-5 acres)}: Maximum flexibility and economic
+  efficiency
+\item
+  \textbf{Too large (\textgreater10 acres)}: Requires significant
+  capital, complex phasing
+\end{itemize}
+
+Property size significantly influences development feasibility, but
+bigger isn't always better. Properties under a quarter-acre typically
+lack the critical mass needed for financially viable
+development---construction costs per unit rise sharply, and parking or
+open space requirements become impossible to meet. Conversely, parcels
+exceeding 10 acres often present unique challenges: they may require
+complex phasing, demand substantial upfront capital, or face community
+resistance to density.
+
+\subsection{Current Use: Identifying Low-Hanging
+Fruit}\label{current-use-identifying-low-hanging-fruit}
+
+\textbf{Weight: 25\%}
+
+\marginnote{\begin{footnotesize}
+
+\textbf{Optimal Use}: Vacant or nearly vacant with access to
+infrastructure
+
+\end{footnotesize}}
+
+Properties with minimal current utilization represent immediate
+opportunities.
+
+\begin{longtable}[t]{l>{}cl}
+
+\caption{\label{tbl-use-scoring}Current Use Scoring Matrix}
+
+\tabularnewline
+
+\toprule
+Current Use & Score & Rationale\\
+\midrule
+Parking Lot & \cellcolor{RdYlGn}{\textcolor{white}{\textbf{95}}} & Immediate development potential, minimal displacement\\
+Open Space & \cellcolor{RdYlGn}{\textcolor{white}{\textbf{90}}} & Low-value use, easy conversion\\
+Mixed/Other & \cellcolor{RdYlGn}{\textcolor{white}{\textbf{60}}} & Varies by specific circumstances\\
+Residence & \cellcolor{RdYlGn}{\textcolor{white}{\textbf{40}}} & Displacement considerations\\
+School & \cellcolor{RdYlGn}{\textcolor{white}{\textbf{35}}} & Active community use\\
+\addlinespace
+Church (primary) & \cellcolor{RdYlGn}{\textcolor{white}{\textbf{30}}} & Core mission function\\
+Cemetery & \cellcolor{RdYlGn}{\textcolor{white}{\textbf{5}}} & Restricted use, not developable\\
+\bottomrule
+
+\end{longtable}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{development-criteria_files/figure-pdf/fig-use-distribution-1.pdf}}
+
+}
+
+\caption{\label{fig-use-distribution}Properties by Current Use Type}
+
+\end{figure}%
+
+\textbf{Highest Potential: Parking Lots and Open Space}
+
+Not all church property serves its highest and best use. Surface parking
+lots represent prime redevelopment opportunities---they're already
+cleared and graded, typically have minimal environmental constraints,
+and often sit underutilized six days per week. A parking lot that serves
+200 congregants on Sunday morning but stands empty Monday through
+Saturday represents an enormous opportunity cost.
+
+Open space scores similarly high, particularly when it's amenity-free
+lawn rather than programmed recreation or memorial gardens. These
+properties can be reimagined while potentially retaining some green
+space within new development.
+
+\subsection{Location Quality: Following the
+Market}\label{location-quality-following-the-market}
+
+\textbf{Weight: 20\%}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{development-criteria_files/figure-pdf/fig-location-factors-1.pdf}}
+
+}
+
+\caption{\label{fig-location-factors}Location Quality Components}
+
+\end{figure}%
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{development-criteria_files/figure-pdf/fig-walkability-dist-1.pdf}}
+
+}
+
+\caption{\label{fig-walkability-dist}Distribution of Walkability Scores}
+
+\end{figure}%
+
+\textbf{Key Metrics: Walkability Score and Transit Access}
+
+Real estate development fundamentally responds to location. A walkable,
+transit-rich site commands higher rents, attracts more diverse tenants,
+and often qualifies for density bonuses or reduced parking
+requirements---all factors that improve project economics.
+
+Walkability scores measure proximity to everyday needs: grocery stores,
+schools, employment centers, healthcare. High walkability (15-20 on our
+scale) indicates a property can support car-light or car-free
+households, expanding the potential tenant base to include young
+professionals, seniors aging in place, and lower-income families for
+whom car ownership is cost-prohibitive.
+
+Transit access amplifies these benefits. Properties within a
+quarter-mile of frequent bus service or half-mile of rail stations can
+often negotiate reduced parking requirements with municipalities---a
+significant cost savings when structured parking runs \$25,000-\$40,000
+per space to construct.
+
+\subsection{Financial Need: Aligning Development with
+Mission}\label{financial-need-aligning-development-with-mission}
+
+\textbf{Weight: 15\%}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{development-criteria_files/figure-pdf/fig-financial-need-1.pdf}}
+
+}
+
+\caption{\label{fig-financial-need}Properties by Financial Need Level}
+
+\end{figure}%
+
+\textbf{Priority: Congregations with Declining Resources}
+
+This criterion explicitly centers mission over pure market return.
+Congregations experiencing sustained pledge declines often face a
+difficult reality: their historic buildings demand expensive
+maintenance, but shrinking budgets make upkeep increasingly burdensome.
+Many such congregations sit on valuable real estate that could, through
+thoughtful development, generate steady income streams while maintaining
+their worship and ministry.
+
+A ground lease arrangement, for example, might provide a struggling
+congregation with \$50,000-\$150,000 annually in stable income---enough
+to fund a part-time rector, maintain the building, and sustain core
+ministries. This approach transforms real estate from a drain on
+resources into a mission enabler.
+
+Properties associated with growing congregations score lower not because
+they lack development potential, but because the urgency is less acute.
+These communities likely have more options and less immediate financial
+pressure.
+
+\subsection{Market Potential: Reading Economic
+Signals}\label{market-potential-reading-economic-signals}
+
+\textbf{Weight: 10\%}
+
+\begin{table}
+
+\caption{\label{tbl-market-indicators}Market Potential Scoring Criteria}
+
+\centering{
+
+\begin{longtabu} to \linewidth {>{\raggedright}X>{\centering}X>{\raggedright}X>{\raggedright}X}
+\toprule
+Indicator & Weight & High Score & Data Source\\
+\midrule
+QCT Status & 40\% & In Qualified Census Tract & HUD QCT Maps\\
+Area Median Income & 30\% & >\$75,000 AMI & ACS 5-Year\\
+Population Growth & 15\% & >2\% annual growth & Census\\
+Housing Demand & 15\% & High demand market & Local market data\\
+\bottomrule
+\end{longtabu}
+
+}
+
+\end{table}%
+
+\textbf{Indicator: Area Median Income and LIHTC Eligibility}
+
+Development must respond to market demand. Properties in higher-income
+areas (median incomes above \$75,000) typically support market-rate
+housing, ground-floor retail, or mixed-use projects that can
+cross-subsidize affordable components. These projects attract
+conventional financing and a broader range of development partners.
+
+Properties in Qualified Census Tracts (QCTs) gain additional scoring
+weight because they unlock Low-Income Housing Tax Credit (LIHTC)
+financing---the nation's primary mechanism for affordable housing
+production. LIHTC projects in QCTs receive point advantages in
+competitive funding rounds, improving their feasibility. For
+mission-driven institutions committed to affordable housing, QCT
+properties offer a rare alignment of social impact and financial
+viability.
+
+\subsection{Zoning: Navigating Regulatory
+Reality}\label{zoning-navigating-regulatory-reality}
+
+\textbf{Weight: 10\%}
+
+\begin{table}
+
+\caption{\label{tbl-zoning-scoring}Zoning Category Scoring}
+
+\centering{
+
+\begin{longtabu} to \linewidth {>{\raggedright}X>{}c>{\raggedright}X}
+\toprule
+Zoning Category & Score & Development Impact\\
+\midrule
+Mixed Use & \textbf{90} & Maximum flexibility for housing + retail\\
+Multi-Family Residential & \textbf{85} & Aligned with housing mission\\
+Commercial & \textbf{70} & May require use variance for residential\\
+Single-Family Residential & \textbf{50} & Density limitations, rezoning often needed\\
+Agricultural & \textbf{40} & Significant restrictions, rural areas\\
+\addlinespace
+Conservation & \textbf{10} & Severe limitations, unlikely candidate\\
+\bottomrule
+\end{longtabu}
+
+}
+
+\end{table}%
+
+\textbf{Favorable: Mixed-Use, Commercial, and Residential Districts}
+
+Zoning powerfully shapes what's buildable and how quickly projects move
+from concept to construction. Properties zoned for residential or
+mixed-use development typically offer by-right development
+opportunities---projects that don't require lengthy rezoning processes,
+conditional use permits, or special exceptions.
+
+Conversely, properties in restrictive single-family or conservation
+districts may require multi-year regulatory processes, neighborhood
+opposition, and uncertain outcomes. While such projects occasionally
+succeed, they demand patient capital and sophisticated development
+partners.
+
+\subsection{Environmental and Regulatory Constraints: Deal-Breakers
+vs.~Speed-Bumps}\label{environmental-and-regulatory-constraints-deal-breakers-vs.-speed-bumps}
+
+\textbf{Weight: 5\% (applied as penalties)}
+
+\begin{table}
+
+\caption{\label{tbl-constraints}Constraint Penalties Applied to
+Development Score}
+
+\centering{
+
+\begin{longtabu} to \linewidth {>{\raggedright}X>{}c>{\centering}X>{\raggedright}X}
+\toprule
+Constraint & Score Penalty & Mitigation Difficulty & Notes\\
+\midrule
+100-Year Flood Zone & \textcolor[HTML]{e76f52}{\textbf{-40}} & High & Expensive insurance, elevated construction\\
+Significant Wetlands (>25\%) & \textcolor[HTML]{e76f52}{\textbf{-35}} & High & Federal/state permitting, mitigation required\\
+Easements Present & \textcolor[HTML]{e76f52}{\textbf{-30}} & Moderate & May restrict building envelope\\
+Historic District & \textcolor[HTML]{e76f52}{\textbf{-25}} & Moderate & Design review, material requirements\\
+Moderate Wetlands (10-25\%) & \textcolor[HTML]{e76f52}{\textbf{-20}} & Low-Moderate & Potential buildable area reduction\\
+\bottomrule
+\end{longtabu}
+
+}
+
+\end{table}%
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Assessment Framework}, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{Deal-Breakers} (Score: 0-30):
+
+\begin{itemize}
+\tightlist
+\item
+  Extensive wetlands covering majority of site
+\item
+  Active floodway designation
+\item
+  Conservation easements prohibiting development
+\item
+  Contaminated sites requiring remediation
+\end{itemize}
+
+\textbf{Speed-Bumps} (Score: 60-90):
+
+\begin{itemize}
+\tightlist
+\item
+  Partial flood zone (can design around)
+\item
+  Historic considerations (design flexibility)
+\item
+  Minor wetlands (avoidable)
+\item
+  Standard permitting requirements
+\end{itemize}
+
+\end{tcolorbox}
+
+These constraints receive substantial score penalties because they
+materially affect project feasibility and cost. Properties in 100-year
+floodplains face expensive flood insurance, elevated construction costs,
+and increasingly cautious lenders post-climate-change. Development in
+such areas may be technically possible but financially marginal.
+
+Significant wetlands (\textgreater25\% of parcel) trigger federal and
+state permitting, potential mitigation requirements, and uncertainty
+about buildable area. Easements---particularly those held by third
+parties---can restrict development rights, limit building envelopes, or
+prevent property subdivision.
+
+Historic district designation doesn't prohibit development but adds
+layers of design review, material requirements, and timeline
+uncertainty. Some historic commissions embrace creative contemporary
+additions; others mandate strict historicism that may conflict with
+modern construction economics.
+
+\section{Bringing It All Together}\label{bringing-it-all-together}
+
+The final Development Potential Score is calculated as:
+
+\[
+\text{Score} = \sum_{i=1}^{6} (w_i \times s_i) - \text{Constraint Penalties}
+\]
+
+Where:
+
+\begin{itemize}
+\tightlist
+\item
+  \(w_i\) = weight of criterion \(i\)
+\item
+  \(s_i\) = score for criterion \(i\) (0-100)
+\end{itemize}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{development-criteria_files/figure-pdf/fig-score-components-1.pdf}}
+
+}
+
+\caption{\label{fig-score-components}Development Score Component
+Weights}
+
+\end{figure}%
+
+\textbf{Score Interpretation}:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4062}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1875}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4062}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Score Range
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tier
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+75-100 & Tier 1 & \textbf{High Priority} - Immediate development
+candidates \\
+60-74 & Tier 2 & \textbf{Strong Potential} - Near-term opportunities \\
+45-59 & Tier 3 & \textbf{Moderate Potential} - Requires creative
+solutions \\
+30-44 & Tier 4 & \textbf{Limited Potential} - Significant barriers
+exist \\
+\textless30 & Tier 5 & \textbf{Not Recommended} - Unsuitable for
+development \\
+\end{longtable}
+
+These six criteria, combined with constraint penalties, create a
+holistic picture of development potential. A property might score
+exceptionally well on size and location but face significant challenges
+from environmental constraints. Another might have modest physical
+attributes but represent an urgent opportunity to support a financially
+stressed congregation.
+
+The weighted scoring system allows us to compare apples to oranges---to
+evaluate whether a small, perfectly-located property in a historic
+district outweighs a larger, unrestricted site with less market demand.
+This methodology doesn't make decisions for stakeholders but rather
+creates a common language for discussing trade-offs and priorities.
+
+Ultimately, successful church real estate development requires more than
+high scores. It demands patient capital, mission-aligned partners,
+engaged congregations, and creative design. But by systematically
+evaluating these criteria, we can identify the properties where stars
+align---where market demand, congregational need, and regulatory
+environment converge to create genuine opportunity.
+
+\part{Analysis Results}
+
+\chapter{Development Opportunity
+Landscape}\label{development-opportunity-landscape}
+
+\pandocbounded{\includegraphics[keepaspectratio]{development-landscape_files/figure-pdf/tier-distribution-visual-1.pdf}}
+
+\chapter{Geographic Distribution}\label{geographic-distribution-1}
+
+\section{Interactive Map}\label{interactive-map}
+
+\emph{The interactive map is available in the HTML version of this
+report.}
+
+\part{Summary Statistics}
+
+\chapter{Property Portfolio Overview}\label{property-portfolio-overview}
+
+\section{Portfolio Summary}\label{portfolio-summary-1}
+
+\begin{figure}
+
+\begin{minipage}{0.25\linewidth}
+
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, colback=white, left=2mm, bottomrule=.15mm, breakable, leftrule=.75mm, colframe=quarto-callout-note-color-frame, toprule=.15mm, rightrule=.15mm]
+
+\vspace{-3mm}\textbf{126}\vspace{3mm}
+
+Total Properties
+
+\end{tcolorbox}
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, colback=white, left=2mm, bottomrule=.15mm, breakable, leftrule=.75mm, colframe=quarto-callout-tip-color-frame, toprule=.15mm, rightrule=.15mm]
+
+\vspace{-3mm}\textbf{339}\vspace{3mm}
+
+Total Acres
+
+\end{tcolorbox}
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, colback=white, left=2mm, bottomrule=.15mm, breakable, leftrule=.75mm, colframe=quarto-callout-warning-color-frame, toprule=.15mm, rightrule=.15mm]
+
+\vspace{-3mm}\textbf{52.9}\vspace{3mm}
+
+Avg Development Score
+
+\end{tcolorbox}
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, arc=.35mm, colback=white, left=2mm, bottomrule=.15mm, breakable, leftrule=.75mm, colframe=quarto-callout-important-color-frame, toprule=.15mm, rightrule=.15mm]
+
+\vspace{-3mm}\textbf{30}\vspace{3mm}
+
+High Potential Properties
+
+\end{tcolorbox}
+
+\end{minipage}%
+
+\end{figure}%
+
+\section{Property Use Types}\label{property-use-types}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{property-portfolio_files/figure-pdf/fig-use-types-1.pdf}}
+
+}
+
+\caption{\label{fig-use-types}Distribution of Properties by Primary Use}
+
+\end{figure}%
+
+\section{Development Score
+Distribution}\label{development-score-distribution}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{property-portfolio_files/figure-pdf/fig-score-distribution-1.pdf}}
+
+}
+
+\caption{\label{fig-score-distribution}Distribution of Development
+Scores Across Portfolio}
+
+\end{figure}%
+
+\section{Property Size vs Development
+Score}\label{property-size-vs-development-score}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{property-portfolio_files/figure-pdf/fig-size-vs-score-1.pdf}}
+
+}
+
+\caption{\label{fig-size-vs-score}Relationship Between Property Size and
+Development Score}
+
+\end{figure}%
+
+\section{Summary Metrics}\label{summary-metrics}
+
+\subsection{By County}
+
+\begin{longtable}[t]{lrrrr}
+
+\caption{\label{tbl-by-county}Property Distribution by County}
+
+\tabularnewline
+
+\toprule
+\cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{scounty}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Properties}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Total Acres}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Avg Score}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{High Potential}}}\\
+\midrule
+KING-WILLIAM & 20 & 18.2 & 45.2 & 1\\
+FAUQUIER & 10 & 32.0 & 70.0 & 6\\
+STAFFORD & 9 & 46.3 & 60.0 & 2\\
+WESTMORELAND & 9 & 33.1 & 31.1 & 0\\
+RICHMOND & 8 & 9.4 & 53.1 & 1\\
+\addlinespace
+FLUVANNA & 7 & 8.4 & 46.4 & 1\\
+CLARKE & 6 & 4.2 & 55.0 & 2\\
+FAIRFAX & 6 & 16.9 & 75.0 & 4\\
+CAROLINE & 5 & 2.1 & 40.0 & 0\\
+KING-GEORGE & 5 & 77.4 & 40.0 & 0\\
+\addlinespace
+NA & 5 & 0.0 & 30.0 & 0\\
+ALBEMARLE & 3 & 12.6 & 85.0 & 3\\
+CULPEPER & 3 & 17.9 & 50.0 & 0\\
+ESSEX & 3 & 8.1 & 75.0 & 1\\
+FAIRFAX-CITY & 3 & 8.2 & 70.0 & 2\\
+\bottomrule
+
+\end{longtable}
+
+\subsection{By Use Type}
+
+\begin{longtable}[t]{lrrr}
+
+\caption{\label{tbl-by-use}Property Statistics by Use Type}
+
+\tabularnewline
+
+\toprule
+\cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{Use Type}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{Count}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{Avg Size (Acres)}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{Avg Dev Score}}}\\
+\midrule
+Church & 87 & 1.92 & 55.9\\
+Open Space & 31 & 5.69 & 52.3\\
+Cemetery & 24 & 3.42 & 64.4\\
+Residence & 14 & 0.69 & 38.6\\
+Parking & 5 & 0.81 & 49.0\\
+\bottomrule
+
+\end{longtable}
+
+\subsection{High Potential}
+
+\begin{longtable}[t]{clllrrl}
+
+\caption{\label{tbl-high-potential}Top 20 High Development Potential
+Properties}
+
+\tabularnewline
+
+\toprule
+\cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Rank}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Address}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{City}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{County}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Acres}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Score}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Tier}}}\\
+\midrule
+\textbf{1} & \textbf{AQUIA HARBOUR 22554} & \textbf{AQUIA HARBOUR} & \textbf{STAFFORD} & \textbf{31.38} & \textbf{85} & \textbf{High Potential}\\
+\textbf{2} & \textbf{8695 OLD DUMFRIES RD, CATLETT 20119} & \textbf{CATLETT} & \textbf{FAUQUIER} & \textbf{2.36} & \textbf{85} & \textbf{High Potential}\\
+\textbf{3} & \textbf{WINCHESTER 22602} & \textbf{WINCHESTER} & \textbf{FREDERICK} & \textbf{1.67} & \textbf{85} & \textbf{High Potential}\\
+\textbf{4} & \textbf{10520 MAIN ST, FAIRFAX 22030} & \textbf{FAIRFAX} & \textbf{FAIRFAX-CITY} & \textbf{4.11} & \textbf{85} & \textbf{High Potential}\\
+\textbf{5} & \textbf{1 TRURO LN, FAIRFAX 22030} & \textbf{FAIRFAX} & \textbf{FAIRFAX-CITY} & \textbf{3.44} & \textbf{85} & \textbf{High Potential}\\
+\addlinespace
+6 & 3241 BRUSH DR, FALLS CHURCH 22042 & FALLS CHURCH & FAIRFAX & 5.64 & 85 & High Potential\\
+7 & WEST FALLS CHURCH 22042 & WEST FALLS CHURCH & FAIRFAX & 2.62 & 85 & High Potential\\
+8 & 3421 FRANCONIA RD, ALEXANDRIA 22310 & ALEXANDRIA & FAIRFAX & 4.39 & 85 & High Potential\\
+9 & 37018 GLENDALE ST, PURCELLVILLE 20132 & PURCELLVILLE & LOUDOUN & 2.02 & 85 & High Potential\\
+10 & 2918 RICHMOND HWY, STAFFORD 22554 & STAFFORD & STAFFORD & 8.15 & 85 & High Potential\\
+\addlinespace
+11 & 3439 PAYNE ST, FALLS CHURCH 22041 & FALLS CHURCH & FAIRFAX & 2.24 & 85 & High Potential\\
+12 & 10627 PATTERSON AVE, HENRICO 23238 & HENRICO & HENRICO & 5.08 & 85 & High Potential\\
+13 & 1704 WEST LABURNUM AVE, RICHMOND 23227 & RICHMOND & RICHMOND-CITY & 1.47 & 85 & High Potential\\
+14 & 4712 DICK WOODS RD, CHARLOTTESVILLE 22903 & CHARLOTTESVILLE & ALBEMARLE & 7.10 & 85 & High Potential\\
+15 & 39518 LITTLE RIVER TPKE, ALDIE 20105 & ALDIE & LOUDOUN & 1.13 & 85 & High Potential\\
+\addlinespace
+16 & 5092 GRACE CHURCH LN, MIDLAND 22728 & MIDLAND & FAUQUIER & 8.34 & 85 & High Potential\\
+17 & 1527 SENSENY RD, WINCHESTER 22602 & WINCHESTER & FREDERICK & 3.20 & 85 & High Potential\\
+18 & 5987 RICHMOND RD, WARSAW 22572 & WARSAW & RICHMOND & 2.24 & 85 & High Potential\\
+19 & 5096 GRACE CHURCH LN, MIDLAND 22728 & MIDLAND & FAUQUIER & 3.65 & 85 & High Potential\\
+20 & 5094 GRACE CHURCH LN, MIDLAND 22728 & MIDLAND & FAUQUIER & 2.76 & 85 & High Potential\\
+\bottomrule
+
+\end{longtable}
+
+\subsection{Development Tiers}
+
+\begin{longtable}[t]{lrrrrr}
+
+\caption{\label{tbl-tiers}Summary by Development Tier}
+
+\tabularnewline
+
+\toprule
+\cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Development Tier}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{\# Properties}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Total Acres}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Avg Acres}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Avg Score}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Avg Walkability}}}\\
+\midrule
+\cellcolor[HTML]{d4edda}{High Potential} & \cellcolor[HTML]{d4edda}{30} & \cellcolor[HTML]{d4edda}{146.1} & \cellcolor[HTML]{d4edda}{4.87} & \cellcolor[HTML]{d4edda}{85} & \cellcolor[HTML]{d4edda}{8.0}\\
+Moderate Potential & 14 & 46.0 & 3.29 & 70 & 5.4\\
+Low Potential - Constraints & 67 & 132.4 & 1.98 & 40 & 7.4\\
+Insufficient Data & 15 & 14.4 & 1.44 & 30 & 5.7\\
+\bottomrule
+
+\end{longtable}
+
+\section{Geographic Distribution}\label{geographic-distribution-2}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{property-portfolio_files/figure-pdf/fig-county-map-1.pdf}}
+
+}
+
+\caption{\label{fig-county-map}Properties by County (Top 15)}
+
+\end{figure}%
+
+\section{Congregation Health
+Indicators}\label{congregation-health-indicators}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{property-portfolio_files/figure-pdf/fig-attendance-pledge-1.pdf}}
+
+}
+
+\caption{\label{fig-attendance-pledge}Relationship Between Attendance
+and Pledge Revenue}
+
+\end{figure}%
+
+\chapter{Geographic Distribution}\label{geographic-distribution-3}
+
+\subsection{Parcels by Diocesan
+Region}\label{parcels-by-diocesan-region}
+
+\begin{longtable*}[t]{rrrr}
+\toprule
+\cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{\# Parcels}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{Total Acres}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{\% of Total Acreage}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{Avg Dev Score}}}\\
+\midrule
+117 & 339 & Inf & 54.3\\
+\bottomrule
+\end{longtable*}
+
+\chapter{Congregation Vitality
+Metrics}\label{congregation-vitality-metrics}
+
+\textbf{Key Congregation Metrics:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Parcels with congregation data:} 126
+\item
+  \textbf{Parcels with \textless30 Sunday attendance:} 126 (100\% of
+  properties analyzed)
+\item
+  \textbf{Average Sunday attendance:} 16 people
+\item
+  \textbf{Average annual pledge:} \$49,047
+\item
+  \textbf{Congregations with declining pledges:} 70
+\end{itemize}
+
+\chapter{Developable Land Summary}\label{developable-land-summary}
+
+\subsection{Comprehensive Developability
+Analysis}\label{comprehensive-developability-analysis}
+
+\textbf{All Developable Properties (Score ≥45)}
+
+\begin{figure}
+
+\begin{minipage}{0.25\linewidth}
+
+44
+
+Developable Parcels
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+192.1
+
+Developable Acres
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+\$18.7M
+
+Assessed Value
+
+\end{minipage}%
+%
+\begin{minipage}{0.25\linewidth}
+
+1
+
+With \textless30 Attendance
+
+\end{minipage}%
+
+\end{figure}%
+
+\subsection{Breakdown by Development
+Tier}\label{breakdown-by-development-tier}
+
+\begin{longtable*}[t]{lrrr}
+\toprule
+Tier & \# Parcels & Total Acres & Assessed Value\\
+\midrule
+High Potential & 30 & 146.1 & 18,124,500\\
+Moderate Potential & 14 & 46.0 & 553,409\\
+\bottomrule
+\end{longtable*}
+
+\bookmarksetup{startatroot}
+
+\chapter{Property Profiles}\label{property-profiles}
+
+\section{Overview}\label{overview}
+
+In this analysis, the top 10 properties all scored the same, which means
+they are listed in no particular order, but as the top group of
+high-possibility sites.
+
+The following section provides detailed profiles for each of the top 10
+development opportunities. Each profile includes:
+
+\begin{itemize}
+\tightlist
+\item
+  Site characteristics and current use
+\item
+  Congregation context (where applicable)
+\item
+  Development opportunities and strategies
+\item
+  Key considerations and next steps
+\end{itemize}
+
+\section*{Property \#1}\label{property-1}
+\addcontentsline{toc}{section}{Property \#1}
+
+\markright{Property \#1}
+
+\subsection{10520 MAIN ST, FAIRFAX 22030}\label{main-st-fairfax-22030}
+
+\textbf{FAIRFAX, FAIRFAX-CITY County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{4.11 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{16.3/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{25 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Church building
+\end{itemize}
+
+\subsubsection{Congregation: Holy Cross Korean Episcopal
+Church}\label{congregation-holy-cross-korean-episcopal-church}
+
+\textbf{Financial Trend:} Plate \& pledge has ↑ increased by
+\textbf{42\%} over the past decade.
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+🚶 \textbf{Walkable location:} Transit access supports reduced parking
+requirements and higher density
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#2}\label{property-2}
+\addcontentsline{toc}{section}{Property \#2}
+
+\markright{Property \#2}
+
+\subsection{1 TRURO LN, FAIRFAX 22030}\label{truro-ln-fairfax-22030}
+
+\textbf{FAIRFAX, FAIRFAX-CITY County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{3.44 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{16.3/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{25 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-1}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Open space
+\end{itemize}
+
+\subsubsection{Congregation: Holy Cross Korean Episcopal
+Church}\label{congregation-holy-cross-korean-episcopal-church-1}
+
+\textbf{Financial Trend:} Plate \& pledge has ↑ increased by
+\textbf{42\%} over the past decade.
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-1}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+🚶 \textbf{Walkable location:} Transit access supports reduced parking
+requirements and higher density
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-1}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#3}\label{property-3}
+\addcontentsline{toc}{section}{Property \#3}
+
+\markright{Property \#3}
+
+\subsection{AQUIA HARBOUR 22554}\label{aquia-harbour-22554}
+
+\textbf{AQUIA HARBOUR, STAFFORD County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{31.38 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{6.8/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{0 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-2}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Open space
+\end{itemize}
+
+\subsubsection{Congregation: Aquia
+Church}\label{congregation-aquia-church}
+
+\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
+\textbf{100\%} over the past decade.
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-2}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-2}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\item
+  Ground lease financial modeling
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#4}\label{property-4}
+\addcontentsline{toc}{section}{Property \#4}
+
+\markright{Property \#4}
+
+\subsection{3241 BRUSH DR, FALLS CHURCH
+22042}\label{brush-dr-falls-church-22042}
+
+\textbf{FALLS CHURCH, FAIRFAX County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{5.64 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{13/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{21 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-3}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Church building
+\end{itemize}
+
+\subsubsection{Congregation: St Patricks Anglo Vietnamese
+Church}\label{congregation-st-patricks-anglo-vietnamese-church}
+
+\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
+\textbf{55.2\%} over the past decade.
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-3}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+🚶 \textbf{Walkable location:} Transit access supports reduced parking
+requirements and higher density
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-3}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\item
+  Ground lease financial modeling
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#5}\label{property-5}
+\addcontentsline{toc}{section}{Property \#5}
+
+\markright{Property \#5}
+
+\subsection{WEST FALLS CHURCH 22042}\label{west-falls-church-22042}
+
+\textbf{WEST FALLS CHURCH, FAIRFAX County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{2.62 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{13/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{21 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-4}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Church building, Open space
+\end{itemize}
+
+\subsubsection{Congregation: St Patricks Anglo Vietnamese
+Church}\label{congregation-st-patricks-anglo-vietnamese-church-1}
+
+\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
+\textbf{55.2\%} over the past decade.
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-4}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+🚶 \textbf{Walkable location:} Transit access supports reduced parking
+requirements and higher density
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-4}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\item
+  Ground lease financial modeling
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#6}\label{property-6}
+\addcontentsline{toc}{section}{Property \#6}
+
+\markright{Property \#6}
+
+\subsection{3421 FRANCONIA RD, ALEXANDRIA
+22310}\label{franconia-rd-alexandria-22310}
+
+\textbf{ALEXANDRIA, FAIRFAX County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{4.39 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{11/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{28 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-5}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Church building
+\end{itemize}
+
+\subsubsection{Congregation: All Saints Sharon
+Chapel}\label{congregation-all-saints-sharon-chapel}
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-5}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+🚶 \textbf{Walkable location:} Transit access supports reduced parking
+requirements and higher density
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-5}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#7}\label{property-7}
+\addcontentsline{toc}{section}{Property \#7}
+
+\markright{Property \#7}
+
+\subsection{37018 GLENDALE ST, PURCELLVILLE
+20132}\label{glendale-st-purcellville-20132}
+
+\textbf{PURCELLVILLE, LOUDOUN County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{2.02 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{8.5/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{0 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-6}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Church building
+\end{itemize}
+
+\subsubsection{Congregation: St Peters
+Church}\label{congregation-st-peters-church}
+
+\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
+\textbf{100\%} over the past decade.
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-6}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-6}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\item
+  Ground lease financial modeling
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#8}\label{property-8}
+\addcontentsline{toc}{section}{Property \#8}
+
+\markright{Property \#8}
+
+\subsection{2918 RICHMOND HWY, STAFFORD
+22554}\label{richmond-hwy-stafford-22554}
+
+\textbf{STAFFORD, STAFFORD County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{8.15 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{6.8/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{0 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-7}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Church building
+\end{itemize}
+
+\subsubsection{Congregation: Aquia
+Church}\label{congregation-aquia-church-1}
+
+\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
+\textbf{100\%} over the past decade.
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-7}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-7}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\item
+  Ground lease financial modeling
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#9}\label{property-9}
+\addcontentsline{toc}{section}{Property \#9}
+
+\markright{Property \#9}
+
+\subsection{3439 PAYNE ST, FALLS CHURCH
+22041}\label{payne-st-falls-church-22041}
+
+\textbf{FALLS CHURCH, FAIRFAX County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{2.24 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{18.3/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{0 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-8}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Church building
+\end{itemize}
+
+\subsubsection{Congregation: St Pauls
+Church}\label{congregation-st-pauls-church}
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-8}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+🚶 \textbf{Walkable location:} Transit access supports reduced parking
+requirements and higher density
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-8}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Property \#10}\label{property-10}
+\addcontentsline{toc}{section}{Property \#10}
+
+\markright{Property \#10}
+
+\subsection{10627 PATTERSON AVE, HENRICO
+23238}\label{patterson-ave-henrico-23238}
+
+\textbf{HENRICO, HENRICO County}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Development Score: \textbf{85/100}}, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{High Potential}
+
+\end{tcolorbox}
+
+\begin{figure}
+
+\begin{minipage}{0.33\linewidth}
+\textbf{5.08 acres}\\
+Property Size\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{8.3/100}\\
+Walkability\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+\textbf{0 people}\\
+Avg Attendance\end{minipage}%
+
+\end{figure}%
+
+\subsubsection{Site Characteristics}\label{site-characteristics-9}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Current Uses:} Church building
+\end{itemize}
+
+\subsubsection{Congregation: St Bartholomews Episcopal
+Church}\label{congregation-st-bartholomews-episcopal-church}
+
+\subsubsection{Development
+Opportunities}\label{development-opportunities-9}
+
+📐 \textbf{Substantial site:} Large parcel enables phased development or
+creative master planning
+
+\subsubsection{Recommended Next Steps}\label{recommended-next-steps-9}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Site feasibility study and geotechnical analysis
+\item
+  Congregation leadership engagement
+\item
+  Zoning review and density bonus evaluation
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Interactive ADU Placement
+Tool}\label{interactive-adu-placement-tool}
+
+For an interactive experience, {[}\textbf{launch the ADU Placement
+Dashboard}{]}
+
+\part{Appendices}
+
+\chapter*{Appendices}\label{appendices-1}
+\addcontentsline{toc}{chapter}{Appendices}
+
+\markboth{Appendices}{Appendices}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Technical Methodology}, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{Scoring Algorithm Details}
+
+Each property receives scores across six dimensions (0-100 scale), which
+are then weighted and combined:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Size Score (20\% weight):} Properties between 0.5-5 acres
+  score highest (100 points)
+\item
+  \textbf{Use Score (25\% weight):} Parking lots (95) and open space
+  (90) score highest
+\item
+  \textbf{Location Score (20\% weight):} Based on walkability index and
+  transit access
+\item
+  \textbf{Financial Score (15\% weight):} Congregation pledge trends
+  indicate development need
+\item
+  \textbf{Market Score (10\% weight):} Area median income and LIHTC
+  eligibility
+\item
+  \textbf{Zoning Score (10\% weight):} Development-friendly zoning
+  receives 80 points
+\end{enumerate}
+
+\textbf{Constraint penalties} are applied after the weighted average,
+with major penalties for: - Flood zones: -40 points - Significant
+wetlands (\textgreater25\%): -35 points\\
+- Easements: -30 points - Historic districts: -25 points
+
+Final scores are capped between 0-100.
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, leftrule=.75mm, opacitybacktitle=0.6, coltitle=black, opacityback=0, arc=.35mm, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Data Processing Notes}, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, titlerule=0mm, rightrule=.15mm, toptitle=1mm]
+
+\textbf{Congregation-Parcel Joining:} Properties were matched to
+congregation data using the \texttt{congr\_name} field. Properties
+without matches received neutral financial scores.
+
+\textbf{Missing Data Handling:} - Missing walkability scores defaulted
+to 0 - Missing income data received median market scores (50) -
+Properties without area or coordinates were excluded
+
+\textbf{Quality Filters:} - Minimum parcel size: 0.1 acres - Required
+valid lat/lon coordinates - Valid building years: 1700-2025
+
+\end{tcolorbox}
+
+\chapter{references}\label{references}
+
+
+
+
+\end{document}
