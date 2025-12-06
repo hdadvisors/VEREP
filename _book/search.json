@@ -103,5 +103,16 @@
       "Analysis Results",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Geographic Distribution</span>"
     ]
+  },
+  {
+    "objectID": "geographic-stats.html",
+    "href": "geographic-stats.html",
+    "title": "9  Geographic Distribution",
+    "section": "",
+    "text": "9.0.1 Parcels by Diocesan Region\n\n\nCode\nregional_stats |&gt;\n  kable(\n    col.names = c(\"# Parcels\", \"Total Acres\", \"% of Total Acreage\", \"Avg Dev Score\"),\n    digits = c(0, 0, 1, 1, 1)\n  ) |&gt;\n  kable_styling(bootstrap_options = c(\"striped\", \"hover\")) |&gt;\n  row_spec(0, bold = TRUE, background = \"#8baeaa\", color = \"white\")\n\n\n\n\n\n# Parcels\nTotal Acres\n% of Total Acreage\nAvg Dev Score\n\n\n\n\n117\n339\nInf\n54.3",
+    "crumbs": [
+      "Summary Statistics",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Geographic Distribution</span>"
+    ]
   }
 ]

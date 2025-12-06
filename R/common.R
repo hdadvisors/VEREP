@@ -42,3 +42,29 @@ top_10 <- scored_parcels %>%
   arrange(desc(assessed_value)) %>%
   slice_head(n = 10) %>%
   mutate(rank = row_number())
+
+# Create enhanced version with aliases and calculated fields
+property_profile <- property_profile |>
+  mutate(
+    area_acres = rgisacre,
+    development_score = case_when(
+      development_potential == "High Potential" ~ 85,
+      development_potential == "Moderate Potential" ~ 70,
+      development_potential == "Low Potential - Constraints" ~ 40,
+      development_potential == "Insufficient Data" ~ 30,
+      TRUE ~ 20
+    ),
+    development_tier = development_potential,
+    assessed_value = lan_val,
+    use_church = !is.na(church) & church == 1,
+    use_parking = !is.na(parking) & parking == 1,
+    use_open_space = !is.na(open_space) & open_space == 1,
+    use_cemetery = !is.na(cemetery) & cemetery == 1,
+    use_school = !is.na(school) & school == 1,
+    use_residence = !is.na(residence) & residence == 1,
+    avg_attendance = attendance_2023,
+    avg_pledge = plate_pledge_2023,
+    bldgcount = 1,
+    year_built = 1950,
+    has_congregation = !is.na(congregation_name)
+  )

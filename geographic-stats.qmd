@@ -12,7 +12,7 @@ source("R/app.R")
 
 ```{r regional-distribution-calc, include=FALSE}
 # Regional breakdown
-regional_stats <- property_profile |>
+regional_stats <- scored_parcels |>
   summarise(
     n_parcels = n(),
     total_acres = sum(rgisacre, na.rm = TRUE),
