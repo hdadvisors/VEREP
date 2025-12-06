@@ -17,39 +17,34 @@ book:
   date: today
   
   chapters:
-    - index.qmd
-    
-    - part: "Executive Summary"
-      chapters:
-        - executive-summary.qmd
-    
-    - part: "Methodology & Data"
-      chapters:
-        - methodology-overview.qmd
-        - data-sources.qmd
-        - analytical-framework.qmd
-        - development-criteria.qmd
-    
-    - part: "Analysis Results"
-      chapters:
-        - development-landscape.qmd
-        - geographic-distribution.qmd
-    
-    - part: "Summary Statistics"
-      chapters:
-        - property-portfolio.qmd
-        - geographic-stats.qmd
-        - vitality-metrics.qmd
-        - developable-land.qmd
-    
-    - part: "Property Profiles"
-      chapters:
-        - property-profiles.qmd
-    
-    - part: "Appendices"
-      chapters:
-        - appendix.qmd
-        - references.qmd
+  - index.qmd
+  - executive-summary.qmd
+  
+  - part: "Methodology & Data"
+    chapters:
+      - methodology-overview.qmd
+      - data-sources.qmd
+      - analytical-framework.qmd
+      - development-criteria.qmd
+  
+  - part: "Analysis Results"
+    chapters:
+      - development-landscape.qmd
+      - geographic-distribution.qmd
+  
+  - part: "Summary Statistics"
+    chapters:
+      - property-portfolio.qmd
+      - geographic-stats.qmd
+      - vitality-metrics.qmd
+      - developable-land.qmd
+  
+  - property-profiles.qmd
+  
+  - part: "Appendices"
+    chapters:
+      - appendix.qmd
+      - references.qmd
 
 format:
   html:
