@@ -259,7 +259,7 @@ property_profile |>
   arrange(desc(development_score)) |>
   slice_head(n = 20) |>
   mutate(Rank = row_number()) |>
-  select(Rank, sadd, site_city, site_county, area_acres, development_score, development_potential) |>
+  select(Rank, sadd, scity, scounty, area_acres, development_score, development_potential) |>
   kable(
     col.names = c("Rank", "Address", "City", "County", "Acres", "Score", "Tier"),
     digits = c(0, 0, 0, 0, 2, 1, 0),
@@ -309,11 +309,11 @@ tier_summary |>
 #| fig-height: 5
 
 county_counts <- property_profile |>
-  count(site_county, name = "n_properties") |>
+  count(scounty, name = "n_properties") |>
   arrange(desc(n_properties)) |>
   slice_head(n = 15)
 
-ggplot(county_counts, aes(x = reorder(site_county, n_properties), y = n_properties)) +
+ggplot(county_counts, aes(x = reorder(scounty, n_properties), y = n_properties)) +
   geom_col(fill = "#445ca9", alpha = 0.8) +
   geom_text(aes(label = n_properties), hjust = -0.2, size = 3.5) +
   coord_flip() +
