@@ -25,6 +25,7 @@ Not too small to be economically viable, not too large to be financially unwield
 #| label: fig-size-scoring
 #| fig-cap: "Property Size Scoring Curve"
 #| fig-height: 4
+#| echo: false
 
 # Create scoring function
 calculate_size_score <- function(size) {
@@ -70,6 +71,7 @@ ggplot(size_curve, aes(x = acres, y = score)) +
 #| label: fig-size-distribution
 #| fig-cap: "Distribution of Property Sizes in Portfolio"
 #| fig-height: 4
+#| echo: false
 
 property_profile |>
   filter(!is.na(area_acres), area_acres < 20) |>
@@ -102,11 +104,17 @@ Property size significantly influences development feasibility, but bigger isn't
 
 **Weight: 25%**
 
+::: {.column-margin}
+**Optimal Use**: Vacant or nearly vacant with access to infrastructure
+
+:::
+
 Properties with minimal current utilization represent immediate opportunities.
 
 ```{r}
 #| label: tbl-use-scoring
 #| tbl-cap: "Current Use Scoring Matrix"
+#| echo: false
 
 use_scoring <- tibble(
   `Current Use` = c("Parking Lot", "Open Space", "Mixed/Other", "Residence", "School", "Church (primary)", "Cemetery"),
@@ -134,6 +142,7 @@ use_scoring |>
 #| label: fig-use-distribution
 #| fig-cap: "Properties by Current Use Type"
 #| fig-height: 4
+#| echo: false
 
 use_counts <- property_profile |>
   summarise(
@@ -178,6 +187,7 @@ Open space scores similarly high, particularly when it's amenity-free lawn rathe
 #| label: fig-location-factors
 #| fig-cap: "Location Quality Components"
 #| fig-height: 3.5
+#| echo: false
 
 location_factors <- tibble(
   Factor = c("Transit Access", "Walkability", "Employment Proximity", "Amenities"),
@@ -206,6 +216,7 @@ ggplot(location_factors, aes(x = reorder(Factor, Weight), y = Weight)) +
 #| label: fig-walkability-dist
 #| fig-cap: "Distribution of Walkability Scores"
 #| fig-height: 4
+#| echo: false
 
 property_profile |>
   filter(!is.na(walk_idx)) |>
@@ -243,6 +254,7 @@ Transit access amplifies these benefits. Properties within a quarter-mile of fre
 #| label: fig-financial-need
 #| fig-cap: "Properties by Financial Need Level"
 #| fig-height: 4
+#| echo: false
 
 financial_summary <- property_profile |>
   filter(!is.na(pct_change_pledge)) |>
@@ -298,6 +310,7 @@ Properties associated with growing congregations score lower not because they la
 ```{r}
 #| label: tbl-market-indicators
 #| tbl-cap: "Market Potential Scoring Criteria"
+#| echo: false
 
 market_indicators <- tibble(
   Indicator = c("QCT Status", "Area Median Income", "Population Growth", "Housing Demand"),
@@ -324,6 +337,7 @@ Properties in Qualified Census Tracts (QCTs) gain additional scoring weight beca
 ```{r}
 #| label: tbl-zoning-scoring
 #| tbl-cap: "Zoning Category Scoring"
+#| echo: false
 
 zoning_scoring <- tibble(
   `Zoning Category` = c("Mixed Use", "Multi-Family Residential", "Commercial", "Single-Family Residential", "Agricultural", "Conservation"),
@@ -357,6 +371,7 @@ Conversely, properties in restrictive single-family or conservation districts ma
 ```{r}
 #| label: tbl-constraints
 #| tbl-cap: "Constraint Penalties Applied to Development Score"
+#| echo: false
 
 constraints <- tibble(
   Constraint = c("100-Year Flood Zone", "Significant Wetlands (>25%)", "Easements Present", "Historic District", "Moderate Wetlands (10-25%)"),
@@ -419,6 +434,7 @@ Where:
 #| label: fig-score-components
 #| fig-cap: "Development Score Component Weights"
 #| fig-height: 4
+#| echo: false
 
 components <- tibble(
   Component = c("Current Use", "Property Size", "Location Quality", "Financial Need", "Market Potential", "Zoning"),
