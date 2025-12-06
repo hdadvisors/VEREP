@@ -27,15 +27,15 @@ book:
     
     - part: "Analysis Results"
       chapters:
-        - development-landscape.qmd
-        - geographic-distribution.qmd
+        - development-landscape1.qmd
+        - geographic-distribution1.qmd
     
     - part: "Summary Statistics"
       chapters:
-        - property-portfolio.qmd
-        - geographic-stats.qmd
-        - vitality-metrics.qmd
-        - developable-land.qmd
+        - property-portfolio1.qmd
+        - geographic-stats1.qmd
+        - vitality-metrics1.qmd
+        - developable-land1.qmd
     
     - part: "Property Profiles"
       chapters:

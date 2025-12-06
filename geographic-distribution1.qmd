@@ -1,0 +1,52 @@
+## Geographic Distribution
+
+```{r}
+#| include: false
+source("R/common.R")
+source("R/app.R")
+```
+
+
+```{r all-properties-map-html}
+#| echo: false
+
+pal <- colorNumeric(
+  palette = "YlOrRd",
+  domain = scored_parcels$development_score
+)
+
+leaflet(scored_parcels) |>
+  addProviderTiles(providers$CartoDB.Positron) |>
+  addCircleMarkers(
+    lng = ~lon,
+    lat = ~lat,
+    radius = ~sqrt(area_acres) * 3,  # Reduced size since there are more points
+    fillColor = ~pal(development_score),
+    fillOpacity = 0.7,
+    color = "white",
+    weight = 1,
+    popup = ~paste0(
+      "<div style='font-family: Lato, sans-serif; min-width: 250px;'>",
+      "<p style='margin: 5px 0;'><b>", site_address, "</b><br>",
+      site_city, ", ", site_county, " County</p>",
+      "<hr style='margin: 10px 0;'>",
+      "<p style='margin: 5px 0;'><b>Development Score:</b> ", round(development_score, 1), "/100<br>",
+      "<b>Size:</b> ", round(area_acres, 2), " acres<br>",
+      "<b>Tier:</b> ", development_tier, "</p>",
+      if_else(!is.na(name), 
+              paste0("<hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:</b> ", name, "</p>"), 
+              ""),
+      "</div>"
+    ),
+    label = ~paste0(site_address, " (", round(development_score, 1), ")")
+  ) |>
+  addLegend(
+    position = "bottomright",
+    pal = pal,
+    values = ~development_score,
+    title = "Development<br>Score",
+    opacity = 1
+  ) |>
+  setView(lng = mean(scored_parcels$lon, na.rm = TRUE), lat = mean(scored_parcels$lat, na.rm = TRUE), zoom = 7)
+```
+
