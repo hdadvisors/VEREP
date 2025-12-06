@@ -6,6 +6,9 @@ number-sections: false
 
 execute:
   execute-dir: project
+  echo: false
+  warning: false
+  message: false
 
 book:
   title: "Property Development Opportunity Analysis"

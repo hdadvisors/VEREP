@@ -13,8 +13,8 @@
     "objectID": "index.html#report-purpose",
     "href": "index.html#report-purpose",
     "title": "Property Development Opportunity Analysis",
-    "section": "0.1 Report Purpose",
-    "text": "0.1 Report Purpose\nThis analysis provides:\n\nStrategic Insights: Identification of high-potential development opportunities\nData-Driven Decisions: Evidence-based property assessments\nFinancial Planning: Resource allocation guidance\nGeographic Analysis: Regional distribution and market potential",
+    "section": "Report Purpose",
+    "text": "Report Purpose\nThis analysis provides:\n\nStrategic Insights: Identification of high-potential development opportunities\nData-Driven Decisions: Evidence-based property assessments\nFinancial Planning: Resource allocation guidance\nGeographic Analysis: Regional distribution and market potential",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Property Development Opportunity Analysis</span>"
     ]
@@ -23,8 +23,8 @@
     "objectID": "index.html#key-highlights",
     "href": "index.html#key-highlights",
     "title": "Property Development Opportunity Analysis",
-    "section": "0.2 Key Highlights",
-    "text": "0.2 Key Highlights\n\n\n\n\n\n\nTop Finding\n\n\n\nSignificant underutilized assets identified with strong development potential across multiple geographic regions.",
+    "section": "Key Highlights",
+    "text": "Key Highlights\n\n\n\n\n\n\nTop Finding\n\n\n\nSignificant underutilized assets identified with strong development potential across multiple geographic regions.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Property Development Opportunity Analysis</span>"
     ]
@@ -33,8 +33,8 @@
     "objectID": "index.html#how-to-use-this-report",
     "href": "index.html#how-to-use-this-report",
     "title": "Property Development Opportunity Analysis",
-    "section": "0.3 How to Use This Report",
-    "text": "0.3 How to Use This Report\n\nExecutive Summary: Quick overview and key findings\nMethodology: Understanding our analytical approach\nAnalysis Results: Detailed findings and insights\nSummary Statistics: Portfolio-wide metrics\nProperty Profiles: Individual property assessments\nAppendices: Technical details and references\n\n\n\n\n\n\n\nInteractive Features\n\n\n\nThis report includes interactive visualizations and tools. Use the filters and controls to explore the data dynamically.",
+    "section": "How to Use This Report",
+    "text": "How to Use This Report\n\nExecutive Summary: Quick overview and key findings\nMethodology: Understanding our analytical approach\nAnalysis Results: Detailed findings and insights\nSummary Statistics: Portfolio-wide metrics\nProperty Profiles: Individual property assessments\nAppendices: Technical details and references\n\n\n\n\n\n\n\nInteractive Features\n\n\n\nThis report includes interactive visualizations and tools. Use the filters and controls to explore the data dynamically.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Property Development Opportunity Analysis</span>"
     ]
@@ -43,37 +43,37 @@
     "objectID": "index.html#navigation",
     "href": "index.html#navigation",
     "title": "Property Development Opportunity Analysis",
-    "section": "0.4 Navigation",
-    "text": "0.4 Navigation\nUse the table of contents on the left to navigate between sections, or use the search function to find specific topics.",
+    "section": "Navigation",
+    "text": "Navigation\nUse the table of contents on the left to navigate between sections, or use the search function to find specific topics.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Property Development Opportunity Analysis</span>"
     ]
   },
   {
-    "objectID": "executive-summary1.html",
-    "href": "executive-summary1.html",
+    "objectID": "executive-summary.html",
+    "href": "executive-summary.html",
     "title": "Executive Summary",
     "section": "",
-    "text": "At a Glance: Top 10 Properties\nThis analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nAttaching package: 'bslib'\n\n\nThe following object is masked from 'package:utils':\n\n    page\n\n\n\nAttaching package: 'DT'\n\n\nThe following objects are masked from 'package:shiny':\n\n    dataTableOutput, renderDataTable\n\n\n\nAttaching package: 'plotly'\n\n\nThe following object is masked from 'package:ggplot2':\n\n    last_plot\n\n\nThe following object is masked from 'package:stats':\n\n    filter\n\n\nThe following object is masked from 'package:graphics':\n\n    layout\n\n\n\nAttaching package: 'rsconnect'\n\n\nThe following object is masked from 'package:shiny':\n\n    serverInfo\n\n\n\nAttaching package: 'kableExtra'\n\n\nThe following object is masked from 'package:dplyr':\n\n    group_rows\n\n\n\nAttaching package: 'shinydashboard'\n\n\nThe following object is masked from 'package:graphics':\n\n    box\n\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\n\n\nAttaching package: 'flextable'\n\n\nThe following objects are masked from 'package:kableExtra':\n\n    as_image, footnote\n\n\nThe following objects are masked from 'package:plotly':\n\n    highlight, style\n\n\nThe following object is masked from 'package:purrr':\n\n    compose\n\n\nLinking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE\n\nRows: 126 Columns: 47\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (13): uid, pid, congregation_name, zon, zon_desc, zon_type, fema_fz, fem...\ndbl (24): attendance_2023, members_2023, attendance_avg, attendance_2014, pc...\nlgl (10): deed_acres, has_environmental_constraint, developable, missing_lan...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nTable 1: Top 10 Development Opportunities\n\n\n\n\n\n\nRank\nAddress\nCity\nAcres\nScore\nTier\n\n\n\n\n1\n10520 MAIN ST, FAIRFAX 22030\nFAIRFAX\n4.11\n85\nHigh Potential\n\n\n2\n1 TRURO LN, FAIRFAX 22030\nFAIRFAX\n3.44\n85\nHigh Potential\n\n\n3\nAQUIA HARBOUR 22554\nAQUIA HARBOUR\n31.38\n85\nHigh Potential\n\n\n4\n3241 BRUSH DR, FALLS CHURCH 22042\nFALLS CHURCH\n5.64\n85\nHigh Potential\n\n\n5\nWEST FALLS CHURCH 22042\nWEST FALLS CHURCH\n2.62\n85\nHigh Potential\n\n\n6\n3421 FRANCONIA RD, ALEXANDRIA 22310\nALEXANDRIA\n4.39\n85\nHigh Potential\n\n\n7\n37018 GLENDALE ST, PURCELLVILLE 20132\nPURCELLVILLE\n2.02\n85\nHigh Potential\n\n\n8\n2918 RICHMOND HWY, STAFFORD 22554\nSTAFFORD\n8.15\n85\nHigh Potential\n\n\n9\n3439 PAYNE ST, FALLS CHURCH 22041\nFALLS CHURCH\n2.24\n85\nHigh Potential\n\n\n10\n10627 PATTERSON AVE, HENRICO 23238\nHENRICO\n5.08\n85\nHigh Potential\ntier_summary &lt;- scored_parcels |&gt;\n  count(development_potential) |&gt;\n  mutate(\n    pct = n / sum(n) * 100,\n    tier_order = case_when(\n      development_potential == \"High Potential\" ~ 1,\n      development_potential == \"Moderate Potential\" ~ 2,\n      development_potential == \"Low Potential - Constraints\" ~ 3,\n      development_potential == \"Insufficient Data\" ~ 4,\n      TRUE ~ 5\n    )\n  ) |&gt;\n  arrange(tier_order)\n\nggplot(tier_summary, aes(x = reorder(development_potential, -tier_order), y = n,\n                          fill = development_potential)) +\n  geom_col() +\n  geom_text(aes(label = paste0(n, \" (\", round(pct, 1), \"%)\")), \n            vjust = -0.5, size = 3.5) +\n  scale_fill_manual(values = c(\n    \"High Potential\" = \"#445ca9\",\n    \"Moderate Potential\" = \"#8baeaa\",\n    \"Low Potential - Constraints\" = \"#e9ab3f\",\n    \"Insufficient Data\" = \"#e76f52\"\n  )) +\n  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +\n  labs(\n    x = \"\",\n    y = \"Number of Properties\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(\n    plot.title = element_text(face = \"bold\", color = \"#445ca9\"),\n    axis.text.x = element_text(angle = 25, hjust = 1),\n    panel.grid.major.x = element_blank(),\n    legend.position = \"none\"\n  )\n\n\n\n\n\n\n\nFigure 1: Distribution of Properties by Development Potential",
+    "text": "At a Glance: Top 10 Properties\nThis analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.\nTable 1: Top 10 Development Opportunities\n\n\n\n\n\n\nRank\nAddress\nCity\nAcres\nScore\nTier\n\n\n\n\n1\n10520 MAIN ST, FAIRFAX 22030\nFAIRFAX\n4.11\n85\nHigh Potential\n\n\n2\n1 TRURO LN, FAIRFAX 22030\nFAIRFAX\n3.44\n85\nHigh Potential\n\n\n3\nAQUIA HARBOUR 22554\nAQUIA HARBOUR\n31.38\n85\nHigh Potential\n\n\n4\n3241 BRUSH DR, FALLS CHURCH 22042\nFALLS CHURCH\n5.64\n85\nHigh Potential\n\n\n5\nWEST FALLS CHURCH 22042\nWEST FALLS CHURCH\n2.62\n85\nHigh Potential\n\n\n6\n3421 FRANCONIA RD, ALEXANDRIA 22310\nALEXANDRIA\n4.39\n85\nHigh Potential\n\n\n7\n37018 GLENDALE ST, PURCELLVILLE 20132\nPURCELLVILLE\n2.02\n85\nHigh Potential\n\n\n8\n2918 RICHMOND HWY, STAFFORD 22554\nSTAFFORD\n8.15\n85\nHigh Potential\n\n\n9\n3439 PAYNE ST, FALLS CHURCH 22041\nFALLS CHURCH\n2.24\n85\nHigh Potential\n\n\n10\n10627 PATTERSON AVE, HENRICO 23238\nHENRICO\n5.08\n85\nHigh Potential\nFigure 1: Distribution of Properties by Development Potential",
     "crumbs": [
       "Executive Summary",
       "Executive Summary"
     ]
   },
   {
-    "objectID": "executive-summary1.html#key-findings",
-    "href": "executive-summary1.html#key-findings",
+    "objectID": "executive-summary.html#key-findings",
+    "href": "executive-summary.html#key-findings",
     "title": "Executive Summary",
     "section": "Key Findings",
-    "text": "Key Findings\n\nPortfolio Summary\n\n\n\n\n\n\n\n\n\n117\n\n\n\nProperties Analyzed\n\n\n\n\n\n\n\n\n\n\n44\n\n\n\nStrong Potential (Tier 1-2)\n\n\n\n\n\n\n\n\n\n\n69.1\n\n\n\nTop 10 Developable Acres\n\n\n\n\n\n\n\n\n\n\n339\n\n\n\nTotal Portfolio Acres\n\n\n\n\n\n\n\nSignificant Underutilized Assets\nOur analysis identified 44 properties with substantial development potential.\nPrimary opportunities include:\n\nParking lots (highest development scores): 3 properties with underutilized parking suitable for structured parking with mixed-use above\nOpen space parcels: 30 well-located vacant land parcels ideal for ground lease arrangements\nProperties with declining congregations: Sites where development can provide financial stability\n\n\n\nGeographic Distribution\n\ncounty_summary &lt;- scored_parcels |&gt;\n  count(site_county, name = \"n_properties\") |&gt;\n  arrange(desc(n_properties)) |&gt;\n  slice_head(n = 10)\n\nggplot(county_summary, aes(x = reorder(site_county, n_properties), y = n_properties)) +\n  geom_col(fill = \"#445ca9\", alpha = 0.8) +\n  geom_text(aes(label = n_properties), hjust = -0.2, size = 3.5) +\n  coord_flip() +\n  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +\n  labs(\n    title = \"Top 10 Counties by Property Count\",\n    x = \"\",\n    y = \"Number of Properties\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(\n    plot.title = element_text(face = \"bold\", color = \"#445ca9\"),\n    panel.grid.major.y = element_blank()\n  )\n\n\n\n\n\n\n\nFigure 2: Properties by County\n\n\n\n\n\nDevelopment opportunities are distributed across Virginia, with concentrations in:\n\nUrban/suburban areas with strong walkability scores\nMarkets with favorable demographics and LIHTC eligibility\nTransit-accessible locations supporting reduced parking requirements\n\n\n\nFinancial Sustainability Imperative\n\n\n\n\n\n\nCritical Finding\n\n\n\n67 properties are associated with congregations showing declining financial trends. Development of identified properties is essential for long-term financial sustainability and mission fulfillment.",
+    "text": "Key Findings\n\nPortfolio Summary\n\n\n\n\n\n\n\n\n\n117\n\n\n\nProperties Analyzed\n\n\n\n\n\n\n\n\n\n\n44\n\n\n\nStrong Potential (Tier 1-2)\n\n\n\n\n\n\n\n\n\n\n69.1\n\n\n\nTop 10 Developable Acres\n\n\n\n\n\n\n\n\n\n\n339\n\n\n\nTotal Portfolio Acres\n\n\n\n\n\n\n\nSignificant Underutilized Assets\nOur analysis identified 44 properties with substantial development potential.\nPrimary opportunities include:\n\nParking lots (highest development scores): 3 properties with underutilized parking suitable for structured parking with mixed-use above\nOpen space parcels: 30 well-located vacant land parcels ideal for ground lease arrangements\nProperties with declining congregations: Sites where development can provide financial stability\n\n\n\nGeographic Distribution\n\n\n\n\n\n\n\n\nFigure 2: Properties by County\n\n\n\n\n\nDevelopment opportunities are distributed across Virginia, with concentrations in:\n\nUrban/suburban areas with strong walkability scores\nMarkets with favorable demographics and LIHTC eligibility\nTransit-accessible locations supporting reduced parking requirements\n\n\n\nFinancial Sustainability Imperative\n\n\n\n\n\n\nCritical Finding\n\n\n\n67 properties are associated with congregations showing declining financial trends. Development of identified properties is essential for long-term financial sustainability and mission fulfillment.",
     "crumbs": [
       "Executive Summary",
       "Executive Summary"
     ]
   },
   {
-    "objectID": "executive-summary1.html#next-steps",
-    "href": "executive-summary1.html#next-steps",
+    "objectID": "executive-summary.html#next-steps",
+    "href": "executive-summary.html#next-steps",
     "title": "Executive Summary",
     "section": "Next Steps",
     "text": "Next Steps\n\nPriority Assessment: Review top-ranked properties for immediate action\nFeasibility Studies: Conduct detailed feasibility analysis for top candidates\nStakeholder Engagement: Engage relevant stakeholders for high-priority sites\nFinancial Planning: Develop funding strategies and timelines",
@@ -83,20 +83,20 @@
     ]
   },
   {
-    "objectID": "methodology-overview1.html",
-    "href": "methodology-overview1.html",
-    "title": "2  Background & Data Sources",
+    "objectID": "methodology-overview.html",
+    "href": "methodology-overview.html",
+    "title": "Background & Data Sources",
     "section": "",
-    "text": "2.1 VEREP Parcel Dataset\nThis analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:",
+    "text": "VEREP Parcel Dataset\nThis analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:",
     "crumbs": [
       "Methodology & Data",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Background & Data Sources</span>"
     ]
   },
   {
-    "objectID": "methodology-overview1.html#verep-parcel-dataset",
-    "href": "methodology-overview1.html#verep-parcel-dataset",
-    "title": "2  Background & Data Sources",
+    "objectID": "methodology-overview.html#verep-parcel-dataset",
+    "href": "methodology-overview.html#verep-parcel-dataset",
+    "title": "Background & Data Sources",
     "section": "",
     "text": "126 parcels across Virginia\nComprehensive property characteristics (size, use, zoning)\nEnvironmental constraints (floodplains, wetlands, easements)\nLocation metrics (walkability, transit access)\nMarket indicators (median income, demographics)",
     "crumbs": [
@@ -105,42 +105,42 @@
     ]
   },
   {
-    "objectID": "methodology-overview1.html#congregation-statistics-2014-2023",
-    "href": "methodology-overview1.html#congregation-statistics-2014-2023",
-    "title": "2  Background & Data Sources",
-    "section": "2.2 Congregation Statistics (2014-2023)",
-    "text": "2.2 Congregation Statistics (2014-2023)\nFinancial and membership data provides context on congregation health:\n\nSunday attendance trends\nMembership changes\nPlate & pledge revenue\n10-year trend analysis\n\n\n\n\n\n\n\nData Quality Note\n\n\n\nNot all properties have associated congregation data. Properties without congregation information received neutral scores in the financial need category.",
+    "objectID": "methodology-overview.html#congregation-statistics-2014-2023",
+    "href": "methodology-overview.html#congregation-statistics-2014-2023",
+    "title": "Background & Data Sources",
+    "section": "Congregation Statistics (2014-2023)",
+    "text": "Congregation Statistics (2014-2023)\nFinancial and membership data provides context on congregation health:\n\nSunday attendance trends\nMembership changes\nPlate & pledge revenue\n10-year trend analysis\n\n\n\n\n\n\n\nData Quality Note\n\n\n\nNot all properties have associated congregation data. Properties without congregation information received neutral scores in the financial need category.",
     "crumbs": [
       "Methodology & Data",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Background & Data Sources</span>"
     ]
   },
   {
-    "objectID": "methodology-overview1.html#data-quality-issues",
-    "href": "methodology-overview1.html#data-quality-issues",
-    "title": "2  Background & Data Sources",
-    "section": "2.3 Data Quality Issues",
-    "text": "2.3 Data Quality Issues\nOne of the issues identified by CGS’s initial study was that a large number of congregations either had incomplete or inconsistent data; many congregations share properties or fail to appropriately report their permanent address. Their final output data, which was utilized for this development analysis, reflected this. While environmental constraints accounted for the majority of the missing data, many others contained incomplete property information. For a closer look, we separated and classified these attributes below. These properties can be more precisely assessed for development once they have greater data.\n\n\n\n\n\nMetric\nValue\n\n\n\n\nTotal properties analyzed\n126\n\n\nProperties with incomplete data\n121 (96%)\n\n\nProperties with missing/unassigned addresses\n19\n\n\n\n\n\n\n\n\n\n\n\nProperties Without Coordinates\n\n\n\n5 properties have neither valid addresses nor coordinates. These will require manual lookup using county tax records or additional dioses review.\n\n\n\n\n\n\n\n\n\n\n\n\n\n2.3.1 Missing and Unassigned Addresses\nThe following congregations comprise the 19 “properties” without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising 14 of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code.\n\n\n\n\n\nCongregation\n# Unassigned Properties\nCities\nHas Coordinates\n\n\n\n\nSt Johns Episcopal Church\n6\nWEST POINT, UNASSIGNED\nYes\n\n\nSt Pauls Church\n6\nWEST POINT\nYes\n\n\nSt Stephens Church\n2\nUNASSIGNED\nYes\n\n\nChurch of the Spirit\n1\nNA\nNo\n\n\nLa Iglesia de San Jose\n1\nNA\nNo\n\n\nOlivet Church\n1\nNA\nNo\n\n\nSt Andrews Church\n1\nNA\nNo\n\n\nSt Francis Korean Church\n1\nNA\nNo\n\n\n\n\n\n\nlibrary(tidygeocoder)\n\nneeds_geocoding &lt;- unassigned_addresses |&gt;\n  filter(!is.na(sample_lat) & !is.na(sample_lon))\n\ngeocoded_results &lt;- needs_geocoding |&gt;\n  reverse_geocode(\n    lat = sample_lat,\n    long = sample_lon,\n    method = \"arcgis\",\n    full_results = FALSE\n  )\n\nPassing 3 coordinates to the ArcGIS single coordinate geocoder\n\n\nQuery completed in: 0.2 seconds\n\n# Save the geocoded addresses\nwrite_csv(geocoded_results, \"data/output/geocoded_unassigned_addresses.csv\")\n\ngeocoded_results |&gt;\n  select(congregation_name, num_unassigned, cities, address) |&gt;\n  kable(\n    col.names = c(\"Congregation\", \"# Properties\", \"Cities\", \"Geocoded Address\")\n  ) |&gt;\n  kable_styling(bootstrap_options = c(\"striped\", \"hover\"))\n\n\n\n\nCongregation\n# Properties\nCities\nGeocoded Address\n\n\n\n\nSt Johns Episcopal Church\n6\nWEST POINT, UNASSIGNED\n916 Main Street, West Point, VA, 23181, USA\n\n\nSt Pauls Church\n6\nWEST POINT\n532 15th St, West Point, VA, 23181, USA\n\n\nSt Stephens Church\n2\nUNASSIGNED\n20119, Catlett, VA, USA\n\n\n\n\n\n\n\n\n2.3.2 Shared Addresses\nThese properties have different congregations sharing the same street address, indicating potential shared facilities, rental arrangements, or data quality issues.\n\n\n\n\n\n\nFindings\n\n\n\n2 addresses are shared by multiple congregations, affecting 5 different congregations.\n\n\nProperties sharing addresses may indicate:\n\nEthnic/language congregations sharing space (Korean, Vietnamese, Spanish services)\nChurch plants using host congregation facilities\nRental arrangements - one congregation renting to another\nMerged congregations - maintaining separate legal entities\nData quality issues - duplicate records or address errors\n\n\n\n\n\n\nStreet Address\nCity\n# Congregations\nCongregation Names\nCombined Attendance\n\n\n\n\nWARSAW 22572\nWARSAW\n3\nNorth Farnham Parish Church &#124; St Johns Church &#124; St Pauls Church Nomini Grove\n116\n\n\nUNASSIGNED, WEST POINT 23181\nWEST POINT\n2\nSt Johns Episcopal Church &#124; St Pauls Church\n140\n\n\n\n\n\n\n\n\n2.3.3 Priority Issues Summary\nProblem Distribution:\n\n\n\n\n\nIssue Type\n# Congregations\n\n\n\n\nAll addresses unique and assigned\n20\n\n\nHas unassigned addresses\n6\n\n\nHas shared addresses\n3\n\n\nBoth shared AND unassigned\n2",
+    "objectID": "methodology-overview.html#data-quality-issues",
+    "href": "methodology-overview.html#data-quality-issues",
+    "title": "Background & Data Sources",
+    "section": "Data Quality Issues",
+    "text": "Data Quality Issues\nOne of the issues identified by CGS’s initial study was that a large number of congregations either had incomplete or inconsistent data; many congregations share properties or fail to appropriately report their permanent address. Their final output data, which was utilized for this development analysis, reflected this. While environmental constraints accounted for the majority of the missing data, many others contained incomplete property information. For a closer look, we separated and classified these attributes below. These properties can be more precisely assessed for development once they have greater data.\n\n\n\n\n\nMetric\nValue\n\n\n\n\nTotal properties analyzed\n126\n\n\nProperties with incomplete data\n121 (96%)\n\n\nProperties with missing/unassigned addresses\n19\n\n\n\n\n\n\n\n\n\n\n\nProperties Without Coordinates\n\n\n\n5 properties have neither valid addresses nor coordinates. These will require manual lookup using county tax records or additional dioses review.\n\n\n\n\n\n\n\n\n\n\n\n\n\nMissing and Unassigned Addresses\nThe following congregations comprise the 19 “properties” without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising 14 of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code.\n\n\n\n\n\nCongregation\n# Unassigned Properties\nCities\nHas Coordinates\n\n\n\n\nSt Johns Episcopal Church\n6\nWEST POINT, UNASSIGNED\nYes\n\n\nSt Pauls Church\n6\nWEST POINT\nYes\n\n\nSt Stephens Church\n2\nUNASSIGNED\nYes\n\n\nChurch of the Spirit\n1\nNA\nNo\n\n\nLa Iglesia de San Jose\n1\nNA\nNo\n\n\nOlivet Church\n1\nNA\nNo\n\n\nSt Andrews Church\n1\nNA\nNo\n\n\nSt Francis Korean Church\n1\nNA\nNo\n\n\n\n\n\n\n\n\n\n\nCongregation\n# Properties\nCities\nGeocoded Address\n\n\n\n\nSt Johns Episcopal Church\n6\nWEST POINT, UNASSIGNED\n916 Main Street, West Point, VA, 23181, USA\n\n\nSt Pauls Church\n6\nWEST POINT\n532 15th St, West Point, VA, 23181, USA\n\n\nSt Stephens Church\n2\nUNASSIGNED\n20119, Catlett, VA, USA\n\n\n\n\n\n\n\n\nShared Addresses\nThese properties have different congregations sharing the same street address, indicating potential shared facilities, rental arrangements, or data quality issues.\n\n\n\n\n\n\nFindings\n\n\n\n2 addresses are shared by multiple congregations, affecting 5 different congregations.\n\n\nProperties sharing addresses may indicate:\n\nEthnic/language congregations sharing space (Korean, Vietnamese, Spanish services)\nChurch plants using host congregation facilities\nRental arrangements - one congregation renting to another\nMerged congregations - maintaining separate legal entities\nData quality issues - duplicate records or address errors\n\n\n\n\n\n\nStreet Address\nCity\n# Congregations\nCongregation Names\nCombined Attendance\n\n\n\n\nWARSAW 22572\nWARSAW\n3\nNorth Farnham Parish Church &#124; St Johns Church &#124; St Pauls Church Nomini Grove\n116\n\n\nUNASSIGNED, WEST POINT 23181\nWEST POINT\n2\nSt Johns Episcopal Church &#124; St Pauls Church\n140\n\n\n\n\n\n\n\n\nPriority Issues Summary\nProblem Distribution:\n\n\n\n\n\nIssue Type\n# Congregations\n\n\n\n\nAll addresses unique and assigned\n20\n\n\nHas unassigned addresses\n6\n\n\nHas shared addresses\n3\n\n\nBoth shared AND unassigned\n2",
     "crumbs": [
       "Methodology & Data",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Background & Data Sources</span>"
     ]
   },
   {
-    "objectID": "analytical-framework1.html",
-    "href": "analytical-framework1.html",
-    "title": "4  Analytical Framework",
+    "objectID": "analytical-framework.html",
+    "href": "analytical-framework.html",
+    "title": "Analytical Framework",
     "section": "",
-    "text": "4.1 Development Potential Scoring\nOur methodology evaluates six key dimensions:\nConstraint Penalties: Properties receive deductions for flood zones (-40), significant wetlands (-35), easements (-30), and historic district designation (-25).\nDevelopment Tiers\nProperties are classified into five tiers based on composite scores:",
+    "text": "Development Potential Scoring\nOur methodology evaluates six key dimensions:\nConstraint Penalties: Properties receive deductions for flood zones (-40), significant wetlands (-35), easements (-30), and historic district designation (-25).\nDevelopment Tiers\nProperties are classified into five tiers based on composite scores:",
     "crumbs": [
       "Methodology & Data",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Analytical Framework</span>"
     ]
   },
   {
-    "objectID": "analytical-framework1.html#development-potential-scoring",
-    "href": "analytical-framework1.html#development-potential-scoring",
-    "title": "4  Analytical Framework",
+    "objectID": "analytical-framework.html#development-potential-scoring",
+    "href": "analytical-framework.html#development-potential-scoring",
+    "title": "Analytical Framework",
     "section": "",
     "text": "Tier 1 (75-100): High Priority - Immediate development candidates\nTier 2 (60-74): Strong Potential - Near-term opportunities\nTier 3 (45-59): Moderate Potential - Requires creative solutions\nTier 4 (30-44): Limited Potential - Significant barriers exist\nTier 5 (&lt;30): Not Recommended - Unsuitable for development",
     "crumbs": [
@@ -149,53 +149,53 @@
     ]
   },
   {
-    "objectID": "development-criteria1.html",
-    "href": "development-criteria1.html",
-    "title": "5  Understanding the Development Criteria",
+    "objectID": "development-criteria.html",
+    "href": "development-criteria.html",
+    "title": "Understanding the Development Criteria",
     "section": "",
-    "text": "5.1 Why These Factors Matter\nThe development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.",
+    "text": "Why These Factors Matter\nThe development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.",
     "crumbs": [
       "Methodology & Data",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Understanding the Development Criteria</span>"
     ]
   },
   {
-    "objectID": "development-criteria1.html#why-these-factors-matter",
-    "href": "development-criteria1.html#why-these-factors-matter",
-    "title": "5  Understanding the Development Criteria",
+    "objectID": "development-criteria.html#why-these-factors-matter",
+    "href": "development-criteria.html#why-these-factors-matter",
+    "title": "Understanding the Development Criteria",
     "section": "",
-    "text": "5.1.1 Property Size: The Goldilocks Principle\nWeight: 20%\n\n\nOptimal Range: 0.5-5 acres\nProperties that are “just right” for development.\nNot too small to be economically viable, not too large to be financially unwieldy.\n\n\n\n\n\n\n\n\nFigure 5.1: Property Size Scoring Curve\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5.2: Distribution of Property Sizes in Portfolio\n\n\n\n\n\nWhy This Matters:\n\nToo small (&lt;0.5 acres): Limited development options, high per-unit costs\nOptimal (0.5-5 acres): Maximum flexibility and economic efficiency\nToo large (&gt;10 acres): Requires significant capital, complex phasing\n\nProperty size significantly influences development feasibility, but bigger isn’t always better. Properties under a quarter-acre typically lack the critical mass needed for financially viable development—construction costs per unit rise sharply, and parking or open space requirements become impossible to meet. Conversely, parcels exceeding 10 acres often present unique challenges: they may require complex phasing, demand substantial upfront capital, or face community resistance to density.\n\n\n5.1.2 Current Use: Identifying Low-Hanging Fruit\nWeight: 25%\n\n\nOptimal Use: Vacant or nearly vacant with access to infrastructure\nProperties with minimal current utilization represent immediate opportunities.\n\n\n\n\nTable 5.1: Current Use Scoring Matrix\n\n\n\n\n\n\nCurrent Use\nScore\nRationale\n\n\n\n\nParking Lot\n95\nImmediate development potential, minimal displacement\n\n\nOpen Space\n90\nLow-value use, easy conversion\n\n\nMixed/Other\n60\nVaries by specific circumstances\n\n\nResidence\n40\nDisplacement considerations\n\n\nSchool\n35\nActive community use\n\n\nChurch (primary)\n30\nCore mission function\n\n\nCemetery\n5\nRestricted use, not developable\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5.3: Properties by Current Use Type\n\n\n\n\n\nHighest Potential: Parking Lots and Open Space\nNot all church property serves its highest and best use. Surface parking lots represent prime redevelopment opportunities—they’re already cleared and graded, typically have minimal environmental constraints, and often sit underutilized six days per week. A parking lot that serves 200 congregants on Sunday morning but stands empty Monday through Saturday represents an enormous opportunity cost.\nOpen space scores similarly high, particularly when it’s amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be reimagined while potentially retaining some green space within new development.\n\n\n5.1.3 Location Quality: Following the Market\nWeight: 20%\n\n\n\n\n\n\n\n\nFigure 5.4: Location Quality Components\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5.5: Distribution of Walkability Scores\n\n\n\n\n\nKey Metrics: Walkability Score and Transit Access\nReal estate development fundamentally responds to location. A walkable, transit-rich site commands higher rents, attracts more diverse tenants, and often qualifies for density bonuses or reduced parking requirements—all factors that improve project economics.\nWalkability scores measure proximity to everyday needs: grocery stores, schools, employment centers, healthcare. High walkability (15-20 on our scale) indicates a property can support car-light or car-free households, expanding the potential tenant base to include young professionals, seniors aging in place, and lower-income families for whom car ownership is cost-prohibitive.\nTransit access amplifies these benefits. Properties within a quarter-mile of frequent bus service or half-mile of rail stations can often negotiate reduced parking requirements with municipalities—a significant cost savings when structured parking runs $25,000-$40,000 per space to construct.\n\n\n5.1.4 Financial Need: Aligning Development with Mission\nWeight: 15%\n\n\n\n\n\n\n\n\nFigure 5.6: Properties by Financial Need Level\n\n\n\n\n\nPriority: Congregations with Declining Resources\nThis criterion explicitly centers mission over pure market return. Congregations experiencing sustained pledge declines often face a difficult reality: their historic buildings demand expensive maintenance, but shrinking budgets make upkeep increasingly burdensome. Many such congregations sit on valuable real estate that could, through thoughtful development, generate steady income streams while maintaining their worship and ministry.\nA ground lease arrangement, for example, might provide a struggling congregation with $50,000-$150,000 annually in stable income—enough to fund a part-time rector, maintain the building, and sustain core ministries. This approach transforms real estate from a drain on resources into a mission enabler.\nProperties associated with growing congregations score lower not because they lack development potential, but because the urgency is less acute. These communities likely have more options and less immediate financial pressure.\n\n\n5.1.5 Market Potential: Reading Economic Signals\nWeight: 10%\n\n\n\n\nTable 5.2: Market Potential Scoring Criteria\n\n\n\n\n\n\nIndicator\nWeight\nHigh Score\nData Source\n\n\n\n\nQCT Status\n40%\nIn Qualified Census Tract\nHUD QCT Maps\n\n\nArea Median Income\n30%\n&gt;$75,000 AMI\nACS 5-Year\n\n\nPopulation Growth\n15%\n&gt;2% annual growth\nCensus\n\n\nHousing Demand\n15%\nHigh demand market\nLocal market data\n\n\n\n\n\n\n\n\nIndicator: Area Median Income and LIHTC Eligibility\nDevelopment must respond to market demand. Properties in higher-income areas (median incomes above $75,000) typically support market-rate housing, ground-floor retail, or mixed-use projects that can cross-subsidize affordable components. These projects attract conventional financing and a broader range of development partners.\nProperties in Qualified Census Tracts (QCTs) gain additional scoring weight because they unlock Low-Income Housing Tax Credit (LIHTC) financing—the nation’s primary mechanism for affordable housing production. LIHTC projects in QCTs receive point advantages in competitive funding rounds, improving their feasibility. For mission-driven institutions committed to affordable housing, QCT properties offer a rare alignment of social impact and financial viability.\n\n\n5.1.6 Zoning: Navigating Regulatory Reality\nWeight: 10%\n\n\n\n\nTable 5.3: Zoning Category Scoring\n\n\n\n\n\n\nZoning Category\nScore\nDevelopment Impact\n\n\n\n\nMixed Use\n90\nMaximum flexibility for housing + retail\n\n\nMulti-Family Residential\n85\nAligned with housing mission\n\n\nCommercial\n70\nMay require use variance for residential\n\n\nSingle-Family Residential\n50\nDensity limitations, rezoning often needed\n\n\nAgricultural\n40\nSignificant restrictions, rural areas\n\n\nConservation\n10\nSevere limitations, unlikely candidate\n\n\n\n\n\n\n\n\nFavorable: Mixed-Use, Commercial, and Residential Districts\nZoning powerfully shapes what’s buildable and how quickly projects move from concept to construction. Properties zoned for residential or mixed-use development typically offer by-right development opportunities—projects that don’t require lengthy rezoning processes, conditional use permits, or special exceptions.\nConversely, properties in restrictive single-family or conservation districts may require multi-year regulatory processes, neighborhood opposition, and uncertain outcomes. While such projects occasionally succeed, they demand patient capital and sophisticated development partners.\n\n\n5.1.7 Environmental and Regulatory Constraints: Deal-Breakers vs. Speed-Bumps\nWeight: 5% (applied as penalties)\n\n\n\n\nTable 5.4: Constraint Penalties Applied to Development Score\n\n\n\n\n\n\nConstraint\nScore Penalty\nMitigation Difficulty\nNotes\n\n\n\n\n100-Year Flood Zone\n-40\nHigh\nExpensive insurance, elevated construction\n\n\nSignificant Wetlands (&gt;25%)\n-35\nHigh\nFederal/state permitting, mitigation required\n\n\nEasements Present\n-30\nModerate\nMay restrict building envelope\n\n\nHistoric District\n-25\nModerate\nDesign review, material requirements\n\n\nModerate Wetlands (10-25%)\n-20\nLow-Moderate\nPotential buildable area reduction\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAssessment Framework\n\n\n\nDeal-Breakers (Score: 0-30):\n\nExtensive wetlands covering majority of site\nActive floodway designation\nConservation easements prohibiting development\nContaminated sites requiring remediation\n\nSpeed-Bumps (Score: 60-90):\n\nPartial flood zone (can design around)\nHistoric considerations (design flexibility)\nMinor wetlands (avoidable)\nStandard permitting requirements\n\n\n\nThese constraints receive substantial score penalties because they materially affect project feasibility and cost. Properties in 100-year floodplains face expensive flood insurance, elevated construction costs, and increasingly cautious lenders post-climate-change. Development in such areas may be technically possible but financially marginal.\nSignificant wetlands (&gt;25% of parcel) trigger federal and state permitting, potential mitigation requirements, and uncertainty about buildable area. Easements—particularly those held by third parties—can restrict development rights, limit building envelopes, or prevent property subdivision.\nHistoric district designation doesn’t prohibit development but adds layers of design review, material requirements, and timeline uncertainty. Some historic commissions embrace creative contemporary additions; others mandate strict historicism that may conflict with modern construction economics.",
+    "text": "Property Size: The Goldilocks Principle\nWeight: 20%\n\n\nOptimal Range: 0.5-5 acres\nProperties that are “just right” for development.\nNot too small to be economically viable, not too large to be financially unwieldy.\n\n\n\n\n\n\n\n\nFigure 5.1: Property Size Scoring Curve\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5.2: Distribution of Property Sizes in Portfolio\n\n\n\n\n\nWhy This Matters:\n\nToo small (&lt;0.5 acres): Limited development options, high per-unit costs\nOptimal (0.5-5 acres): Maximum flexibility and economic efficiency\nToo large (&gt;10 acres): Requires significant capital, complex phasing\n\nProperty size significantly influences development feasibility, but bigger isn’t always better. Properties under a quarter-acre typically lack the critical mass needed for financially viable development—construction costs per unit rise sharply, and parking or open space requirements become impossible to meet. Conversely, parcels exceeding 10 acres often present unique challenges: they may require complex phasing, demand substantial upfront capital, or face community resistance to density.\n\n\nCurrent Use: Identifying Low-Hanging Fruit\nWeight: 25%\n\n\nOptimal Use: Vacant or nearly vacant with access to infrastructure\nProperties with minimal current utilization represent immediate opportunities.\n\n\n\n\nTable 5.1: Current Use Scoring Matrix\n\n\n\n\n\n\nCurrent Use\nScore\nRationale\n\n\n\n\nParking Lot\n95\nImmediate development potential, minimal displacement\n\n\nOpen Space\n90\nLow-value use, easy conversion\n\n\nMixed/Other\n60\nVaries by specific circumstances\n\n\nResidence\n40\nDisplacement considerations\n\n\nSchool\n35\nActive community use\n\n\nChurch (primary)\n30\nCore mission function\n\n\nCemetery\n5\nRestricted use, not developable\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5.3: Properties by Current Use Type\n\n\n\n\n\nHighest Potential: Parking Lots and Open Space\nNot all church property serves its highest and best use. Surface parking lots represent prime redevelopment opportunities—they’re already cleared and graded, typically have minimal environmental constraints, and often sit underutilized six days per week. A parking lot that serves 200 congregants on Sunday morning but stands empty Monday through Saturday represents an enormous opportunity cost.\nOpen space scores similarly high, particularly when it’s amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be reimagined while potentially retaining some green space within new development.\n\n\nLocation Quality: Following the Market\nWeight: 20%\n\n\n\n\n\n\n\n\nFigure 5.4: Location Quality Components\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5.5: Distribution of Walkability Scores\n\n\n\n\n\nKey Metrics: Walkability Score and Transit Access\nReal estate development fundamentally responds to location. A walkable, transit-rich site commands higher rents, attracts more diverse tenants, and often qualifies for density bonuses or reduced parking requirements—all factors that improve project economics.\nWalkability scores measure proximity to everyday needs: grocery stores, schools, employment centers, healthcare. High walkability (15-20 on our scale) indicates a property can support car-light or car-free households, expanding the potential tenant base to include young professionals, seniors aging in place, and lower-income families for whom car ownership is cost-prohibitive.\nTransit access amplifies these benefits. Properties within a quarter-mile of frequent bus service or half-mile of rail stations can often negotiate reduced parking requirements with municipalities—a significant cost savings when structured parking runs $25,000-$40,000 per space to construct.\n\n\nFinancial Need: Aligning Development with Mission\nWeight: 15%\n\n\n\n\n\n\n\n\nFigure 5.6: Properties by Financial Need Level\n\n\n\n\n\nPriority: Congregations with Declining Resources\nThis criterion explicitly centers mission over pure market return. Congregations experiencing sustained pledge declines often face a difficult reality: their historic buildings demand expensive maintenance, but shrinking budgets make upkeep increasingly burdensome. Many such congregations sit on valuable real estate that could, through thoughtful development, generate steady income streams while maintaining their worship and ministry.\nA ground lease arrangement, for example, might provide a struggling congregation with $50,000-$150,000 annually in stable income—enough to fund a part-time rector, maintain the building, and sustain core ministries. This approach transforms real estate from a drain on resources into a mission enabler.\nProperties associated with growing congregations score lower not because they lack development potential, but because the urgency is less acute. These communities likely have more options and less immediate financial pressure.\n\n\nMarket Potential: Reading Economic Signals\nWeight: 10%\n\n\n\n\nTable 5.2: Market Potential Scoring Criteria\n\n\n\n\n\n\nIndicator\nWeight\nHigh Score\nData Source\n\n\n\n\nQCT Status\n40%\nIn Qualified Census Tract\nHUD QCT Maps\n\n\nArea Median Income\n30%\n&gt;$75,000 AMI\nACS 5-Year\n\n\nPopulation Growth\n15%\n&gt;2% annual growth\nCensus\n\n\nHousing Demand\n15%\nHigh demand market\nLocal market data\n\n\n\n\n\n\n\n\nIndicator: Area Median Income and LIHTC Eligibility\nDevelopment must respond to market demand. Properties in higher-income areas (median incomes above $75,000) typically support market-rate housing, ground-floor retail, or mixed-use projects that can cross-subsidize affordable components. These projects attract conventional financing and a broader range of development partners.\nProperties in Qualified Census Tracts (QCTs) gain additional scoring weight because they unlock Low-Income Housing Tax Credit (LIHTC) financing—the nation’s primary mechanism for affordable housing production. LIHTC projects in QCTs receive point advantages in competitive funding rounds, improving their feasibility. For mission-driven institutions committed to affordable housing, QCT properties offer a rare alignment of social impact and financial viability.\n\n\nZoning: Navigating Regulatory Reality\nWeight: 10%\n\n\n\n\nTable 5.3: Zoning Category Scoring\n\n\n\n\n\n\nZoning Category\nScore\nDevelopment Impact\n\n\n\n\nMixed Use\n90\nMaximum flexibility for housing + retail\n\n\nMulti-Family Residential\n85\nAligned with housing mission\n\n\nCommercial\n70\nMay require use variance for residential\n\n\nSingle-Family Residential\n50\nDensity limitations, rezoning often needed\n\n\nAgricultural\n40\nSignificant restrictions, rural areas\n\n\nConservation\n10\nSevere limitations, unlikely candidate\n\n\n\n\n\n\n\n\nFavorable: Mixed-Use, Commercial, and Residential Districts\nZoning powerfully shapes what’s buildable and how quickly projects move from concept to construction. Properties zoned for residential or mixed-use development typically offer by-right development opportunities—projects that don’t require lengthy rezoning processes, conditional use permits, or special exceptions.\nConversely, properties in restrictive single-family or conservation districts may require multi-year regulatory processes, neighborhood opposition, and uncertain outcomes. While such projects occasionally succeed, they demand patient capital and sophisticated development partners.\n\n\nEnvironmental and Regulatory Constraints: Deal-Breakers vs. Speed-Bumps\nWeight: 5% (applied as penalties)\n\n\n\n\nTable 5.4: Constraint Penalties Applied to Development Score\n\n\n\n\n\n\nConstraint\nScore Penalty\nMitigation Difficulty\nNotes\n\n\n\n\n100-Year Flood Zone\n-40\nHigh\nExpensive insurance, elevated construction\n\n\nSignificant Wetlands (&gt;25%)\n-35\nHigh\nFederal/state permitting, mitigation required\n\n\nEasements Present\n-30\nModerate\nMay restrict building envelope\n\n\nHistoric District\n-25\nModerate\nDesign review, material requirements\n\n\nModerate Wetlands (10-25%)\n-20\nLow-Moderate\nPotential buildable area reduction\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAssessment Framework\n\n\n\nDeal-Breakers (Score: 0-30):\n\nExtensive wetlands covering majority of site\nActive floodway designation\nConservation easements prohibiting development\nContaminated sites requiring remediation\n\nSpeed-Bumps (Score: 60-90):\n\nPartial flood zone (can design around)\nHistoric considerations (design flexibility)\nMinor wetlands (avoidable)\nStandard permitting requirements\n\n\n\nThese constraints receive substantial score penalties because they materially affect project feasibility and cost. Properties in 100-year floodplains face expensive flood insurance, elevated construction costs, and increasingly cautious lenders post-climate-change. Development in such areas may be technically possible but financially marginal.\nSignificant wetlands (&gt;25% of parcel) trigger federal and state permitting, potential mitigation requirements, and uncertainty about buildable area. Easements—particularly those held by third parties—can restrict development rights, limit building envelopes, or prevent property subdivision.\nHistoric district designation doesn’t prohibit development but adds layers of design review, material requirements, and timeline uncertainty. Some historic commissions embrace creative contemporary additions; others mandate strict historicism that may conflict with modern construction economics.",
     "crumbs": [
       "Methodology & Data",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Understanding the Development Criteria</span>"
     ]
   },
   {
-    "objectID": "development-criteria1.html#bringing-it-all-together",
-    "href": "development-criteria1.html#bringing-it-all-together",
-    "title": "5  Understanding the Development Criteria",
-    "section": "5.2 Bringing It All Together",
-    "text": "5.2 Bringing It All Together\nThe final Development Potential Score is calculated as:\n\\[\n\\text{Score} = \\sum_{i=1}^{6} (w_i \\times s_i) - \\text{Constraint Penalties}\n\\]\nWhere:\n\n\\(w_i\\) = weight of criterion \\(i\\)\n\\(s_i\\) = score for criterion \\(i\\) (0-100)\n\n\n\n\n\n\n\n\n\nFigure 5.7: Development Score Component Weights\n\n\n\n\n\nScore Interpretation:\n\n\n\n\n\n\n\n\nScore Range\nTier\nDescription\n\n\n\n\n75-100\nTier 1\nHigh Priority - Immediate development candidates\n\n\n60-74\nTier 2\nStrong Potential - Near-term opportunities\n\n\n45-59\nTier 3\nModerate Potential - Requires creative solutions\n\n\n30-44\nTier 4\nLimited Potential - Significant barriers exist\n\n\n&lt;30\nTier 5\nNot Recommended - Unsuitable for development\n\n\n\nThese six criteria, combined with constraint penalties, create a holistic picture of development potential. A property might score exceptionally well on size and location but face significant challenges from environmental constraints. Another might have modest physical attributes but represent an urgent opportunity to support a financially stressed congregation.\nThe weighted scoring system allows us to compare apples to oranges—to evaluate whether a small, perfectly-located property in a historic district outweighs a larger, unrestricted site with less market demand. This methodology doesn’t make decisions for stakeholders but rather creates a common language for discussing trade-offs and priorities.\nUltimately, successful church real estate development requires more than high scores. It demands patient capital, mission-aligned partners, engaged congregations, and creative design. But by systematically evaluating these criteria, we can identify the properties where stars align—where market demand, congregational need, and regulatory environment converge to create genuine opportunity.",
+    "objectID": "development-criteria.html#bringing-it-all-together",
+    "href": "development-criteria.html#bringing-it-all-together",
+    "title": "Understanding the Development Criteria",
+    "section": "Bringing It All Together",
+    "text": "Bringing It All Together\nThe final Development Potential Score is calculated as:\n\\[\n\\text{Score} = \\sum_{i=1}^{6} (w_i \\times s_i) - \\text{Constraint Penalties}\n\\]\nWhere:\n\n\\(w_i\\) = weight of criterion \\(i\\)\n\\(s_i\\) = score for criterion \\(i\\) (0-100)\n\n\n\n\n\n\n\n\n\nFigure 5.7: Development Score Component Weights\n\n\n\n\n\nScore Interpretation:\n\n\n\n\n\n\n\n\nScore Range\nTier\nDescription\n\n\n\n\n75-100\nTier 1\nHigh Priority - Immediate development candidates\n\n\n60-74\nTier 2\nStrong Potential - Near-term opportunities\n\n\n45-59\nTier 3\nModerate Potential - Requires creative solutions\n\n\n30-44\nTier 4\nLimited Potential - Significant barriers exist\n\n\n&lt;30\nTier 5\nNot Recommended - Unsuitable for development\n\n\n\nThese six criteria, combined with constraint penalties, create a holistic picture of development potential. A property might score exceptionally well on size and location but face significant challenges from environmental constraints. Another might have modest physical attributes but represent an urgent opportunity to support a financially stressed congregation.\nThe weighted scoring system allows us to compare apples to oranges—to evaluate whether a small, perfectly-located property in a historic district outweighs a larger, unrestricted site with less market demand. This methodology doesn’t make decisions for stakeholders but rather creates a common language for discussing trade-offs and priorities.\nUltimately, successful church real estate development requires more than high scores. It demands patient capital, mission-aligned partners, engaged congregations, and creative design. But by systematically evaluating these criteria, we can identify the properties where stars align—where market demand, congregational need, and regulatory environment converge to create genuine opportunity.",
     "crumbs": [
       "Methodology & Data",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Understanding the Development Criteria</span>"
     ]
   },
   {
-    "objectID": "property-portfolio1.html",
-    "href": "property-portfolio1.html",
-    "title": "8  Property Portfolio Overview",
+    "objectID": "property-portfolio.html",
+    "href": "property-portfolio.html",
+    "title": "Property Portfolio Overview",
     "section": "",
-    "text": "8.1 Portfolio Summary",
+    "text": "Portfolio Summary",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
     ]
   },
   {
-    "objectID": "property-portfolio1.html#portfolio-summary",
-    "href": "property-portfolio1.html#portfolio-summary",
-    "title": "8  Property Portfolio Overview",
+    "objectID": "property-portfolio.html#portfolio-summary",
+    "href": "property-portfolio.html#portfolio-summary",
+    "title": "Property Portfolio Overview",
     "section": "",
     "text": "126\n\n\n\nTotal Properties\n\n\n\n\n\n\n\n\n\n\n339\n\n\n\nTotal Acres\n\n\n\n\n\n\n\n\n\n\n52.9\n\n\n\nAvg Development Score\n\n\n\n\n\n\n\n\n\n\n30\n\n\n\nHigh Potential Properties",
     "crumbs": [
@@ -204,86 +204,86 @@
     ]
   },
   {
-    "objectID": "property-portfolio1.html#property-use-types",
-    "href": "property-portfolio1.html#property-use-types",
-    "title": "8  Property Portfolio Overview",
-    "section": "8.2 Property Use Types",
-    "text": "8.2 Property Use Types\n\n\n\n\n\n\n\n\nFigure 8.1: Distribution of Properties by Primary Use",
+    "objectID": "property-portfolio.html#property-use-types",
+    "href": "property-portfolio.html#property-use-types",
+    "title": "Property Portfolio Overview",
+    "section": "Property Use Types",
+    "text": "Property Use Types\n\n\n\n\n\n\n\n\nFigure 8.1: Distribution of Properties by Primary Use",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
     ]
   },
   {
-    "objectID": "property-portfolio1.html#development-score-distribution",
-    "href": "property-portfolio1.html#development-score-distribution",
-    "title": "8  Property Portfolio Overview",
-    "section": "8.3 Development Score Distribution",
-    "text": "8.3 Development Score Distribution\n\n\n\n\n\n\n\n\nFigure 8.2: Distribution of Development Scores Across Portfolio",
+    "objectID": "property-portfolio.html#development-score-distribution",
+    "href": "property-portfolio.html#development-score-distribution",
+    "title": "Property Portfolio Overview",
+    "section": "Development Score Distribution",
+    "text": "Development Score Distribution\n\n\n\n\n\n\n\n\nFigure 8.2: Distribution of Development Scores Across Portfolio",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
     ]
   },
   {
-    "objectID": "property-portfolio1.html#property-size-vs-development-score",
-    "href": "property-portfolio1.html#property-size-vs-development-score",
-    "title": "8  Property Portfolio Overview",
-    "section": "8.4 Property Size vs Development Score",
-    "text": "8.4 Property Size vs Development Score\n\n\n\n\n\n\n\n\nFigure 8.3: Relationship Between Property Size and Development Score",
+    "objectID": "property-portfolio.html#property-size-vs-development-score",
+    "href": "property-portfolio.html#property-size-vs-development-score",
+    "title": "Property Portfolio Overview",
+    "section": "Property Size vs Development Score",
+    "text": "Property Size vs Development Score\n\n\n\n\n\n\n\n\nFigure 8.3: Relationship Between Property Size and Development Score",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
     ]
   },
   {
-    "objectID": "property-portfolio1.html#summary-metrics",
-    "href": "property-portfolio1.html#summary-metrics",
-    "title": "8  Property Portfolio Overview",
-    "section": "8.5 Summary Metrics",
-    "text": "8.5 Summary Metrics\n\nBy CountyBy Use TypeHigh PotentialDevelopment Tiers\n\n\n\n\n\n\nTable 8.1: Property Distribution by County\n\n\n\n\n\n\nscounty\nProperties\nTotal Acres\nAvg Score\nHigh Potential\n\n\n\n\nKING-WILLIAM\n20\n18.2\n45.2\n1\n\n\nFAUQUIER\n10\n32.0\n70.0\n6\n\n\nSTAFFORD\n9\n46.3\n60.0\n2\n\n\nWESTMORELAND\n9\n33.1\n31.1\n0\n\n\nRICHMOND\n8\n9.4\n53.1\n1\n\n\nFLUVANNA\n7\n8.4\n46.4\n1\n\n\nCLARKE\n6\n4.2\n55.0\n2\n\n\nFAIRFAX\n6\n16.9\n75.0\n4\n\n\nCAROLINE\n5\n2.1\n40.0\n0\n\n\nKING-GEORGE\n5\n77.4\n40.0\n0\n\n\nNA\n5\n0.0\n30.0\n0\n\n\nALBEMARLE\n3\n12.6\n85.0\n3\n\n\nCULPEPER\n3\n17.9\n50.0\n0\n\n\nESSEX\n3\n8.1\n75.0\n1\n\n\nFAIRFAX-CITY\n3\n8.2\n70.0\n2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTable 8.2: Property Statistics by Use Type\n\n\n\n\n\n\nUse Type\nCount\nAvg Size (Acres)\nAvg Dev Score\n\n\n\n\nChurch\n87\n1.92\n55.9\n\n\nOpen Space\n31\n5.69\n52.3\n\n\nCemetery\n24\n3.42\n64.4\n\n\nResidence\n14\n0.69\n38.6\n\n\nParking\n5\n0.81\n49.0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTable 8.3: Top 20 High Development Potential Properties\n\n\n\n\n\n\nRank\nAddress\nCity\nCounty\nAcres\nScore\nTier\n\n\n\n\n1\nAQUIA HARBOUR 22554\nAQUIA HARBOUR\nSTAFFORD\n31.38\n85\nHigh Potential\n\n\n2\n8695 OLD DUMFRIES RD, CATLETT 20119\nCATLETT\nFAUQUIER\n2.36\n85\nHigh Potential\n\n\n3\nWINCHESTER 22602\nWINCHESTER\nFREDERICK\n1.67\n85\nHigh Potential\n\n\n4\n10520 MAIN ST, FAIRFAX 22030\nFAIRFAX\nFAIRFAX-CITY\n4.11\n85\nHigh Potential\n\n\n5\n1 TRURO LN, FAIRFAX 22030\nFAIRFAX\nFAIRFAX-CITY\n3.44\n85\nHigh Potential\n\n\n6\n3241 BRUSH DR, FALLS CHURCH 22042\nFALLS CHURCH\nFAIRFAX\n5.64\n85\nHigh Potential\n\n\n7\nWEST FALLS CHURCH 22042\nWEST FALLS CHURCH\nFAIRFAX\n2.62\n85\nHigh Potential\n\n\n8\n3421 FRANCONIA RD, ALEXANDRIA 22310\nALEXANDRIA\nFAIRFAX\n4.39\n85\nHigh Potential\n\n\n9\n37018 GLENDALE ST, PURCELLVILLE 20132\nPURCELLVILLE\nLOUDOUN\n2.02\n85\nHigh Potential\n\n\n10\n2918 RICHMOND HWY, STAFFORD 22554\nSTAFFORD\nSTAFFORD\n8.15\n85\nHigh Potential\n\n\n11\n3439 PAYNE ST, FALLS CHURCH 22041\nFALLS CHURCH\nFAIRFAX\n2.24\n85\nHigh Potential\n\n\n12\n10627 PATTERSON AVE, HENRICO 23238\nHENRICO\nHENRICO\n5.08\n85\nHigh Potential\n\n\n13\n1704 WEST LABURNUM AVE, RICHMOND 23227\nRICHMOND\nRICHMOND-CITY\n1.47\n85\nHigh Potential\n\n\n14\n4712 DICK WOODS RD, CHARLOTTESVILLE 22903\nCHARLOTTESVILLE\nALBEMARLE\n7.10\n85\nHigh Potential\n\n\n15\n39518 LITTLE RIVER TPKE, ALDIE 20105\nALDIE\nLOUDOUN\n1.13\n85\nHigh Potential\n\n\n16\n5092 GRACE CHURCH LN, MIDLAND 22728\nMIDLAND\nFAUQUIER\n8.34\n85\nHigh Potential\n\n\n17\n1527 SENSENY RD, WINCHESTER 22602\nWINCHESTER\nFREDERICK\n3.20\n85\nHigh Potential\n\n\n18\n5987 RICHMOND RD, WARSAW 22572\nWARSAW\nRICHMOND\n2.24\n85\nHigh Potential\n\n\n19\n5096 GRACE CHURCH LN, MIDLAND 22728\nMIDLAND\nFAUQUIER\n3.65\n85\nHigh Potential\n\n\n20\n5094 GRACE CHURCH LN, MIDLAND 22728\nMIDLAND\nFAUQUIER\n2.76\n85\nHigh Potential\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTable 8.4: Summary by Development Tier\n\n\n\n\n\n\nDevelopment Tier\n# Properties\nTotal Acres\nAvg Acres\nAvg Score\nAvg Walkability\n\n\n\n\nHigh Potential\n30\n146.1\n4.87\n85\n8.0\n\n\nModerate Potential\n14\n46.0\n3.29\n70\n5.4\n\n\nLow Potential - Constraints\n67\n132.4\n1.98\n40\n7.4\n\n\nInsufficient Data\n15\n14.4\n1.44\n30\n5.7",
+    "objectID": "property-portfolio.html#summary-metrics",
+    "href": "property-portfolio.html#summary-metrics",
+    "title": "Property Portfolio Overview",
+    "section": "Summary Metrics",
+    "text": "Summary Metrics\n\nBy CountyBy Use TypeHigh PotentialDevelopment Tiers\n\n\n\n\n\n\nTable 8.1: Property Distribution by County\n\n\n\n\n\n\nscounty\nProperties\nTotal Acres\nAvg Score\nHigh Potential\n\n\n\n\nKING-WILLIAM\n20\n18.2\n45.2\n1\n\n\nFAUQUIER\n10\n32.0\n70.0\n6\n\n\nSTAFFORD\n9\n46.3\n60.0\n2\n\n\nWESTMORELAND\n9\n33.1\n31.1\n0\n\n\nRICHMOND\n8\n9.4\n53.1\n1\n\n\nFLUVANNA\n7\n8.4\n46.4\n1\n\n\nCLARKE\n6\n4.2\n55.0\n2\n\n\nFAIRFAX\n6\n16.9\n75.0\n4\n\n\nCAROLINE\n5\n2.1\n40.0\n0\n\n\nKING-GEORGE\n5\n77.4\n40.0\n0\n\n\nNA\n5\n0.0\n30.0\n0\n\n\nALBEMARLE\n3\n12.6\n85.0\n3\n\n\nCULPEPER\n3\n17.9\n50.0\n0\n\n\nESSEX\n3\n8.1\n75.0\n1\n\n\nFAIRFAX-CITY\n3\n8.2\n70.0\n2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTable 8.2: Property Statistics by Use Type\n\n\n\n\n\n\nUse Type\nCount\nAvg Size (Acres)\nAvg Dev Score\n\n\n\n\nChurch\n87\n1.92\n55.9\n\n\nOpen Space\n31\n5.69\n52.3\n\n\nCemetery\n24\n3.42\n64.4\n\n\nResidence\n14\n0.69\n38.6\n\n\nParking\n5\n0.81\n49.0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTable 8.3: Top 20 High Development Potential Properties\n\n\n\n\n\n\nRank\nAddress\nCity\nCounty\nAcres\nScore\nTier\n\n\n\n\n1\nAQUIA HARBOUR 22554\nAQUIA HARBOUR\nSTAFFORD\n31.38\n85\nHigh Potential\n\n\n2\n8695 OLD DUMFRIES RD, CATLETT 20119\nCATLETT\nFAUQUIER\n2.36\n85\nHigh Potential\n\n\n3\nWINCHESTER 22602\nWINCHESTER\nFREDERICK\n1.67\n85\nHigh Potential\n\n\n4\n10520 MAIN ST, FAIRFAX 22030\nFAIRFAX\nFAIRFAX-CITY\n4.11\n85\nHigh Potential\n\n\n5\n1 TRURO LN, FAIRFAX 22030\nFAIRFAX\nFAIRFAX-CITY\n3.44\n85\nHigh Potential\n\n\n6\n3241 BRUSH DR, FALLS CHURCH 22042\nFALLS CHURCH\nFAIRFAX\n5.64\n85\nHigh Potential\n\n\n7\nWEST FALLS CHURCH 22042\nWEST FALLS CHURCH\nFAIRFAX\n2.62\n85\nHigh Potential\n\n\n8\n3421 FRANCONIA RD, ALEXANDRIA 22310\nALEXANDRIA\nFAIRFAX\n4.39\n85\nHigh Potential\n\n\n9\n37018 GLENDALE ST, PURCELLVILLE 20132\nPURCELLVILLE\nLOUDOUN\n2.02\n85\nHigh Potential\n\n\n10\n2918 RICHMOND HWY, STAFFORD 22554\nSTAFFORD\nSTAFFORD\n8.15\n85\nHigh Potential\n\n\n11\n3439 PAYNE ST, FALLS CHURCH 22041\nFALLS CHURCH\nFAIRFAX\n2.24\n85\nHigh Potential\n\n\n12\n10627 PATTERSON AVE, HENRICO 23238\nHENRICO\nHENRICO\n5.08\n85\nHigh Potential\n\n\n13\n1704 WEST LABURNUM AVE, RICHMOND 23227\nRICHMOND\nRICHMOND-CITY\n1.47\n85\nHigh Potential\n\n\n14\n4712 DICK WOODS RD, CHARLOTTESVILLE 22903\nCHARLOTTESVILLE\nALBEMARLE\n7.10\n85\nHigh Potential\n\n\n15\n39518 LITTLE RIVER TPKE, ALDIE 20105\nALDIE\nLOUDOUN\n1.13\n85\nHigh Potential\n\n\n16\n5092 GRACE CHURCH LN, MIDLAND 22728\nMIDLAND\nFAUQUIER\n8.34\n85\nHigh Potential\n\n\n17\n1527 SENSENY RD, WINCHESTER 22602\nWINCHESTER\nFREDERICK\n3.20\n85\nHigh Potential\n\n\n18\n5987 RICHMOND RD, WARSAW 22572\nWARSAW\nRICHMOND\n2.24\n85\nHigh Potential\n\n\n19\n5096 GRACE CHURCH LN, MIDLAND 22728\nMIDLAND\nFAUQUIER\n3.65\n85\nHigh Potential\n\n\n20\n5094 GRACE CHURCH LN, MIDLAND 22728\nMIDLAND\nFAUQUIER\n2.76\n85\nHigh Potential\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTable 8.4: Summary by Development Tier\n\n\n\n\n\n\nDevelopment Tier\n# Properties\nTotal Acres\nAvg Acres\nAvg Score\nAvg Walkability\n\n\n\n\nHigh Potential\n30\n146.1\n4.87\n85\n8.0\n\n\nModerate Potential\n14\n46.0\n3.29\n70\n5.4\n\n\nLow Potential - Constraints\n67\n132.4\n1.98\n40\n7.4\n\n\nInsufficient Data\n15\n14.4\n1.44\n30\n5.7",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
     ]
   },
   {
-    "objectID": "property-portfolio1.html#geographic-distribution",
-    "href": "property-portfolio1.html#geographic-distribution",
-    "title": "8  Property Portfolio Overview",
-    "section": "8.6 Geographic Distribution",
-    "text": "8.6 Geographic Distribution\n\n\n\n\n\n\n\n\nFigure 8.4: Properties by County (Top 15)",
+    "objectID": "property-portfolio.html#geographic-distribution",
+    "href": "property-portfolio.html#geographic-distribution",
+    "title": "Property Portfolio Overview",
+    "section": "Geographic Distribution",
+    "text": "Geographic Distribution\n\n\n\n\n\n\n\n\nFigure 8.4: Properties by County (Top 15)",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
     ]
   },
   {
-    "objectID": "property-portfolio1.html#congregation-health-indicators",
-    "href": "property-portfolio1.html#congregation-health-indicators",
-    "title": "8  Property Portfolio Overview",
-    "section": "8.7 Congregation Health Indicators",
-    "text": "8.7 Congregation Health Indicators\n\n\n\n\n\n\n\n\nFigure 8.5: Relationship Between Attendance and Pledge Revenue",
+    "objectID": "property-portfolio.html#congregation-health-indicators",
+    "href": "property-portfolio.html#congregation-health-indicators",
+    "title": "Property Portfolio Overview",
+    "section": "Congregation Health Indicators",
+    "text": "Congregation Health Indicators\n\n\n\n\n\n\n\n\nFigure 8.5: Relationship Between Attendance and Pledge Revenue",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Property Portfolio Overview</span>"
     ]
   },
   {
-    "objectID": "geographic-stats1.html",
-    "href": "geographic-stats1.html",
-    "title": "9  Geographic Distribution",
+    "objectID": "geographic-stats.html",
+    "href": "geographic-stats.html",
+    "title": "Geographic Distribution",
     "section": "",
-    "text": "9.0.1 Parcels by Diocesan Region\n\n\n\n\n\n# Parcels\nTotal Acres\n% of Total Acreage\nAvg Dev Score\n\n\n\n\n117\n339\nInf\n54.3",
+    "text": "Parcels by Diocesan Region\n\n\n\n\n\n# Parcels\nTotal Acres\n% of Total Acreage\nAvg Dev Score\n\n\n\n\n117\n339\nInf\n54.3",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Geographic Distribution</span>"
     ]
   },
   {
-    "objectID": "vitality-metrics1.html",
-    "href": "vitality-metrics1.html",
-    "title": "10  Congregation Vitality Metrics",
+    "objectID": "vitality-metrics.html",
+    "href": "vitality-metrics.html",
+    "title": "Congregation Vitality Metrics",
     "section": "",
     "text": "Key Congregation Metrics:\n\nParcels with congregation data: 126\nParcels with &lt;30 Sunday attendance: 126 (100% of properties analyzed)\nAverage Sunday attendance: 16 people\nAverage annual pledge: $49,047\nCongregations with declining pledges: 70",
     "crumbs": [
@@ -292,11 +292,11 @@
     ]
   },
   {
-    "objectID": "developable-land1.html",
-    "href": "developable-land1.html",
-    "title": "11  Developable Land Summary",
+    "objectID": "developable-land.html",
+    "href": "developable-land.html",
+    "title": "Developable Land Summary",
     "section": "",
-    "text": "11.0.1 Comprehensive Developability Analysis\nAll Developable Properties (Score ≥45)\n\n\n\n\n44\n\n\nDevelopable Parcels\n\n\n\n\n192.1\n\n\nDevelopable Acres\n\n\n\n\n$18.7M\n\n\nAssessed Value\n\n\n\n\n1\n\n\nWith &lt;30 Attendance\n\n\n\n\n\n\n11.0.2 Breakdown by Development Tier\n\n\n\n\n\nTier\n# Parcels\nTotal Acres\nAssessed Value\n\n\n\n\nHigh Potential\n30\n146.1\n18,124,500\n\n\nModerate Potential\n14\n46.0\n553,409",
+    "text": "Comprehensive Developability Analysis\nAll Developable Properties (Score ≥45)\n\n\n\n\n44\n\n\nDevelopable Parcels\n\n\n\n\n192.1\n\n\nDevelopable Acres\n\n\n\n\n$18.7M\n\n\nAssessed Value\n\n\n\n\n1\n\n\nWith &lt;30 Attendance\n\n\n\n\n\n\nBreakdown by Development Tier\n\n\n\n\n\nTier\n# Parcels\nTotal Acres\nAssessed Value\n\n\n\n\nHigh Potential\n30\n146.1\n18,124,500\n\n\nModerate Potential\n14\n46.0\n553,409",
     "crumbs": [
       "Summary Statistics",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Developable Land Summary</span>"
@@ -305,9 +305,9 @@
   {
     "objectID": "property-profiles.html",
     "href": "property-profiles.html",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "",
-    "text": "12.1 Overview\nThe following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:",
+    "text": "Overview\nThe following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -316,7 +316,7 @@
   {
     "objectID": "property-profiles.html#overview",
     "href": "property-profiles.html#overview",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "",
     "text": "Site characteristics and current use\nCongregation context (where applicable)\nDevelopment opportunities and strategies\nKey considerations and next steps",
     "crumbs": [
@@ -327,9 +327,9 @@
   {
     "objectID": "property-profiles.html#property-1",
     "href": "property-profiles.html#property-1",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #1",
-    "text": "Property #1\n\n12.1.1 10520 MAIN ST, FAIRFAX 22030\nFAIRFAX, FAIRFAX-CITY County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n4.11 acres\nProperty Size\n\n\n16.3/100\nWalkability\n\n\n25 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: Holy Cross Korean Episcopal Church\nFinancial Trend: Plate & pledge has ↑ increased by 42% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
+    "text": "Property #1\n\n10520 MAIN ST, FAIRFAX 22030\nFAIRFAX, FAIRFAX-CITY County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n4.11 acres\nProperty Size\n\n\n16.3/100\nWalkability\n\n\n25 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: Holy Cross Korean Episcopal Church\nFinancial Trend: Plate & pledge has ↑ increased by 42% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -338,9 +338,9 @@
   {
     "objectID": "property-profiles.html#property-2",
     "href": "property-profiles.html#property-2",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #2",
-    "text": "Property #2\n\n12.1.2 1 TRURO LN, FAIRFAX 22030\nFAIRFAX, FAIRFAX-CITY County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n3.44 acres\nProperty Size\n\n\n16.3/100\nWalkability\n\n\n25 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Open space\n\n\n\nCongregation: Holy Cross Korean Episcopal Church\nFinancial Trend: Plate & pledge has ↑ increased by 42% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
+    "text": "Property #2\n\n1 TRURO LN, FAIRFAX 22030\nFAIRFAX, FAIRFAX-CITY County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n3.44 acres\nProperty Size\n\n\n16.3/100\nWalkability\n\n\n25 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Open space\n\n\n\nCongregation: Holy Cross Korean Episcopal Church\nFinancial Trend: Plate & pledge has ↑ increased by 42% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -349,9 +349,9 @@
   {
     "objectID": "property-profiles.html#property-3",
     "href": "property-profiles.html#property-3",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #3",
-    "text": "Property #3\n\n12.1.3 AQUIA HARBOUR 22554\nAQUIA HARBOUR, STAFFORD County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n31.38 acres\nProperty Size\n\n\n6.8/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Open space\n\n\n\nCongregation: Aquia Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "text": "Property #3\n\nAQUIA HARBOUR 22554\nAQUIA HARBOUR, STAFFORD County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n31.38 acres\nProperty Size\n\n\n6.8/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Open space\n\n\n\nCongregation: Aquia Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -360,9 +360,9 @@
   {
     "objectID": "property-profiles.html#property-4",
     "href": "property-profiles.html#property-4",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #4",
-    "text": "Property #4\n\n12.1.4 3241 BRUSH DR, FALLS CHURCH 22042\nFALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n5.64 acres\nProperty Size\n\n\n13/100\nWalkability\n\n\n21 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Patricks Anglo Vietnamese Church\nFinancial Trend: Plate & pledge has ↓ decreased by 55.2% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "text": "Property #4\n\n3241 BRUSH DR, FALLS CHURCH 22042\nFALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n5.64 acres\nProperty Size\n\n\n13/100\nWalkability\n\n\n21 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Patricks Anglo Vietnamese Church\nFinancial Trend: Plate & pledge has ↓ decreased by 55.2% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -371,9 +371,9 @@
   {
     "objectID": "property-profiles.html#property-5",
     "href": "property-profiles.html#property-5",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #5",
-    "text": "Property #5\n\n12.1.5 WEST FALLS CHURCH 22042\nWEST FALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.62 acres\nProperty Size\n\n\n13/100\nWalkability\n\n\n21 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building, Open space\n\n\n\nCongregation: St Patricks Anglo Vietnamese Church\nFinancial Trend: Plate & pledge has ↓ decreased by 55.2% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "text": "Property #5\n\nWEST FALLS CHURCH 22042\nWEST FALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.62 acres\nProperty Size\n\n\n13/100\nWalkability\n\n\n21 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building, Open space\n\n\n\nCongregation: St Patricks Anglo Vietnamese Church\nFinancial Trend: Plate & pledge has ↓ decreased by 55.2% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -382,9 +382,9 @@
   {
     "objectID": "property-profiles.html#property-6",
     "href": "property-profiles.html#property-6",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #6",
-    "text": "Property #6\n\n12.1.6 3421 FRANCONIA RD, ALEXANDRIA 22310\nALEXANDRIA, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n4.39 acres\nProperty Size\n\n\n11/100\nWalkability\n\n\n28 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: All Saints Sharon Chapel\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
+    "text": "Property #6\n\n3421 FRANCONIA RD, ALEXANDRIA 22310\nALEXANDRIA, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n4.39 acres\nProperty Size\n\n\n11/100\nWalkability\n\n\n28 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: All Saints Sharon Chapel\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -393,9 +393,9 @@
   {
     "objectID": "property-profiles.html#property-7",
     "href": "property-profiles.html#property-7",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #7",
-    "text": "Property #7\n\n12.1.7 37018 GLENDALE ST, PURCELLVILLE 20132\nPURCELLVILLE, LOUDOUN County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.02 acres\nProperty Size\n\n\n8.5/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Peters Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "text": "Property #7\n\n37018 GLENDALE ST, PURCELLVILLE 20132\nPURCELLVILLE, LOUDOUN County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.02 acres\nProperty Size\n\n\n8.5/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Peters Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -404,9 +404,9 @@
   {
     "objectID": "property-profiles.html#property-8",
     "href": "property-profiles.html#property-8",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #8",
-    "text": "Property #8\n\n12.1.8 2918 RICHMOND HWY, STAFFORD 22554\nSTAFFORD, STAFFORD County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n8.15 acres\nProperty Size\n\n\n6.8/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: Aquia Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
+    "text": "Property #8\n\n2918 RICHMOND HWY, STAFFORD 22554\nSTAFFORD, STAFFORD County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n8.15 acres\nProperty Size\n\n\n6.8/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: Aquia Church\nFinancial Trend: Plate & pledge has ↓ decreased by 100% over the past decade.\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\nGround lease financial modeling",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -415,9 +415,9 @@
   {
     "objectID": "property-profiles.html#property-9",
     "href": "property-profiles.html#property-9",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #9",
-    "text": "Property #9\n\n12.1.9 3439 PAYNE ST, FALLS CHURCH 22041\nFALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.24 acres\nProperty Size\n\n\n18.3/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Pauls Church\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
+    "text": "Property #9\n\n3439 PAYNE ST, FALLS CHURCH 22041\nFALLS CHURCH, FAIRFAX County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n2.24 acres\nProperty Size\n\n\n18.3/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Pauls Church\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n🚶 Walkable location: Transit access supports reduced parking requirements and higher density\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
@@ -426,9 +426,9 @@
   {
     "objectID": "property-profiles.html#property-10",
     "href": "property-profiles.html#property-10",
-    "title": "12  Property Profiles",
+    "title": "Property Profiles",
     "section": "Property #10",
-    "text": "Property #10\n\n12.1.10 10627 PATTERSON AVE, HENRICO 23238\nHENRICO, HENRICO County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n5.08 acres\nProperty Size\n\n\n8.3/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Bartholomews Episcopal Church\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\n\n\n\n#| echo: false \n\ncat(\"\\n---\\n\\n\")\n\n\n---\n\ncat(\"# Interactive ADU Placement Tool\\n\\n\")\n\n# Interactive ADU Placement Tool\n\ncat(\"For an interactive experience where you can place and explore ADU designs on these properties, \")\n\nFor an interactive experience where you can place and explore ADU designs on these properties, \n\ncat(\"**launch the interactive Shiny dashboard** by running `shiny::runApp('app.R')` in your R console.\\n\\n\")\n\n**launch the interactive Shiny dashboard** by running `shiny::runApp('app.R')` in your R console.\n\ncat(\"The dashboard includes:\\n\\n\")\n\nThe dashboard includes:\n\ncat(\"- **Interactive map** with click-to-place ADU functionality\\n\")\n\n- **Interactive map** with click-to-place ADU functionality\n\ncat(\"- **Multiple ADU design options** (Modal 01, Dwight, Compact Studio, Large 2BR)\\n\")\n\n- **Multiple ADU design options** (Modal 01, Dwight, Compact Studio, Large 2BR)\n\ncat(\"- **Real-time property visualization** with satellite and street view toggles\\n\")\n\n- **Real-time property visualization** with satellite and street view toggles\n\ncat(\"- **Complete property analysis** with all scoring metrics and filters\\n\\n\")\n\n- **Complete property analysis** with all scoring metrics and filters",
+    "text": "Property #10\n\n10627 PATTERSON AVE, HENRICO 23238\nHENRICO, HENRICO County\n\n\n\n\n\n\nDevelopment Score: 85/100\n\n\n\nHigh Potential\n\n\n\n\n\n5.08 acres\nProperty Size\n\n\n8.3/100\nWalkability\n\n\n0 people\nAvg Attendance\n\n\n\n\nSite Characteristics\n\nCurrent Uses: Church building\n\n\n\nCongregation: St Bartholomews Episcopal Church\n\n\nDevelopment Opportunities\n📐 Substantial site: Large parcel enables phased development or creative master planning\n\n\nRecommended Next Steps\n\nSite feasibility study and geotechnical analysis\nCongregation leadership engagement\nZoning review and density bonus evaluation\n\n\n\n\n\n---\n\n\n# Interactive ADU Placement Tool\n\n\nFor an interactive experience where you can place and explore ADU designs on these properties, \n\n\n**launch the interactive Shiny dashboard** by running `shiny::runApp('app.R')` in your R console.\n\n\nThe dashboard includes:\n\n\n- **Interactive map** with click-to-place ADU functionality\n\n\n- **Multiple ADU design options** (Modal 01, Dwight, Compact Studio, Large 2BR)\n\n\n- **Real-time property visualization** with satellite and street view toggles\n\n\n- **Complete property analysis** with all scoring metrics and filters",
     "crumbs": [
       "Property Profiles",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Property Profiles</span>"
