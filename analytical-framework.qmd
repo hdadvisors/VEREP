@@ -10,6 +10,8 @@ source("R/common.R")
 Our methodology evaluates six key dimensions:
 
 ```{r scoring-visual, fig.height=4}
+#| echo: false
+
 scoring_components <- tibble(
   Component = c("Property Size", "Current Use", "Location Quality", 
                 "Financial Need", "Market Potential", "Zoning"),
