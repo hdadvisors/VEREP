@@ -1,16 +1,17 @@
 project:
   type: book
   output-dir: _book
+  
+execute:
+  echo: false
+  warning: false
+  message: false
 
 book:
   title: "Property Development Opportunity Analysis"
   subtitle: "A Comprehensive Assessment of Underutilized Assets"
   author: "HDAdvisors"
   date: today
-  execute:
-    echo: false
-    warning: false
-    message: false
   
   chapters:
     - index.qmd
