@@ -99,12 +99,12 @@ if(no_coords_count > 0) {
 # Calculate missing data breakdown
 missing_breakdown <- incomplete_properties |>
   summarise(
-    missing_land_value = sum(missing_land_value),
-    missing_acreage = sum(missing_acreage),
-    missing_wetland = sum(missing_wetland),
-    missing_flood = sum(missing_flood),
-    missing_qct = sum(missing_qct),
-    missing_zoning = sum(missing_zoning)
+    missing_land_value = sum(missing_land_value, na.rm = TRUE),
+    missing_acreage = sum(missing_acreage, na.rm = TRUE),
+    missing_wetland = sum(missing_wetland, na.rm = TRUE),
+    missing_flood = sum(missing_flood, na.rm = TRUE),
+    missing_qct = sum(missing_qct, na.rm = TRUE),
+    missing_zoning = sum(missing_zoning, na.rm = TRUE)
   ) |>
   pivot_longer(everything(), names_to = "data_type", values_to = "count") |>
   mutate(
@@ -113,13 +113,17 @@ missing_breakdown <- incomplete_properties |>
   ) |>
   arrange(desc(count))
 
-# Calculate properties with address issues using simple $ notation
+# Calculate properties with address issues
 props_with_incomplete_addr <- incomplete_properties |> 
-  filter(is.na(sadd) | sadd == "" | sadd == "INCOMPLETE") |>
+  filter(is.na(sadd) | sadd == "" | grepl("UNASSIGNED|INCOMPLETE", sadd, ignore.case = TRUE)) |>
   nrow()
 
-address_issues <- nrow(shared_addresses) + nrow(unassigned_addresses) + 
-  nrow(incomplete_properties |> filter(is.na(sadd) | sadd == ""))
+# Count address issues from unmatched data
+unmatched_with_no_address <- no_match |>
+  filter(is.na(sadd) | sadd == "") |>
+  nrow()
+
+address_issues <- props_with_incomplete_addr + unmatched_with_no_address
 
 # Add Property Information row
 missing_breakdown <- missing_breakdown |>
@@ -131,124 +135,30 @@ missing_breakdown <- missing_breakdown |>
 ```
 
 ```{r missing-data-chart, echo=FALSE, fig.height=4}
-ggplot(missing_breakdown, aes(x = reorder(data_type, count), y = count)) +
+missing_breakdown |>
+  filter(count > 0) |>  # Remove categories with no missing data
+  ggplot(aes(x = reorder(data_type, count), y = count)) +
   geom_col(fill = "#e76f52", alpha = 0.8) +
-  geom_text(aes(label = count), hjust = -0.2, size = 4) +
+  geom_text(aes(label = paste0(count, " (", round(count/nrow(incomplete_properties)*100, 1), "%)")), 
+            hjust = -0.05, size = 3.5) +
   coord_flip() +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.25))) +
   labs(
     title = "Missing Data by Category",
+    subtitle = paste0("Among ", nrow(incomplete_properties), " properties with incomplete data"),
     x = "",
     y = "Number of Properties"
   ) +
   theme_minimal(base_size = 12) +
   theme(
     plot.title = element_text(face = "bold", color = "#445ca9"),
+    plot.subtitle = element_text(color = "#666666"),
     panel.grid.major.y = element_blank()
   )
 ```
 
-------------------------------------------------------------------------
 
-### Missing and Unassigned Addresses
-
-The following congregations comprise the 19 "properties" without proper street addresses, making them difficult to verify or inspect for development. 3 of these congregations (comprising 14 of the total 19) had coordinates, which allowed for reverse geocoding to identify the likely address or zip code.
-
-```{r unassigned-table, echo=FALSE}
-unassigned_addresses |>
-  select(congregation_name, num_unassigned, cities, has_coords) |>
-  mutate(has_coords = if_else(has_coords > 0, "Yes", "No")) |>
-  kable(
-    col.names = c("Congregation", "# Unassigned Properties", "Cities", "Has Coordinates"),
-    digits = 0
-  ) |>
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
-  row_spec(which(unassigned_addresses$has_coords == 0), background = "#f8d7da")
-```
-
-```{r}
-library(tidygeocoder)
-
-needs_geocoding <- unassigned_addresses |>
-  filter(!is.na(sample_lat) & !is.na(sample_lon))
-
-geocoded_results <- needs_geocoding |>
-  reverse_geocode(
-    lat = sample_lat,
-    long = sample_lon,
-    method = "arcgis",
-    full_results = FALSE
-  )
-
-# Save the geocoded addresses
-write_csv(geocoded_results, "data/output/geocoded_unassigned_addresses.csv")
-
-geocoded_results |>
-  select(congregation_name, num_unassigned, cities, address) |>
-  kable(
-    col.names = c("Congregation", "# Properties", "Cities", "Geocoded Address")
-  ) |>
-  kable_styling(bootstrap_options = c("striped", "hover"))
-
-```
-
-------------------------------------------------------------------------
-
-### Shared Addresses
-
-These properties have different congregations sharing the same street address, indicating potential shared facilities, rental arrangements, or data quality issues.
-
-```{r shared-summary, echo=FALSE}
-# Create summary from shared_addresses
-shared_summary <- shared_addresses |>
-  group_by(sadd, scity) |>
-  summarise(
-    num_congregations = n_distinct(congregation_name),
-    congregations = paste(unique(congregation_name), collapse = " | "),
-    total_attendance = sum(attendance_2023, na.rm = TRUE),
-    .groups = 'drop'
-  ) |>
-  arrange(desc(num_congregations))
-
-# Calculate stats for callout
-unique_addresses <- n_distinct(shared_addresses$sadd)
-unique_congregations <- n_distinct(shared_addresses$congregation_name)
-```
-
-```{r shared-callout, echo=FALSE, results='asis'}
-cat("::: {.callout-note}\n")
-cat("## Findings\n")
-cat("**", unique_addresses, "** addresses are shared by multiple congregations, affecting **", unique_congregations, "** different congregations.\n", sep = "")
-cat(":::\n")
-```
-
-**Properties sharing addresses may indicate:**
-
-1.  **Ethnic/language congregations** sharing space (Korean, Vietnamese, Spanish services)
-2.  **Church plants** using host congregation facilities
-3.  **Rental arrangements** - one congregation renting to another
-4.  **Merged congregations** - maintaining separate legal entities
-5.  **Data quality issues** - duplicate records or address errors
-
-```{r shared-table, echo=FALSE}
-if(nrow(shared_summary) > 0) {
-  shared_summary |>
-    kable(
-      col.names = c("Street Address", "City", "# Congregations", "Congregation Names", "Combined Attendance"),
-      digits = 0
-    ) |>
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
-    column_spec(3, bold = TRUE) |>
-    row_spec(which(shared_summary$num_congregations >= 3), background = "#d1ecf1")
-} else {
-  cat("✓ No shared addresses found\n")
-}
-```
-
-------------------------------------------------------------------------
-
-### Priority Issues Summary
-
-Data Matching Summary
+### Data Matching Summary
 
 Of the 790 properties in the VEREP dataset, 421 (53%) successfully matched to congregation attendance records. The remaining 369 properties (47%) did not match, falling into three categories:
 
