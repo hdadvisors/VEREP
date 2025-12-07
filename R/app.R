@@ -14,33 +14,46 @@ library(flextable)
 library(sf)
 
 
-# Load PRE-PROCESSED data (same as Quarto)
-property_profile <- read_csv("data/output/verep_full_analysis.csv")
+# Load PRE-PROCESSED data (same as Common.R)
+property_profile <- read_rds("data/output/property_profile.rds")
 
-# Use the same processing as Quarto
-scored_parcels <- property_profile %>%
+# ========================================
+# ADD CALCULATED FIELDS TO PROPERTY_PROFILE
+# ========================================
+property_profile <- property_profile %>%
   mutate(
+    # Aliases
     area_acres = rgisacre,
+    assessed_value = lan_val,
+    site_address = sadd,
+    site_city = scity,
+    site_county = scounty,
+    name = congregation_name,
+    avg_attendance = attendance_2023,
+    avg_pledge = plate_pledge_2023,
+    avg_members = members_2023,
+    
+    # Development score
     development_score = case_when(
-      development_potential == "High Potential" ~ 85,
-      development_potential == "Moderate Potential" ~ 70,
-      development_potential == "Low Potential - Constraints" ~ 40,
-      development_potential == "Insufficient Data" ~ 30,
+      development_potential == "High" ~ 85,
+      development_potential == "Medium" ~ 70,
+      development_potential == "Constrained" ~ 40,
+      development_potential == "Small Parcel" ~ 30,
+      development_potential == "Review Needed" ~ 20,
       TRUE ~ 20
     ),
     development_tier = development_potential,
-    assessed_value = lan_val,
+    
+    # Land use flags
     use_church = !is.na(church) & church == 1,
     use_cemetery = !is.na(cemetery) & cemetery == 1,
     use_school = !is.na(school) & school == 1,
     use_parking = !is.na(parking) & parking == 1,
     use_open_space = !is.na(open_space) & open_space == 1,
     use_residence = !is.na(residence) & residence == 1,
+    
+    # Scores
     walkability_score = replace_na(walk_idx, 0),
-    site_address = sadd,
-    site_city = scity,
-    site_county = scounty,
-    # Use existing scores from preprocessed file or set defaults
     size_score = case_when(
       area_acres < 0.25 ~ 20, area_acres < 0.5 ~ 50, area_acres < 1 ~ 70,
       area_acres < 2 ~ 90, area_acres < 5 ~ 100, area_acres < 10 ~ 85,
@@ -57,19 +70,28 @@ scored_parcels <- property_profile %>%
       !is.na(pct_change_pledge) & pct_change_pledge < 0 ~ 70,
       TRUE ~ 30
     ),
-    market_score = 50,  # Default
-    zoning_score = 50,  # Default
-    # Congregation data
-    avg_attendance = attendance_2023,
-    avg_members = 0,
-    avg_pledge = plate_pledge_2023,
+    market_score = 50,
+    zoning_score = 50,
+    
+    # Financial need tier
     financial_need = case_when(
       !is.na(pct_change_pledge) & pct_change_pledge < -20 ~ 3,
       !is.na(pct_change_pledge) & pct_change_pledge < 0 ~ 2,
       TRUE ~ 1
     ),
-    name = congregation_name
-  ) %>%
+    
+    # Defaults/placeholders
+    bldgcount = 1,
+    year_built = 1950,
+    has_congregation = !is.na(congregation_name)
+  )
+
+# ========================================
+# CREATE FILTERED SUBSETS
+# ========================================
+
+# Scored parcels: filtered for mapping (has coordinates and minimum size)
+scored_parcels <- property_profile %>%
   filter(!is.na(area_acres), area_acres > 0.1, !is.na(lat) & !is.na(lon))
 
 # Design library - Development Options
@@ -115,19 +137,20 @@ create_adu_polygon <- function(lng, lat, width_ft, length_ft) {
     st_sfc(crs = 4326)
 }
 
-# Get top 10 using SAME LOGIC as Quarto
-top_10 <- scored_parcels %>%
-  filter(development_potential %in% c("High Potential", "Moderate Potential")) %>%
-  arrange(desc(assessed_value)) %>%  # Sort by land value, not score
+# Get top parcels using SAME LOGIC as common.R
+
+# Top Parcels: highest value High/Medium potential properties
+top_parcels <- scored_parcels %>%
+  filter(development_potential %in% c("High", "Medium")) %>%
+  arrange(desc(assessed_value)) %>%
   slice_head(n = 10) %>%
-  mutate(
-    rank = row_number(),
-    objectid = uid  # Use existing unique ID from data
-  )
+  mutate(rank = row_number())
+
+
 
 # UI
 ui <- dashboardPage(
-  skin = "blue",
+  skin = "white",
   
   dashboardHeader(
     title = "VEREP Development Analysis",
@@ -182,13 +205,13 @@ ui <- dashboardPage(
             color = "green"
           ),
           valueBox(
-            round(sum(top_10$area_acres), 1),
+            round(sum(top_parcels$area_acres), 1),
             "Top 10 Developable Acres",
             icon = icon("map"),
             color = "yellow"
           ),
           valueBox(
-            sum(top_10$financial_need >= 2, na.rm = TRUE),
+            sum(top_parcels$financial_need >= 2, na.rm = TRUE),
             "Sites with High Financial Need",
             icon = icon("dollar-sign"),
             color = "red"
@@ -201,7 +224,7 @@ ui <- dashboardPage(
             width = 12,
             status = "primary",
             solidHeader = TRUE,
-            DTOutput("top10_table")
+            DTOutput("top_parcels_table")
           )
         ),
         
@@ -218,7 +241,6 @@ ui <- dashboardPage(
             status = "info",
             HTML("<h4>Strategic Opportunities:</h4>
                  <ul>
-                   <li><strong>87 properties</strong> with strong development potential (Tier 1-2)</li>
                    <li><strong>Primary opportunities:</strong> Underutilized parking lots and open space</li>
                    <li><strong>Financial impact:</strong> Development can provide long-term revenue for congregations</li>
                    <li><strong>Mission alignment:</strong> Affordable housing creation supports diocesan values</li>
@@ -285,10 +307,10 @@ ui <- dashboardPage(
             width = 12,
             status = "primary",
             selectInput("adu_property", "Choose a property to explore:",
-                        choices = setNames(top_10$objectid, 
-                                           paste0("#", top_10$rank, ": ", 
-                                                  top_10$site_address, " - ", 
-                                                  top_10$site_city)))
+                        choices = setNames(top_parcels$uid, 
+                                           paste0("#", top_parcels$rank, ": ", 
+                                                  top_parcels$site_address, " - ", 
+                                                  top_parcels$site_city)))
           )
         ),
         
@@ -363,8 +385,8 @@ ui <- dashboardPage(
             width = 3,
             status = "primary",
             selectInput("selected_property", "Choose Property:",
-                        choices = setNames(top_10$objectid, 
-                                           paste0("#", top_10$rank, ": ", top_10$site_address)))
+                        choices = setNames(top_parcels$uid, 
+                                           paste0("#", top_parcels$rank, ": ", top_parcels$site_address)))
           ),
           
           box(
@@ -443,14 +465,10 @@ ui <- dashboardPage(
 )
 
 
-
-
-
 # Server
 server <- function(input, output, session) {
   
   # Open to specific tab based on URL parameter
-  
   observe({
     query <- parseQueryString(session$clientData$url_search)
     if (!is.null(query$tab)) {
@@ -458,9 +476,9 @@ server <- function(input, output, session) {
     }
   })
   
-  # Top 10 Table
-  output$top10_table <- renderDT({
-    top_10 %>%
+  # Top Parcels Table
+  output$top_parcels_table <- renderDT({
+    top_parcels %>%
       select(rank, site_address, site_city, area_acres, development_score, development_tier) %>%
       datatable(
         options = list(pageLength = 10, dom = 't'),
@@ -487,7 +505,7 @@ server <- function(input, output, session) {
   # Get selected property
   selected_adu_property <- reactive({
     req(input$adu_property)
-    top_10 %>% filter(objectid == input$adu_property)
+    top_parcels %>% filter(uid == input$adu_property)
   })
   
   # Display Design info
@@ -655,11 +673,12 @@ server <- function(input, output, session) {
       mutate(
         pct = n / sum(n) * 100,
         tier_order = case_when(
-          str_detect(development_tier, "Tier 1") ~ 1,
-          str_detect(development_tier, "Tier 2") ~ 2,
-          str_detect(development_tier, "Tier 3") ~ 3,
-          str_detect(development_tier, "Tier 4") ~ 4,
-          TRUE ~ 5
+          development_tier == "High" ~ 1,
+          development_tier == "Medium" ~ 2,
+          development_tier == "Constrained" ~ 3,
+          development_tier == "Small Parcel" ~ 4,
+          development_tier == "Review Needed" ~ 5,
+          TRUE ~ 6
         ),
         color = case_when(
           tier_order == 1 ~ "#3c8dbc",
@@ -670,7 +689,7 @@ server <- function(input, output, session) {
         )
       )
     
-    ggplot(tier_data, aes(x = reorder(development_tier, -tier_order), y = n, fill = color)) +
+    ggplot(tier_data, aes(x = reorder(development_tier, tier_order), y = n, fill = color)) +
       geom_col() +
       geom_text(aes(label = paste0(n, "\n(", round(pct, 1), "%)")), 
                 vjust = 1.5, color = "white", size = 5, fontface = "bold") +
@@ -750,7 +769,7 @@ server <- function(input, output, session) {
   output$property_detail <- renderUI({
     req(input$selected_property)
     
-    prop <- top_10 %>% filter(objectid == input$selected_property)
+    prop <- top_parcels %>% filter(uid == input$selected_property)
     
     HTML(paste0(
       "<h3>", prop$site_address, "</h3>",
@@ -771,7 +790,7 @@ server <- function(input, output, session) {
   output$score_breakdown <- renderPlot({
     req(input$selected_property)
     
-    prop <- scored_parcels %>% filter(objectid == input$selected_property)
+    prop <- scored_parcels %>% filter(uid == input$selected_property)
     
     scores <- tibble(
       Component = c("Size", "Use Type", "Location", "Financial Need", "Market", "Zoning"),
@@ -813,8 +832,8 @@ server <- function(input, output, session) {
       summary_text <- paste0(
         "• ", nrow(scored_parcels), " properties analyzed across diocese\n",
         "• ", sum(scored_parcels$development_score >= 60), " properties with strong potential (Tier 1-2)\n",
-        "• ", round(sum(top_10$area_acres), 1), " acres in top 10 opportunities\n",
-        "• ", sum(top_10$financial_need >= 2, na.rm = TRUE), " congregations with high financial need"
+        "• ", round(sum(top_parcels$area_acres), 1), " acres in top 10 opportunities\n",
+        "• ", sum(top_parcels$financial_need >= 2, na.rm = TRUE), " congregations with high financial need"
       )
       pres <- ph_with(pres, value = summary_text, 
                       location = ph_location_type(type = "body"))
@@ -824,7 +843,7 @@ server <- function(input, output, session) {
       pres <- ph_with(pres, value = "Top 5 Development Priorities", 
                       location = ph_location_type(type = "title"))
       
-      top5_table <- top_10 %>%
+      top5_table <- top_parcels %>%
         slice_head(n = 5) %>%
         select(rank, site_address, site_city, area_acres, development_score) %>%
         flextable() %>%
@@ -849,7 +868,7 @@ server <- function(input, output, session) {
     content = function(file) {
       writexl::write_xlsx(
         list(
-          "Top 10" = top_10 %>% select(-objectid, -lat, -lon),
+          "Top 10" = top_parcels %>% select(-uid, -lat, -lon),
           "All Properties" = scored_parcels %>% 
             select(site_address, site_city, site_county, area_acres,
                    development_score, development_tier, use_parking, 
