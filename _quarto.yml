@@ -22,7 +22,7 @@ book:
   
   - part: "Methodology & Data"
     chapters:
-      - methodology-overview.qmd
+      - methodology-overview.qmd # where I left off 12/7
       - data-sources.qmd
       - analytical-framework.qmd
       - development-criteria.qmd

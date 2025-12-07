@@ -133,7 +133,7 @@ use_scoring <- tibble(
 use_scoring |>
   kable(align = c("l", "c", "l")) |>
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) |>
-  column_spec(2, bold = TRUE, color = "white", 
+  column_spec(2, bold = TRUE, color = "black", 
               background = spec_color(use_scoring$Score, scale_from = c(0, 100), 
                                       palette = "RdYlGn", direction = 1))
 ```
