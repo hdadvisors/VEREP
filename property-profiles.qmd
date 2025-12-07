@@ -22,7 +22,7 @@ The following section provides detailed profiles for each of the top 10 developm
 #| echo: false 
 
 create_property_profile <- function(rank_num) {
-  property <- top_10 |> filter(rank == rank_num)
+  property <- top_parcels |> filter(rank == rank_num)
   
   if(nrow(property) == 0) return(NULL)
   

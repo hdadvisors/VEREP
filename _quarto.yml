@@ -22,7 +22,7 @@ book:
   
   - part: "Methodology & Data"
     chapters:
-      - methodology-overview.qmd # where I left off 12/7
+      - methodology-overview.qmd 
       - data-sources.qmd
       - analytical-framework.qmd
       - development-criteria.qmd
@@ -34,7 +34,7 @@ book:
   
   - part: "Summary Statistics"
     chapters:
-      - property-portfolio.qmd
+      - property-portfolio.qmd #where I left off
       - geographic-stats.qmd
       - vitality-metrics.qmd
       - developable-land.qmd
