@@ -150,7 +150,7 @@ top_parcels <- scored_parcels %>%
 
 # UI
 ui <- dashboardPage(
-  skin = "white",
+  skin = "blue",
   
   dashboardHeader(
     title = "VEREP Development Analysis",
