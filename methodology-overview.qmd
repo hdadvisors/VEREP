@@ -36,23 +36,42 @@ Not all properties have associated congregation data. Properties without congreg
 
 ## Data Quality Issues
 
-One of the issues identified by CGS's initial study was that a large number of congregations either had incomplete or inconsistent data; many congregations share properties or fail to appropriately report their permanent address. Their final output data, which was utilized for this development analysis, reflected this. While environmental constraints accounted for the majority of the missing data, many others contained incomplete property information. For a closer look, we separated and classified these attributes below. These properties can be more precisely assessed for development once they have greater data.
+Of the 104 properties analyzed with fewer than 30 Sunday attendees, 101 (97.1%) have incomplete data — meaning they are missing at least one of the six key development metrics (land value, acreage, wetland coverage, flood zone, QCT status, or zoning). This high rate reflects broader data quality challenges identified in CGS's initial VEREP study, where many congregations share properties or fail to report complete address and parcel information.
+
+Additionally, 369 of 790 total VEREP properties (47%) could not be matched to congregation attendance records — either because no congregation was assigned in the source data or because naming inconsistencies prevented a successful join.
+
+While environmental constraint data (wetlands, flood zones) accounts for much of the missing information, 15 properties (14.4%) are missing land value entirely, limiting our ability to assess their financial potential. The breakdown below classifies these data gaps to help prioritize follow-up research. Once complete, these properties can be more precisely evaluated for development opportunities.
 
 ```{r data-quality-stats, echo=FALSE}
 
 # Calculate summary stats
 total_props <- nrow(property_profile)
-incomplete_data <- nrow(incomplete_properties)
-missing_addresses <- sum(unassigned_addresses$num_unassigned)
+
+# Incomplete data (data_completeness < 6)
+incomplete_properties <- property_profile |>
+  filter(data_completeness < 6)
+incomplete_count <- nrow(incomplete_properties)
+
+# Missing land value
+missing_land_value <- sum(property_profile$missing_land_value, na.rm = TRUE)
+
+# Unmatched properties summary
+total_unmatched <- nrow(no_congregation) + nrow(no_match)
 
 # Create summary table
 summary_stats <- tibble(
-  Metric = c("Total properties analyzed",
-             "Properties with incomplete data",
-             "Properties with missing/unassigned addresses"),
-  Value = c(total_props,
-            paste0(incomplete_data, " (", round(incomplete_data/total_props*100, 1), "%)"),
-            missing_addresses)
+  Metric = c(
+    "Total properties analyzed (<30 attendance)",
+    "Properties with incomplete data (score < 6/6)",
+    "Properties missing land value",
+    "VEREP properties not matched to congregation"
+  ),
+  Value = c(
+    total_props,
+    paste0(incomplete_count, " (", round(incomplete_count/total_props*100, 1), "%)"),
+    paste0(missing_land_value, " (", round(missing_land_value/total_props*100, 1), "%)"),
+    paste0(total_unmatched, " (of 790 total VEREP properties)")
+  )
 )
 
 # Display as formatted table
@@ -61,9 +80,8 @@ summary_stats |>
   kable_styling(bootstrap_options = c("striped", "hover"), 
                 full_width = FALSE,
                 position = "left") |>
-  column_spec(1, bold = TRUE, width = "20em") |>
-  column_spec(2, width = "10em")
-
+  column_spec(1, bold = TRUE, width = "25em") |>
+  column_spec(2, width = "12em")
 ```
 
 ```{r no-coords-warning, echo=FALSE, results='asis'}
