@@ -9,8 +9,17 @@ library(tidyverse)
 library(readr)
 library(scales)
 
-# Load processed property data
 property_profile <- readRDS("data/output/property_profile.rds")
+
+# Validate row count
+cat(sprintf("Loaded %d rows\n", nrow(property_profile)))
+cat(sprintf("Unique UIDs: %d\n", n_distinct(property_profile$uid)))
+
+# If duplicates exist, deduplicate or reload from correct source
+if(nrow(property_profile) != n_distinct(property_profile$uid, na.rm = TRUE)) {
+  
+  warning("Duplicate UIDs detected! Consider reloading from analysis_subset.")
+}
 
 cat("=== DATA LOADED ===\n")
 cat(sprintf("Total properties: %d\n", nrow(property_profile)))
