@@ -6,20 +6,37 @@ library(tidyverse)
 library(readr)
 library(scales)
 
-# Read the data
-verep_data <- read_csv("data/verep040725.csv")
-codebook <- read_csv("data/CGS_VEREP_AppendixD_Codebook.xlsx.csv")
+# ========================================
+# CORRECTED: CLEAN BOTH DATASETS THE SAME WAY
+# ========================================
 
-# ========================================
-# STEP 1: LOAD AND JOIN ATTENDANCE DATA
-# ========================================
-# Read congregation attendance data
+# Re-read data fresh to avoid column conflicts
+verep_data <- read_csv("data/verep040725.csv")
 congregation_data <- read_csv("data/congregation.csv")
 
-# Prepare attendance data with most recent year (2023) and average
+# Clean VEREP names - remove ALL parenthetical content
+verep_data <- verep_data %>%
+  mutate(
+    clean_name = str_to_lower(congr_name),
+    clean_name = str_replace_all(clean_name, "\\s*\\([^)]+\\)", ""),
+    clean_name = str_trim(clean_name),
+    clean_city = str_to_lower(str_trim(scity))
+  )
+
+# Clean congregation names - ALSO remove parentheses
+congregation_data <- congregation_data %>%
+  mutate(
+    clean_name = str_to_lower(name),
+    clean_name = str_replace_all(clean_name, "\\s*\\([^)]+\\)", ""),  # <-- Added this line
+    clean_name = str_trim(clean_name),
+    clean_city = str_to_lower(str_trim(city))
+  )
+
+# Prepare attendance data
 attendance_data <- congregation_data %>%
   select(
-    congregation_name = name,
+    clean_name,
+    clean_city,
     short_name,
     attendance_2023 = f2023_sunday_attendance,
     attendance_avg,
@@ -29,44 +46,26 @@ attendance_data <- congregation_data %>%
     dio_reg
   )
 
-# Join property data with attendance data
+# Join on both cleaned name and city
 verep_data <- verep_data %>%
-  left_join(
-    attendance_data, 
-    by = c("congr_name" = "congregation_name")
-  )
+  left_join(attendance_data, by = c("clean_name", "clean_city"))
 
-# Display join results
-cat("=== JOIN RESULTS ===\n")
+# Check results
+cat("=== JOIN RESULTS (NAME + CITY, BOTH CLEANED) ===\n")
 cat(sprintf("Total properties: %d\n", nrow(verep_data)))
 cat(sprintf("Properties matched to congregation: %d\n", 
             sum(!is.na(verep_data$attendance_2023))))
 cat(sprintf("Properties with attendance data: %d\n\n", 
             sum(!is.na(verep_data$attendance_2023) & verep_data$attendance_2023 > 0)))
 
-# ========================================
-# STEP 2: FILTER FOR <30 SUNDAY ATTENDEES
-# ========================================
-# Filter for properties with <30 Sunday attendees (using 2023 data)
+# Now filter for <30 attendance
 analysis_subset <- verep_data %>%
   filter(
-    !is.na(attendance_2023) &  # Has attendance data
-      attendance_2023 < 30        # Less than 30 attendees
+    !is.na(attendance_2023) &
+      attendance_2023 < 30
   )
 
-cat("=== FILTERING RESULTS ===\n")
 cat(sprintf("Properties with <30 Sunday attendees: %d\n", nrow(analysis_subset)))
-cat(sprintf("Unique congregations represented: %d\n\n", 
-            n_distinct(analysis_subset$congr_name[!is.na(analysis_subset$congr_name)])))
-
-# Show congregations included
-congregations_under30 <- analysis_subset %>%
-  filter(!is.na(congr_name)) %>%
-  distinct(congr_name, attendance_2023) %>%
-  arrange(attendance_2023)
-
-cat("=== CONGREGATIONS WITH <30 ATTENDEES ===\n")
-print(congregations_under30)
 
 # ========================================
 # METRIC 1: LAND VALUE ANALYSIS
@@ -234,6 +233,34 @@ print(head(property_profile %>%
 
 # Export filtered results
 write_csv(property_profile, "verep_analysis_results.csv")
+
+# Properties with <30 attendance that are MISSING land value data
+properties_no_land_value <- analysis_subset %>%
+  filter(is.na(lan_val)) %>%
+  select(
+    uid, pid, congr_name,
+    attendance_2023, members_2023, attendance_avg,
+    lan_val, rgisacre, deed_acres,
+    zon, zon_desc, zon_type,
+    qct, dda,
+    sadd, scity, scounty, sstate, szip,
+    lat, lon
+  ) %>%
+  arrange(congr_name)
+
+# Summary
+cat("=== PROPERTIES WITH <30 ATTENDANCE AND NO LAND VALUE ===\n")
+cat(sprintf("Total properties missing land value: %d\n", nrow(properties_no_land_value)))
+cat(sprintf("Out of total <30 attendance properties: %d\n", nrow(analysis_subset)))
+cat(sprintf("Percentage missing land value: %.1f%%\n\n", 
+            nrow(properties_no_land_value) / nrow(analysis_subset) * 100))
+
+# Show the properties
+print(properties_no_land_value)
+
+# Export
+write_csv(properties_no_land_value, "properties_under30_no_land_value.csv")
+cat("\nExported to 'properties_under30_no_land_value.csv'\n")
 
 # ========================================
 # OPPORTUNITY MATRIX
