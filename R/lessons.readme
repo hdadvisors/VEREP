@@ -1,0 +1,68 @@
+Data Pipeline Rebuild: Lessons Learned
+
+What Went Wrong
+The original analysis produced 126 properties instead of the correct 104 properties due to a join error during data cleaning. The root cause was inconsistent name standardization between two datasets.
+
+The Problem
+When joining VEREP property data with congregation attendance data, we cleaned names by removing parenthetical content (e.g., city names):
+
+
+# VEREP: "St Lukes Church (Simeon) (Charlottesville)" → "st lukes church"
+# Congregation: "St Lukes Church (Simeon)" → "st lukes church (simeon)"
+```
+
+**The cleaning was only applied to one dataset**, leaving parentheses in the congregation data. This caused:
+1. **Zero initial matches** → names didn't align
+2. **Attempted fix: join on name only** → created many-to-many matches (e.g., "Grace Church" matched multiple cities)
+3. **Wrong join type** → added 5 congregation-only rows with NA property IDs
+4. **Final result:** 104 + 17 duplicates + 5 NA rows = **126 rows**
+
+#### The Fix
+
+1. Apply **identical cleaning** to both datasets
+2. Join on **both** `clean_name` AND `clean_city`
+3. Use `left_join` to preserve only VEREP properties
+
+#### Key Lesson
+
+> When joining on transformed fields, always apply the **exact same transformation** to both sides of the join. Validate results by checking unique ID counts match row counts.
+
+---
+
+## Project File Structure
+```
+verep-clean/
+│
+├── README.md
+├── index.qmd                    # Main Quarto report
+│
+├── data/
+│   ├── verep040725.csv          # Raw VEREP property data
+│   ├── congregation.csv         # Raw congregation attendance data
+│   ├── CGS_VEREP_AppendixD_Codebook.xlsx.csv
+│   │
+│   └── output/                  # Generated datasets
+│       ├── property_profile.rds          # Main analysis dataset (104 rows)
+│       ├── property_profile.csv          # CSV version for inspection
+│       ├── verep_attendance_summary.csv  # Aggregate attendance stats
+│       ├── verep_opportunity_matrix.csv  # Development potential counts
+│       ├── verep_top_opportunities.csv   # High/Medium potential properties
+│       ├── verep_data_needed.csv         # Properties with incomplete data
+│       ├── unmatched_no_congregation.csv # Properties with no congregation (272)
+│       ├── unmatched_name_not_found.csv  # Names that didn't match (97)
+│       ├── unmatched_city_mismatch.csv   # Name exists, wrong city (37)
+│       └── unmatched_name_missing.csv    # Name not in congregation data (11)
+│
+├── scripts/
+│   ├── data_creation.R          # Main data pipeline (creates property_profile)
+│   └── problem_properties.R     # Data quality analysis
+|.  ├── _common.R                    # Shared data loading & transformations
+|.  ├── app.R                        # Shiny dashboard
+│
+└── archive/                     # Deprecated files (DO NOT USE)
+    ├── old_data_creation.R      # Original flawed join logic
+    ├── old_common.R             # Had duplicate scored_parcels blocks
+    ├── old_app.R                # Referenced wrong column names
+    └── old_outputs/             # Outputs from flawed pipeline
+        ├── property_profile_126rows.rds
+        └── [other deprecated outputs]
