@@ -2,10 +2,6 @@
 title: "Property Development Opportunity Analysis"
 ---
 
-# Welcome {.unnumbered}
-
-This comprehensive analysis identifies and evaluates development opportunities across the property portfolio, focusing on underutilized assets with significant potential.
-
 ## Report Purpose
 
 This analysis provides:

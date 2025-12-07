@@ -28,7 +28,7 @@ top_10 |>
     full_width = FALSE
   ) |>
   column_spec(1, bold = TRUE, width = "3em") |>
-  column_spec(5, color = "white", 
+  column_spec(5, color = "green", 
               background = spec_color(top_10$development_score, 
                                       scale_from = c(0, 100),
                                       palette = "YlOrRd",
@@ -148,11 +148,11 @@ cat("Our analysis identified **", strong_potential, " properties** with substant
 #| fig-height: 4
 
 county_summary <- scored_parcels |>
-  count(site_county, name = "n_properties") |>
+  count(scounty, name = "n_properties") |>
   arrange(desc(n_properties)) |>
   slice_head(n = 10)
 
-ggplot(county_summary, aes(x = reorder(site_county, n_properties), y = n_properties)) +
+ggplot(county_summary, aes(x = reorder(scounty, n_properties), y = n_properties)) +
   geom_col(fill = "#445ca9", alpha = 0.8) +
   geom_text(aes(label = n_properties), hjust = -0.2, size = 3.5) +
   coord_flip() +
