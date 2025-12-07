@@ -1,2 +1,2 @@
-total_properties,mean_attendance,median_attendance,zero_attendance,attendance_1_10,attendance_11_20,attendance_21_29,avg_members,avg_plate_pledge,missing_attendance,missing_members,missing_plate_pledge
-126,16.166666666666668,19.5,35,4,25,62,134.4126984126984,49047.15873015873,0,0,0
+total_properties,unique_congregations,mean_attendance,median_attendance,zero_attendance,attendance_1_10,attendance_11_20,attendance_21_29,avg_members,avg_plate_pledge,total_land_value,total_acreage
+104,37,17.153846153846153,21,26,1,24,53,141.53846153846155,52895.28846153846,21730671,247.82334

@@ -1,45 +1,5 @@
-congregation_name,attendance_2023,lan_val,rgisacre,development_potential,qct,scity,sstate
-Aquia Church,0,2339700,31.38401,High Potential,0,AQUIA HARBOUR,VA
-St Stephens Church,23,136400,2.36217,High Potential,0,CATLETT,VA
-St Pauls on the Hill Church,0,133600,1.67078,High Potential,0,WINCHESTER,VA
-St Stephens Church,23,35900,8.71859,Moderate Potential,0,UNASSIGNED,VA
-Holy Cross Korean Episcopal Church,25,3567300,4.11039,High Potential,0,FAIRFAX,VA
-Holy Cross Korean Episcopal Church,25,2543600,3.44236,High Potential,0,FAIRFAX,VA
-St Patricks Anglo Vietnamese Church,21,1197000,5.64457,High Potential,0,FALLS CHURCH,VA
-St Patricks Anglo Vietnamese Church,21,983000,2.62002,High Potential,0,WEST FALLS CHURCH,VA
-All Saints Sharon Chapel,28,966000,4.39355,High Potential,0,ALEXANDRIA,VA
-St Peters Church,0,791900,2.01848,High Potential,0,PURCELLVILLE,VA
-Aquia Church,0,779000,8.14645,High Potential,0,STAFFORD,VA
-St Pauls Church,0,514000,2.24076,High Potential,1,FALLS CHURCH,VA
-St Bartholomews Episcopal Church,0,501000,5.08094,High Potential,0,HENRICO,VA
-Christ Ascension Church,18,414000,1.47202,High Potential,0,RICHMOND,VA
-St John the Baptist Church,18,378100,7.0976,High Potential,0,CHARLOTTESVILLE,VA
-Church of Our Redeemer,19,284100,1.13211,High Potential,0,ALDIE,VA
-Grace Church Emmanuel Parish,14,217100,8.33608,High Potential,0,MIDLAND,VA
-St Pauls on the Hill Church,0,208900,3.19727,High Potential,0,WINCHESTER,VA
-St Johns Church,29,195200,2.24157,High Potential,0,WARSAW,VA
-Grace Church Emmanuel Parish,14,172900,3.65033,High Potential,0,MIDLAND,VA
-Grace Church Emmanuel Parish,14,146900,2.75577,High Potential,0,MIDLAND,VA
-Holy Cross Church,28,136000,2.36224,High Potential,0,AFTON,VA
-Meade Memorial Church,0,125000,1.63471,High Potential,0,NA,VA
-Good Shepherd-of-the-Hills,0,117600,3.11541,High Potential,0,FREE UNION,VA
-St Stephens Church,23,115000,1.01454,High Potential,0,UNASSIGNED,VA
-Church of the Good Shepherd,18,100000,1.10388,High Potential,0,BLUEMONT,VA
-Calvary Episcopal Church,23,83300,1.45109,Moderate Potential,0,HANOVER,VA
-Aquia Church,0,73200,1.46449,Moderate Potential,0,STAFFORD,VA
-St Georges Church,0,70000,1.83201,Moderate Potential,0,STANLEY,VA
-All Saints Sharon Chapel,28,43000,1.66813,Moderate Potential,0,ALEXANDRIA,VA
-Aquia Church,0,100,1.11501,Moderate Potential,0,STAFFORD,VA
-Aquia Church,0,100,1.52881,Moderate Potential,0,STAFFORD,VA
-Little Fork Episcopal Church,25,NA,16.13005,Moderate Potential,0,RIXEYVILLE,VA
-St Francis Episcopal Church,20,491000,9.4943,High Potential,0,MANAKIN SABOT,VA
-St Lukes Church,0,200000,2.72661,High Potential,0,REMINGTON,VA
-Grace Church,0,153500,3.51675,High Potential,0,DUNNSVILLE,VA
-St Johns Episcopal Church,28,115500,12.5061,High Potential,0,WEST POINT,VA
-Grace Episcopal Church,11,101200,5.5998,High Potential,0,BREMO BLUFF,VA
-Vauters Church,19,64000,2.50392,Moderate Potential,0,LORETTO,VA
-Vauters Church,19,60909,2.0799,Moderate Potential,0,LORETTO,VA
-St Davids Church,11,46750,1.25352,Moderate Potential,0,AYLETT,VA
-St Johns Episcopal Church,28,44000,1.93903,Moderate Potential,0,UNASSIGNED,VA
-North Farnham Parish Church,29,26150,2.05225,Moderate Potential,0,FARNHAM,VA
-North Farnham Parish Church,29,6000,2.29023,Moderate Potential,0,WARSAW,VA
+congregation_name,scity,scounty,attendance_2023,members_2023,lan_val,land_value_per_acre,rgisacre,qct,dda,development_potential,zon_desc,has_environmental_constraint,data_completeness
+St Andrews Church,MOUNT JACKSON,SHENANDOAH,25,48,175100,213745.1171875,0.8192,0,1,Medium,NA,NA,4
+St Johns Church,WARSAW,RICHMOND,29,34,21323,30311.60264975976,0.70346,0,1,Medium,RESIDENTIAL OFFICE,NA,5
+North Farnham Parish Church,FARNHAM,RICHMOND,29,35,20829,25632.852976285703,0.81259,0,1,Medium,NA,NA,5
+St James Church,MONTROSS,WESTMORELAND,25,100,NA,NA,0.80487,0,1,Medium,NA,NA,4

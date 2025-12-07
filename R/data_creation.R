@@ -356,3 +356,104 @@ cat(sprintf("  Has name but didn't match: %d\n", nrow(no_match)))
 cat(sprintf("    - Name exists, city mismatch: %d\n", nrow(name_exists_city_different)))
 cat(sprintf("    - Name not in congregation data: %d\n", nrow(name_not_found)))
 cat("===========================================\n")
+
+# ===========================================
+# STEP 11: CREATE SUMMARY OUTPUTS FOR REPORTING
+# ===========================================
+
+cat("\n=== CREATING SUMMARY OUTPUTS ===\n")
+
+# ----------------------------------------
+# 1. ATTENDANCE CONTEXT SUMMARY
+# ----------------------------------------
+attendance_context <- property_profile %>%
+  summarise(
+    total_properties = n(),
+    unique_congregations = n_distinct(congregation_name),
+    mean_attendance = mean(attendance_2023, na.rm = TRUE),
+    median_attendance = median(attendance_2023, na.rm = TRUE),
+    zero_attendance = sum(attendance_2023 == 0, na.rm = TRUE),
+    attendance_1_10 = sum(attendance_2023 > 0 & attendance_2023 <= 10, na.rm = TRUE),
+    attendance_11_20 = sum(attendance_2023 > 10 & attendance_2023 <= 20, na.rm = TRUE),
+    attendance_21_29 = sum(attendance_2023 > 20 & attendance_2023 < 30, na.rm = TRUE),
+    avg_members = mean(members_2023, na.rm = TRUE),
+    avg_plate_pledge = mean(plate_pledge_2023, na.rm = TRUE),
+    total_land_value = sum(lan_val, na.rm = TRUE),
+    total_acreage = sum(rgisacre, na.rm = TRUE)
+  )
+
+write_csv(attendance_context, "data/output/verep_attendance_summary.csv")
+cat("✓ Exported verep_attendance_summary.csv\n")
+
+# ----------------------------------------
+# 2. OPPORTUNITY MATRIX
+# ----------------------------------------
+opportunity_matrix <- property_profile %>%
+  summarise(
+    total_properties = n(),
+    high_opportunity = sum(development_potential == "High", na.rm = TRUE),
+    medium_opportunity = sum(development_potential == "Medium", na.rm = TRUE),
+    constrained = sum(development_potential == "Constrained", na.rm = TRUE),
+    small_parcels = sum(development_potential == "Small Parcel", na.rm = TRUE),
+    review_needed = sum(development_potential == "Review Needed", na.rm = TRUE),
+    in_qct = sum(qct == 1, na.rm = TRUE),
+    in_dda = sum(dda == 1, na.rm = TRUE),
+    has_environmental_constraints = sum(has_environmental_constraint == TRUE, na.rm = TRUE)
+  )
+
+write_csv(opportunity_matrix, "data/output/verep_opportunity_matrix.csv")
+cat("✓ Exported verep_opportunity_matrix.csv\n")
+
+# ----------------------------------------
+# 3. TOP OPPORTUNITIES (LEADERSHIP REPORT)
+# ----------------------------------------
+leadership_report <- property_profile %>%
+  filter(development_potential %in% c("High", "Medium")) %>%
+  arrange(desc(development_potential == "High"), desc(lan_val)) %>%
+  select(
+    congregation_name,
+    scity, scounty,
+    attendance_2023, members_2023,
+    lan_val, land_value_per_acre, rgisacre,
+    qct, dda,
+    development_potential,
+    zon_desc,
+    has_environmental_constraint,
+    data_completeness
+  )
+
+write_csv(leadership_report, "data/output/verep_top_opportunities.csv")
+cat("✓ Exported verep_top_opportunities.csv\n")
+
+# ----------------------------------------
+# 4. DATA FOLLOWUP NEEDED
+# ----------------------------------------
+data_followup <- property_profile %>%
+  filter(data_completeness < 6) %>%
+  arrange(data_completeness) %>%
+  select(
+    congregation_name,
+    scity, scounty,
+    sadd,
+    data_completeness,
+    missing_land_value, missing_acreage, missing_wetland,
+    missing_flood, missing_qct, missing_zoning,
+    lat, lon
+  ) %>%
+  mutate(
+    missing_fields = paste0(
+      if_else(missing_land_value, "land_value ", ""),
+      if_else(missing_acreage, "acreage ", ""),
+      if_else(missing_wetland, "wetland ", ""),
+      if_else(missing_flood, "flood ", ""),
+      if_else(missing_qct, "qct ", ""),
+      if_else(missing_zoning, "zoning", "")
+    ) %>% str_trim()
+  )
+
+write_csv(data_followup, "data/output/verep_data_needed.csv")
+cat("✓ Exported verep_data_needed.csv\n")
+
+cat("\n===========================================\n")
+cat("ALL SUMMARY OUTPUTS COMPLETE\n")
+cat("===========================================\n")

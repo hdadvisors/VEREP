@@ -1,2 +1,2 @@
-high_opportunity,medium_opportunity,constrained_properties,small_parcels,missing_data,other_properties,total_parcels
-1,4,7,46,9,61,126
+total_properties,high_opportunity,medium_opportunity,constrained,small_parcels,review_needed,in_qct,in_dda,has_environmental_constraints
+104,0,4,5,43,52,0,20,5
