@@ -14,17 +14,19 @@ tier_data <- property_profile |>
   mutate(
     pct = n / sum(n) * 100,
     tier_order = case_when(
-      development_potential == "High Potential" ~ 1,
-      development_potential == "Moderate Potential" ~ 2,
-      development_potential == "Low Potential - Constraints" ~ 3,
-      development_potential == "Insufficient Data" ~ 4,
-      TRUE ~ 5
+      development_potential == "High" ~ 1,
+      development_potential == "Medium" ~ 2,
+      development_potential == "Constrained" ~ 3,
+      development_potential == "Small Parcel" ~ 4,
+      development_potential == "Review Needed" ~ 5,
+      TRUE ~ 6
     ),
     color = case_when(
-      tier_order == 1 ~ "#445ca9",
+      tier_order == 1 ~ "#999999",
       tier_order == 2 ~ "#8baeaa",
       tier_order == 3 ~ "#e9ab3f",
       tier_order == 4 ~ "#e76f52",
+      tier_order == 5 ~ "#445ca9",
       TRUE ~ "#cccccc"
     )
   ) |>
@@ -48,4 +50,4 @@ ggplot(tier_data, aes(x = reorder(development_potential, -tier_order), y = n, fi
     panel.grid.major.x = element_blank()
   )
 ```
-
+Within the properties we could match to congregations, none were considered "high" in development potential. Less than five have medium potential, with the vast majority either opportunities on small parcels or requiring additional data to determien their full potential. 
