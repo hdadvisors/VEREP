@@ -12,11 +12,11 @@ source("R/app.R")
 ```
 
 ```{r}
-#| label: tbl-top-10
-#| tbl-cap: "Top 10 Development Opportunities"
+#| label: tbl-top-dev
+#| tbl-cap: "Top Development Opportunities"
 #| echo: false
 
-top_10 |>
+top_parcels |>
   select(rank, sadd, scity, rgisacre, development_tier) |>
   kable(
     col.names = c("Rank", "Address", "City", "Acres", "Tier"),
@@ -29,7 +29,7 @@ top_10 |>
   ) |>
   column_spec(1, bold = TRUE, width = "3em") |>
   column_spec(5, color = "green", 
-              background = spec_color(top_10$development_score, 
+              background = spec_color(top_parcels$development_score, 
                                       scale_from = c(0, 100),
                                       palette = "YlOrRd",
                                       direction = -1))
@@ -45,25 +45,27 @@ tier_summary <- scored_parcels |>
   mutate(
     pct = n / sum(n) * 100,
     tier_order = case_when(
-      development_potential == "High Potential" ~ 1,
-      development_potential == "Moderate Potential" ~ 2,
-      development_potential == "Low Potential - Constraints" ~ 3,
-      development_potential == "Insufficient Data" ~ 4,
-      TRUE ~ 5
+      development_potential == "High" ~ 1,
+      development_potential == "Medium" ~ 2,
+      development_potential == "Constrained" ~ 3,
+      development_potential == "Small Parcel" ~ 4,
+      development_potential == "Review Needed" ~ 5,
+      TRUE ~ 6
     )
   ) |>
   arrange(tier_order)
 
-ggplot(tier_summary, aes(x = reorder(development_potential, -tier_order), y = n,
+ggplot(tier_summary, aes(x = reorder(development_potential, tier_order), y = n,
                           fill = development_potential)) +
   geom_col() +
   geom_text(aes(label = paste0(n, " (", round(pct, 1), "%)")), 
             vjust = -0.5, size = 3.5) +
   scale_fill_manual(values = c(
-    "High Potential" = "#445ca9",
-    "Moderate Potential" = "#8baeaa",
-    "Low Potential - Constraints" = "#e9ab3f",
-    "Insufficient Data" = "#e76f52"
+    "High" = "#445ca9",
+    "Medium" = "#8baeaa",
+    "Constrained" = "#e9ab3f",
+    "Small Parcel" = "#e76f52",
+    "Review Needed" = "#999999"
   )) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   labs(
@@ -95,7 +97,7 @@ high_potential <- sum(scored_parcels$development_potential == "High Potential", 
 moderate_potential <- sum(scored_parcels$development_potential == "Moderate Potential", na.rm = TRUE)
 strong_potential <- high_potential + moderate_potential
 total_acres <- sum(scored_parcels$area_acres, na.rm = TRUE)
-top_10_acres <- sum(top_10$area_acres, na.rm = TRUE)
+top_parcels_acres <- sum(top_parcels$area_acres, na.rm = TRUE)
 
 cat("::: {layout-ncol=4}\n\n")
 
@@ -110,8 +112,8 @@ cat("Strong Potential (Tier 1-2)\n")
 cat(":::\n\n")
 
 cat("::: {.callout-warning appearance='minimal'}\n")
-cat("## ", round(top_10_acres, 1), "\n", sep = "")
-cat("Top 10 Developable Acres\n")
+cat("## ", round(top_parcels_acres, 1), "\n", sep = "")
+cat("Top Developable Acres\n")
 cat(":::\n\n")
 
 cat("::: {.callout-important appearance='minimal'}\n")
