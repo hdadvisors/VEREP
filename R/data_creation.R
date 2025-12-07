@@ -233,3 +233,126 @@ cat(sprintf("Total land value: %s\n",
 cat(sprintf("Total acreage: %.2f\n", 
             sum(property_profile$rgisacre, na.rm = TRUE)))
 cat("===========================================\n")
+
+
+# ===========================================
+# STEP 10: PULLING OUT PROPERTIES NOT MATCHED TO CONGREGATION DATA
+# ============================================
+
+# Properties that didn't match to congregation data
+unmatched_properties <- verep_joined %>%
+  filter(is.na(attendance_2023))
+
+cat("=== UNMATCHED PROPERTIES SUMMARY ===\n")
+cat(sprintf("Total unmatched: %d\n", nrow(unmatched_properties)))
+
+# ----------------------------------------
+# Category 1: No congregation assigned (NA congr_name)
+# ----------------------------------------
+no_congregation <- unmatched_properties %>%
+  filter(is.na(congr_name)) %>%
+  select(uid, pid, sadd, scity, scounty, lan_val, rgisacre, lat, lon)
+
+cat(sprintf("\nCategory 1 - No congregation assigned: %d\n", nrow(no_congregation)))
+
+# ----------------------------------------
+# Category 2: Has congregation name but didn't match
+# ----------------------------------------
+no_match <- unmatched_properties %>%
+  filter(!is.na(congr_name)) %>%
+  select(uid, pid, congr_name, clean_name, clean_city, 
+         sadd, scity, scounty, lan_val, rgisacre, lat, lon)
+
+cat(sprintf("Category 2 - Name didn't match: %d\n", nrow(no_match)))
+
+# ----------------------------------------
+# Diagnose WHY names didn't match
+# ----------------------------------------
+cat("\n=== DIAGNOSING NON-MATCHES ===\n")
+
+# Get unique unmatched congregation names
+unmatched_names <- no_match %>%
+  distinct(congr_name, clean_name, clean_city) %>%
+  arrange(clean_name)
+
+cat(sprintf("Unique congregation names that didn't match: %d\n", nrow(unmatched_names)))
+
+# Check if these names exist in congregation data (maybe city mismatch?)
+congregation_names_available <- congregation_data %>%
+  distinct(clean_name, clean_city, name)
+
+# Find near-matches (name exists but city doesn't match)
+name_exists_city_different <- unmatched_names %>%
+  inner_join(
+    congregation_names_available %>% select(clean_name) %>% distinct(),
+    by = "clean_name"
+  )
+
+cat(sprintf("\nName exists but city didn't match: %d\n", nrow(name_exists_city_different)))
+
+# Names that don't exist at all in congregation data
+name_not_found <- unmatched_names %>%
+  anti_join(
+    congregation_names_available %>% select(clean_name) %>% distinct(),
+    by = "clean_name"
+  )
+
+cat(sprintf("Name not found in congregation data at all: %d\n", nrow(name_not_found)))
+
+# ----------------------------------------
+# Show details
+# ----------------------------------------
+cat("\n=== NAMES THAT EXIST BUT CITY DIDN'T MATCH ===\n")
+if(nrow(name_exists_city_different) > 0) {
+  name_exists_city_different %>%
+    left_join(
+      congregation_names_available %>% 
+        group_by(clean_name) %>%
+        summarise(available_cities = paste(clean_city, collapse = ", "), .groups = "drop"),
+      by = "clean_name"
+    ) %>%
+    select(congr_name, clean_name, clean_city, available_cities) %>%
+    print(n = 30)
+}
+
+cat("\n=== NAMES NOT FOUND IN CONGREGATION DATA ===\n")
+if(nrow(name_not_found) > 0) {
+  print(name_not_found, n = 50)
+}
+
+# ----------------------------------------
+# Export for review
+# ----------------------------------------
+dir.create("data/output", recursive = TRUE, showWarnings = FALSE)
+
+write_csv(no_congregation, "data/output/unmatched_no_congregation.csv")
+cat("\n✓ Exported unmatched_no_congregation.csv\n")
+
+write_csv(no_match, "data/output/unmatched_name_not_found.csv")
+cat("✓ Exported unmatched_name_not_found.csv\n")
+
+if(nrow(name_exists_city_different) > 0) {
+  write_csv(name_exists_city_different, "data/output/unmatched_city_mismatch.csv")
+  cat("✓ Exported unmatched_city_mismatch.csv\n")
+}
+
+if(nrow(name_not_found) > 0) {
+  write_csv(name_not_found, "data/output/unmatched_name_missing.csv")
+  cat("✓ Exported unmatched_name_missing.csv\n")
+}
+
+# ----------------------------------------
+# Summary
+# ----------------------------------------
+cat("\n===========================================\n")
+cat("UNMATCHED PROPERTIES BREAKDOWN\n")
+cat("===========================================\n")
+cat(sprintf("Total VEREP properties: %d\n", nrow(verep_joined)))
+cat(sprintf("Matched to congregation: %d\n", sum(!is.na(verep_joined$attendance_2023))))
+cat(sprintf("Unmatched: %d\n", nrow(unmatched_properties)))
+cat("-------------------------------------------\n")
+cat(sprintf("  No congregation assigned (NA): %d\n", nrow(no_congregation)))
+cat(sprintf("  Has name but didn't match: %d\n", nrow(no_match)))
+cat(sprintf("    - Name exists, city mismatch: %d\n", nrow(name_exists_city_different)))
+cat(sprintf("    - Name not in congregation data: %d\n", nrow(name_not_found)))
+cat("===========================================\n")
