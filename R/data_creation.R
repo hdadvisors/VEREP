@@ -171,6 +171,12 @@ property_profile <- analysis_subset %>%
     wet_perc, fema_fz, fema_nri,
     has_environmental_constraint, developable, development_potential,
     
+    # Land use flags  <-- ADD THIS SECTION
+    church, cemetery, school, parking, open_space, residence,
+    
+    # Walkability  <-- ADD THIS TOO if you need it
+    walk_idx,
+    
     # Data quality
     data_completeness,
     missing_land_value, missing_acreage, missing_wetland,
@@ -182,8 +188,7 @@ property_profile <- analysis_subset %>%
     
     # Keep clean names for debugging
     clean_name, clean_city
-  ) %>%
-  arrange(desc(developable), desc(lan_val))
+  )
 
 # ========================================
 # STEP 7: FINAL VALIDATION
