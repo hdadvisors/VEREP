@@ -230,22 +230,15 @@ if(nrow(shared_summary) > 0) {
 
 ### Priority Issues Summary
 
-```{r priority-summary, echo=FALSE}
-# Categorize problems
-problem_categories <- problem_matrix |>
-  count(address_status) |>
-  arrange(desc(n))
-```
+Data Matching Summary
 
-**Problem Distribution:**
+Of the 790 properties in the VEREP dataset, 421 (53%) successfully matched to congregation attendance records. The remaining 369 properties (47%) did not match, falling into three categories:
 
-```{r priority-table, echo=FALSE}
-problem_categories |>
-  kable(
-    col.names = c("Issue Type", "# Congregations"),
-    digits = 0
-  ) |>
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
-  row_spec(which(grepl("Both", problem_categories$address_status)), 
-           background = "#f8d7da", bold = TRUE)
-```
+| Category | Count | Description |
+|----------|------:|-------------|
+| No congregation assigned | 272 | Property has no `congr_name` value in VEREP — likely auxiliary parcels, vacant lots, or properties not yet mapped to a congregation |
+| City mismatch | 37 | Congregation name exists in attendance data but under a different city — potential matches requiring manual review |
+| Name not found | 11 | Congregation name does not appear in attendance data — possibly closed churches, different diocese, or spelling variants |
+
+
+Note: The 37 city mismatch properties represent the most actionable data quality issue. These could be recovered with a manual crosswalk or by relaxing the city requirement for unique congregation names. The 11 missing names warrant investigation to determine if these congregations have been closed, merged, or are recorded under alternate names.
