@@ -85,14 +85,8 @@ summary_stats |>
 ```
 
 ```{r no-coords-warning, echo=FALSE, results='asis'}
-no_coords_count <- sum(unassigned_addresses$has_coords == 0)
 
-if(no_coords_count > 0) {
-  cat("::: {.callout-warning}\n")
-  cat("## Properties Without Coordinates\n")
-  cat("**", no_coords_count, "** properties have neither valid addresses nor coordinates. These will require manual lookup using county tax records or additional dioses review.\n", sep = "")
-  cat(":::\n")
-}
+# geocoding missing addresses here? 
 ```
 
 ```{r other-issues, echo=FALSE}

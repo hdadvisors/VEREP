@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Geographic Distribution – Property Development Opportunity Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./property-portfolio.html" rel="next">
+<link href="./development-landscape.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-binding-2.2.2/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+
+
+<link rel="stylesheet" href="hda-styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./development-landscape.html">Analysis Results</a></li><li class="breadcrumb-item"><a href="./geographic-distribution.html"><span class="chapter-title">Geographic Distribution</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Property Development Opportunity Analysis</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Property Development Opportunity Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./executive-summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Executive Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Methodology &amp; Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./methodology-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Background &amp; Data Sources</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data-sources.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Source Details</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analytical-framework.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Analytical Framework</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./development-criteria.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Understanding the Development Criteria</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Analysis Results</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./development-landscape.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Development Opportunity Landscape</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./geographic-distribution.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Geographic Distribution</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Summary Statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./property-portfolio.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Property Portfolio Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./geographic-stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Geographic Distribution</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./vitality-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Congregation Vitality Metrics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developable-land.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Developable Land Summary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./property-profiles.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Property Profiles</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendices</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./References.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#interactive-map" id="toc-interactive-map" class="nav-link active" data-scroll-target="#interactive-map">Interactive Map</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./development-landscape.html">Analysis Results</a></li><li class="breadcrumb-item"><a href="./geographic-distribution.html"><span class="chapter-title">Geographic Distribution</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Geographic Distribution</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="interactive-map" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-map">Interactive Map</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-99ae7b8703999e45dde4" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-99ae7b8703999e45dde4">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[38.239992,38.017806,37.965883,38.80848,38.862425,38.171476,38.171133,38.048035,38.047798,38.04792,39.116982,39.116845,39.058291,38.601057,38.598969,38.502502,38.087384,38.087171,38.84714899999999,38.847782,38.84851,38.791945,38.791273,38.858129,38.644301,38.645217,38.645381,38.679517,38.68017500000001,38.68005,38.536965,37.754815,37.754414,37.754238,37.753809,37.753359,37.716627,37.75317800000001,39.170147,39.169944,37.659451,37.769148,38.179528,38.267559,38.270151,37.785479,37.538384,37.53842700000001,37.533466,37.533968,37.533843,37.53858,37.533654,37.538324,37.533592,37.538263,37.533717,37.534521,38.975221,39.129139,38.379245,38.379438,38.536374,37.584563,37.584448,37.886625,37.88639,37.88621000000001,37.885964,37.957879,38.300549,38.345031,38.344452,38.74789699999999,38.463835,38.45983,38.464634,38.464491,38.463722,38.463754,38.464505,38.465114,38.094116,38.034041,38.092374,37.61665199999999,37.957876,39.153078,39.152826,38.264463,38.267347,37.78489,38.520194,37.958412,38.094094,38.094819,38.09448,38.0338,38.88138600000001,38.747601],[-78.61708,-78.65767600000001,-78.769216,-77.048771,-77.12766000000001,-77.188801,-77.189154,-77.347224,-77.34647200000001,-77.346524,-77.85874,-77.85932000000001,-78.10436399999999,-77.95383099999999,-77.95523,-77.894417,-77.068281,-77.068851,-77.30830400000001,-77.308781,-77.307479,-77.09065099999999,-77.091599,-77.189364,-77.715401,-77.713171,-77.714623,-77.66752099999999,-77.66763499999999,-77.66691399999998,-77.80924800000001,-78.16206600000001,-78.162325,-78.161912,-78.16226399999999,-78.162379,-78.297518,-78.161158,-78.134878,-78.13449799999999,-77.680328,-77.37027999999999,-77.18580799999999,-77.18148699999999,-77.174342,-77.10392,-76.797358,-76.797017,-76.79711399999999,-76.79738900000001,-76.79732100000001,-76.797102,-76.796859,-76.797532,-76.797183,-76.79770600000001,-76.797252,-76.79696199999999,-77.636971,-77.72360500000001,-78.256711,-78.25696000000001,-78.481571,-77.46406,-77.463003,-76.624605,-76.62535299999999,-76.624921,-76.62528200000001,-76.764593,-78.766936,-78.70047,-78.70038,-78.641126,-77.40344900000001,-77.40015699999999,-77.401983,-77.401544,-77.40181399999999,-77.402608,-77.403655,-77.403629,-76.827473,-76.74459899999999,-76.825491,-76.920198,-76.755236,-77.981286,-77.981426,-77.26673,-77.18167200000001,-77.10339500000001,-78.58212,-76.76449799999999,-76.82699700000001,-76.827101,-76.82735099999999,-76.745535,-78.50476999999999,-78.641317],[5.29515722146189,7.992396386566421,4.610874103681427,1.529087963460572,1.576099616141061,2.259639351755054,2.282288325343667,2.167009460062415,1.320477186474647,1.321260761545578,1.756012528429111,3.151970812047599,1.912697048672372,12.04867005108863,2.862666589038968,2.849857891193875,4.326557523019889,4.747133872138009,2.334801918793113,6.082229032188774,5.566079410141397,6.28823902217465,3.874683212857536,7.127491143452932,5.731751041348534,8.661681130127107,4.980153612088688,4.610805786410874,2.984238596359212,2.987313174074656,4.953734954557016,2.054463433600121,2.154325880641088,2.221276659941305,2.681587216556642,0.9885899048644995,7.099168965449406,1.83824372703948,3.877759662485544,5.364273482961136,9.243846601929308,3.613835912157607,1.887951270557585,1.510433712547492,21.17471959672666,2.275614202803278,1.224940814896785,1.218938062413345,1.068522344174421,1.067974718801901,1.067806162184879,1.216388095962798,1.090862044440084,1.224904077877121,1.06759542898984,1.224757118779066,1.067890443819028,1.105042985589249,3.192019736781087,4.262196616769339,1.996026051934193,1.971892491998486,4.060552918014984,3.639804939828507,1.980409048656363,4.297702874792533,1.860411244859587,2.005225673085202,2.704313221503752,2.516175669542967,5.223309295839181,7.533411577764751,1.1531088413502,1.962513694219737,2.023655108955081,1.639576164745024,2.960393554917994,2.920573573803612,3.167821017671296,3.709351695377509,8.562595984863469,3.630483438882486,1.892403233985823,1.294422651223317,3.057602001569204,10.60918941295705,4.491562089073244,1.910154444017551,1.603555424673559,15.35915329697572,2.495686278361124,3.35882122179791,2.132934598153446,1.944939587750735,3.180113205532155,2.691436419460805,1.537071891617305,4.951763322292373,2.083413065140948,2.715290039756343],null,null,{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":["#FFFFCC","#FFFFCC","#FFFFCC","#FFE187","#FFE187","#FFFFCC","#FFFFCC","#FFFFCC","#FFE187","#FFE187","#FFE187","#FFFFCC","#FFE187","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFE187","#FFFFCC","#FEAB49","#FFFFCC","#FFE187","#FFFFCC","#FFE187","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFE187","#FFE187","#FEAB49","#FFFFCC","#FFE187","#FFE187","#FFE187","#FFE187","#FFE187","#FFE187","#FFE187","#FFE187","#FFE187","#FFE187","#FFE187","#FFE187","#FFFFCC","#FFFFCC","#FFE187","#FFE187","#FFFFCC","#FFFFCC","#FFE187","#FFFFCC","#FFE187","#FFE187","#800026","#800026","#FEAB49","#FFFFCC","#FFE187","#FFE187","#FFE187","#FFE187","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFE187","#FFE187","#FFFFCC","#FFFFCC","#FFFFCC","#FFE187","#FFE187","#FEAB49","#FFFFCC","#FFFFCC","#FEAB49","#FFE187","#FFFFCC","#800026","#FFE187","#FFFFCC","#FFE187","#800026"],"fillOpacity":0.7},null,null,["<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>7420 MISSION HOME RD, FREE UNION 22940<\/b><br>FREE UNION, ALBEMARLE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 3.12 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Good Shepherd-of-the-Hills<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>4712 DICK WOODS RD, CHARLOTTESVILLE 22903<\/b><br>CHARLOTTESVILLE, ALBEMARLE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 7.1 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St John the Baptist Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>2523 CRAIGS STORE RD, AFTON 22920<\/b><br>AFTON, ALBEMARLE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.36 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Holy Cross Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>322 NORTH ALFRED ST, ALEXANDRIA 22314<\/b><br>ALEXANDRIA, ALEXANDRIA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.26 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Meade Memorial Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>5TH ST SOUTH, ARLINGTON 22204<\/b><br>ARLINGTON, ARLINGTON County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.28 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>823 WATER ST, PORT ROYAL 22535<\/b><br>PORT ROYAL, CAROLINE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.57 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Peters Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>823 WATER ST, PORT ROYAL 22535<\/b><br>PORT ROYAL, CAROLINE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.58 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Peters Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>DORSEY LANE LN, BOWLING GREEN 22427<\/b><br>BOWLING GREEN, CAROLINE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.52 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Asaphs Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>130 SOUTH MAIN ST, BOWLING GREEN 22427<\/b><br>BOWLING GREEN, CAROLINE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.19 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Asaphs Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>130 SOUTH MAIN ST, BOWLING GREEN 22427<\/b><br>BOWLING GREEN, CAROLINE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.19 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Asaphs Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>BLUEMONT 20135<\/b><br>BLUEMONT, CLARKE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.34 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Church of the Good Shepherd<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>27 GOOD SHEPHERD RD, BLUEMONT 20135<\/b><br>BLUEMONT, CLARKE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.1 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Church of the Good Shepherd<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>WHITE POST 22663<\/b><br>WHITE POST, CLARKE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.41 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Meade Memorial Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>16471 OAK SHADE RD, RIXEYVILLE 22737<\/b><br>RIXEYVILLE, CULPEPER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 16.13 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Little Fork Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>OAK SHADE RD, RIXEYVILLE 22737<\/b><br>RIXEYVILLE, CULPEPER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.91 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Little Fork Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>14586 ALANTHUS RD, BRANDY STATION 22714<\/b><br>BRANDY STATION, CULPEPER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.9 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Christ Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>3663 TIDEWATER TRL, LORETTO 22509<\/b><br>LORETTO, ESSEX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.08 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Vauters Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>3661 TIDEWATER TRL, LORETTO 22509<\/b><br>LORETTO, ESSEX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.5 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Vauters Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>10490 MAIN ST, FAIRFAX 22030<\/b><br>FAIRFAX, FAIRFAX-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.61 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Holy Cross Korean Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>10520 MAIN ST, FAIRFAX 22030<\/b><br>FAIRFAX, FAIRFAX-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 4.11 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Holy Cross Korean Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>1 TRURO LN, FAIRFAX 22030<\/b><br>FAIRFAX, FAIRFAX-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 3.44 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Holy Cross Korean Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>3421 FRANCONIA RD, ALEXANDRIA 22310<\/b><br>ALEXANDRIA, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 4.39 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> All Saints Sharon Chapel<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>3421 FRANCONIA RD, ALEXANDRIA 22310<\/b><br>ALEXANDRIA, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.67 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> All Saints Sharon Chapel<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>3241 BRUSH DR, FALLS CHURCH 22042<\/b><br>FALLS CHURCH, FAIRFAX County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 5.64 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Patricks Anglo Vietnamese Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>5096 GRACE CHURCH LN, MIDLAND 22728<\/b><br>MIDLAND, FAUQUIER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 3.65 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Grace Church Emmanuel Parish<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>5092 GRACE CHURCH LN, MIDLAND 22728<\/b><br>MIDLAND, FAUQUIER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 8.34 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Grace Church Emmanuel Parish<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>5094 GRACE CHURCH LN, MIDLAND 22728<\/b><br>MIDLAND, FAUQUIER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.76 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Grace Church Emmanuel Parish<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>8695 OLD DUMFRIES RD, CATLETT 20119<\/b><br>CATLETT, FAUQUIER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.36 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Stephens Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>8691 OLD DUMFRIES RD, CATLETT 20119<\/b><br>CATLETT, FAUQUIER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.99 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Stephens Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>8693 OLD DUMFRIES RD, CATLETT 20119<\/b><br>CATLETT, FAUQUIER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.99 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Stephens Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>403 NORTH RAPPAHANNOCK ST, REMINGTON 22734<\/b><br>REMINGTON, FAUQUIER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.73 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Lukes Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>FAYETTE ST, COLUMBIA 23038<\/b><br>COLUMBIA, FLUVANNA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.47 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>64 K ST, COLUMBIA 23038<\/b><br>COLUMBIA, FLUVANNA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.52 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>WASHINGTON ST, COLUMBIA 23038<\/b><br>COLUMBIA, FLUVANNA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 40/100<br><b>Size:<\/b> 0.55 acres<br><b>Tier:<\/b> Constrained<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>43 WASHINGTON ST, COLUMBIA 23038<\/b><br>COLUMBIA, FLUVANNA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.8 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>COLUMBIA 23038<\/b><br>COLUMBIA, FLUVANNA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.11 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>BREMO BLUFF 23022<\/b><br>BREMO BLUFF, FLUVANNA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 5.6 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Grace Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>48 CAMERON ST, COLUMBIA 23038<\/b><br>COLUMBIA, FLUVANNA County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.38 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>WINCHESTER 22602<\/b><br>WINCHESTER, FREDERICK County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.67 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls on the Hill Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>1527 SENSENY RD, WINCHESTER 22602<\/b><br>WINCHESTER, FREDERICK County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 3.2 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls on the Hill Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>1484 HOCKETT RD, MANAKIN SABOT 23103<\/b><br>MANAKIN SABOT, GOOCHLAND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 9.49 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Francis Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>13312 HANOVER COURTHOUSE RD, HANOVER 23069<\/b><br>HANOVER, HANOVER County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.45 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Calvary Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>17062 JAMES MADISON PKWY, KING GEORGE 22485<\/b><br>KING GEORGE, KING-GEORGE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.4 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Emmanuel Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>KING GEORGE 22485<\/b><br>KING GEORGE, KING-GEORGE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.25 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>10367 RECTORY LN, KING GEORGE 22485<\/b><br>KING GEORGE, KING-GEORGE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 40/100<br><b>Size:<\/b> 49.82 acres<br><b>Tier:<\/b> Constrained<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>11253 WEST RIVER RD, AYLETT 23009<\/b><br>AYLETT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.58 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Davids Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>UNASSIGNED, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.17 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>UNASSIGNED, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.17 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>UNASSIGNED, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.13 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>UNASSIGNED, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.13 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>902 MAIN ST, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.13 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>UNASSIGNED, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.16 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>UNASSIGNED, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.13 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>UNASSIGNED, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.17 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>902 MAIN ST, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.13 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>UNASSIGNED, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.17 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>902 MAIN ST, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.13 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>415 10 ST, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.14 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>39518 LITTLE RIVER TPKE, ALDIE 20105<\/b><br>ALDIE, LOUDOUN County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.13 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Church of Our Redeemer<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>37018 GLENDALE ST, PURCELLVILLE 20132<\/b><br>PURCELLVILLE, LOUDOUN County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.02 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Peters Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>214 CHURCH ST, MADISON 22727<\/b><br>MADISON, MADISON County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.44 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Piedmont/Bromfield Parish<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>206 CHURCH ST, MADISON 22727<\/b><br>MADISON, MADISON County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.43 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Piedmont/Bromfield Parish<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>3392 PINE GROVE RD, STANLEY 22851<\/b><br>STANLEY, PAGE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.83 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Georges Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>1704 WEST LABURNUM AVE, RICHMOND 23227<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.47 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Christ Ascension Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>1700 WEST LABURNUM AVE, RICHMOND 23227<\/b><br>RICHMOND, RICHMOND-CITY County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.44 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Christ Ascension Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>FARNHAM 22460<\/b><br>FARNHAM, RICHMOND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.05 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> North Farnham Parish Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>28 CANAL RD, FARNHAM 22460<\/b><br>FARNHAM, RICHMOND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.38 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> North Farnham Parish Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>FARNHAM 22460<\/b><br>FARNHAM, RICHMOND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.45 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> North Farnham Parish Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>231 NORTH FARNHAM CHURCH RD, FARNHAM 22460<\/b><br>FARNHAM, RICHMOND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 70/100<br><b>Size:<\/b> 0.81 acres<br><b>Tier:<\/b> Medium<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> North Farnham Parish Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>WARSAW 22572<\/b><br>WARSAW, RICHMOND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 70/100<br><b>Size:<\/b> 0.7 acres<br><b>Tier:<\/b> Medium<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>7051 ORE BANK RD, PORT REPUBLIC 24471<\/b><br>PORT REPUBLIC, ROCKINGHAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 40/100<br><b>Size:<\/b> 3.03 acres<br><b>Tier:<\/b> Constrained<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Grace Memorial Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>7078 ROCKY BAR RD, ELKTON 22827<\/b><br>ELKTON, ROCKINGHAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 6.31 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Stephen & the Good Shepherd<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>7066 ROCKY BAR RD, ELKTON 22827<\/b><br>ELKTON, ROCKINGHAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.15 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Stephen & the Good Shepherd<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>5880 MAIN ST, MOUNT JACKSON 22842<\/b><br>MOUNT JACKSON, SHENANDOAH County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.43 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Andrews Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>2928 RICHMOND HWY, STAFFORD 22554<\/b><br>STAFFORD, STAFFORD County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.46 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Aquia Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>1021 AQUIA DR, STAFFORD 22554<\/b><br>STAFFORD, STAFFORD County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.3 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Aquia Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>STAFFORD 22554<\/b><br>STAFFORD, STAFFORD County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.97 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Aquia Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>STAFFORD 22554<\/b><br>STAFFORD, STAFFORD County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.95 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Aquia Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>STAFFORD 22554<\/b><br>STAFFORD, STAFFORD County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.12 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Aquia Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>STAFFORD 22554<\/b><br>STAFFORD, STAFFORD County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.53 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Aquia Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>2918 RICHMOND HWY, STAFFORD 22554<\/b><br>STAFFORD, STAFFORD County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 8.15 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Aquia Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>2948 RICHMOND HWY, STAFFORD 22554<\/b><br>STAFFORD, STAFFORD County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.46 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Aquia Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>MONTROSS 22520<\/b><br>MONTROSS, WESTMORELAND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.4 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St James Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>WARSAW 22572<\/b><br>WARSAW, WESTMORELAND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.19 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls Church Nomini Grove<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>218 RECTORY RD, MONTROSS 22520<\/b><br>MONTROSS, WESTMORELAND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.04 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St James Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>103 SAINT JOHNS CHURCH LN, WEST POINT 23181<\/b><br>WEST POINT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 12.51 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Episcopal Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>5987 RICHMOND RD, WARSAW 22572<\/b><br>WARSAW, RICHMOND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.24 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>110 NORTH BUCKMARSH ST, BERRYVILLE 22611<\/b><br>BERRYVILLE, CLARKE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.41 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Marys Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>104 NORTH BUCKMARSH ST, BERRYVILLE 22611<\/b><br>BERRYVILLE, CLARKE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.29 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Marys Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>11005 LAMBS CREEK CHURCH RD, KING GEORGE 22485<\/b><br>KING GEORGE, KING-GEORGE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 40/100<br><b>Size:<\/b> 26.21 acres<br><b>Tier:<\/b> Constrained<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Emmanuel Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>9403 KINGS HWY, KING GEORGE 22485<\/b><br>KING GEORGE, KING-GEORGE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 0.69 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>11291 WEST RIVER RD, AYLETT 23009<\/b><br>AYLETT, KING-WILLIAM County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.25 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Davids Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>3075 COMERTOWN RD, SHENANDOAH 22849<\/b><br>SHENANDOAH, PAGE County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 40/100<br><b>Size:<\/b> 0.51 acres<br><b>Tier:<\/b> Constrained<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>5458 RICHMOND RD, WARSAW 22572<\/b><br>WARSAW, RICHMOND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.42 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Johns Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>MONTROSS 22520<\/b><br>MONTROSS, WESTMORELAND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 1.12 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St James Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>15870 KINGS HWY, MONTROSS 22520<\/b><br>MONTROSS, WESTMORELAND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 70/100<br><b>Size:<\/b> 0.8 acres<br><b>Tier:<\/b> Medium<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St James Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>MONTROSS 22520<\/b><br>MONTROSS, WESTMORELAND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.26 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St James Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>WARSAW 22572<\/b><br>WARSAW, WESTMORELAND County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 20/100<br><b>Size:<\/b> 2.72 acres<br><b>Tier:<\/b> Review Needed<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Pauls Church Nomini Grove<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>114 EAST COURT ST, WOODSTOCK 22664<\/b><br>WOODSTOCK, SHENANDOAH County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 30/100<br><b>Size:<\/b> 0.48 acres<br><b>Tier:<\/b> Small Parcel<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> Emmanuel Church<\/p><\/div>","<div style='font-family: Lato, sans-serif; min-width: 250px;'><p style='margin: 5px 0;'><b>5904 MAIN ST, MOUNT JACKSON 22842<\/b><br>MOUNT JACKSON, SHENANDOAH County<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Development Score:<\/b> 70/100<br><b>Size:<\/b> 0.82 acres<br><b>Tier:<\/b> Medium<\/p><hr style='margin: 10px 0;'><p style='margin: 5px 0;'><b>Congregation:<\/b> St Andrews Church<\/p><\/div>"],null,["7420 MISSION HOME RD, FREE UNION 22940 (20)","4712 DICK WOODS RD, CHARLOTTESVILLE 22903 (20)","2523 CRAIGS STORE RD, AFTON 22920 (20)","322 NORTH ALFRED ST, ALEXANDRIA 22314 (30)","5TH ST SOUTH, ARLINGTON 22204 (30)","823 WATER ST, PORT ROYAL 22535 (20)","823 WATER ST, PORT ROYAL 22535 (20)","DORSEY LANE LN, BOWLING GREEN 22427 (20)","130 SOUTH MAIN ST, BOWLING GREEN 22427 (30)","130 SOUTH MAIN ST, BOWLING GREEN 22427 (30)","BLUEMONT 20135 (30)","27 GOOD SHEPHERD RD, BLUEMONT 20135 (20)","WHITE POST 22663 (30)","16471 OAK SHADE RD, RIXEYVILLE 22737 (20)","OAK SHADE RD, RIXEYVILLE 22737 (20)","14586 ALANTHUS RD, BRANDY STATION 22714 (20)","3663 TIDEWATER TRL, LORETTO 22509 (20)","3661 TIDEWATER TRL, LORETTO 22509 (20)","10490 MAIN ST, FAIRFAX 22030 (20)","10520 MAIN ST, FAIRFAX 22030 (20)","1 TRURO LN, FAIRFAX 22030 (20)","3421 FRANCONIA RD, ALEXANDRIA 22310 (20)","3421 FRANCONIA RD, ALEXANDRIA 22310 (20)","3241 BRUSH DR, FALLS CHURCH 22042 (20)","5096 GRACE CHURCH LN, MIDLAND 22728 (20)","5092 GRACE CHURCH LN, MIDLAND 22728 (20)","5094 GRACE CHURCH LN, MIDLAND 22728 (20)","8695 OLD DUMFRIES RD, CATLETT 20119 (20)","8691 OLD DUMFRIES RD, CATLETT 20119 (20)","8693 OLD DUMFRIES RD, CATLETT 20119 (20)","403 NORTH RAPPAHANNOCK ST, REMINGTON 22734 (20)","FAYETTE ST, COLUMBIA 23038 (30)","64 K ST, COLUMBIA 23038 (20)","WASHINGTON ST, COLUMBIA 23038 (40)","43 WASHINGTON ST, COLUMBIA 23038 (20)","COLUMBIA 23038 (30)","BREMO BLUFF 23022 (20)","48 CAMERON ST, COLUMBIA 23038 (30)","WINCHESTER 22602 (20)","1527 SENSENY RD, WINCHESTER 22602 (20)","1484 HOCKETT RD, MANAKIN SABOT 23103 (20)","13312 HANOVER COURTHOUSE RD, HANOVER 23069 (20)","17062 JAMES MADISON PKWY, KING GEORGE 22485 (30)","KING GEORGE 22485 (30)","10367 RECTORY LN, KING GEORGE 22485 (40)","11253 WEST RIVER RD, AYLETT 23009 (20)","UNASSIGNED, WEST POINT 23181 (30)","UNASSIGNED, WEST POINT 23181 (30)","UNASSIGNED, WEST POINT 23181 (30)","UNASSIGNED, WEST POINT 23181 (30)","902 MAIN ST, WEST POINT 23181 (30)","UNASSIGNED, WEST POINT 23181 (30)","UNASSIGNED, WEST POINT 23181 (30)","UNASSIGNED, WEST POINT 23181 (30)","902 MAIN ST, WEST POINT 23181 (30)","UNASSIGNED, WEST POINT 23181 (30)","902 MAIN ST, WEST POINT 23181 (30)","415 10 ST, WEST POINT 23181 (30)","39518 LITTLE RIVER TPKE, ALDIE 20105 (20)","37018 GLENDALE ST, PURCELLVILLE 20132 (20)","214 CHURCH ST, MADISON 22727 (30)","206 CHURCH ST, MADISON 22727 (30)","3392 PINE GROVE RD, STANLEY 22851 (20)","1704 WEST LABURNUM AVE, RICHMOND 23227 (20)","1700 WEST LABURNUM AVE, RICHMOND 23227 (30)","FARNHAM 22460 (20)","28 CANAL RD, FARNHAM 22460 (30)","FARNHAM 22460 (30)","231 NORTH FARNHAM CHURCH RD, FARNHAM 22460 (70)","WARSAW 22572 (70)","7051 ORE BANK RD, PORT REPUBLIC 24471 (40)","7078 ROCKY BAR RD, ELKTON 22827 (20)","7066 ROCKY BAR RD, ELKTON 22827 (30)","5880 MAIN ST, MOUNT JACKSON 22842 (30)","2928 RICHMOND HWY, STAFFORD 22554 (30)","1021 AQUIA DR, STAFFORD 22554 (30)","STAFFORD 22554 (20)","STAFFORD 22554 (20)","STAFFORD 22554 (20)","STAFFORD 22554 (20)","2918 RICHMOND HWY, STAFFORD 22554 (20)","2948 RICHMOND HWY, STAFFORD 22554 (20)","MONTROSS 22520 (30)","WARSAW 22572 (30)","218 RECTORY RD, MONTROSS 22520 (20)","103 SAINT JOHNS CHURCH LN, WEST POINT 23181 (20)","5987 RICHMOND RD, WARSAW 22572 (20)","110 NORTH BUCKMARSH ST, BERRYVILLE 22611 (30)","104 NORTH BUCKMARSH ST, BERRYVILLE 22611 (30)","11005 LAMBS CREEK CHURCH RD, KING GEORGE 22485 (40)","9403 KINGS HWY, KING GEORGE 22485 (20)","11291 WEST RIVER RD, AYLETT 23009 (20)","3075 COMERTOWN RD, SHENANDOAH 22849 (40)","5458 RICHMOND RD, WARSAW 22572 (30)","MONTROSS 22520 (20)","15870 KINGS HWY, MONTROSS 22520 (70)","MONTROSS 22520 (30)","WARSAW 22572 (20)","114 EAST COURT ST, WOODSTOCK 22664 (30)","5904 MAIN ST, MOUNT JACKSON 22842 (70)"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFCC , #FFFFCC 0%, #FFE187 20%, #FEAB49 40%, #FD5D2D 60%, #D41121 80%, #800026 100%, #800026 "],"labels":["20","30","40","50","60","70"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"numeric","title":"Development<br>Score","extra":{"p_1":0,"p_n":1},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[37.533466,39.170147],"lng":[-78.769216,-76.624605]},"setView":[[38.24348888,-77.48336842000001],7,[]]},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./development-landscape.html" class="pagination-link" aria-label="Development Opportunity Landscape">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Development Opportunity Landscape</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./property-portfolio.html" class="pagination-link" aria-label="Property Portfolio Overview">
+        <span class="nav-page-text"><span class="chapter-title">Property Portfolio Overview</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
