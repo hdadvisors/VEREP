@@ -459,6 +459,11 @@ data_followup <- property_profile %>%
 write_csv(data_followup, "data/output/verep_data_needed.csv")
 cat("✓ Exported verep_data_needed.csv\n")
 
+
+missing_land_value <- data_followup %>%
+  filter(missing_land_value == TRUE)
+
+
 cat("\n===========================================\n")
 cat("ALL SUMMARY OUTPUTS COMPLETE\n")
 cat("===========================================\n")
