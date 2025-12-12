@@ -10,7 +10,7 @@ library(readr)
 ## STEP 1: LOAD RAW DATA
 # ========================================
 
-verep_data <- read_csv("data/verep040725.csv")
+verep_data <- read_csv("data/12:8:25.csv")
 congregation_data <- read_csv("data/congregation.csv")
 
 cat("=== RAW DATA LOADED ===\n")
