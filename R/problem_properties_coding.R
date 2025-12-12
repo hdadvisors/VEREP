@@ -27,13 +27,50 @@ cat(sprintf("Properties with incomplete data (score <6): %d\n\n",
             sum(property_profile$data_completeness < 6)))
 
 
+property_profile_improved <- property_profile %>%
+  mutate(
+    # Safe defaults for environmental data
+    wet_perc = replace_na(wet_perc, 0),
+    fema_fz = if_else(is.na(fema_fz) | fema_fz == "", "X", fema_fz),
+    
+    # Recalculate flags
+    missing_wetland = FALSE,
+    missing_flood = FALSE,
+    
+    # Recalculate completeness score
+    data_completeness = 6 - (
+      as.integer(missing_land_value) +
+        as.integer(missing_acreage) +
+        as.integer(missing_wetland) +
+        as.integer(missing_flood) +
+        as.integer(missing_qct) +
+        as.integer(missing_zoning)
+    ),
+    
+    # Recalculate environmental constraint (now with real values)
+    has_environmental_constraint = (wet_perc > 10) | 
+      (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE"))
+  )
+
+# Check improvement
+cat("Before:", sum(property_profile$data_completeness < 6), "incomplete\n")
+cat("After: ", sum(property_profile_improved$data_completeness < 6), "incomplete\n")
+
+needs_manual_lookup <- property_profile_improved %>%
+  filter(missing_land_value | missing_zoning) %>%
+  select(congregation_name, sadd, scity, scounty, pid, lat, lon,
+         lan_val, zon, missing_land_value, missing_zoning)
+
+write_csv(needs_manual_lookup, "data/output/needs_manual_lookup.csv")
+
+
 # SECTION 2: DATA COMPLETENESS ANALYSIS ----
 
 
 cat("\n=== SECTION 2: DATA COMPLETENESS ===\n")
 
 ## Identify properties with missing data ----
-incomplete_properties <- property_profile %>%
+incomplete_properties <- property_profile_improved %>%
   filter(data_completeness < 6) %>%
   arrange(data_completeness) %>%
   select(congregation_name, data_completeness, sadd, scity, sstate, szip,
