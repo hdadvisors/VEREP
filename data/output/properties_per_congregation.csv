@@ -1,38 +1,38 @@
 congregation_name,property_count,unique_addresses,unique_coords,unique_pids,avg_data_completeness,min_data_completeness,max_data_completeness
-St Johns Church,12,12,12,12,4.833333333333333,4,5
-St Johns Episcopal Church,12,5,12,12,4.916666666666667,4,5
-Aquia Church,8,5,8,8,5,5,5
-St Pauls Church,7,2,7,7,4.285714285714286,4,6
-St James Church,5,3,5,5,3.6,3,4
-North Farnham Parish Church,4,3,4,4,5,5,5
-Emmanuel Church,3,3,3,3,4.666666666666667,4,5
-Grace Church Emmanuel Parish,3,3,3,3,5,5,5
-Holy Cross Korean Episcopal Church,3,3,3,3,5,5,5
-St Asaphs Church,3,2,3,3,5,5,5
-St Peters Church,3,2,3,3,5,5,5
-St Stephens Church,3,3,3,3,5.333333333333333,5,6
-All Saints Sharon Chapel,2,1,2,2,5,5,5
-Christ Ascension Church,2,2,2,2,5,5,5
-Church of the Good Shepherd,2,2,2,2,5,5,5
-Little Fork Episcopal Church,2,2,2,2,4.5,4,5
-Meade Memorial Church,2,2,2,2,5,5,5
-Piedmont/Bromfield Parish,2,2,2,2,5,5,5
-St Andrews Church,2,2,2,2,4,4,4
-St Davids Church,2,2,2,2,4,4,4
-St Marys Church,2,2,2,2,5,5,5
-St Pauls Church Nomini Grove,2,1,2,2,4,4,4
-St Pauls on the Hill Church,2,2,2,2,5.5,5,6
-St Stephen & the Good Shepherd,2,2,2,2,3,3,3
-Vauters Church,2,2,2,2,5,5,5
-Calvary Episcopal Church,1,1,1,1,5,5,5
-Christ Church,1,1,1,1,4,4,4
-Church of Our Redeemer,1,1,1,1,5,5,5
-Good Shepherd-of-the-Hills,1,1,1,1,5,5,5
-Grace Episcopal Church,1,1,1,1,5,5,5
-Grace Memorial Church,1,1,1,1,4,4,4
-Holy Cross Church,1,1,1,1,5,5,5
-St Francis Episcopal Church,1,1,1,1,5,5,5
-St Georges Church,1,1,1,1,5,5,5
-St John the Baptist Church,1,1,1,1,5,5,5
-St Lukes Church,1,1,1,1,4,4,4
-St Patricks Anglo Vietnamese Church,1,1,1,1,5,5,5
+St Johns Church,12,12,12,12,5.75,5,6
+St Johns Episcopal Church,12,5,12,12,5.916666666666667,5,6
+Aquia Church,8,5,8,8,6,6,6
+St Pauls Church,7,2,7,7,5.142857142857143,5,6
+St James Church,5,3,5,5,5,5,5
+North Farnham Parish Church,4,3,4,4,6,6,6
+Emmanuel Church,3,3,3,3,5.333333333333333,5,6
+Grace Church Emmanuel Parish,3,3,3,3,6,6,6
+Holy Cross Korean Episcopal Church,3,3,3,3,6,6,6
+St Asaphs Church,3,2,3,3,6,6,6
+St Peters Church,3,2,3,3,6,6,6
+St Stephens Church,3,3,3,3,6,6,6
+All Saints Sharon Chapel,2,1,2,2,6,6,6
+Christ Ascension Church,2,2,2,2,6,6,6
+Church of the Good Shepherd,2,2,2,2,6,6,6
+Little Fork Episcopal Church,2,2,2,2,5,5,5
+Meade Memorial Church,2,2,2,2,6,6,6
+Piedmont/Bromfield Parish,2,2,2,2,6,6,6
+St Andrews Church,2,2,2,2,5,5,5
+St Davids Church,2,2,2,2,5,5,5
+St Marys Church,2,2,2,2,6,6,6
+St Pauls Church Nomini Grove,2,1,2,2,5,5,5
+St Pauls on the Hill Church,2,2,2,2,6,6,6
+St Stephen & the Good Shepherd,2,2,2,2,5,5,5
+Vauters Church,2,2,2,2,6,6,6
+Calvary Episcopal Church,1,1,1,1,6,6,6
+Christ Church,1,1,1,1,5,5,5
+Church of Our Redeemer,1,1,1,1,6,6,6
+Good Shepherd-of-the-Hills,1,1,1,1,6,6,6
+Grace Episcopal Church,1,1,1,1,6,6,6
+Grace Memorial Church,1,1,1,1,5,5,5
+Holy Cross Church,1,1,1,1,6,6,6
+St Francis Episcopal Church,1,1,1,1,6,6,6
+St Georges Church,1,1,1,1,6,6,6
+St John the Baptist Church,1,1,1,1,6,6,6
+St Lukes Church,1,1,1,1,5,5,5
+St Patricks Anglo Vietnamese Church,1,1,1,1,6,6,6

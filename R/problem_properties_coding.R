@@ -37,6 +37,20 @@ property_profile_improved <- property_profile %>%
     missing_wetland = FALSE,
     missing_flood = FALSE,
     
+    # Recalculate environmental constraint
+    has_environmental_constraint = (wet_perc > 10) | 
+      (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE")),
+    
+    # NEW DEVELOPMENT POTENTIAL CRITERIA
+    development_potential = case_when(
+      has_environmental_constraint == TRUE ~ "Constrained",
+      cemetery == 1 ~ "Constrained",
+      rgisacre >= 2 ~ "High",
+      rgisacre >= 0.5 & rgisacre < 2 ~ "Moderate",
+      rgisacre < 0.5 ~ "Limited",
+      TRUE ~ "Review Needed"
+    ),
+    
     # Recalculate completeness score
     data_completeness = 6 - (
       as.integer(missing_land_value) +
@@ -45,18 +59,14 @@ property_profile_improved <- property_profile %>%
         as.integer(missing_flood) +
         as.integer(missing_qct) +
         as.integer(missing_zoning)
-    ),
-    
-    # Recalculate environmental constraint (now with real values)
-    has_environmental_constraint = (wet_perc > 10) | 
-      (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE"))
+    )
   )
 
-# Check improvement
-cat("Before:", sum(property_profile$data_completeness < 6), "incomplete\n")
-cat("After: ", sum(property_profile_improved$data_completeness < 6), "incomplete\n")
+# Save updated file
+write_rds(property_profile_improved, "data/output/property_profile.rds")
 
-write_rds(property_profile_improved, "data/output/property_profile_improved.rds")
+# USE THE IMPROVED VERSION FOR THE REST OF THE SCRIPT
+property_profile <- property_profile_improved
 
 needs_manual_lookup <- property_profile_improved %>%
   filter(missing_land_value | missing_zoning) %>%

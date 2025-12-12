@@ -1,26 +1,11 @@
 congregation_name,property_count,address_status,scity,scounty,szip,lat,lon,has_shared_address,shared_addresses,shared_cities,num_shared_addresses,has_unassigned,num_unassigned,unassigned_addresses,unique_addresses,unique_coords,avg_data_completeness,min_data_completeness,max_data_completeness
-St Johns Episcopal Church,12,Has unassigned addresses,ARLINGTON,ARLINGTON,22204,38.862425,-77.12766,FALSE,None,NA,0,TRUE,5,"UNASSIGNED, WEST POINT 23181",5,12,4.916666666666667,4,5
-St Pauls Church,7,Has unassigned addresses,WEST POINT,KING-WILLIAM,23181,37.538384,-76.797358,FALSE,None,NA,0,TRUE,6,"UNASSIGNED, WEST POINT 23181",2,7,4.285714285714286,4,6
-St Johns Church,12,Has shared addresses,COLUMBIA,FLUVANNA,23038,37.754815,-78.16206600000001,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,12,12,4.833333333333333,4,5
-St Pauls Church Nomini Grove,2,Has shared addresses,WARSAW,WESTMORELAND,22572,38.034041,-76.744599,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,1,2,4,4,4
-Aquia Church,8,All addresses unique and assigned,STAFFORD,STAFFORD,22554,38.463835,-77.40344900000001,FALSE,None,NA,0,FALSE,0,NA,5,8,5,5,5
-St James Church,5,All addresses unique and assigned,MONTROSS,WESTMORELAND,22520,38.094116,-76.827473,FALSE,None,NA,0,FALSE,0,NA,3,5,3.6,3,4
-North Farnham Parish Church,4,All addresses unique and assigned,FARNHAM,RICHMOND,22460,37.886625,-76.624605,FALSE,None,NA,0,FALSE,0,NA,3,4,5,5,5
-Emmanuel Church,3,All addresses unique and assigned,KING GEORGE,KING-GEORGE,22485,38.179528,-77.185808,FALSE,None,NA,0,FALSE,0,NA,3,3,4.666666666666667,4,5
-Grace Church Emmanuel Parish,3,All addresses unique and assigned,MIDLAND,FAUQUIER,22728,38.644301,-77.715401,FALSE,None,NA,0,FALSE,0,NA,3,3,5,5,5
-Holy Cross Korean Episcopal Church,3,All addresses unique and assigned,FAIRFAX,FAIRFAX-CITY,22030,38.847148999999995,-77.308304,FALSE,None,NA,0,FALSE,0,NA,3,3,5,5,5
-St Asaphs Church,3,All addresses unique and assigned,BOWLING GREEN,CAROLINE,22427,38.048035,-77.347224,FALSE,None,NA,0,FALSE,0,NA,2,3,5,5,5
-St Peters Church,3,All addresses unique and assigned,PORT ROYAL,CAROLINE,22535,38.171476,-77.188801,FALSE,None,NA,0,FALSE,0,NA,2,3,5,5,5
-St Stephens Church,3,All addresses unique and assigned,CATLETT,FAUQUIER,20119,38.679517,-77.667521,FALSE,None,NA,0,FALSE,0,NA,3,3,5.333333333333333,5,6
-All Saints Sharon Chapel,2,All addresses unique and assigned,ALEXANDRIA,FAIRFAX,22310,38.791945,-77.090651,FALSE,None,NA,0,FALSE,0,NA,1,2,5,5,5
-Christ Ascension Church,2,All addresses unique and assigned,RICHMOND,RICHMOND-CITY,23227,37.584563,-77.46406,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
-Church of the Good Shepherd,2,All addresses unique and assigned,BLUEMONT,CLARKE,20135,39.116982,-77.85874,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
-Little Fork Episcopal Church,2,All addresses unique and assigned,RIXEYVILLE,CULPEPER,22737,38.601057,-77.953831,FALSE,None,NA,0,FALSE,0,NA,2,2,4.5,4,5
-Meade Memorial Church,2,All addresses unique and assigned,ALEXANDRIA,ALEXANDRIA,22314,38.80848,-77.048771,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
-Piedmont/Bromfield Parish,2,All addresses unique and assigned,MADISON,MADISON,22727,38.379245,-78.256711,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
-St Andrews Church,2,All addresses unique and assigned,MOUNT JACKSON,SHENANDOAH,22842,38.747896999999995,-78.641126,FALSE,None,NA,0,FALSE,0,NA,2,2,4,4,4
-St Davids Church,2,All addresses unique and assigned,AYLETT,KING-WILLIAM,23009,37.785479,-77.10392,FALSE,None,NA,0,FALSE,0,NA,2,2,4,4,4
-St Marys Church,2,All addresses unique and assigned,BERRYVILLE,CLARKE,22611,39.153078,-77.981286,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
-St Pauls on the Hill Church,2,All addresses unique and assigned,WINCHESTER,FREDERICK,22602,39.170147,-78.134878,FALSE,None,NA,0,FALSE,0,NA,2,2,5.5,5,6
-St Stephen & the Good Shepherd,2,All addresses unique and assigned,ELKTON,ROCKINGHAM,22827,38.345031,-78.70047,FALSE,None,NA,0,FALSE,0,NA,2,2,3,3,3
-Vauters Church,2,All addresses unique and assigned,LORETTO,ESSEX,22509,38.087384,-77.068281,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
+St Johns Episcopal Church,12,Has unassigned addresses,ARLINGTON,ARLINGTON,22204,38.862425,-77.12766,FALSE,None,NA,0,TRUE,5,"UNASSIGNED, WEST POINT 23181",5,12,5.916666666666667,5,6
+St Pauls Church,7,Has unassigned addresses,WEST POINT,KING-WILLIAM,23181,37.538384,-76.797358,FALSE,None,NA,0,TRUE,6,"UNASSIGNED, WEST POINT 23181",2,7,5.142857142857143,5,6
+St Johns Church,12,Has shared addresses,COLUMBIA,FLUVANNA,23038,37.754815,-78.16206600000001,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,12,12,5.75,5,6
+St Pauls Church Nomini Grove,2,Has shared addresses,WARSAW,WESTMORELAND,22572,38.034041,-76.744599,TRUE,WARSAW 22572,WARSAW,1,FALSE,0,NA,1,2,5,5,5
+St James Church,5,All addresses unique and assigned,MONTROSS,WESTMORELAND,22520,38.094116,-76.827473,FALSE,None,NA,0,FALSE,0,NA,3,5,5,5,5
+Emmanuel Church,3,All addresses unique and assigned,KING GEORGE,KING-GEORGE,22485,38.179528,-77.185808,FALSE,None,NA,0,FALSE,0,NA,3,3,5.333333333333333,5,6
+Little Fork Episcopal Church,2,All addresses unique and assigned,RIXEYVILLE,CULPEPER,22737,38.601057,-77.953831,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
+St Andrews Church,2,All addresses unique and assigned,MOUNT JACKSON,SHENANDOAH,22842,38.747896999999995,-78.641126,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
+St Davids Church,2,All addresses unique and assigned,AYLETT,KING-WILLIAM,23009,37.785479,-77.10392,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
+St Stephen & the Good Shepherd,2,All addresses unique and assigned,ELKTON,ROCKINGHAM,22827,38.345031,-78.70047,FALSE,None,NA,0,FALSE,0,NA,2,2,5,5,5
