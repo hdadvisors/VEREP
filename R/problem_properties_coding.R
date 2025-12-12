@@ -56,6 +56,8 @@ property_profile_improved <- property_profile %>%
 cat("Before:", sum(property_profile$data_completeness < 6), "incomplete\n")
 cat("After: ", sum(property_profile_improved$data_completeness < 6), "incomplete\n")
 
+write_rds(property_profile_improved, "data/property_profile_improved.rds")
+
 needs_manual_lookup <- property_profile_improved %>%
   filter(missing_land_value | missing_zoning) %>%
   select(congregation_name, sadd, scity, scounty, pid, lat, lon,
