@@ -13,7 +13,7 @@ library(leaflet.extras)
 # ========================================
 # LOAD DATA
 # ========================================
-property_profile <- read_rds("data/output/property_profile.rds")
+property_profile <- read_rds("data/property_profile_improved.rds")
 attendance_context <- read_csv("data/output/verep_attendance_summary.csv", show_col_types = FALSE)
 opportunity_matrix <- read_csv("data/output/verep_opportunity_matrix.csv", show_col_types = FALSE)
 leadership_report <- read_csv("data/output/verep_top_opportunities.csv", show_col_types = FALSE)
