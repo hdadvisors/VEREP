@@ -103,7 +103,7 @@ scored_parcels <- property_profile %>%
 
 # Top Parcels: highest value High/Medium potential properties
 top_parcels <- scored_parcels %>%
-  filter(development_potential %in% c("High", "Medium")) %>%
+  filter(development_potential %in% c("High", "Moderate")) %>%
   arrange(desc(assessed_value)) %>%
   slice_head(n = 10) %>%
   mutate(rank = row_number())

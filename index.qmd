@@ -8,15 +8,8 @@ This analysis provides:
 
 - **Strategic Insights**: Identification of high-potential development opportunities
 - **Data-Driven Decisions**: Evidence-based property assessments
-- **Financial Planning**: Resource allocation guidance
 - **Geographic Analysis**: Regional distribution and market potential
 
-## Key Highlights
-
-::: {.callout-important}
-## Top Finding
-Significant underutilized assets identified with strong development potential across multiple geographic regions.
-:::
 
 ## How to Use This Report
 

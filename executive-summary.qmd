@@ -43,29 +43,19 @@ top_parcels |>
 tier_summary <- scored_parcels |>
   count(development_potential) |>
   mutate(
-    pct = n / sum(n) * 100,
-    tier_order = case_when(
-      development_potential == "High" ~ 1,
-      development_potential == "Medium" ~ 2,
-      development_potential == "Constrained" ~ 3,
-      development_potential == "Small Parcel" ~ 4,
-      development_potential == "Review Needed" ~ 5,
-      TRUE ~ 6
-    )
-  ) |>
-  arrange(tier_order)
+    pct = n / sum(n) * 100
+  )
 
-ggplot(tier_summary, aes(x = reorder(development_potential, tier_order), y = n,
+ggplot(tier_summary, aes(x = reorder(development_potential, n), y = n,
                           fill = development_potential)) +
   geom_col() +
   geom_text(aes(label = paste0(n, " (", round(pct, 1), "%)")), 
             vjust = -0.5, size = 3.5) +
   scale_fill_manual(values = c(
     "High" = "#445ca9",
-    "Medium" = "#8baeaa",
+    "Moderate" = "#8baeaa",
     "Constrained" = "#e9ab3f",
-    "Small Parcel" = "#e76f52",
-    "Review Needed" = "#999999"
+    "Limited" = "#e76f52"
   )) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   labs(
@@ -93,9 +83,9 @@ ggplot(tier_summary, aes(x = reorder(development_potential, tier_order), y = n,
 
 # Calculate summary statistics
 total_props <- nrow(scored_parcels)
-high_potential <- sum(scored_parcels$development_potential == "High Potential", na.rm = TRUE)
-moderate_potential <- sum(scored_parcels$development_potential == "Moderate Potential", na.rm = TRUE)
-strong_potential <- high_potential + moderate_potential
+high_potential <- sum(scored_parcels$development_potential == "High", na.rm = TRUE)
+moderate_potential <- sum(scored_parcels$development_potential == "Moderate", na.rm = TRUE)
+strong_potential <- high_potential 
 total_acres <- sum(scored_parcels$area_acres, na.rm = TRUE)
 top_parcels_acres <- sum(top_parcels$area_acres, na.rm = TRUE)
 
@@ -108,7 +98,7 @@ cat(":::\n\n")
 
 cat("::: {.callout-tip appearance='minimal'}\n")
 cat("## ", strong_potential, "\n", sep = "")
-cat("Strong Potential (Tier 1-2)\n")
+cat("Strong Potential (High)\n")
 cat(":::\n\n")
 
 cat("::: {.callout-warning appearance='minimal'}\n")
@@ -132,15 +122,38 @@ cat(":::\n")
 
 parking_count <- sum(scored_parcels$use_parking, na.rm = TRUE)
 open_space_count <- sum(scored_parcels$use_open_space, na.rm = TRUE)
+declining_count <- sum(scored_parcels$pct_change_attendance < 0 & 
+                       scored_parcels$has_congregation == TRUE, na.rm = TRUE)
 
-cat("Our analysis identified **", strong_potential, " properties** with substantial development potential.\n\n", sep = "")
+parking_acres <- sum(scored_parcels$area_acres[scored_parcels$use_parking == TRUE], na.rm = TRUE)
+open_space_acres <- sum(scored_parcels$area_acres[scored_parcels$use_open_space == TRUE], na.rm = TRUE)
+declining_acres <- sum(scored_parcels$area_acres[scored_parcels$pct_change_attendance < 0 & 
+                       scored_parcels$has_congregation == TRUE], na.rm = TRUE)
+
+cat("::: {layout-ncol=3}\n\n")
+
+cat("::: {.callout-warning appearance='minimal'}\n")
+cat("## ", parking_count, " Properties (", round(parking_acres, 1), " acres)\n", sep = "")
+cat("Surface Parking Lots\n")
+cat(":::\n\n")
+
+cat("::: {.callout-warning appearance='minimal'}\n")
+cat("## ", open_space_count, " Properties (", round(open_space_acres, 1), " acres)\n", sep = "")
+cat("Vacant/Open Space\n")
+cat(":::\n\n")
+
+cat("::: {.callout-tip appearance='minimal'}\n")
+cat("## ", declining_count, " Properties (", round(declining_acres, 1), " acres)\n", sep = "")
+cat("Declining Congregations\n")
+cat(":::\n\n")
+
+cat(":::\n")
 ```
 
-**Primary opportunities include:**
+This defines "declining" as:
+- `pct_change_attendance < 0` (negative growth of more than 10%)
+- `has_congregation == TRUE` (only sites with active congregations)
 
--   **Parking lots** (highest development scores): `r sum(scored_parcels$use_parking, na.rm = TRUE)` properties with underutilized parking suitable for structured parking with mixed-use above
--   **Open space parcels**: `r sum(scored_parcels$use_open_space, na.rm = TRUE)` well-located vacant land parcels ideal for ground lease arrangements
--   **Properties with declining congregations**: Sites where development can provide financial stability
 
 ### Geographic Distribution
 
