@@ -7,23 +7,35 @@ source("R/common.R")
 
 
 ```{r congregation-metrics, echo=FALSE, results='asis'}
+#| echo: false
+#| results: asis
+
+# Calculate parcels per congregation
+parcels_per_cong <- property_profile |>
+  filter(has_congregation) |>
+  count(congregation_name) |>
+  summarise(avg_parcels = mean(n))
+
 # Congregation statistics
 cong_stats <- property_profile |>
   filter(has_congregation) |>
+  distinct(congregation_name, .keep_all = TRUE) |>
   summarise(
-    parcels_with_cong_data = n(),
-    parcels_under_30_attendance = sum(avg_attendance < 30, na.rm = TRUE),
-    pct_under_30 = (parcels_under_30_attendance / n()) * 100,
+    congregations_with_data = n(),
+    congregations_under_30_attendance = sum(avg_attendance < 30, na.rm = TRUE),
+    pct_under_30 = (congregations_under_30_attendance / n()) * 100,
     avg_attendance_all = mean(avg_attendance, na.rm = TRUE),
     avg_pledge_all = mean(avg_pledge, na.rm = TRUE),
     declining_pledges = sum(pct_change_pledge < 0, na.rm = TRUE)
   )
 
 cat("**Key Congregation Metrics:**\n\n")
-cat("- **Parcels with congregation data:** ", cong_stats$parcels_with_cong_data, "\n", sep = "")
-cat("- **Parcels with <30 Sunday attendance:** ", cong_stats$parcels_under_30_attendance, 
-    " (", round(cong_stats$pct_under_30, 1), "% of properties analyzed)\n", sep = "")
+cat("- **Congregations with <30 Sunday attendance:** ", cong_stats$congregations_under_30_attendance, 
+    " (comprising 104 parcels across all congregations analyzed)\n", sep = "")
+cat("- **Average parcels per congregation:** ", round(parcels_per_cong$avg_parcels, 1), "\n", sep = "")
 cat("- **Average Sunday attendance:** ", round(cong_stats$avg_attendance_all, 0), " people\n", sep = "")
 cat("- **Average annual pledge:** $", scales::comma(cong_stats$avg_pledge_all, accuracy = 1), "\n", sep = "")
+
 cat("- **Congregations with declining pledges:** ", cong_stats$declining_pledges, "\n\n", sep = "")
+cat("- **Congregations in financial need (declining attendance + pledges):** ", need_count, "\n\n", sep = "")
 ```
