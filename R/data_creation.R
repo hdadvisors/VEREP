@@ -207,317 +207,62 @@ cat(sprintf("Data completeness range: %d - %d\n",
 # ========================================
 # STEP 7B: GEOCODING & CONSTRAINT IDENTIFICATION
 # ========================================
+cat("\n=== IDENTIFYING PROPERTIES NEEDING GEOCODING ===\n")
 
-library(tidygeocoder)
-
-cat("\n=== GEOCODING & CONSTRAINT IDENTIFICATION ===\n")
-
-# ----------------------------------------
-# Identify properties needing geocoding
-# ----------------------------------------
-properties_to_geocode <- property_profile %>%
+properties_needing_geocoding <- property_profile %>%
   filter(
     is.na(sadd) | sadd == "" | 
-      grepl("UNASSIGNED", sadd, ignore.case = TRUE) |  # <-- FIX: ADD THIS LINE
+      grepl("UNASSIGNED", sadd, ignore.case = TRUE) |
       is.na(lat) | is.na(lon)
+  ) %>%
+  select(
+    uid, pid, congregation_name, congr_name,
+    sadd, scity, scounty, sstate, szip,
+    lat, lon,
+    attendance_2023, lan_val, rgisacre,
+    church, cemetery, school, parking, open_space, residence,
+    development_potential
   )
 
-cat(sprintf("Properties needing geocoding: %d\n", nrow(properties_to_geocode)))
+cat(sprintf("Properties needing geocoding: %d\n", nrow(properties_needing_geocoding)))
 
-# ----------------------------------------
-# Geocoding function with fallback
-# ----------------------------------------
-geocode_property <- function(address, city, county, state = "VA") {
+# Export for geocoding
+write_csv(properties_needing_geocoding, 
+          "data/output/properties_needing_geocoding.csv")
+cat("✓ Exported data/output/properties_needing_geocoding.csv\n")
   
-  # Try multiple search strategies
-  searches <- list(
-    list(query = paste(address, city, state), 
-         confidence = "high"),
-    list(query = paste(address, county, state), 
-         confidence = "medium"),
-    list(query = paste(city, county, state), 
-         confidence = "low"),
-    list(query = paste(county, state), 
-         confidence = "very_low")
+# ========================================
+# MERGE GEOCODED DATA BACK
+# ========================================
+
+library(tidyverse)
+
+# Load property profile
+property_profile <- readRDS("data/output/property_profile.rds")
+
+# Load geocoded results
+geocoded <- read_csv("data/output/geocoded_properties.csv")
+
+# Merge
+property_profile_updated <- property_profile %>%
+  left_join(
+    geocoded %>% 
+      select(uid, geocoded_lat, geocoded_lon, geocode_accuracy, 
+             geocode_accuracy_type, has_historic_keyword, 
+             is_primarily_cemetery, combined_constraint),
+    by = "uid"
+  ) %>%
+  mutate(
+    # Use geocoded coordinates if original missing
+    lat = coalesce(lat, geocoded_lat),
+    lon = coalesce(lon, geocoded_lon)
   )
-  
-  for(search in searches) {
-    tryCatch({
-      result <- tidygeocoder::geo(
-        search$query,
-        method = "osm",
-        limit = 1,
-        timeout = 10
-      )
-      
-      if(!is.na(result$lat) && !is.na(result$long)) {
-        return(list(
-          lat = result$lat,
-          lon = result$long,
-          source = "OSM",
-          confidence = search$confidence,
-          query_used = search$query
-        ))
-      }
-    }, error = function(e) {
-      # Continue to next search strategy
-    })
-  }
-  
-  # If all fail, try Census API
-  tryCatch({
-    result <- tidygeocoder::geo(
-      paste(city, county, state),
-      method = "census",
-      limit = 1
-    )
-    
-    if(!is.na(result$lat) && !is.na(result$long)) {
-      return(list(
-        lat = result$lat,
-        lon = result$long,
-        source = "Census",
-        confidence = "low",
-        query_used = paste(city, county, state)
-      ))
-    }
-  }, error = function(e) {
-    # Geocoding completely failed
-  })
-  
-  # Return NAs if all geocoding attempts failed
-  return(list(
-    lat = NA,
-    lon = NA,
-    source = NA,
-    confidence = "failed",
-    query_used = NA
-  ))
-}
 
-# ----------------------------------------
-# Check for historic indicators
-# ----------------------------------------
-check_historic_status <- function(congr_name, address, city) {
-  historic_keywords <- c(
-    "historic", "old", "\\b17\\d{2}\\b", "\\b18\\d{2}\\b", 
-    "parish", "colonial", "ancient", "original"
-  )
-  
-  text_to_check <- paste(
-    tolower(congr_name), 
-    tolower(address), 
-    tolower(city)
-  )
-  
-  matches <- sum(sapply(historic_keywords, function(kw) {
-    grepl(kw, text_to_check, ignore.case = TRUE)
-  }))
-  
-  return(list(
-    likely_historic = matches >= 2,
-    historic_confidence = case_when(
-      matches >= 3 ~ "high",
-      matches == 2 ~ "medium",
-      matches == 1 ~ "low",
-      TRUE ~ "none"
-    ),
-    historic_check_needed = matches >= 1
-  ))
-}
+# Save updated profile
+saveRDS(property_profile_updated, "data/output/property_profile.rds")
+write_csv(property_profile_updated, "data/output/property_profile.csv")
 
-# ----------------------------------------
-# Check cemetery indicators
-# ----------------------------------------
-check_cemetery_indicators <- function(cemetery_flag, church_flag, 
-                                      open_space_flag, rgisacre) {
-  
-  # Primary cemetery if:
-  # - Cemetery flag AND (not church OR large parcel)
-  is_primary_cemetery <- cemetery_flag == 1 & 
-    (church_flag == 0 | is.na(church_flag) | rgisacre > 5)
-  
-  # Mixed use if cemetery + church on smaller parcel
-  is_mixed_cemetery <- cemetery_flag == 1 & 
-    church_flag == 1 & 
-    rgisacre <= 5
-  
-  # Has cemetery component
-  has_cemetery_component <- cemetery_flag == 1
-  
-  return(list(
-    is_primary_cemetery = is_primary_cemetery,
-    is_mixed_cemetery = is_mixed_cemetery,
-    has_cemetery_component = has_cemetery_component,
-    cemetery_confidence = case_when(
-      is_primary_cemetery ~ "high",
-      is_mixed_cemetery ~ "medium",
-      has_cemetery_component ~ "low",
-      TRUE ~ "none"
-    )
-  ))
-}
-
-# ----------------------------------------
-# Generate search URLs
-# ----------------------------------------
-generate_search_urls <- function(congr_name, address, city, county, state = "VA") {
-  
-  # Clean name for URL
-  name_clean <- URLencode(paste(congr_name, city, state))
-  address_clean <- URLencode(paste(address, city, state))
-  
-  return(list(
-    google_maps = paste0("https://www.google.com/maps/search/", address_clean),
-    diocese_search = paste0("https://www.thediocese.net/search?q=", name_clean),
-    findagrave = paste0("https://www.findagrave.com/cemetery-browse?cemetery=", 
-                        URLencode(congr_name)),
-    hmdb = paste0("https://www.hmdb.org/results.asp?search=", name_clean)
-  ))
-}
-
-# ----------------------------------------
-# Process geocoding (in batches to avoid rate limits)
-# ----------------------------------------
-if(nrow(properties_to_geocode) > 0) {
-  
-  cat("Processing geocoding...\n")
-  
-  geocoded_results <- properties_to_geocode %>%
-    rowwise() %>%
-    mutate(
-      # Geocode
-      geocode_result = list(geocode_property(sadd, scity, scounty, sstate)),
-      geocoded_lat = geocode_result$lat,
-      geocoded_lon = geocode_result$lon,
-      geocode_source = geocode_result$source,
-      geocode_confidence = geocode_result$confidence,
-      geocode_query = geocode_result$query_used,
-      
-      # Historic check
-      historic_result = list(check_historic_status(congr_name, sadd, scity)),
-      likely_historic = historic_result$likely_historic,
-      historic_confidence = historic_result$historic_confidence,
-      historic_check_needed = historic_result$historic_check_needed,
-      
-      # Cemetery check
-      cemetery_result = list(check_cemetery_indicators(
-        cemetery, church, open_space, rgisacre
-      )),
-      is_primary_cemetery = cemetery_result$is_primary_cemetery,
-      is_mixed_cemetery = cemetery_result$is_mixed_cemetery,
-      has_cemetery_component = cemetery_result$has_cemetery_component,
-      cemetery_confidence = cemetery_result$cemetery_confidence,
-      
-      # Search URLs
-      search_urls = list(generate_search_urls(congr_name, sadd, scity, scounty, sstate)),
-      google_maps_url = search_urls$google_maps,
-      diocese_url = search_urls$diocese_search,
-      findagrave_url = search_urls$findagrave,
-      hmdb_url = search_urls$hmdb
-    ) %>%
-    ungroup()
-  
-  # ----------------------------------------
-  # Calculate constraint scores
-  # ----------------------------------------
-  geocoded_results <- geocoded_results %>%
-    mutate(
-      # Historic constraint score (0-30 points)
-      historic_constraint_score = case_when(
-        likely_historic & historic_confidence == "high" ~ 30,
-        likely_historic & historic_confidence == "medium" ~ 20,
-        historic_check_needed ~ 10,
-        TRUE ~ 0
-      ),
-      
-      # Cemetery constraint score (0-40 points)
-      cemetery_constraint_score = case_when(
-        is_primary_cemetery ~ 40,
-        is_mixed_cemetery ~ 25,
-        has_cemetery_component ~ 15,
-        TRUE ~ 0
-      ),
-      
-      # Combined constraint score (capped at 50)
-      combined_constraint_score = pmin(
-        historic_constraint_score + cemetery_constraint_score, 
-        50
-      ),
-      
-      # Adjust development potential
-      development_potential_adjusted = case_when(
-        combined_constraint_score >= 40 ~ "Severely Constrained",
-        combined_constraint_score >= 25 ~ "Highly Constrained",
-        combined_constraint_score >= 10 ~ "Moderately Constrained",
-        TRUE ~ development_potential
-      )
-    )
-  
-  # ----------------------------------------
-  # Merge back into property_profile
-  # ----------------------------------------
-  property_profile <- property_profile %>%
-    left_join(
-      geocoded_results %>%
-        select(uid, geocoded_lat, geocoded_lon, geocode_source, 
-               geocode_confidence, likely_historic, historic_confidence,
-               historic_check_needed, is_primary_cemetery, is_mixed_cemetery,
-               has_cemetery_component, cemetery_confidence,
-               historic_constraint_score, cemetery_constraint_score,
-               combined_constraint_score, development_potential_adjusted,
-               google_maps_url, diocese_url, findagrave_url, hmdb_url),
-      by = "uid"
-    ) %>%
-    mutate(
-      # Use geocoded coordinates if original are missing
-      lat = coalesce(lat, geocoded_lat),
-      lon = coalesce(lon, geocoded_lon)
-    )
-  
-  # ----------------------------------------
-  # Export for manual review
-  # ----------------------------------------
-  properties_needing_review <- property_profile %>%
-    filter(
-      combined_constraint_score > 0 |
-        geocode_confidence %in% c("low", "very_low", "failed")
-    ) %>%
-    arrange(desc(combined_constraint_score), desc(lan_val)) %>%
-    select(
-      uid, congregation_name, sadd, scity, scounty,
-      attendance_2023, lan_val, rgisacre,
-      combined_constraint_score, historic_constraint_score, cemetery_constraint_score,
-      likely_historic, historic_confidence,
-      is_primary_cemetery, is_mixed_cemetery,
-      geocode_confidence,
-      development_potential, development_potential_adjusted,
-      google_maps_url, diocese_url, findagrave_url, hmdb_url
-    )
-  
-  write_csv(properties_needing_review, 
-            "data/output/properties_needing_manual_review.csv")
-  cat(sprintf("✓ Exported %d properties needing manual review\n", 
-              nrow(properties_needing_review)))
-  
-  # Summary
-  geocoding_summary <- tibble(
-    total_geocoded = nrow(geocoded_results),
-    geocode_success = sum(!is.na(geocoded_results$geocoded_lat)),
-    geocode_failed = sum(is.na(geocoded_results$geocoded_lat)),
-    likely_historic = sum(geocoded_results$likely_historic, na.rm = TRUE),
-    primary_cemetery = sum(geocoded_results$is_primary_cemetery, na.rm = TRUE),
-    needs_manual_review = nrow(properties_needing_review)
-  )
-  
-  write_csv(geocoding_summary, "data/output/geocoding_summary.csv")
-  cat("✓ Exported geocoding_summary.csv\n")
-  
-} else {
-  cat("No properties need geocoding\n")
-}
-
-cat("\n=== GEOCODING COMPLETE ===\n")
+cat("✓ Merged geocoding results back into property_profile\n")
 
 # ========================================
 # STEP 8: SAVE OUTPUT
