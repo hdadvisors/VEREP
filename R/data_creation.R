@@ -354,4 +354,60 @@ cat(sprintf("Total acreage: %.2f\n",
             sum(property_profile$rgisacre, na.rm = TRUE)))
 cat("===========================================\n")
 
+# ========================================
+# GEOCODING SUMMARY REPORT
+# ========================================
+
+library(tidyverse)
+
+property_profile <- readRDS("data/output/property_profile.rds")
+
+# Summary report
+geocoding_summary <- tibble(
+  metric = c(
+    "Total properties in analysis",
+    "Properties needing geocoding",
+    "Successfully geocoded",
+    "Geocoding success rate",
+    "",
+    "All geocoded to city center",
+    "Geocode accuracy (median)",
+    "Geocode accuracy level",
+    "",
+    "Congregations affected",
+    "Location",
+    "",
+    "Development potential",
+    "Average parcel size",
+    "Average land value",
+    "",
+    "Impact on analysis",
+    "Included in top opportunities"
+  ),
+  value = c(
+    as.character(nrow(property_profile)),
+    "11",
+    "11",
+    "100%",
+    "",
+    "Yes (West Point, VA)",
+    "0.54",
+    "Medium (street_center)",
+    "",
+    "2 (St Pauls Church, St Johns Episcopal Church)",
+    "West Point, King William County",
+    "",
+    paste(unique(property_profile %>% filter(!is.na(geocoded_lat)) %>% pull(development_potential)), collapse = ", "),
+    sprintf("%.2f acres", mean(property_profile %>% filter(!is.na(geocoded_lat)) %>% pull(rgisacre), na.rm = TRUE)),
+    sprintf("$%s", scales::comma(mean(property_profile %>% filter(!is.na(geocoded_lat)) %>% pull(lan_val), na.rm = TRUE))),
+    "",
+    "None - all classified as 'Small Parcel' or 'Constrained'",
+    "NO"
+  )
+)
+
+write_csv(geocoding_summary, "data/output/geocoding_summary_report.csv")
+
+cat("✓ Exported geocoding_summary_report.csv\n")
+print(geocoding_summary, n = 30)
 

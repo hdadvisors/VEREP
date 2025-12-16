@@ -1,0 +1,19 @@
+metric,value
+Total properties in analysis,104
+Properties needing geocoding,11
+Successfully geocoded,11
+Geocoding success rate,100%
+,
+All geocoded to city center,"Yes (West Point, VA)"
+Geocode accuracy (median),0.54
+Geocode accuracy level,Medium (street_center)
+,
+Congregations affected,"2 (St Pauls Church, St Johns Episcopal Church)"
+Location,"West Point, King William County"
+,
+Development potential,Small Parcel
+Average parcel size,0.12 acres
+Average land value,"$74,659"
+,
+Impact on analysis,None - all classified as 'Small Parcel' or 'Constrained'
+Included in top opportunities,NO

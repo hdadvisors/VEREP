@@ -150,3 +150,39 @@ In an effort to avoid limiting all properties in this way, we handled wetland qu
 Acreage and QCT status were complete across all 101 properties. Land value and zoning data remained incomplete for 15 properties each (14.4%). These fields were retained as missing rather than imputed, as accurate values require verification through county assessor records and local zoning ordinances. Properties lacking these values are flagged for manual follow-up.
 
 Following these adjustments, the number of properties with incomplete data decreased from 101 to approximately 25, representing those still requiring land value or zoning verification.
+
+## Geocoding Process Summary
+
+### Process
+
+11 of the 104 parcels had missing or 'UNASSIGNED' addresses in the parcel database. For this analysis we used Geocodio API to geocode based on available city/county information. All 11 of these parcels geocoded to West Point, King William County center coordinates and likely belong to 2 congregations.
+
+### Results
+
+- **Geocoding success rate**: 100% (11/11 properties)
+- **Accuracy level**: Medium (0.54) - 'street_center' approximation
+- **Location**: West Point, King William County, Virginia
+- **Congregations affected**: 2 (St Pauls Church, St Johns Episcopal Church)
+- **Development classification**: All classified as 'Small Parcel' or environmentally constrained
+
+### Interpretation
+
+These properties lack specific street addresses in the Virginia parcel data. The geocoding service returned city-center coordinates as approximations based on the available location information (city and county).
+
+This geocoding approach is acceptable for the purposes of this report because:
+
+- All properties are small parcels (< 0.5 acres)
+- None qualify as high or medium development opportunities
+- They are correctly excluded from the 'top opportunities' analysis
+- Approximate coordinates are sufficient for general mapping and visualization purposes
+
+### Impact on Analysis
+
+✓ **No impact** on top opportunities identification  
+✓ All 104 properties now have coordinates for mapping and spatial analysis  
+✓ Small parcels appropriately filtered from priority development list  
+✓ Development potential classifications remain accurate
+
+### Recommendation
+
+Accept city-center approximations for mapping and visualization purposes. Manual address research is not necessary as these parcels are not development priorities due to size constraints. The geocoding has successfully provided the minimum necessary location information for comprehensive spatial analysis of the property portfolio.
