@@ -93,7 +93,7 @@ cat("::: {layout-ncol=4}\n\n")
 
 cat("::: {.callout-note appearance='minimal'}\n")
 cat("## ", total_props, "\n", sep = "")
-cat("Properties Analyzed\n")
+cat("Parcels Analyzed\n")
 cat(":::\n\n")
 
 cat("::: {.callout-tip appearance='minimal'}\n")
@@ -131,17 +131,17 @@ declining_acres <- sum(scored_parcels$area_acres[scored_parcels$financial_need >
 cat("::: {layout-ncol=3}\n\n")
 
 cat("::: {.callout-warning appearance='minimal'}\n")
-cat("## ", parking_count, " Properties (", round(parking_acres, 1), " acres)\n", sep = "")
+cat("## ", parking_count, " Parcels (", round(parking_acres, 1), " acres)\n", sep = "")
 cat("Surface Parking Lots\n")
 cat(":::\n\n")
 
 cat("::: {.callout-warning appearance='minimal'}\n")
-cat("## ", open_space_count, " Properties (", round(open_space_acres, 1), " acres)\n", sep = "")
+cat("## ", open_space_count, " Parcels (", round(open_space_acres, 1), " acres)\n", sep = "")
 cat("Vacant/Open Space\n")
 cat(":::\n\n")
 
 cat("::: {.callout-tip appearance='minimal'}\n")
-cat("## ", declining_count, " Properties (", round(declining_acres, 1), " acres)\n", sep = "")
+cat("## ", declining_count, " Parcels (", round(declining_acres, 1), " acres)\n", sep = "")
 cat("Financial Need Congregations\n")
 cat(":::\n\n")
 
@@ -191,6 +191,16 @@ Development opportunities are distributed across Virginia, with concentrations i
 -   Urban/suburban areas with strong walkability scores
 -   Markets with favorable demographics and LIHTC eligibility
 -   Transit-accessible locations supporting reduced parking requirements
+
+### Congregation Vitality Summary
+
+ **Congregations with <30 Sunday attendance:** 37 (comprising 104 parcels across all congregations analyzed)
+- **Average parcels per congregation:** 2.8
+- **Average Sunday attendance:** 17 people
+- **Average annual pledge:** $44,271
+- **Congregations with declining pledges:** 21
+
+- **Congregations in financial need (declining attendance + pledges):** 15
 
 ```
 :::

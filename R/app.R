@@ -36,10 +36,9 @@ property_profile <- property_profile %>%
     # Development score
     development_score = case_when(
       development_potential == "High" ~ 85,
-      development_potential == "Medium" ~ 70,
+      development_potential == "Moderate" ~ 70,
       development_potential == "Constrained" ~ 40,
-      development_potential == "Small Parcel" ~ 30,
-      development_potential == "Review Needed" ~ 20,
+      development_potential == "Limited" ~ 30,
       TRUE ~ 20
     ),
     development_tier = development_potential,
@@ -64,7 +63,7 @@ property_profile <- property_profile %>%
       use_church & !use_parking & !use_open_space ~ 30,
       use_residence ~ 40, use_school ~ 35, TRUE ~ 60
     ),
-    location_score = pmin(100, pmax(0, walkability_score)),
+    location_score = pmin(20, pmax(0, walkability_score)),
     financial_score = case_when(
       !is.na(pct_change_pledge) & pct_change_pledge < -20 ~ 100,
       !is.na(pct_change_pledge) & pct_change_pledge < 0 ~ 70,
@@ -86,6 +85,9 @@ property_profile <- property_profile %>%
     has_congregation = !is.na(congregation_name)
   )
 
+
+
+
 # ========================================
 # CREATE FILTERED SUBSETS
 # ========================================
@@ -94,21 +96,29 @@ property_profile <- property_profile %>%
 scored_parcels <- property_profile %>%
   filter(!is.na(area_acres), area_acres > 0.1, !is.na(lat) & !is.na(lon))
 
+# Count congregations with financial need (declining attendance + pledges)
+financial_need_count <- scored_parcels %>% 
+  filter(!is.na(avg_attendance), !is.na(avg_pledge), 
+         avg_attendance > 0, avg_pledge > 0) %>%
+  distinct(congregation_name, .keep_all = TRUE) %>% 
+  filter(financial_need >= 2) %>% 
+  nrow()
+
 # Design library - Development Options
 adu_designs <- tibble(
   name = c("Small ADU", "2BR DU", "Small Duplex", "20-Unit Building"),
-  sqft = c(400, 800, 1600, 7200),  # sqft represents footprint for multi-unit
+  sqft = c(400, 800, 1600, 7200),
   width_ft = c(20, 28, 50, 120),
   length_ft = c(20, 28, 32, 60),
-  bedrooms = c(1, 2, 4, 40),  # For duplex: total beds, for building: total beds
-  units = c(1, 1, 2, 20),  # Number of dwelling units
+  bedrooms = c(1, 2, 4, 40),
+  units = c(1, 1, 2, 20),
   description = c(
     "400 sqft studio/1BR",
     "800 sqft 2-bedroom",
     "Two 800 sqft units (side-by-side)",
     "3-story building, ~1,000 sqft/unit"
   ),
-  color = c("#445ca9", "#8baeaa", "#e85d75", "#f39c12")
+  color = c("#445ca9", "#8baeaa", "#e9ab3f", "#e76f52")
 )
 
 # Function to convert feet to approximate degrees
@@ -137,15 +147,12 @@ create_adu_polygon <- function(lng, lat, width_ft, length_ft) {
     st_sfc(crs = 4326)
 }
 
-# Get top parcels using SAME LOGIC as common.R
-
-# Top Parcels: highest value High/Medium potential properties
+# Top Parcels: highest value High/Moderate potential properties
 top_parcels <- scored_parcels %>%
-  filter(development_potential %in% c("High", "Medium")) %>%
+  filter(development_potential %in% c("High", "Moderate")) %>%
   arrange(desc(assessed_value)) %>%
   slice_head(n = 10) %>%
   mutate(rank = row_number())
-
 
 
 # UI
@@ -179,7 +186,7 @@ ui <- dashboardPage(
     tags$head(
       tags$style(HTML("
         .content-wrapper { background-color: #f4f6f9; }
-        .box { border-top: 3px solid #3c8dbc; }
+        .box { border-top: 3px solid #445ca9; }
         .small-box { border-radius: 5px; }
         .nav-tabs-custom { border-radius: 5px; }
       "))
@@ -199,8 +206,8 @@ ui <- dashboardPage(
             color = "blue"
           ),
           valueBox(
-            sum(scored_parcels$development_score >= 60),
-            "Strong Potential (Tier 1-2)",
+            sum(scored_parcels$development_potential %in% c("High", "Moderate")),
+            "Strong Potential (High + Moderate)",
             icon = icon("star"),
             color = "green"
           ),
@@ -211,8 +218,8 @@ ui <- dashboardPage(
             color = "yellow"
           ),
           valueBox(
-            sum(top_parcels$financial_need >= 2, na.rm = TRUE),
-            "Sites with High Financial Need",
+            financial_need_count,
+            "Financial Need (Declining Attendance + Pledges)",
             icon = icon("dollar-sign"),
             color = "red"
           )
@@ -242,6 +249,7 @@ ui <- dashboardPage(
             HTML("<h4>Strategic Opportunities:</h4>
                  <ul>
                    <li><strong>Primary opportunities:</strong> Underutilized parking lots and open space</li>
+                   <li><strong>Optimal size range:</strong> 0.5-5 acres offers the best development potential</li>
                    <li><strong>Financial impact:</strong> Development can provide long-term revenue for congregations</li>
                    <li><strong>Mission alignment:</strong> Affordable housing creation supports diocesan values</li>
                  </ul>")
@@ -264,8 +272,8 @@ ui <- dashboardPage(
                         min = 0, max = 100, value = c(0, 100), step = 5),
             
             checkboxGroupInput("tier_filter", "Development Tiers:",
-                               choices = unique(scored_parcels$development_tier),
-                               selected = unique(scored_parcels$development_tier)),
+                               choices = c("High", "Moderate", "Constrained", "Limited"),
+                               selected = c("High", "Moderate", "Constrained", "Limited")),
             
             sliderInput("size_range", "Property Size (acres):",
                         min = 0, max = max(scored_parcels$area_acres, na.rm = TRUE),
@@ -420,8 +428,8 @@ ui <- dashboardPage(
                  <ul>
                    <li><strong>Current Use (25%):</strong> Parking lots and open space score highest</li>
                    <li><strong>Property Size (20%):</strong> Optimal range 0.5-5 acres</li>
-                   <li><strong>Location Quality (20%):</strong> Walkability and transit access</li>
-                   <li><strong>Financial Need (15%):</strong> Congregation financial health</li>
+                   <li><strong>Location Quality (20%):</strong> Walkability and transit access (0-20 scale)</li>
+                   <li><strong>Financial Need (15%):</strong> Congregation financial health trends</li>
                    <li><strong>Market Potential (10%):</strong> Income levels and LIHTC eligibility</li>
                    <li><strong>Zoning (10%):</strong> Development-friendly classifications</li>
                  </ul>")
@@ -450,13 +458,27 @@ ui <- dashboardPage(
             HTML("<table class='table table-striped'>
                    <thead><tr><th>Tier</th><th>Score Range</th><th>Description</th></tr></thead>
                    <tbody>
-                     <tr><td><strong>Tier 1</strong></td><td>75-100</td><td>High Priority - Immediate development candidates</td></tr>
-                     <tr><td><strong>Tier 2</strong></td><td>60-74</td><td>Strong Potential - Near-term opportunities</td></tr>
-                     <tr><td><strong>Tier 3</strong></td><td>45-59</td><td>Moderate Potential - Requires creative solutions</td></tr>
-                     <tr><td><strong>Tier 4</strong></td><td>30-44</td><td>Limited Potential - Significant barriers exist</td></tr>
-                     <tr><td><strong>Tier 5</strong></td><td>&lt;30</td><td>Not Recommended - Unsuitable for development</td></tr>
+                     <tr style='background-color: #445ca9; color: white;'><td><strong>High</strong></td><td>75-100</td><td>Immediate development candidates - ready for developer outreach</td></tr>
+                     <tr style='background-color: #8baeaa; color: white;'><td><strong>Moderate</strong></td><td>50-74</td><td>Strong near-term opportunities with manageable constraints</td></tr>
+                     <tr style='background-color: #e9ab3f; color: white;'><td><strong>Constrained</strong></td><td>30-49</td><td>Environmental or zoning limitations requiring creative solutions</td></tr>
+                     <tr style='background-color: #e76f52; color: white;'><td><strong>Limited</strong></td><td>&lt;30</td><td>Significant barriers - may require rezoning or alternative strategies</td></tr>
                    </tbody>
                  </table>")
+          )
+        ),
+        
+        fluidRow(
+          box(
+            title = "Walkability Score Interpretation",
+            width = 12,
+            status = "info",
+            HTML("<h4>Walkability Scale (0-20):</h4>
+                 <ul>
+                   <li><strong>15-20 (High):</strong> Supports car-light or car-free households; may qualify for reduced parking requirements</li>
+                   <li><strong>10-14 (Moderate):</strong> Some transit access; supports density considerations</li>
+                   <li><strong>5-9 (Low):</strong> Car-dependent location; standard parking requirements apply</li>
+                   <li><strong>0-4 (Very Low):</strong> Rural or isolated location</li>
+                 </ul>")
           )
         )
       )
@@ -488,7 +510,7 @@ server <- function(input, output, session) {
       formatRound("area_acres", 2) %>%
       formatRound("development_score", 1) %>%
       formatStyle("development_score",
-                  background = styleColorBar(c(0, 100), "#3c8dbc"),
+                  background = styleColorBar(c(0, 100), "#445ca9"),
                   backgroundSize = "100% 90%",
                   backgroundRepeat = "no-repeat",
                   backgroundPosition = "center")
@@ -545,7 +567,7 @@ server <- function(input, output, session) {
       "<div><strong>Address:</strong><br>", prop$site_address, "<br>", prop$site_city, "</div>",
       "<div><strong>Size:</strong><br>", round(prop$area_acres, 2), " acres</div>",
       "<div><strong>Development Score:</strong><br>", round(prop$development_score, 1), "/100</div>",
-      "<div><strong>Walkability:</strong><br>", round(prop$walkability_score, 1), "/100</div>",
+      "<div><strong>Walkability:</strong><br>", round(prop$walkability_score, 1), "/20</div>",
       "</div>"
     ))
   })
@@ -579,8 +601,8 @@ server <- function(input, output, session) {
         position = "topleft",
         primaryLengthUnit = "feet",
         primaryAreaUnit = "sqfeet",
-        activeColor = "#3c8dbc",
-        completedColor = "#00a65a"
+        activeColor = "#445ca9",
+        completedColor = "#8baeaa"
       )
   })
   
@@ -672,24 +694,18 @@ server <- function(input, output, session) {
       count(development_tier) %>%
       mutate(
         pct = n / sum(n) * 100,
-        tier_order = case_when(
-          development_tier == "High" ~ 1,
-          development_tier == "Medium" ~ 2,
-          development_tier == "Constrained" ~ 3,
-          development_tier == "Small Parcel" ~ 4,
-          development_tier == "Review Needed" ~ 5,
-          TRUE ~ 6
-        ),
         color = case_when(
-          tier_order == 1 ~ "#3c8dbc",
-          tier_order == 2 ~ "#00a65a",
-          tier_order == 3 ~ "#f39c12",
-          tier_order == 4 ~ "#dd4b39",
+          development_tier == "High" ~ "#445ca9",
+          development_tier == "Moderate" ~ "#8baeaa",
+          development_tier == "Constrained" ~ "#e9ab3f",
+          development_tier == "Limited" ~ "#e76f52",
           TRUE ~ "#999999"
-        )
+        ),
+        development_tier = factor(development_tier, 
+                                  levels = c("High", "Moderate", "Constrained", "Limited"))
       )
     
-    ggplot(tier_data, aes(x = reorder(development_tier, tier_order), y = n, fill = color)) +
+    ggplot(tier_data, aes(x = reorder(development_tier, n), y = n, fill = color)) +
       geom_col() +
       geom_text(aes(label = paste0(n, "\n(", round(pct, 1), "%)")), 
                 vjust = 1.5, color = "white", size = 5, fontface = "bold") +
@@ -779,7 +795,7 @@ server <- function(input, output, session) {
       "<p><strong>Development Score:</strong> ", round(prop$development_score, 1), "/100</p>",
       "<p><strong>Tier:</strong> ", prop$development_tier, "</p>",
       "<p><strong>Size:</strong> ", round(prop$area_acres, 2), " acres</p>",
-      "<p><strong>Walkability Score:</strong> ", round(prop$walkability_score, 1), "/100</p>",
+      "<p><strong>Walkability Score:</strong> ", round(prop$walkability_score, 1), "/20</p>",
       if(!is.na(prop$name)) paste0("<p><strong>Congregation:</strong> ", prop$name, "</p>") else "",
       if(!is.na(prop$avg_attendance)) paste0("<p><strong>Avg Attendance:</strong> ", round(prop$avg_attendance), " people</p>") else "",
       "</div>"
@@ -801,7 +817,7 @@ server <- function(input, output, session) {
     )
     
     ggplot(scores, aes(x = reorder(Component, Weighted), y = Weighted)) +
-      geom_col(fill = "#3c8dbc") +
+      geom_col(fill = "#445ca9") +
       geom_text(aes(label = round(Weighted, 1)), hjust = -0.2, size = 5) +
       coord_flip() +
       ylim(0, max(scores$Weighted) * 1.2) +
@@ -831,9 +847,9 @@ server <- function(input, output, session) {
                       location = ph_location_type(type = "title"))
       summary_text <- paste0(
         "• ", nrow(scored_parcels), " properties analyzed across diocese\n",
-        "• ", sum(scored_parcels$development_score >= 60), " properties with strong potential (Tier 1-2)\n",
+        "• ", sum(scored_parcels$development_potential %in% c("High", "Moderate")), " properties with strong potential (High + Moderate)\n",
         "• ", round(sum(top_parcels$area_acres), 1), " acres in top 10 opportunities\n",
-        "• ", sum(top_parcels$financial_need >= 2, na.rm = TRUE), " congregations with high financial need"
+        "• ", sum(top_parcels$financial_need >= 2, na.rm = TRUE), " congregations with financial need"
       )
       pres <- ph_with(pres, value = summary_text, 
                       location = ph_location_type(type = "body"))
