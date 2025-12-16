@@ -16,13 +16,13 @@ source("R/common.R")
 total_properties <- nrow(property_profile)
 total_acres <- sum(property_profile$area_acres, na.rm = TRUE)
 avg_score <- mean(property_profile$development_score, na.rm = TRUE)
-high_potential <- sum(property_profile$development_potential == "High Potential", na.rm = TRUE)
+high_potential <- sum(property_profile$development_potential == "High", na.rm = TRUE)
 
 cat("::: {layout-ncol=4}\n\n")
 
 cat("::: {.callout-note appearance='minimal'}\n")
 cat("## ", total_properties, "\n", sep = "")
-cat("Total Properties\n")
+cat("Total Parcels\n")
 cat(":::\n\n")
 
 cat("::: {.callout-tip appearance='minimal'}\n")
@@ -95,67 +95,92 @@ ggplot(use_summary, aes(x = reorder(`Use Type`, Count), y = Count, fill = `Use T
 
 ## Development Score Distribution
 
+Another way of looking at the data shared in the executive summary, one can see that the portfolio is largely balanced in terms of opportunity, if leaning slightly more towards the constrained and limited side of options.
+
 ```{r}
 #| label: fig-score-distribution
 #| fig-cap: "Distribution of Development Scores Across Portfolio"
 #| fig-height: 4
 #| echo: false
 
-ggplot(property_profile, aes(x = development_score, fill = development_potential)) +
-  geom_histogram(binwidth = 5, color = "white", alpha = 0.9) +
-  scale_fill_manual(values = c(
-    "High Potential" = "#445ca9",
-    "Moderate Potential" = "#8baeaa",
-    "Low Potential - Constraints" = "#e9ab3f",
-    "Insufficient Data" = "#e76f52"
-  )) +
-  labs(
-    title = "Development Score Distribution",
-    x = "Development Score",
-    y = "Number of Properties",
-    fill = "Development Tier"
+tier_summary <- scored_parcels |>
+  count(development_potential) |>
+  mutate(
+    pct = n / sum(n) * 100,
+    label = paste0(n, " (", round(pct, 0), "%)"),
+    potential_order = factor(development_potential, 
+                             levels = c("High", "Moderate", "Constrained", "Limited"))
+  ) |>
+  arrange(potential_order)
+
+ggplot(tier_summary, aes(x = "", y = n, fill = potential_order)) +
+  geom_col(width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  geom_text(aes(label = label),
+            position = position_stack(vjust = 0.5),
+            color = "white", fontface = "bold", size = 4) +
+  scale_fill_manual(
+    values = c(
+      "High" = "#445ca9",
+      "Moderate" = "#8baeaa",
+      "Constrained" = "#e9ab3f",
+      "Limited" = "#e76f52"
+    )
   ) +
-  theme_minimal(base_size = 12) +
+  labs(fill = "Development Potential") +
+  theme_void(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold", color = "#445ca9"),
     legend.position = "bottom"
   ) +
-  guides(fill = guide_legend(nrow = 2))
+  guides(fill = guide_legend(nrow = 1))
 ```
 
 ## Property Size vs Development Score
 
 ```{r}
 #| label: fig-size-vs-score
-#| fig-cap: "Relationship Between Property Size and Development Score"
-#| fig-height: 5
+#| fig-cap: "Development Scores by Property Size Category"
+#| fig-height: 4
 #| echo: false
 
-property_profile |>
-  filter(!is.na(area_acres), !is.na(development_score), area_acres < 50) |>
-  ggplot(aes(x = area_acres, y = development_score, color = development_potential)) +
-  geom_point(alpha = 0.6, size = 3) +
-  scale_color_manual(values = c(
-    "High Potential" = "#445ca9",
-    "Moderate Potential" = "#8baeaa",
-    "Low Potential - Constraints" = "#e9ab3f",
-    "Insufficient Data" = "#e76f52"
-  )) +
-  scale_x_log10(labels = scales::comma) +
+scored_parcels |>
+  mutate(
+    size_category = case_when(
+      area_acres < 1 ~ "< 1 acre",
+      area_acres < 5 ~ "1–5 acres",
+      area_acres < 10 ~ "5–10 acres",
+      area_acres < 25 ~ "10–25 acres",
+      TRUE ~ "25+ acres"
+    ),
+    size_category = factor(size_category, 
+                           levels = c("< 1 acre", "1–5 acres", "5–10 acres", "10–25 acres", "25+ acres")),
+    development_potential = factor(development_potential,
+                                   levels = c("High", "Moderate", "Constrained", "Limited"))
+  ) |>
+  ggplot(aes(x = size_category, y = development_score, color = development_potential)) +
+  geom_jitter(width = 0.2, alpha = 0.7, size = 3) +
+  scale_color_manual(
+    values = c(
+      "High" = "#445ca9",
+      "Moderate" = "#8baeaa",
+      "Constrained" = "#e9ab3f",
+      "Limited" = "#e76f52"
+    )
+  ) +
   labs(
-    title = "Property Size vs. Development Score",
-    subtitle = "Properties sized under 50 acres (log scale)",
-    x = "Property Size (Acres)",
+    x = "Property Size",
     y = "Development Score",
-    color = "Development Tier"
+    color = "Development Potential"
   ) +
   theme_minimal(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold", color = "#445ca9"),
-    legend.position = "bottom"
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank()
   ) +
-  guides(color = guide_legend(nrow = 2))
+  guides(color = guide_legend(nrow = 1))
 ```
+
+The most high and moderate-potential properties concentrate in the 1–5 acre "sweet spot," while parcels under 1 acre face inherent limitations and the largest sites show more constraints. This indicates that mid-sized properties offer the clearest path to development, although some larger parcels show strong opportunities in other metrics.
 
 ## Summary Metrics
 
@@ -171,17 +196,24 @@ property_profile |>
 county_summary <- property_profile |>
   group_by(scounty) |>
   summarise(
-    Properties = n(),
-    `Total Acres` = round(sum(area_acres, na.rm = TRUE), 1),
-    `Avg Score` = round(mean(development_score, na.rm = TRUE), 1),
-    `High Potential` = sum(development_potential == "High Potential", na.rm = TRUE),
+    properties = n(),
+    total_acres = sum(area_acres, na.rm = TRUE),
+    avg_score = mean(development_score, na.rm = TRUE),
+    high_potential = sum(development_potential == "High", na.rm = TRUE),
     .groups = "drop"
   ) |>
-  arrange(desc(Properties)) |>
+  arrange(desc(high_potential)) |>
   slice_head(n = 15)
 
 county_summary |>
-  kable(align = c("l", "r", "r", "r", "r")) |>
+  mutate(
+    total_acres = round(total_acres, 1),
+    avg_score = round(avg_score, 1)
+  ) |>
+  kable(
+    col.names = c("County", "Properties", "Total Acres", "Avg Score", "# High Potential"),
+    align = c("l", "r", "r", "r", "r")
+  ) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
   row_spec(0, bold = TRUE, background = "#445ca9", color = "white")
 ```
@@ -263,7 +295,7 @@ use_type_summary |>
 library(kableExtra)
 
 high_potential_props <- property_profile |>
-  filter(development_potential %in% c("High", "Medium")) |>
+  filter(development_potential %in% c("High", "Moderate")) |>
   arrange(desc(lan_val)) |>
   slice_head(n = 20)
 
@@ -283,6 +315,36 @@ if(nrow(high_potential_props) > 0) {
   cat("No properties currently meet the High or Medium development potential criteria.")
 }
 ```
+
+```{r}
+#| label: tbl-high-potential
+#| tbl-cap: "Top 20 High Development Potential Properties"
+#| echo: false
+
+library(kableExtra)
+
+high_potential_props <- property_profile |>
+  filter(development_potential %in% c("High", "Moderate")) |>
+  arrange(desc(development_score)) |>
+  slice_head(n = 20)
+
+if(nrow(high_potential_props) > 0) {
+  high_potential_props |>
+    mutate(Rank = row_number()) |>
+    select(Rank, sadd, scity, scounty, rgisacre, development_score, development_potential) |>
+    kable(
+      col.names = c("Rank", "Address", "City", "County", "Acres", "Score", "Tier"),
+      digits = c(0, 0, 0, 0, 2, 1, 0),
+      align = c("c", "l", "l", "l", "r", "r", "l")
+    ) |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+    row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
+    row_spec(1:min(5, nrow(high_potential_props)), bold = TRUE)
+} else {
+  cat("No properties currently meet the High or Moderate development potential criteria.")
+}
+```
+
 
 ### Development Tiers
 
@@ -305,7 +367,7 @@ tier_summary <- property_profile |>
 
 tier_summary |>
   kable(
-    col.names = c("Development Tier", "# Properties", "Total Acres", "Avg Acres", "Avg Score", "Avg Walkability"),
+    col.names = c("Development Tier", "# Parcels", "Total Acres", "Avg Acres", "Avg Score", "Avg Walkability"),
     align = c("l", "r", "r", "r", "r", "r")
   ) |>
   kable_styling(bootstrap_options = c("striped", "hover")) |>
@@ -320,7 +382,7 @@ tier_summary |>
 
 ```{r}
 #| label: fig-county-map
-#| fig-cap: "Properties by County (Top 15)"
+#| fig-cap: "Parcels by County (Top 15)"
 #| fig-height: 5
 #| echo: false
 
@@ -335,9 +397,9 @@ ggplot(county_counts, aes(x = reorder(scounty, n_properties), y = n_properties))
   coord_flip() +
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   labs(
-    title = "Top 15 Counties by Property Count",
+    title = "Top 15 Counties by Parcel Count",
     x = "",
-    y = "Number of Properties"
+    y = "Number of Parcels"
   ) +
   theme_minimal(base_size = 12) +
   theme(
@@ -345,39 +407,78 @@ ggplot(county_counts, aes(x = reorder(scounty, n_properties), y = n_properties))
     panel.grid.major.y = element_blank()
   )
 ```
+Each of these counties have multiple congregation parcels, with the highest concentration of small congregation parcels in King William and Stafford counties. 
+
 
 ## Congregation Health Indicators
 
 ```{r}
 #| label: fig-attendance-pledge
-#| fig-cap: "Relationship Between Attendance and Pledge Revenue"
+#| fig-cap: "Congregation Health and Financial Need"
 #| fig-height: 5
 #| echo: false 
 
-property_profile |>
+plot_data <- property_profile |>
   filter(!is.na(avg_attendance), !is.na(avg_pledge), 
          avg_attendance > 0, avg_pledge > 0) |>
-  ggplot(aes(x = avg_attendance, y = avg_pledge / 1000, color = development_potential)) +
-  geom_point(alpha = 0.6, size = 3) +
-  scale_color_manual(values = c(
-    "High Potential" = "#445ca9",
-    "Moderate Potential" = "#8baeaa",
-    "Low Potential - Constraints" = "#e9ab3f",
-    "Insufficient Data" = "#e76f52"
-  )) +
+  distinct(congregation_name, .keep_all = TRUE) |>
+  mutate(
+    financial_status = case_when(
+      financial_need >= 2 ~ "Financial Need",
+      TRUE ~ "Stable"
+    )
+  )
+
+need_count <- sum(plot_data$financial_status == "Financial Need")
+stable_count <- sum(plot_data$financial_status == "Stable")
+
+ggplot(plot_data, aes(x = avg_attendance, y = avg_pledge / 1000, 
+                      color = financial_status, shape = financial_status)) +
+  geom_point(alpha = 0.7, size = 3) +
+  scale_color_manual(values = c("Financial Need" = "#e76f52", "Stable" = "#445ca9")) +
+  scale_shape_manual(values = c("Financial Need" = 17, "Stable" = 16)) +
   scale_x_log10() +
   scale_y_log10(labels = scales::dollar_format(suffix = "K")) +
+  annotate("text", x = 10, y = 200, 
+           label = paste0("Financial Need: ", need_count, " congregations"), 
+           color = "#e76f52", fontface = "bold", hjust = 0, size = 3.5) +
+  annotate("text", x = 10, y = 120, 
+           label = paste0("Stable: ", stable_count, " congregations"), 
+           color = "#445ca9", fontface = "bold", hjust = 0, size = 3.5) +
   labs(
-    title = "Attendance vs. Pledge Revenue",
-    subtitle = "Log scale on both axes",
     x = "Average Sunday Attendance",
     y = "Annual Plate & Pledge ($K)",
-    color = "Development Tier"
+    color = "", shape = ""
   ) +
   theme_minimal(base_size = 12) +
-  theme(
-    plot.title = element_text(face = "bold", color = "#445ca9"),
-    legend.position = "bottom"
-  ) +
-  guides(color = guide_legend(nrow = 2))
+  theme(legend.position = "bottom")
 ```
+#| echo: false
+#| results: asis
+
+cat("::: {.callout-note}\n")
+cat("## Understanding Financial Need\n")
+cat("Financial need reflects **trajectory, not current resources**. Congregations flagged as 'Financial Need' may still report substantial annual giving, but their attendance and/or pledge revenue have declined significantly since 2014. These congregations are not in crisis today—but without intervention, they face an unsustainable path. Development partnerships offer an opportunity to stabilize finances while congregations remain viable, rather than waiting until resources are exhausted.\n")
+cat(":::\n")
+
+```{r}
+#| echo: false
+
+property_profile |>
+  filter(financial_need >= 2, avg_pledge > 50000) |>
+  distinct(congregation_name, .keep_all = TRUE) |>
+  select(congregation_name, avg_attendance, avg_pledge, pct_change_attendance, pct_change_pledge) |>
+  arrange(pct_change_attendance) |>
+  mutate(
+    avg_pledge = scales::dollar(avg_pledge),
+    pct_change_attendance = paste0(round(pct_change_attendance, 1), "%"),
+    pct_change_pledge = paste0(round(pct_change_pledge, 1), "%")
+  ) |>
+  kable(
+    col.names = c("Congregation", "Avg Attendance", "Avg Pledge", "Attendance Change", "Pledge Change"),
+    align = c("l", "r", "r", "r", "r")
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+  row_spec(0, bold = TRUE, background = "#445ca9", color = "white")
+```
+

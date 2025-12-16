@@ -52,8 +52,15 @@ addProviderTiles(providers$CartoDB.Positron) |>
   ) |>
   setView(lng = mean(scored_parcels$lon, na.rm = TRUE), lat = mean(scored_parcels$lat, na.rm = TRUE), zoom = 7)
 ```
-
 :::
+
+Development opportunities are distributed broadly across the Diocese, with the color gradient revealing where the highest-scoring properties cluster. **High-potential properties (scores 60–80)**, shown in deep red, are concentrated in the **Northern Virginia/DC corridor** near Alexandria and Reston, as well as scattered throughout the **Shenandoah Valley** from Winchester through Harrisonburg. These sites score well due to favorable zoning, strong market conditions, and fewer environmental constraints.
+
+The **Fredericksburg region** stands out for its large-acreage properties—represented by the largest circles on the map—though these score in the **moderate range (40–50)**. Their size represents significant opportunity, but factors such as zoning or environmental considerations may require additional due diligence before development.
+
+Other potential development opportunities are spread across the Diocese, including areas near Charlottesville and Richmond. These sites may benefit from rezoning efforts or phased development strategies.
+
+This geographic diversity is an asset: the Diocese can pursue high-score "quick wins" in Northern Virginia while simultaneously advancing larger but more complex opportunities in growth corridors like Fredericksburg. The portfolio supports both near-term revenue generation and long-term strategic development.
 
 ::: {.content-visible when-format="pdf"}
 

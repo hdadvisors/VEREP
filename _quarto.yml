@@ -34,7 +34,7 @@ book:
   
   - part: "Summary Statistics"
     chapters:
-      - property-portfolio.qmd #where I left off
+      - property-portfolio.qmd 
       - geographic-stats.qmd
       - vitality-metrics.qmd
       - developable-land.qmd
