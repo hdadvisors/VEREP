@@ -76,3 +76,38 @@ a:hover {
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
+
+/* Value Box Styles */
+.value-box {
+  background: linear-gradient(135deg, #445ca9 0%, #6b7fc9 100%);
+  color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+}
+
+.value-box .number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.value-box .label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.value-box.green { 
+  background: linear-gradient(135deg, #8baeaa 0%, #a8c5c2 100%); 
+}
+
+.value-box.orange { 
+  background: linear-gradient(135deg, #e9ab3f 0%, #f0c56a 100%); 
+}
+
+.value-box.red { 
+  background: linear-gradient(135deg, #e76f52 0%, #ee9680 100%); 
+}

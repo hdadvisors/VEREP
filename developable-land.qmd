@@ -34,40 +34,35 @@ tier_summary <- property_profile |>
 ```
 
 ```{r output-dev-summary, echo=FALSE, results='asis'}
+#| echo: false
+#| results: asis
+
 cat("**All Developable Properties (Score ≥45)**\n\n")
 
-# Create stat boxes
-cat("::: {layout-ncol=4}\n")
+cat("::: {layout-ncol=4}\n\n")
 
-cat("::: {.stat-box}\n")
-cat("::: {.stat-number}\n", developable_summary$n_developable, "\n:::\n", sep = "")
-cat("::: {.stat-label}\nDevelopable Parcels\n:::\n:::\n\n")
-
-cat("::: {.stat-box}\n")
-cat("::: {.stat-number}\n", round(developable_summary$total_dev_acres, 1), "\n:::\n", sep = "")
-cat("::: {.stat-label}\nDevelopable Acres\n:::\n:::\n\n")
-
-cat("::: {.stat-box}\n")
-cat("::: {.stat-number}\n$", scales::comma(developable_summary$total_dev_value / 1e6, accuracy = 0.1), "M\n:::\n", sep = "")
-cat("::: {.stat-label}\nAssessed Value\n:::\n:::\n\n")
-
-cat("::: {.stat-box}\n")
-cat("::: {.stat-number}\n", developable_summary$parcels_under_30, "\n:::\n", sep = "")
-cat("::: {.stat-label}\nWith <30 Attendance\n:::\n:::\n\n")
-
+cat("::: {.value-box}\n")
+cat("::: {.number}\n", developable_summary$n_developable, "\n:::\n", sep = "")
+cat("::: {.label}\nDevelopable Parcels\n:::\n")
 cat(":::\n\n")
 
-cat("### Breakdown by Development Tier\n\n")
+cat("::: {.value-box .green}\n")
+cat("::: {.number}\n", round(developable_summary$total_dev_acres, 1), "\n:::\n", sep = "")
+cat("::: {.label}\nDevelopable Acres\n:::\n")
+cat(":::\n\n")
+
+cat("::: {.value-box .orange}\n")
+cat("::: {.number}\n$", scales::comma(developable_summary$total_dev_value / 1e6, accuracy = 0.1), "M\n:::\n", sep = "")
+cat("::: {.label}\nAssessed Value\n:::\n")
+cat(":::\n\n")
+
+cat("::: {.value-box .red}\n")
+cat("::: {.number}\n", developable_summary$parcels_under_30, "\n:::\n", sep = "")
+cat("::: {.label}\nWith <30 Attendance\n:::\n")
+cat(":::\n\n")
+
+cat(":::\n")
+
 ```
 
-```{r tier-breakdown-html}
-#| echo: false 
 
-tier_summary |>
-  kable(
-    col.names = c("Tier", "# Parcels", "Total Acres", "Assessed Value"),
-    digits = c(0, 0, 1, 0),
-    format.args = list(big.mark = ",")
-  ) |>
-  kable_styling(bootstrap_options = c("striped", "hover"))
-```
