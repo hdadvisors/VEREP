@@ -5,6 +5,43 @@
 source("R/common.R")
 ```
 
+Of the 104 parcels pulled from the VEREP GIS tool for examination, 4 were immediately removed from development opportunity consideration due to their size. These parcels were all under 0.1 acres -- likely cemetery plots, parking strips, or slivers of land.  Three of these tiny parcels belong to the same congregation, so while not candidates for independent development, they may hold value as part of a larger assemblage or for their current use.
+
+```{r}
+#| echo: false
+#| results: asis
+
+library(kableExtra)
+
+small_parcels <- property_profile %>%
+  filter(area_acres <= 0.1) %>%
+  select(name, congregation_name, scounty, area_acres) %>%
+  mutate(
+    sq_feet = round(area_acres * 43560, 0),
+    sq_feet = format(sq_feet, big.mark = ","),
+    area_acres = sprintf("%.03f", area_acres)
+  )
+
+cat("::: {.callout-note}\n")
+cat("## Data Note\n")
+cat("Of the **104** properties in the Diocese portfolio, **100** are included in the development potential analysis. Four properties were excluded as they fall below the minimum size threshold of 0.1 acres and are not viable for independent development:\n\n")
+
+small_parcels %>%
+  kable(
+    col.names = c("Property", "Congregation", "County", "Acres", "Sq Feet"),
+    align = c("l", "l", "l", "r", "r")
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE
+  ) %>%
+  print()
+
+cat("\nThese parcels are likely slivers of land, parking strips, or cemetery plots. While not candidates for independent development, they may hold value as part of a larger assemblage or for their current use, particularly for the St Johns Episcopal Church, which owns three of these four parcels.\n")
+cat(":::\n")
+```
+
+This means 100 parcels were scored and ranked for development opportuntity: 
 
 ```{r tier-distribution-visual}
 #| echo: false
@@ -41,39 +78,3 @@ ggplot(tier_data, aes(x = reorder(development_potential, n), y = n, fill = color
   )
 ```
 Nearly 1 in 5 properties (18) are high-potential candidates ready for immediate developer outreach. Combined with 23 moderate-potential sites, the Diocese has 41 actionable properties (41%) forming a substantial development pipeline to support long-term financial sustainability and mission fulfillment. Properties classified as Constrained or Limited are not necessarily without value—they may benefit from rezoning efforts, environmental remediation, or alternative strategies such as land leases or conservation easements. 
-
-```{r}
-#| echo: false
-#| results: asis
-
-library(kableExtra)
-
-small_parcels <- property_profile %>%
-  filter(area_acres <= 0.1) %>%
-  select(name, congregation_name, scounty, area_acres) %>%
-  mutate(
-    sq_feet = round(area_acres * 43560, 0),
-    sq_feet = format(sq_feet, big.mark = ","),
-    area_acres = sprintf("%.03f", area_acres)
-  )
-
-cat("::: {.callout-note}\n")
-cat("## Data Note\n")
-cat("Of the **104** properties in the Diocese portfolio, **100** are included in the development potential analysis. Four properties were excluded as they fall below the minimum size threshold of 0.1 acres and are not viable for independent development:\n\n")
-
-small_parcels %>%
-  kable(
-    col.names = c("Property", "Congregation", "County", "Acres", "Sq Feet"),
-    align = c("l", "l", "l", "r", "r")
-  ) %>%
-  kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed"),
-    full_width = FALSE
-  ) %>%
-  print()
-
-cat("\nThese parcels are likely slivers of land, parking strips, or cemetery plots. While not candidates for independent development, they may hold value as part of a larger assemblage or for their current use, particularly for the St Johns Episcopal Church, which owns three of these four parcels.\n")
-cat(":::\n")
-```
-
-
