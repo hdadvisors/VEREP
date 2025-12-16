@@ -194,13 +194,68 @@ Development opportunities are distributed across Virginia, with concentrations i
 
 ### Congregation Vitality Summary
 
- **Congregations with <30 Sunday attendance:** 37 (comprising 104 parcels across all congregations analyzed)
-- **Average parcels per congregation:** 2.8
-- **Average Sunday attendance:** 17 people
-- **Average annual pledge:** $44,271
-- **Congregations with declining pledges:** 21
+```{r}
+#| echo: false
+#| results: asis
 
-- **Congregations in financial need (declining attendance + pledges):** 15
+library(kableExtra)
+
+# Calculate parcels per congregation
+parcels_per_cong <- property_profile |>
+  filter(has_congregation) |>
+  count(congregation_name) |>
+  summarise(avg_parcels = mean(n))
+
+# Congregation statistics
+cong_stats <- property_profile |>
+  filter(has_congregation) |>
+  distinct(congregation_name, .keep_all = TRUE) |>
+  summarise(
+    congregations_with_data = n(),
+    congregations_under_30_attendance = sum(avg_attendance < 30, na.rm = TRUE),
+    avg_attendance_all = mean(avg_attendance, na.rm = TRUE),
+    avg_pledge_all = mean(avg_pledge, na.rm = TRUE),
+    declining_pledges = sum(pct_change_pledge < 0, na.rm = TRUE),
+    financial_need = sum(financial_need >= 2, na.rm = TRUE)
+  )
+
+# Build summary table
+vitality_summary <- tibble(
+  Metric = c(
+    "Congregations with <30 Sunday Attendance",
+    "Total Parcels Analyzed",
+    "Average Parcels per Congregation",
+    "Average Sunday Attendance",
+    "Average Annual Pledge",
+    "Congregations in Financial Need"
+  ),
+  Value = c(
+    cong_stats$congregations_under_30_attendance,
+    nrow(property_profile),
+    round(parcels_per_cong$avg_parcels, 1),
+    paste0(round(cong_stats$avg_attendance_all, 0), " people"),
+    scales::dollar(cong_stats$avg_pledge_all, accuracy = 1),
+    cong_stats$financial_need
+  )
+)
+
+cat("### Congregation Vitality Summary\n\n")
+
+vitality_summary |>
+  kable(
+    col.names = c("Metric", "Value"),
+    align = c("l", "r")
+  ) |>
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE
+  ) |>
+  row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
+  row_spec(c(1, 6, 7), bold = TRUE)
+```
+
+
+
 
 ```
 :::
