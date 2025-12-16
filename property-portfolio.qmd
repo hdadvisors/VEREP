@@ -93,9 +93,11 @@ ggplot(use_summary, aes(x = reorder(`Use Type`, Count), y = Count, fill = `Use T
   )
 ```
 
+Over two-thirds (71%) of parcels are locked into church and cemetery designations—uses that inherently limit redevelopment options due to zoning, community sensitivity, and legal restrictions. Only about 29% of the portfolio consists of property types (open space, parking, residence) that would typically command higher valuations or offer more flexible development opportunities. 
+
 ## Development Score Distribution
 
-Another way of looking at the data shared in the executive summary, one can see that the portfolio is largely balanced in terms of opportunity, if leaning slightly more towards the constrained and limited side of options.
+The development scoring confirms use-constraints. Focus should likely center on the 18 high-potential properties for near-term value creation, while developing a longer-term strategy for the 23 moderate-potential parcels. The 59 constrained/limited properties may require hold strategies, community partnerships, or creative repurposing rather than traditional development approaches.
 
 ```{r}
 #| label: fig-score-distribution
@@ -188,6 +190,25 @@ The most high and moderate-potential properties concentrate in the 1–5 acre "s
 
 ### By County
 
+The portfolio spans 13 counties with highly variable concentration and development potential:
+Standout Performers:
+
+Fauquier County emerges as the clear opportunity hub: 7 properties with a strong 66.4 average score and notably 5 high-potential properties (28% of all high-potential assets in just one county)
+Goochland County: Though only 1 property, it scores an exceptional 85.0, suggesting prime development readiness
+Fairfax-City and Essex: Strong average scores (63.3 and 62.5) with solid potential
+
+The King-William Challenge:
+King-William County contains the largest property concentration (19 properties—nearly 14% of the entire portfolio) but has the lowest average development score at 23.4 with only 1 high-potential property. Given that multiple parcels likely comprise single congregation sites, this represents significant land area locked in low-potential designation.
+Distribution Pattern:
+Most counties (10 of 13) have just 1 high-potential property each, while Fauquier's 5 high-potential properties represent a significant geographic concentration of opportunity. This suggests:
+
+Development efforts should prioritize Fauquier County resources
+The portfolio's challenges aren't evenly distributed—some regions face more severe constraints
+King-William's large footprint with minimal development potential may represent legacy holdings requiring different strategic treatment
+
+Strategic Insight:
+With multiple parcels often serving single congregations, the property count (61 across these counties) overstates the number of discrete development opportunities available.
+
 ```{r}
 #| label: tbl-by-county
 #| tbl-cap: "Property Distribution by County"
@@ -216,73 +237,6 @@ county_summary |>
   ) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
   row_spec(0, bold = TRUE, background = "#445ca9", color = "white")
-```
-
-### By Use Type
-
-```{r}
-#| label: tbl-by-use
-#| tbl-cap: "Property Statistics by Use Type"
-#| echo: false
-
-use_stats <- property_profile |>
-  summarise(
-    `Church Properties` = list(c(
-      n = sum(use_church, na.rm = TRUE),
-      acres = sum(area_acres[use_church], na.rm = TRUE),
-      score = mean(development_score[use_church], na.rm = TRUE)
-    )),
-    `Parking Properties` = list(c(
-      n = sum(use_parking, na.rm = TRUE),
-      acres = sum(area_acres[use_parking], na.rm = TRUE),
-      score = mean(development_score[use_parking], na.rm = TRUE)
-    )),
-    `Open Space` = list(c(
-      n = sum(use_open_space, na.rm = TRUE),
-      acres = sum(area_acres[use_open_space], na.rm = TRUE),
-      score = mean(development_score[use_open_space], na.rm = TRUE)
-    ))
-  )
-
-# Create cleaner summary table
-use_type_summary <- tibble(
-  `Use Type` = c("Church", "Parking", "Open Space", "Residence", "School", "Cemetery"),
-  Count = c(
-    sum(property_profile$use_church, na.rm = TRUE),
-    sum(property_profile$use_parking, na.rm = TRUE),
-    sum(property_profile$use_open_space, na.rm = TRUE),
-    sum(property_profile$use_residence, na.rm = TRUE),
-    sum(property_profile$use_school, na.rm = TRUE),
-    sum(property_profile$use_cemetery, na.rm = TRUE)
-  ),
-  `Avg Size (Acres)` = c(
-    mean(property_profile$area_acres[property_profile$use_church], na.rm = TRUE),
-    mean(property_profile$area_acres[property_profile$use_parking], na.rm = TRUE),
-    mean(property_profile$area_acres[property_profile$use_open_space], na.rm = TRUE),
-    mean(property_profile$area_acres[property_profile$use_residence], na.rm = TRUE),
-    mean(property_profile$area_acres[property_profile$use_school], na.rm = TRUE),
-    mean(property_profile$area_acres[property_profile$use_cemetery], na.rm = TRUE)
-  ),
-  `Avg Dev Score` = c(
-    mean(property_profile$development_score[property_profile$use_church], na.rm = TRUE),
-    mean(property_profile$development_score[property_profile$use_parking], na.rm = TRUE),
-    mean(property_profile$development_score[property_profile$use_open_space], na.rm = TRUE),
-    mean(property_profile$development_score[property_profile$use_residence], na.rm = TRUE),
-    mean(property_profile$development_score[property_profile$use_school], na.rm = TRUE),
-    mean(property_profile$development_score[property_profile$use_cemetery], na.rm = TRUE)
-  )
-) |>
-  filter(Count > 0) |>
-  arrange(desc(Count))
-
-use_type_summary |>
-  mutate(
-    `Avg Size (Acres)` = round(`Avg Size (Acres)`, 2),
-    `Avg Dev Score` = round(`Avg Dev Score`, 1)
-  ) |>
-  kable(align = c("l", "r", "r", "r")) |>
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
-  row_spec(0, bold = TRUE, background = "#8baeaa", color = "white")
 ```
 
 ### High Potential
