@@ -205,6 +205,321 @@ cat(sprintf("Data completeness range: %d - %d\n",
             max(property_profile$data_completeness, na.rm = TRUE)))
 
 # ========================================
+# STEP 7B: GEOCODING & CONSTRAINT IDENTIFICATION
+# ========================================
+
+library(tidygeocoder)
+
+cat("\n=== GEOCODING & CONSTRAINT IDENTIFICATION ===\n")
+
+# ----------------------------------------
+# Identify properties needing geocoding
+# ----------------------------------------
+properties_to_geocode <- property_profile %>%
+  filter(
+    is.na(sadd) | sadd == "" | 
+      grepl("UNASSIGNED", sadd, ignore.case = TRUE) |  # <-- FIX: ADD THIS LINE
+      is.na(lat) | is.na(lon)
+  )
+
+cat(sprintf("Properties needing geocoding: %d\n", nrow(properties_to_geocode)))
+
+# ----------------------------------------
+# Geocoding function with fallback
+# ----------------------------------------
+geocode_property <- function(address, city, county, state = "VA") {
+  
+  # Try multiple search strategies
+  searches <- list(
+    list(query = paste(address, city, state), 
+         confidence = "high"),
+    list(query = paste(address, county, state), 
+         confidence = "medium"),
+    list(query = paste(city, county, state), 
+         confidence = "low"),
+    list(query = paste(county, state), 
+         confidence = "very_low")
+  )
+  
+  for(search in searches) {
+    tryCatch({
+      result <- tidygeocoder::geo(
+        search$query,
+        method = "osm",
+        limit = 1,
+        timeout = 10
+      )
+      
+      if(!is.na(result$lat) && !is.na(result$long)) {
+        return(list(
+          lat = result$lat,
+          lon = result$long,
+          source = "OSM",
+          confidence = search$confidence,
+          query_used = search$query
+        ))
+      }
+    }, error = function(e) {
+      # Continue to next search strategy
+    })
+  }
+  
+  # If all fail, try Census API
+  tryCatch({
+    result <- tidygeocoder::geo(
+      paste(city, county, state),
+      method = "census",
+      limit = 1
+    )
+    
+    if(!is.na(result$lat) && !is.na(result$long)) {
+      return(list(
+        lat = result$lat,
+        lon = result$long,
+        source = "Census",
+        confidence = "low",
+        query_used = paste(city, county, state)
+      ))
+    }
+  }, error = function(e) {
+    # Geocoding completely failed
+  })
+  
+  # Return NAs if all geocoding attempts failed
+  return(list(
+    lat = NA,
+    lon = NA,
+    source = NA,
+    confidence = "failed",
+    query_used = NA
+  ))
+}
+
+# ----------------------------------------
+# Check for historic indicators
+# ----------------------------------------
+check_historic_status <- function(congr_name, address, city) {
+  historic_keywords <- c(
+    "historic", "old", "\\b17\\d{2}\\b", "\\b18\\d{2}\\b", 
+    "parish", "colonial", "ancient", "original"
+  )
+  
+  text_to_check <- paste(
+    tolower(congr_name), 
+    tolower(address), 
+    tolower(city)
+  )
+  
+  matches <- sum(sapply(historic_keywords, function(kw) {
+    grepl(kw, text_to_check, ignore.case = TRUE)
+  }))
+  
+  return(list(
+    likely_historic = matches >= 2,
+    historic_confidence = case_when(
+      matches >= 3 ~ "high",
+      matches == 2 ~ "medium",
+      matches == 1 ~ "low",
+      TRUE ~ "none"
+    ),
+    historic_check_needed = matches >= 1
+  ))
+}
+
+# ----------------------------------------
+# Check cemetery indicators
+# ----------------------------------------
+check_cemetery_indicators <- function(cemetery_flag, church_flag, 
+                                      open_space_flag, rgisacre) {
+  
+  # Primary cemetery if:
+  # - Cemetery flag AND (not church OR large parcel)
+  is_primary_cemetery <- cemetery_flag == 1 & 
+    (church_flag == 0 | is.na(church_flag) | rgisacre > 5)
+  
+  # Mixed use if cemetery + church on smaller parcel
+  is_mixed_cemetery <- cemetery_flag == 1 & 
+    church_flag == 1 & 
+    rgisacre <= 5
+  
+  # Has cemetery component
+  has_cemetery_component <- cemetery_flag == 1
+  
+  return(list(
+    is_primary_cemetery = is_primary_cemetery,
+    is_mixed_cemetery = is_mixed_cemetery,
+    has_cemetery_component = has_cemetery_component,
+    cemetery_confidence = case_when(
+      is_primary_cemetery ~ "high",
+      is_mixed_cemetery ~ "medium",
+      has_cemetery_component ~ "low",
+      TRUE ~ "none"
+    )
+  ))
+}
+
+# ----------------------------------------
+# Generate search URLs
+# ----------------------------------------
+generate_search_urls <- function(congr_name, address, city, county, state = "VA") {
+  
+  # Clean name for URL
+  name_clean <- URLencode(paste(congr_name, city, state))
+  address_clean <- URLencode(paste(address, city, state))
+  
+  return(list(
+    google_maps = paste0("https://www.google.com/maps/search/", address_clean),
+    diocese_search = paste0("https://www.thediocese.net/search?q=", name_clean),
+    findagrave = paste0("https://www.findagrave.com/cemetery-browse?cemetery=", 
+                        URLencode(congr_name)),
+    hmdb = paste0("https://www.hmdb.org/results.asp?search=", name_clean)
+  ))
+}
+
+# ----------------------------------------
+# Process geocoding (in batches to avoid rate limits)
+# ----------------------------------------
+if(nrow(properties_to_geocode) > 0) {
+  
+  cat("Processing geocoding...\n")
+  
+  geocoded_results <- properties_to_geocode %>%
+    rowwise() %>%
+    mutate(
+      # Geocode
+      geocode_result = list(geocode_property(sadd, scity, scounty, sstate)),
+      geocoded_lat = geocode_result$lat,
+      geocoded_lon = geocode_result$lon,
+      geocode_source = geocode_result$source,
+      geocode_confidence = geocode_result$confidence,
+      geocode_query = geocode_result$query_used,
+      
+      # Historic check
+      historic_result = list(check_historic_status(congr_name, sadd, scity)),
+      likely_historic = historic_result$likely_historic,
+      historic_confidence = historic_result$historic_confidence,
+      historic_check_needed = historic_result$historic_check_needed,
+      
+      # Cemetery check
+      cemetery_result = list(check_cemetery_indicators(
+        cemetery, church, open_space, rgisacre
+      )),
+      is_primary_cemetery = cemetery_result$is_primary_cemetery,
+      is_mixed_cemetery = cemetery_result$is_mixed_cemetery,
+      has_cemetery_component = cemetery_result$has_cemetery_component,
+      cemetery_confidence = cemetery_result$cemetery_confidence,
+      
+      # Search URLs
+      search_urls = list(generate_search_urls(congr_name, sadd, scity, scounty, sstate)),
+      google_maps_url = search_urls$google_maps,
+      diocese_url = search_urls$diocese_search,
+      findagrave_url = search_urls$findagrave,
+      hmdb_url = search_urls$hmdb
+    ) %>%
+    ungroup()
+  
+  # ----------------------------------------
+  # Calculate constraint scores
+  # ----------------------------------------
+  geocoded_results <- geocoded_results %>%
+    mutate(
+      # Historic constraint score (0-30 points)
+      historic_constraint_score = case_when(
+        likely_historic & historic_confidence == "high" ~ 30,
+        likely_historic & historic_confidence == "medium" ~ 20,
+        historic_check_needed ~ 10,
+        TRUE ~ 0
+      ),
+      
+      # Cemetery constraint score (0-40 points)
+      cemetery_constraint_score = case_when(
+        is_primary_cemetery ~ 40,
+        is_mixed_cemetery ~ 25,
+        has_cemetery_component ~ 15,
+        TRUE ~ 0
+      ),
+      
+      # Combined constraint score (capped at 50)
+      combined_constraint_score = pmin(
+        historic_constraint_score + cemetery_constraint_score, 
+        50
+      ),
+      
+      # Adjust development potential
+      development_potential_adjusted = case_when(
+        combined_constraint_score >= 40 ~ "Severely Constrained",
+        combined_constraint_score >= 25 ~ "Highly Constrained",
+        combined_constraint_score >= 10 ~ "Moderately Constrained",
+        TRUE ~ development_potential
+      )
+    )
+  
+  # ----------------------------------------
+  # Merge back into property_profile
+  # ----------------------------------------
+  property_profile <- property_profile %>%
+    left_join(
+      geocoded_results %>%
+        select(uid, geocoded_lat, geocoded_lon, geocode_source, 
+               geocode_confidence, likely_historic, historic_confidence,
+               historic_check_needed, is_primary_cemetery, is_mixed_cemetery,
+               has_cemetery_component, cemetery_confidence,
+               historic_constraint_score, cemetery_constraint_score,
+               combined_constraint_score, development_potential_adjusted,
+               google_maps_url, diocese_url, findagrave_url, hmdb_url),
+      by = "uid"
+    ) %>%
+    mutate(
+      # Use geocoded coordinates if original are missing
+      lat = coalesce(lat, geocoded_lat),
+      lon = coalesce(lon, geocoded_lon)
+    )
+  
+  # ----------------------------------------
+  # Export for manual review
+  # ----------------------------------------
+  properties_needing_review <- property_profile %>%
+    filter(
+      combined_constraint_score > 0 |
+        geocode_confidence %in% c("low", "very_low", "failed")
+    ) %>%
+    arrange(desc(combined_constraint_score), desc(lan_val)) %>%
+    select(
+      uid, congregation_name, sadd, scity, scounty,
+      attendance_2023, lan_val, rgisacre,
+      combined_constraint_score, historic_constraint_score, cemetery_constraint_score,
+      likely_historic, historic_confidence,
+      is_primary_cemetery, is_mixed_cemetery,
+      geocode_confidence,
+      development_potential, development_potential_adjusted,
+      google_maps_url, diocese_url, findagrave_url, hmdb_url
+    )
+  
+  write_csv(properties_needing_review, 
+            "data/output/properties_needing_manual_review.csv")
+  cat(sprintf("✓ Exported %d properties needing manual review\n", 
+              nrow(properties_needing_review)))
+  
+  # Summary
+  geocoding_summary <- tibble(
+    total_geocoded = nrow(geocoded_results),
+    geocode_success = sum(!is.na(geocoded_results$geocoded_lat)),
+    geocode_failed = sum(is.na(geocoded_results$geocoded_lat)),
+    likely_historic = sum(geocoded_results$likely_historic, na.rm = TRUE),
+    primary_cemetery = sum(geocoded_results$is_primary_cemetery, na.rm = TRUE),
+    needs_manual_review = nrow(properties_needing_review)
+  )
+  
+  write_csv(geocoding_summary, "data/output/geocoding_summary.csv")
+  cat("✓ Exported geocoding_summary.csv\n")
+  
+} else {
+  cat("No properties need geocoding\n")
+}
+
+cat("\n=== GEOCODING COMPLETE ===\n")
+
+# ========================================
 # STEP 8: SAVE OUTPUT
 # ========================================
 
@@ -240,230 +555,3 @@ cat(sprintf("Total acreage: %.2f\n",
 cat("===========================================\n")
 
 
-# ===========================================
-# STEP 10: PULLING OUT PROPERTIES NOT MATCHED TO CONGREGATION DATA
-# ============================================
-
-# Properties that didn't match to congregation data
-unmatched_properties <- verep_joined %>%
-  filter(is.na(attendance_2023))
-
-cat("=== UNMATCHED PROPERTIES SUMMARY ===\n")
-cat(sprintf("Total unmatched: %d\n", nrow(unmatched_properties)))
-
-# ----------------------------------------
-# Category 1: No congregation assigned (NA congr_name)
-# ----------------------------------------
-no_congregation <- unmatched_properties %>%
-  filter(is.na(congr_name)) %>%
-  select(uid, pid, sadd, scity, scounty, lan_val, rgisacre, lat, lon)
-
-cat(sprintf("\nCategory 1 - No congregation assigned: %d\n", nrow(no_congregation)))
-
-# ----------------------------------------
-# Category 2: Has congregation name but didn't match
-# ----------------------------------------
-no_match <- unmatched_properties %>%
-  filter(!is.na(congr_name)) %>%
-  select(uid, pid, congr_name, clean_name, clean_city, 
-         sadd, scity, scounty, lan_val, rgisacre, lat, lon)
-
-cat(sprintf("Category 2 - Name didn't match: %d\n", nrow(no_match)))
-
-# ----------------------------------------
-# Diagnose WHY names didn't match
-# ----------------------------------------
-cat("\n=== DIAGNOSING NON-MATCHES ===\n")
-
-# Get unique unmatched congregation names
-unmatched_names <- no_match %>%
-  distinct(congr_name, clean_name, clean_city) %>%
-  arrange(clean_name)
-
-cat(sprintf("Unique congregation names that didn't match: %d\n", nrow(unmatched_names)))
-
-# Check if these names exist in congregation data (maybe city mismatch?)
-congregation_names_available <- congregation_data %>%
-  distinct(clean_name, clean_city, name)
-
-# Find near-matches (name exists but city doesn't match)
-name_exists_city_different <- unmatched_names %>%
-  inner_join(
-    congregation_names_available %>% select(clean_name) %>% distinct(),
-    by = "clean_name"
-  )
-
-cat(sprintf("\nName exists but city didn't match: %d\n", nrow(name_exists_city_different)))
-
-# Names that don't exist at all in congregation data
-name_not_found <- unmatched_names %>%
-  anti_join(
-    congregation_names_available %>% select(clean_name) %>% distinct(),
-    by = "clean_name"
-  )
-
-cat(sprintf("Name not found in congregation data at all: %d\n", nrow(name_not_found)))
-
-# ----------------------------------------
-# Show details
-# ----------------------------------------
-cat("\n=== NAMES THAT EXIST BUT CITY DIDN'T MATCH ===\n")
-if(nrow(name_exists_city_different) > 0) {
-  name_exists_city_different %>%
-    left_join(
-      congregation_names_available %>% 
-        group_by(clean_name) %>%
-        summarise(available_cities = paste(clean_city, collapse = ", "), .groups = "drop"),
-      by = "clean_name"
-    ) %>%
-    select(congr_name, clean_name, clean_city, available_cities) %>%
-    print(n = 30)
-}
-
-cat("\n=== NAMES NOT FOUND IN CONGREGATION DATA ===\n")
-if(nrow(name_not_found) > 0) {
-  print(name_not_found, n = 50)
-}
-
-# ----------------------------------------
-# Export for review
-# ----------------------------------------
-dir.create("data/output", recursive = TRUE, showWarnings = FALSE)
-
-write_csv(no_congregation, "data/output/unmatched_no_congregation.csv")
-cat("\n✓ Exported unmatched_no_congregation.csv\n")
-
-write_csv(no_match, "data/output/unmatched_name_not_found.csv")
-cat("✓ Exported unmatched_name_not_found.csv\n")
-
-if(nrow(name_exists_city_different) > 0) {
-  write_csv(name_exists_city_different, "data/output/unmatched_city_mismatch.csv")
-  cat("✓ Exported unmatched_city_mismatch.csv\n")
-}
-
-if(nrow(name_not_found) > 0) {
-  write_csv(name_not_found, "data/output/unmatched_name_missing.csv")
-  cat("✓ Exported unmatched_name_missing.csv\n")
-}
-
-# ----------------------------------------
-# Summary
-# ----------------------------------------
-cat("\n===========================================\n")
-cat("UNMATCHED PROPERTIES BREAKDOWN\n")
-cat("===========================================\n")
-cat(sprintf("Total VEREP properties: %d\n", nrow(verep_joined)))
-cat(sprintf("Matched to congregation: %d\n", sum(!is.na(verep_joined$attendance_2023))))
-cat(sprintf("Unmatched: %d\n", nrow(unmatched_properties)))
-cat("-------------------------------------------\n")
-cat(sprintf("  No congregation assigned (NA): %d\n", nrow(no_congregation)))
-cat(sprintf("  Has name but didn't match: %d\n", nrow(no_match)))
-cat(sprintf("    - Name exists, city mismatch: %d\n", nrow(name_exists_city_different)))
-cat(sprintf("    - Name not in congregation data: %d\n", nrow(name_not_found)))
-cat("===========================================\n")
-
-# ===========================================
-# STEP 11: CREATE SUMMARY OUTPUTS FOR REPORTING
-# ===========================================
-
-cat("\n=== CREATING SUMMARY OUTPUTS ===\n")
-
-# ----------------------------------------
-# 1. ATTENDANCE CONTEXT SUMMARY
-# ----------------------------------------
-attendance_context <- property_profile %>%
-  summarise(
-    total_properties = n(),
-    unique_congregations = n_distinct(congregation_name),
-    mean_attendance = mean(attendance_2023, na.rm = TRUE),
-    median_attendance = median(attendance_2023, na.rm = TRUE),
-    zero_attendance = sum(attendance_2023 == 0, na.rm = TRUE),
-    attendance_1_10 = sum(attendance_2023 > 0 & attendance_2023 <= 10, na.rm = TRUE),
-    attendance_11_20 = sum(attendance_2023 > 10 & attendance_2023 <= 20, na.rm = TRUE),
-    attendance_21_29 = sum(attendance_2023 > 20 & attendance_2023 < 30, na.rm = TRUE),
-    avg_members = mean(members_2023, na.rm = TRUE),
-    avg_plate_pledge = mean(plate_pledge_2023, na.rm = TRUE),
-    total_land_value = sum(lan_val, na.rm = TRUE),
-    total_acreage = sum(rgisacre, na.rm = TRUE)
-  )
-
-write_csv(attendance_context, "data/output/verep_attendance_summary.csv")
-cat("✓ Exported verep_attendance_summary.csv\n")
-
-# ----------------------------------------
-# 2. OPPORTUNITY MATRIX
-# ----------------------------------------
-opportunity_matrix <- property_profile %>%
-  summarise(
-    total_properties = n(),
-    high_opportunity = sum(development_potential == "High", na.rm = TRUE),
-    medium_opportunity = sum(development_potential == "Medium", na.rm = TRUE),
-    constrained = sum(development_potential == "Constrained", na.rm = TRUE),
-    small_parcels = sum(development_potential == "Small Parcel", na.rm = TRUE),
-    review_needed = sum(development_potential == "Review Needed", na.rm = TRUE),
-    in_qct = sum(qct == 1, na.rm = TRUE),
-    in_dda = sum(dda == 1, na.rm = TRUE),
-    has_environmental_constraints = sum(has_environmental_constraint == TRUE, na.rm = TRUE)
-  )
-
-write_csv(opportunity_matrix, "data/output/verep_opportunity_matrix.csv")
-cat("✓ Exported verep_opportunity_matrix.csv\n")
-
-# ----------------------------------------
-# 3. TOP OPPORTUNITIES (LEADERSHIP REPORT)
-# ----------------------------------------
-leadership_report <- property_profile %>%
-  filter(development_potential %in% c("High", "Medium")) %>%
-  arrange(desc(development_potential == "High"), desc(lan_val)) %>%
-  select(
-    congregation_name,
-    scity, scounty,
-    attendance_2023, members_2023,
-    lan_val, land_value_per_acre, rgisacre,
-    qct, dda,
-    development_potential,
-    zon_desc,
-    has_environmental_constraint,
-    data_completeness
-  )
-
-write_csv(leadership_report, "data/output/verep_top_opportunities.csv")
-cat("✓ Exported verep_top_opportunities.csv\n")
-
-# ----------------------------------------
-# 4. DATA FOLLOWUP NEEDED
-# ----------------------------------------
-data_followup <- property_profile %>%
-  filter(data_completeness < 6) %>%
-  arrange(data_completeness) %>%
-  select(
-    congregation_name,
-    scity, scounty,
-    sadd,
-    data_completeness,
-    missing_land_value, missing_acreage, missing_wetland,
-    missing_flood, missing_qct, missing_zoning,
-    lat, lon
-  ) %>%
-  mutate(
-    missing_fields = paste0(
-      if_else(missing_land_value, "land_value ", ""),
-      if_else(missing_acreage, "acreage ", ""),
-      if_else(missing_wetland, "wetland ", ""),
-      if_else(missing_flood, "flood ", ""),
-      if_else(missing_qct, "qct ", ""),
-      if_else(missing_zoning, "zoning", "")
-    ) %>% str_trim()
-  )
-
-write_csv(data_followup, "data/output/verep_data_needed.csv")
-cat("✓ Exported verep_data_needed.csv\n")
-
-
-missing_land_value <- data_followup %>%
-  filter(missing_land_value == TRUE)
-
-
-cat("\n===========================================\n")
-cat("ALL SUMMARY OUTPUTS COMPLETE\n")
-cat("===========================================\n")
