@@ -7,8 +7,7 @@ source("R/app.R")
 ```
 
 
-## Overview
-
+## Overvie
 In this analysis, the top 10 properties all scored the same, which means they are listed in no particular order, but as the top group of high-possibility sites.
 
 The following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:
@@ -18,7 +17,10 @@ The following section provides detailed profiles for each of the top 10 developm
 -   Development opportunities and strategies
 -   Key considerations and next steps
 
-```{r property-profiles, results='asis'}
+
+```{r}
+#| label: property-profiles
+#| results: asis
 #| echo: false 
 
 create_property_profile <- function(rank_num) {
@@ -27,8 +29,8 @@ create_property_profile <- function(rank_num) {
   if(nrow(property) == 0) return(NULL)
   
   cat("\n\n## Property #", rank_num, " {.unnumbered}\n\n", sep = "")
-  cat("### ", property$site_address, "\n", sep = "")
-  cat("**", property$site_city, ", ", property$site_county, " County**\n\n", sep = "")
+  cat("### ", property$sadd, "\n", sep = "")
+  cat("**", property$scity, ", ", property$scounty, " County**\n\n", sep = "")
   
   tier_type <- case_when(
     property$development_score >= 75 ~ "important",
@@ -38,14 +40,14 @@ create_property_profile <- function(rank_num) {
   
   cat(":::{.callout-", tier_type, "}\n", sep = "")
   cat("## Development Score: **", round(property$development_score, 1), "/100**\n\n", sep = "")
-  cat("**", property$development_tier, "**\n", sep = "")
+  cat("**", property$development_potential, "**\n", sep = "")
   cat(":::\n\n")
   
   cat("::: {layout-ncol=3}\n")
   cat("::: {}\n**", round(property$area_acres, 2), " acres**  \n", sep = "")
   cat("Property Size\n:::\n")
   
-  cat("::: {}\n**", round(property$walkability_score, 1), "/100**  \n", sep = "")
+  cat("::: {}\n**", round(property$walkability_score, 1), "/20**  \n", sep = "")
   cat("Walkability\n:::\n")
   
   cat("::: {}\n**", 
@@ -66,8 +68,8 @@ create_property_profile <- function(rank_num) {
     cat(" Mixed use\n")
   }
   
-  if(!is.na(property$name)) {
-    cat("\n#### Congregation: ", property$name, "\n\n", sep = "")
+  if(!is.na(property$congregation_name)) {
+    cat("\n#### Congregation: ", property$congregation_name, "\n\n", sep = "")
     
     if(!is.na(property$pct_change_pledge)) {
       change_dir <- ifelse(property$pct_change_pledge < 0, "↓ decreased", "↑ increased")
@@ -83,8 +85,10 @@ create_property_profile <- function(rank_num) {
   if(!is.na(property$area_acres) && property$area_acres > 1) {
     cat("📐 **Substantial site:** Large parcel enables phased development or creative master planning\n\n")
   }
-  if(!is.na(property$walkability_score) && property$walkability_score > 10) {
-    cat("🚶 **Walkable location:** Transit access supports reduced parking requirements and higher density\n\n")
+  if(!is.na(property$walkability_score) && property$walkability_score >= 15) {
+    cat("🚶 **Highly walkable location:** Supports car-light households and may qualify for reduced parking requirements\n\n")
+  } else if(!is.na(property$walkability_score) && property$walkability_score >= 10) {
+    cat("🚶 **Moderate walkability:** Some transit access supports density considerations\n\n")
   }
   
   cat("#### Recommended Next Steps\n\n")
