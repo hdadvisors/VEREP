@@ -5,12 +5,8 @@
 library(tidyverse)
 library(geocodio)
 
-# Set your Geocodio API key
-# Get free key at: https://www.geocod.io/
-# Sys.setenv(GEOCODIO_API_KEY = "your_api_key_here")
+Sys.setenv(GEOCODIO_API_KEY = "7199941c634ed174fc7dd93c066c06c0990c466")
 
-# Or load from .Renviron file
-# Add line to ~/.Renviron: GEOCODIO_API_KEY=your_key_here
 
 # ========================================
 # LOAD PROPERTIES NEEDING GEOCODING
