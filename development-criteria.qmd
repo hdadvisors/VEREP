@@ -7,7 +7,7 @@ source("R/common.R")
 
 ## Why These Factors Matter
 
-The development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.
+The development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology, as outlined in the analytical framework of this report, reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.
 
 ### Property Size: The Goldilocks Principle
 
@@ -177,7 +177,7 @@ ggplot(use_counts, aes(x = reorder(`Use Type`, Count), y = Count)) +
 
 Not all church property serves its highest and best use. Surface parking lots represent prime redevelopment opportunities—they're already cleared and graded, typically have minimal environmental constraints, and often sit underutilized six days per week. A parking lot that serves 200 congregants on Sunday morning but stands empty Monday through Saturday represents an enormous opportunity cost.
 
-Open space scores similarly high, particularly when it's amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be reimagined while potentially retaining some green space within new development.
+Open space scores similarly high, particularly when it's amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be re-imagined while potentially retaining some green space within new development.
 
 ### Location Quality: Following the Market
 
@@ -244,6 +244,8 @@ Real estate development fundamentally responds to location. A walkable, transit-
 Walkability scores measure proximity to everyday needs: grocery stores, schools, employment centers, healthcare. High walkability (15-20 on our scale) indicates a property can support car-light or car-free households, expanding the potential tenant base to include young professionals, seniors aging in place, and lower-income families for whom car ownership is cost-prohibitive.
 
 Transit access amplifies these benefits. Properties within a quarter-mile of frequent bus service or half-mile of rail stations can often negotiate reduced parking requirements with municipalities—a significant cost savings when structured parking runs \$25,000-\$40,000 per space to construct.
+
+Most parcels in the portfolio fall below the high-walkability range, but a number showed promise in this category.
 
 
 ### Financial Need: Aligning Development with Mission
@@ -429,6 +431,33 @@ Where:
 
 - $w_i$ = weight of criterion $i$
 - $s_i$ = score for criterion $i$ (0-100)
+
+Simple example:
+
+```{r}
+library(kableExtra)
+library(tibble)
+
+scoring_example <- tibble(
+  Criterion = c("Land value", "Acreage", "Location", "Zoning", "Accessibility", "**Total**"),
+  Weight = c(0.30, 0.25, 0.20, 0.15, 0.10, "—"),
+  Score = c(80, 60, 90, 70, 50, "—"),
+  Weighted = c(24, 15, 18, 10.5, 5, "**72.5**")
+)
+
+scoring_example |>
+  kable(
+    col.names = c("Criterion", "Weight", "Score", "Weighted Score"),
+    align = c("l", "c", "c", "c")
+  ) |>
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE
+  ) |>
+  row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
+  row_spec(6, bold = TRUE, background = "#f0f0f0")
+```
+If there's a constraint penalty of 10 points on this parcel (say, for a historic easement), the final score would be **62.5**
 
 ```{r}
 #| label: fig-score-components
