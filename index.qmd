@@ -4,20 +4,20 @@ title: "Property Development Opportunity Analysis"
 
 ## Report Purpose
 
-This analysis provides:
+This analysis, done for the Virginia Episcopal Real Estate Portfolio (VEREP), provides:
 
-- **Strategic Insights**: Identification of high-potential development opportunities
+- **Strategic Insights**: Identification of high-potential development opportunities amongst their smallest congregations
 - **Data-Driven Decisions**: Evidence-based property assessments
 - **Geographic Analysis**: Regional distribution and market potential
 
 
 ## How to Use This Report
 
-- **Executive Summary**: Quick overview and key findings
-- **Methodology**: Understanding our analytical approach
-- **Analysis Results**: Detailed findings and insights
+- **Executive Summary**: Quick project overview and key findings
+- **Methodology**: Understanding the analytical approach to assessing development potential
+- **Analysis Results**: Detailed findings and insights of relevant parcels
 - **Summary Statistics**: Portfolio-wide metrics
-- **Property Profiles**: Individual property assessments
+- **Property Profiles**: Individual property assessments for top identified parcels
 - **Appendices**: Technical details and references
 
 ::: {.callout-tip}

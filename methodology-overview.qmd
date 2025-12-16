@@ -82,10 +82,6 @@ summary_stats |>
   column_spec(2, width = "12em")
 ```
 
-```{r no-coords-warning, echo=FALSE, results='asis'}
-
-# geocoding missing addresses here? 
-```
 
 ```{r other-issues, echo=FALSE}
 # Calculate missing data breakdown
@@ -149,5 +145,8 @@ missing_breakdown |>
   )
 ```
 
+In an effort to avoid limiting all properties in this way, we handled wetland qualifying differently from other categories because it accounted for the majority of missing data. This gap reflects limitations in the source wetland layer coverage rather than an absence of wetland features. For properties without wetland data, we applied a default value of 0%, operating under the assumption that parcels not captured in the National Wetlands Inventory contain no significant wetland features. Similarly, the 5 properties (4.8%) missing FEMA flood zone designations were assigned zone "X," indicating minimal flood hazard, consistent with areas outside mapped floodplains.
 
+Acreage and QCT status were complete across all 101 properties. Land value and zoning data remained incomplete for 15 properties each (14.4%). These fields were retained as missing rather than imputed, as accurate values require verification through county assessor records and local zoning ordinances. Properties lacking these values are flagged for manual follow-up.
 
+Following these adjustments, the number of properties with incomplete data decreased from 101 to approximately 25, representing those still requiring land value or zoning verification.
