@@ -1,27 +1,19 @@
 # ========================================
-# CORRECTED PROPERTY PROFILE GENERATION
-# Creates property_profile.rds with 104 unique properties
+# DATA CREATION - CLEAN DATA ONLY
+# NO SCORING - Just prepare clean dataset
 # ========================================
 
 library(tidyverse)
 library(readr)
 
 # ========================================
-## STEP 1: LOAD RAW DATA
+# STEP 1-5: Load, Clean, Join, Filter
 # ========================================
 
-verep_data <- read_csv("data/congregation_owned_parcels.csv")
-congregation_data <- read_csv("data/congregation.csv")
+verep_data <- read_csv("data/congregation_owned_parcels.csv", show_col_types = FALSE)
+congregation_data <- read_csv("data/congregation.csv", show_col_types = FALSE)
 
-cat("=== RAW DATA LOADED ===\n")
-cat(sprintf("VEREP properties: %d\n", nrow(verep_data)))
-cat(sprintf("Congregations: %d\n", nrow(congregation_data)))
-
-# ========================================
-# STEP 2: CLEAN NAMES AND CITIES (BOTH DATASETS)
-# ========================================
-
-# Clean VEREP - remove ALL parenthetical content
+# Clean names (same as before)
 verep_data <- verep_data %>%
   mutate(
     clean_name = str_to_lower(congr_name),
@@ -30,7 +22,6 @@ verep_data <- verep_data %>%
     clean_city = str_to_lower(str_trim(scity))
   )
 
-# Clean congregation - ALSO remove parentheses (this was the bug)
 congregation_data <- congregation_data %>%
   mutate(
     clean_name = str_to_lower(name),
@@ -39,15 +30,11 @@ congregation_data <- congregation_data %>%
     clean_city = str_to_lower(str_trim(city))
   )
 
-# ========================================
-# STEP 3: PREPARE ATTENDANCE DATA
-# ========================================
-
+# Prepare attendance data
 attendance_data <- congregation_data %>%
   select(
-    clean_name,
-    clean_city,
-    congregation_name = name,  # Keep original name for display
+    clean_name, clean_city,
+    congregation_name = name,
     short_name,
     attendance_2023 = f2023_sunday_attendance,
     attendance_2014 = f2014_sunday_attendance,
@@ -59,58 +46,27 @@ attendance_data <- congregation_data %>%
     dio_reg
   )
 
-# ========================================
-# STEP 4: JOIN ON CLEAN_NAME + CLEAN_CITY
-# ========================================
-
+# Join and filter
 verep_joined <- verep_data %>%
   left_join(attendance_data, by = c("clean_name", "clean_city"))
 
-# Verify no many-to-many issues
-cat("\n=== JOIN RESULTS ===\n")
-cat(sprintf("Rows after join: %d (should equal VEREP rows: %d)\n", 
-            nrow(verep_joined), nrow(verep_data)))
-cat(sprintf("Properties with attendance match: %d\n", 
-            sum(!is.na(verep_joined$attendance_2023))))
-
-# ========================================
-# STEP 5: FILTER FOR <30 ATTENDANCE
-# ========================================
-
 analysis_subset <- verep_joined %>%
-  filter(
-    !is.na(attendance_2023) &
-      attendance_2023 < 30
-  )
-
-cat(sprintf("\nProperties with <30 attendance: %d\n", nrow(analysis_subset)))
-cat(sprintf("Unique UIDs: %d\n", n_distinct(analysis_subset$uid)))
-
-# Verify no duplicates
-if(nrow(analysis_subset) != n_distinct(analysis_subset$uid)) {
-  warning("DUPLICATE UIDs DETECTED - check join logic!")
-} else {
-  cat("✓ No duplicate UIDs - data is clean\n")
-}
+  filter(!is.na(attendance_2023) & attendance_2023 < 30)
 
 # ========================================
-# STEP 6: CREATE PROPERTY PROFILE WITH ALL FIELDS
+# STEP 6: CREATE CLEAN PROPERTY PROFILE
+# No scoring - just factual data
 # ========================================
 
 property_profile <- analysis_subset %>%
   mutate(
-    # Environmental constraints
-    has_environmental_constraint = (wet_perc > 10) | 
-      (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE")),
+    # Environmental constraints (factual, not scored)
+    has_wetland_constraint = (!is.na(wet_perc) & wet_perc > 10),
+    has_flood_constraint = (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE")),
+    has_environmental_constraint = has_wetland_constraint | has_flood_constraint,
     
-    # Developability flag
-    developable = (qct == 1) & (rgisacre >= 1) & 
-      (!has_environmental_constraint | is.na(has_environmental_constraint)),
-    
-    # Land value per acre
+    # Derived calculations
     land_value_per_acre = if_else(rgisacre > 0, lan_val / rgisacre, NA_real_),
-    
-    # Percent change calculations
     pct_change_attendance = if_else(
       !is.na(attendance_2014) & attendance_2014 > 0,
       (attendance_2023 - attendance_2014) / attendance_2014 * 100,
@@ -122,7 +78,7 @@ property_profile <- analysis_subset %>%
       NA_real_
     ),
     
-    # Data completeness flags
+    # Data completeness
     missing_land_value = is.na(lan_val),
     missing_acreage = is.na(rgisacre),
     missing_wetland = is.na(wet_perc),
@@ -130,7 +86,6 @@ property_profile <- analysis_subset %>%
     missing_qct = is.na(qct),
     missing_zoning = is.na(zon) | zon == "",
     
-    # Data completeness score (0-6)
     data_completeness = 6 - (
       as.integer(missing_land_value) +
         as.integer(missing_acreage) +
@@ -138,15 +93,6 @@ property_profile <- analysis_subset %>%
         as.integer(missing_flood) +
         as.integer(missing_qct) +
         as.integer(missing_zoning)
-    ),
-    
-    # Development potential category
-    development_potential = case_when(
-      developable == TRUE ~ "High",
-      (qct == 1 | dda == 1) & rgisacre >= 0.5 & rgisacre < 1 ~ "Medium",
-      has_environmental_constraint == TRUE ~ "Constrained",
-      rgisacre < 0.5 ~ "Small Parcel",
-      TRUE ~ "Review Needed"
     )
   ) %>%
   select(
@@ -167,14 +113,14 @@ property_profile <- analysis_subset %>%
     # Opportunity zones
     qct, dda,
     
-    # Environmental
+    # Environmental (factual flags only)
     wet_perc, fema_fz, fema_nri,
-    has_environmental_constraint, developable, development_potential,
+    has_wetland_constraint, has_flood_constraint, has_environmental_constraint,
     
-    # Land use flags  <-- ADD THIS SECTION
+    # Land use flags
     church, cemetery, school, parking, open_space, residence,
     
-    # Walkability  <-- ADD THIS TOO if you need it
+    # Walkability
     walk_idx,
     
     # Data quality
@@ -186,28 +132,13 @@ property_profile <- analysis_subset %>%
     sadd, scity, scounty, sstate, szip,
     lat, lon,
     
-    # Keep clean names for debugging
+    # Keep clean names
     clean_name, clean_city
   )
 
 # ========================================
-# STEP 7: FINAL VALIDATION
+# STEP 7B: Identify properties needing geocoding
 # ========================================
-
-cat("\n=== FINAL PROPERTY PROFILE ===\n")
-cat(sprintf("Total rows: %d\n", nrow(property_profile)))
-cat(sprintf("Unique UIDs: %d\n", n_distinct(property_profile$uid)))
-cat(sprintf("Unique PIDs: %d\n", n_distinct(property_profile$pid)))
-cat(sprintf("Properties with land value: %d\n", sum(!is.na(property_profile$lan_val))))
-cat(sprintf("Properties missing land value: %d\n", sum(is.na(property_profile$lan_val))))
-cat(sprintf("Data completeness range: %d - %d\n", 
-            min(property_profile$data_completeness, na.rm = TRUE),
-            max(property_profile$data_completeness, na.rm = TRUE)))
-
-# ========================================
-# STEP 7B: GEOCODING & CONSTRAINT IDENTIFICATION
-# ========================================
-cat("\n=== IDENTIFYING PROPERTIES NEEDING GEOCODING ===\n")
 
 properties_needing_geocoding <- property_profile %>%
   filter(
@@ -220,194 +151,19 @@ properties_needing_geocoding <- property_profile %>%
     sadd, scity, scounty, sstate, szip,
     lat, lon,
     attendance_2023, lan_val, rgisacre,
-    church, cemetery, school, parking, open_space, residence,
-    development_potential
+    church, cemetery, school, parking, open_space, residence
   )
 
-cat(sprintf("Properties needing geocoding: %d\n", nrow(properties_needing_geocoding)))
-
-# Export for geocoding
-write_csv(properties_needing_geocoding, 
-          "data/output/properties_needing_geocoding.csv")
-cat("✓ Exported data/output/properties_needing_geocoding.csv\n")
-  
-# ========================================
-# MERGE GEOCODED DATA BACK (FIXED)
-# ========================================
-
-library(tidyverse)
-
-# Load property profile
-property_profile <- readRDS("data/output/property_profile.rds")
-
-# Load geocoded results  
-geocoded <- read_csv("data/output/geocoded_properties.csv", show_col_types = FALSE)
-
-cat("Starting merge...\n")
-cat(sprintf("Property profile rows: %d\n", nrow(property_profile)))
-cat(sprintf("Geocoded rows: %d\n", nrow(geocoded)))
-
-# Ensure UIDs are consistent type
-property_profile <- property_profile %>%
-  mutate(uid = as.character(uid))
-
-geocoded <- geocoded %>%
-  mutate(uid = as.character(uid))
-
-# Check what we're about to merge
-cat(sprintf("Matching UIDs: %d\n", length(intersect(property_profile$uid, geocoded$uid))))
+write_csv(properties_needing_geocoding, "data/output/properties_needing_geocoding.csv")
 
 # ========================================
-# MERGE - Step by step for clarity
+# STEP 8: Save clean data
 # ========================================
 
-# First, do the join
-property_profile_updated <- property_profile %>%
-  left_join(geocoded, by = "uid", suffix = c("", "_geocoded"))
+dir.create("data/output", recursive = TRUE, showWarnings = FALSE)
 
-# Check that geocoded columns exist
-cat("\nColumns after join:\n")
-print(names(property_profile_updated)[grepl("geocoded", names(property_profile_updated))])
+saveRDS(property_profile, "data/output/property_profile.rds")
+write_csv(property_profile, "data/output/property_profile.csv")
 
-# Now update lat/lon with geocoded values where missing
-property_profile_updated <- property_profile_updated %>%
-  mutate(
-    # Use geocoded coordinates if original are missing
-    lat = if_else(is.na(lat), geocoded_lat, lat),
-    lon = if_else(is.na(lon), geocoded_lon, lon)
-  )
-
-# ========================================
-# VERIFY & SAVE
-# ========================================
-
-geocoded_count <- sum(!is.na(property_profile_updated$geocoded_lat))
-cat(sprintf("\n✓ Successfully merged %d geocoded properties\n", geocoded_count))
-
-# Save updated profile
-saveRDS(property_profile_updated, "data/output/property_profile.rds")
-write_csv(property_profile_updated, "data/output/property_profile.csv")
-
-cat("✓ Saved updated property_profile.rds\n")
-cat("✓ Saved updated property_profile.csv\n")
-
-cat("\n===========================================\n")
-cat("MERGE COMPLETE\n")
-cat("===========================================\n")
-cat(sprintf("Total properties: %d\n", nrow(property_profile_updated)))
-cat(sprintf("Properties with geocoded data: %d\n", geocoded_count))
-cat(sprintf("Properties now with coordinates: %d\n", 
-            sum(!is.na(property_profile_updated$lat))))
-cat(sprintf("Properties still missing coordinates: %d\n", 
-            sum(is.na(property_profile_updated$lat))))
-cat("===========================================\n")
-
-# Show sample of updated data
-cat("\nSample of geocoded properties:\n")
-property_profile_updated %>%
-  filter(!is.na(geocoded_lat)) %>%
-  select(congregation_name, scity, lat, lon, geocode_accuracy, combined_constraint) %>%
-  head(5) %>%
-  print()
-
-# ========================================
-# CLEANUP: Remove duplicate geocoded columns
-# ========================================
-
-library(tidyverse)
-
-property_profile_updated <- readRDS("data/output/property_profile.rds")
-
-# Remove old geocoded columns that have "_geocoded" suffix
-property_profile_clean <- property_profile_updated %>%
-  select(-ends_with("_geocoded"))
-
-# Save cleaned version
-saveRDS(property_profile_clean, "data/output/property_profile.rds")
-write_csv(property_profile_clean, "data/output/property_profile.csv")
-
-cat("✓ Cleaned up duplicate columns\n")
-cat(sprintf("Final column count: %d\n", ncol(property_profile_clean)))
-
-# Verify geocoded data is still there
-cat(sprintf("Properties with geocoded data: %d\n", 
-            sum(!is.na(property_profile_clean$geocoded_lat))))
-
-# ========================================
-# STEP 9: SUMMARY STATISTICS
-# ========================================
-
-cat("\n===========================================\n")
-cat("PROPERTY PROFILE GENERATION COMPLETE\n")
-cat("===========================================\n")
-cat(sprintf("Total properties: %d\n", nrow(property_profile)))
-cat(sprintf("Unique congregations: %d\n", n_distinct(property_profile$congregation_name)))
-cat(sprintf("Average attendance: %.1f\n", mean(property_profile$attendance_2023, na.rm = TRUE)))
-cat(sprintf("Properties in QCT: %d (%.1f%%)\n", 
-            sum(property_profile$qct == 1, na.rm = TRUE),
-            sum(property_profile$qct == 1, na.rm = TRUE) / nrow(property_profile) * 100))
-cat(sprintf("High development potential: %d\n", 
-            sum(property_profile$development_potential == "High", na.rm = TRUE)))
-cat(sprintf("Total land value: %s\n", 
-            scales::dollar(sum(property_profile$lan_val, na.rm = TRUE))))
-cat(sprintf("Total acreage: %.2f\n", 
-            sum(property_profile$rgisacre, na.rm = TRUE)))
-cat("===========================================\n")
-
-# ========================================
-# GEOCODING SUMMARY REPORT
-# ========================================
-
-library(tidyverse)
-
-property_profile <- readRDS("data/output/property_profile.rds")
-
-# Summary report
-geocoding_summary <- tibble(
-  metric = c(
-    "Total properties in analysis",
-    "Properties needing geocoding",
-    "Successfully geocoded",
-    "Geocoding success rate",
-    "",
-    "All geocoded to city center",
-    "Geocode accuracy (median)",
-    "Geocode accuracy level",
-    "",
-    "Congregations affected",
-    "Location",
-    "",
-    "Development potential",
-    "Average parcel size",
-    "Average land value",
-    "",
-    "Impact on analysis",
-    "Included in top opportunities"
-  ),
-  value = c(
-    as.character(nrow(property_profile)),
-    "11",
-    "11",
-    "100%",
-    "",
-    "Yes (West Point, VA)",
-    "0.54",
-    "Medium (street_center)",
-    "",
-    "2 (St Pauls Church, St Johns Episcopal Church)",
-    "West Point, King William County",
-    "",
-    paste(unique(property_profile %>% filter(!is.na(geocoded_lat)) %>% pull(development_potential)), collapse = ", "),
-    sprintf("%.2f acres", mean(property_profile %>% filter(!is.na(geocoded_lat)) %>% pull(rgisacre), na.rm = TRUE)),
-    sprintf("$%s", scales::comma(mean(property_profile %>% filter(!is.na(geocoded_lat)) %>% pull(lan_val), na.rm = TRUE))),
-    "",
-    "None - all classified as 'Small Parcel' or 'Constrained'",
-    "NO"
-  )
-)
-
-write_csv(geocoding_summary, "data/output/geocoding_summary_report.csv")
-
-cat("✓ Exported geocoding_summary_report.csv\n")
-print(geocoding_summary, n = 30)
-
+cat("✓ Saved clean property_profile (104 properties)\n")
+cat("✓ No scoring applied - see common.R for development scoring\n")
