@@ -232,7 +232,7 @@ write_csv(properties_needing_geocoding,
 cat("✓ Exported data/output/properties_needing_geocoding.csv\n")
   
 # ========================================
-# MERGE GEOCODED DATA BACK
+# MERGE GEOCODED DATA BACK (FIXED)
 # ========================================
 
 library(tidyverse)
@@ -240,43 +240,75 @@ library(tidyverse)
 # Load property profile
 property_profile <- readRDS("data/output/property_profile.rds")
 
-# Load geocoded results
-geocoded <- read_csv("data/output/geocoded_properties.csv")
+# Load geocoded results  
+geocoded <- read_csv("data/output/geocoded_properties.csv", show_col_types = FALSE)
 
-# Merge
+cat("Starting merge...\n")
+cat(sprintf("Property profile rows: %d\n", nrow(property_profile)))
+cat(sprintf("Geocoded rows: %d\n", nrow(geocoded)))
+
+# Ensure UIDs are consistent type
+property_profile <- property_profile %>%
+  mutate(uid = as.character(uid))
+
+geocoded <- geocoded %>%
+  mutate(uid = as.character(uid))
+
+# Check what we're about to merge
+cat(sprintf("Matching UIDs: %d\n", length(intersect(property_profile$uid, geocoded$uid))))
+
+# ========================================
+# MERGE - Step by step for clarity
+# ========================================
+
+# First, do the join
 property_profile_updated <- property_profile %>%
-  left_join(
-    geocoded %>% 
-      select(uid, geocoded_lat, geocoded_lon, geocode_accuracy, 
-             geocode_accuracy_type, has_historic_keyword, 
-             is_primarily_cemetery, combined_constraint),
-    by = "uid"
-  ) %>%
+  left_join(geocoded, by = "uid", suffix = c("", "_geocoded"))
+
+# Check that geocoded columns exist
+cat("\nColumns after join:\n")
+print(names(property_profile_updated)[grepl("geocoded", names(property_profile_updated))])
+
+# Now update lat/lon with geocoded values where missing
+property_profile_updated <- property_profile_updated %>%
   mutate(
-    # Use geocoded coordinates if original missing
-    lat = coalesce(lat, geocoded_lat),
-    lon = coalesce(lon, geocoded_lon)
+    # Use geocoded coordinates if original are missing
+    lat = if_else(is.na(lat), geocoded_lat, lat),
+    lon = if_else(is.na(lon), geocoded_lon, lon)
   )
+
+# ========================================
+# VERIFY & SAVE
+# ========================================
+
+geocoded_count <- sum(!is.na(property_profile_updated$geocoded_lat))
+cat(sprintf("\n✓ Successfully merged %d geocoded properties\n", geocoded_count))
 
 # Save updated profile
 saveRDS(property_profile_updated, "data/output/property_profile.rds")
 write_csv(property_profile_updated, "data/output/property_profile.csv")
 
-cat("✓ Merged geocoding results back into property_profile\n")
+cat("✓ Saved updated property_profile.rds\n")
+cat("✓ Saved updated property_profile.csv\n")
 
-# ========================================
-# STEP 8: SAVE OUTPUT
-# ========================================
+cat("\n===========================================\n")
+cat("MERGE COMPLETE\n")
+cat("===========================================\n")
+cat(sprintf("Total properties: %d\n", nrow(property_profile_updated)))
+cat(sprintf("Properties with geocoded data: %d\n", geocoded_count))
+cat(sprintf("Properties now with coordinates: %d\n", 
+            sum(!is.na(property_profile_updated$lat))))
+cat(sprintf("Properties still missing coordinates: %d\n", 
+            sum(is.na(property_profile_updated$lat))))
+cat("===========================================\n")
 
-dir.create("data/output", recursive = TRUE, showWarnings = FALSE)
-
-# Save as RDS (preserves data types)
-saveRDS(property_profile, "data/output/property_profile.rds")
-cat("\n✓ Saved property_profile.rds\n")
-
-# Also save as CSV for inspection
-write_csv(property_profile, "data/output/property_profile.csv")
-cat("✓ Saved property_profile.csv\n")
+# Show sample of updated data
+cat("\nSample of geocoded properties:\n")
+property_profile_updated %>%
+  filter(!is.na(geocoded_lat)) %>%
+  select(congregation_name, scity, lat, lon, geocode_accuracy, combined_constraint) %>%
+  head(5) %>%
+  print()
 
 # ========================================
 # STEP 9: SUMMARY STATISTICS

@@ -1,2 +1,2 @@
-total_geocoded,geocode_success,geocode_failed,likely_historic,primary_cemetery,needs_manual_review
-11,11,0,0,0,11
+total_properties,geocode_success,geocode_failed,high_accuracy_count,medium_accuracy_count,low_accuracy_count,historic_indicators,primary_cemeteries,mixed_cemeteries,needs_manual_review,severely_constrained,highly_constrained,moderately_constrained
+11,11,0,0,11,0,0,0,0,11,0,0,0
