@@ -378,38 +378,6 @@ tier_summary |>
 
 :::
 
-## Geographic Distribution
-
-```{r}
-#| label: fig-county-map
-#| fig-cap: "Parcels by County (Top 15)"
-#| fig-height: 5
-#| echo: false
-
-county_counts <- property_profile |>
-  count(scounty, name = "n_properties") |>
-  arrange(desc(n_properties)) |>
-  slice_head(n = 15)
-
-ggplot(county_counts, aes(x = reorder(scounty, n_properties), y = n_properties)) +
-  geom_col(fill = "#445ca9", alpha = 0.8) +
-  geom_text(aes(label = n_properties), hjust = -0.2, size = 3.5) +
-  coord_flip() +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
-  labs(
-    title = "Top 15 Counties by Parcel Count",
-    x = "",
-    y = "Number of Parcels"
-  ) +
-  theme_minimal(base_size = 12) +
-  theme(
-    plot.title = element_text(face = "bold", color = "#445ca9"),
-    panel.grid.major.y = element_blank()
-  )
-```
-Each of these counties have multiple congregation parcels, with the highest concentration of small congregation parcels in King William and Stafford counties. 
-
-
 ## Congregation Health Indicators
 
 ```{r}
