@@ -2,7 +2,6 @@
 ```{r}
 #| include: false
 source("R/common.R")
-source("R/app.R")
 ```
 
 ## Interactive Map

@@ -20,6 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+q { quotes: "“" "”" "‘" "’"; }
 </style>
 
 
@@ -245,6 +246,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#verep-parcel-dataset" id="toc-verep-parcel-dataset" class="nav-link active" data-scroll-target="#verep-parcel-dataset">VEREP Parcel Dataset</a></li>
   <li><a href="#congregation-statistics-2014-2023" id="toc-congregation-statistics-2014-2023" class="nav-link" data-scroll-target="#congregation-statistics-2014-2023">Congregation Statistics (2014-2023)</a></li>
   <li><a href="#data-quality-issues" id="toc-data-quality-issues" class="nav-link" data-scroll-target="#data-quality-issues">Data Quality Issues</a></li>
+  <li><a href="#geocoding-process-summary" id="toc-geocoding-process-summary" class="nav-link" data-scroll-target="#geocoding-process-summary">Geocoding Process Summary</a>
+  <ul class="collapse">
+  <li><a href="#process" id="toc-process" class="nav-link" data-scroll-target="#process">Process</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#impact-on-analysis" id="toc-impact-on-analysis" class="nav-link" data-scroll-target="#impact-on-analysis">Impact on Analysis</a></li>
+  <li><a href="#recommendation" id="toc-recommendation" class="nav-link" data-scroll-target="#recommendation">Recommendation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -324,7 +333,7 @@ Data Quality Note
 </tr>
 <tr class="even">
 <td style="text-align: left; width: 25em; font-weight: bold;">Properties with incomplete data (score &lt; 6/6)</td>
-<td style="text-align: right; width: 12em;">30 (28.8%)</td>
+<td style="text-align: right; width: 12em;">101 (97.1%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; width: 25em; font-weight: bold;">Properties missing land value</td>
@@ -347,8 +356,50 @@ Data Quality Note
 </div>
 </div>
 </div>
+<p>In an effort to avoid limiting all properties in this way, we handled wetland qualifying differently from other categories because it accounted for the majority of missing data. This gap reflects limitations in the source wetland layer coverage rather than an absence of wetland features. For properties without wetland data, we applied a default value of 0%, operating under the assumption that parcels not captured in the National Wetlands Inventory contain no significant wetland features. Similarly, the 5 properties (4.8%) missing FEMA flood zone designations were assigned zone <q>X,</q> indicating minimal flood hazard, consistent with areas outside mapped floodplains.</p>
+<p>Acreage and QCT status were complete across all 101 properties. Land value and zoning data remained incomplete for 15 properties each (14.4%). These fields were retained as missing rather than imputed, as accurate values require verification through county assessor records and local zoning ordinances. Properties lacking these values are flagged for manual follow-up.</p>
+<p>Following these adjustments, the number of properties with incomplete data decreased from 101 to approximately 25, representing those still requiring land value or zoning verification.</p>
+</section>
+<section id="geocoding-process-summary" class="level2">
+<h2 class="anchored" data-anchor-id="geocoding-process-summary">Geocoding Process Summary</h2>
+<section id="process" class="level3">
+<h3 class="anchored" data-anchor-id="process">Process</h3>
+<p>11 of the 104 parcels had missing or <q>UNASSIGNED</q> addresses in the parcel database. For this analysis we used Geocodio API to geocode based on available city/county information. All 11 of these parcels geocoded to West Point, King William County center coordinates and likely belong to 2 congregations.</p>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
+<ul>
+<li><strong>Geocoding success rate</strong>: 100% (11/11 properties)</li>
+<li><strong>Accuracy level</strong>: Medium (0.54) - <q>street_center</q> approximation</li>
+<li><strong>Location</strong>: West Point, King William County, Virginia</li>
+<li><strong>Congregations affected</strong>: 2 (St Pauls Church, St Johns Episcopal Church)</li>
+<li><strong>Development classification</strong>: All classified as <q>Small Parcel</q> or environmentally constrained</li>
+</ul>
+</section>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>These properties lack specific street addresses in the Virginia parcel data. The geocoding service returned city-center coordinates as approximations based on the available location information (city and county).</p>
+<p>This geocoding approach is acceptable for the purposes of this report because:</p>
+<ul>
+<li>All properties are small parcels (&lt; 0.5 acres)</li>
+<li>None qualify as high or medium development opportunities</li>
+<li>They are correctly excluded from the <q>top opportunities</q> analysis</li>
+<li>Approximate coordinates are sufficient for general mapping and visualization purposes</li>
+</ul>
+</section>
+<section id="impact-on-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="impact-on-analysis">Impact on Analysis</h3>
+<p>✓ <strong>No impact</strong> on top opportunities identification<br>
+✓ All 104 properties now have coordinates for mapping and spatial analysis<br>
+✓ Small parcels appropriately filtered from priority development list<br>
+✓ Development potential classifications remain accurate</p>
+</section>
+<section id="recommendation" class="level3">
+<h3 class="anchored" data-anchor-id="recommendation">Recommendation</h3>
+<p>Accept city-center approximations for mapping and visualization purposes. Manual address research is not necessary as these parcels are not development priorities due to size constraints. The geocoding has successfully provided the minimum necessary location information for comprehensive spatial analysis of the property portfolio.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -20,6 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+q { quotes: "“" "”" "‘" "’"; }
 </style>
 
 
@@ -309,14 +310,14 @@ window.Quarto = {
 
 <section id="why-these-factors-matter" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="why-these-factors-matter">Why These Factors Matter</h2>
-<p>The development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.</p>
+<p>The development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology, as outlined in the analytical framework of this report, reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.</p>
 <section id="property-size-the-goldilocks-principle" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="property-size-the-goldilocks-principle">Property Size: The Goldilocks Principle</h3>
 <p><strong>Weight: 20%</strong></p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p><strong>Optimal Range</strong>: 0.5-5 acres</p>
-<p>Properties that are “just right” for development.</p>
+<p>Properties that are <q>just right</q> for development.</p>
 </div></div><p>Not too small to be economically viable, not too large to be financially unwieldy.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -436,7 +437,7 @@ Figure&nbsp;5.3: Properties by Current Use Type
 </div>
 <p><strong>Highest Potential: Parking Lots and Open Space</strong></p>
 <p>Not all church property serves its highest and best use. Surface parking lots represent prime redevelopment opportunities—they’re already cleared and graded, typically have minimal environmental constraints, and often sit underutilized six days per week. A parking lot that serves 200 congregants on Sunday morning but stands empty Monday through Saturday represents an enormous opportunity cost.</p>
-<p>Open space scores similarly high, particularly when it’s amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be reimagined while potentially retaining some green space within new development.</p>
+<p>Open space scores similarly high, particularly when it’s amenity-free lawn rather than programmed recreation or memorial gardens. These properties can be re-imagined while potentially retaining some green space within new development.</p>
 </section>
 <section id="location-quality-following-the-market" class="level3">
 <h3 class="anchored" data-anchor-id="location-quality-following-the-market">Location Quality: Following the Market</h3>
@@ -473,6 +474,7 @@ Figure&nbsp;5.5: Distribution of Walkability Scores
 <p>Real estate development fundamentally responds to location. A walkable, transit-rich site commands higher rents, attracts more diverse tenants, and often qualifies for density bonuses or reduced parking requirements—all factors that improve project economics.</p>
 <p>Walkability scores measure proximity to everyday needs: grocery stores, schools, employment centers, healthcare. High walkability (15-20 on our scale) indicates a property can support car-light or car-free households, expanding the potential tenant base to include young professionals, seniors aging in place, and lower-income families for whom car ownership is cost-prohibitive.</p>
 <p>Transit access amplifies these benefits. Properties within a quarter-mile of frequent bus service or half-mile of rail stations can often negotiate reduced parking requirements with municipalities—a significant cost savings when structured parking runs $25,000-$40,000 per space to construct.</p>
+<p>Most parcels in the portfolio fall below the high-walkability range, but a number showed promise in this category.</p>
 </section>
 <section id="financial-need-aligning-development-with-mission" class="level3">
 <h3 class="anchored" data-anchor-id="financial-need-aligning-development-with-mission">Financial Need: Aligning Development with Mission</h3>
@@ -713,6 +715,60 @@ Assessment Framework
 <li><span class="math inline">\(w_i\)</span> = weight of criterion <span class="math inline">\(i\)</span></li>
 <li><span class="math inline">\(s_i\)</span> = score for criterion <span class="math inline">\(i\)</span> (0-100)</li>
 </ul>
+<p>Simple example:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold; color: white !important; background-color: rgba(68, 92, 169, 255) !important;">Criterion</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; color: white !important; background-color: rgba(68, 92, 169, 255) !important;">Weight</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; color: white !important; background-color: rgba(68, 92, 169, 255) !important;">Score</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; color: white !important; background-color: rgba(68, 92, 169, 255) !important;">Weighted Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Land value</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Acreage</td>
+<td style="text-align: center;">0.25</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Location</td>
+<td style="text-align: center;">0.2</td>
+<td style="text-align: center;">90</td>
+<td style="text-align: center;">18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Zoning</td>
+<td style="text-align: center;">0.15</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">10.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Accessibility</td>
+<td style="text-align: center;">0.1</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;">**Total**</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;">—</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;">—</td>
+<td style="text-align: center; font-weight: bold; background-color: rgba(240, 240, 240, 255) !important;">**72.5**</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>If there’s a constraint penalty of 10 points on this parcel (say, for a historic easement), the final score would be <strong>62.5</strong></p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-score-components" class="quarto-float quarto-figure quarto-figure-center anchored">

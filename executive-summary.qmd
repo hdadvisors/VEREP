@@ -7,7 +7,6 @@ This analysis examines properties in the Episcopal Diocese of Virginia with fewe
 ```{r}
 #| echo: false
 source("R/common.R")
-source("R/app.R")
 
 ```
 
