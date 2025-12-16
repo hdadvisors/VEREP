@@ -311,6 +311,29 @@ property_profile_updated %>%
   print()
 
 # ========================================
+# CLEANUP: Remove duplicate geocoded columns
+# ========================================
+
+library(tidyverse)
+
+property_profile_updated <- readRDS("data/output/property_profile.rds")
+
+# Remove old geocoded columns that have "_geocoded" suffix
+property_profile_clean <- property_profile_updated %>%
+  select(-ends_with("_geocoded"))
+
+# Save cleaned version
+saveRDS(property_profile_clean, "data/output/property_profile.rds")
+write_csv(property_profile_clean, "data/output/property_profile.csv")
+
+cat("✓ Cleaned up duplicate columns\n")
+cat(sprintf("Final column count: %d\n", ncol(property_profile_clean)))
+
+# Verify geocoded data is still there
+cat(sprintf("Properties with geocoded data: %d\n", 
+            sum(!is.na(property_profile_clean$geocoded_lat))))
+
+# ========================================
 # STEP 9: SUMMARY STATISTICS
 # ========================================
 
