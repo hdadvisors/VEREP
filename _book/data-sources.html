@@ -20,7 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-q { quotes: "“" "”" "‘" "’"; }
 </style>
 
 
@@ -262,7 +261,7 @@ q { quotes: "“" "”" "‘" "’"; }
 
 
 <p>Of the 104 properties in the analysis subset, 101 (97%) were initially flagged as having incomplete data based on six key fields: land value, acreage, wetland percentage, flood zone, qualified census tract (QCT) status, and zoning designation.</p>
-<p>Upon closer examination, wetland data accounted for the vast majority of missing values (93.3% of properties). This gap reflects limitations in the source wetland layer coverage rather than an absence of wetland features. For properties without wetland data, we applied a default value of 0%, operating under the assumption that parcels not captured in the National Wetlands Inventory contain no significant wetland features. Similarly, the 5 properties (4.8%) missing FEMA flood zone designations were assigned zone <q>X,</q> indicating minimal flood hazard, consistent with areas outside mapped floodplains.</p>
+<p>Upon closer examination, wetland data accounted for the vast majority of missing values (93.3% of properties). This gap reflects limitations in the source wetland layer coverage rather than an absence of wetland features. For properties without wetland data, we applied a default value of 0%, operating under the assumption that parcels not captured in the National Wetlands Inventory contain no significant wetland features. Similarly, the 5 properties (4.8%) missing FEMA flood zone designations were assigned zone “X,” indicating minimal flood hazard, consistent with areas outside mapped floodplains.</p>
 <p>Acreage and QCT status were complete across all 104 properties. Land value and zoning data remained incomplete for 15 properties each (14.4%). These fields were retained as missing rather than imputed, as accurate values require verification through county assessor records and local zoning ordinances. Properties lacking these values are flagged for manual follow-up.</p>
 <p>Following these adjustments, the number of properties with incomplete data decreased from 101 to approximately 25, representing those still requiring land value or zoning verification.</p>
 

@@ -6,7 +6,8 @@ source("R/common.R")
 ```
 
 
-```{r congregation-metrics, echo=FALSE, results='asis'}
+```{r}
+#| label: congregation-metrics
 #| echo: false
 #| results: asis
 
@@ -26,8 +27,10 @@ cong_stats <- property_profile |>
     pct_under_30 = (congregations_under_30_attendance / n()) * 100,
     avg_attendance_all = mean(avg_attendance, na.rm = TRUE),
     avg_pledge_all = mean(avg_pledge, na.rm = TRUE),
-    declining_pledges = sum(pct_change_pledge < 0, na.rm = TRUE)
+    declining_pledges = sum(pct_change_pledge < 0, na.rm = TRUE),
+     need_count = sum(pct_change_pledge < 0 & pct_change_attendance < 0, na.rm = TRUE)
   )
+  
 
 cat("**Key Congregation Metrics:**\n\n")
 cat("- **Congregations with <30 Sunday attendance:** ", cong_stats$congregations_under_30_attendance, 
@@ -37,5 +40,5 @@ cat("- **Average Sunday attendance:** ", round(cong_stats$avg_attendance_all, 0)
 cat("- **Average annual pledge:** $", scales::comma(cong_stats$avg_pledge_all, accuracy = 1), "\n", sep = "")
 
 cat("- **Congregations with declining pledges:** ", cong_stats$declining_pledges, "\n\n", sep = "")
-cat("- **Congregations in financial need (declining attendance + pledges):** ", need_count, "\n\n", sep = "")
+cat("- **Congregations in financial need (declining attendance + pledges):** ", cong_stats$need_count, "\n\n", sep = "")
 ```

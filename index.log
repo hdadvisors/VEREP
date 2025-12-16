@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.12.12)  12 DEC 2025 11:49
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.12.12)  16 DEC 2025 12:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1293,18 +1293,18 @@ See the xcolor package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.313 \textbf
+l.302 \textbf
              {2} & 1 TRURO LN, FAIRFAX 22030 & FAIRFAX & 3.44 & \cellcolor{Y...
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
  
 Here is how much of TeX's memory you used:
- 37569 strings out of 470134
- 750391 string characters out of 5476222
- 1349642 words of memory out of 5000000
- 65604 multiletter control sequences out of 15000+600000
+ 37566 strings out of 470134
+ 750360 string characters out of 5476222
+ 1346642 words of memory out of 5000000
+ 65602 multiletter control sequences out of 15000+600000
  631417 words of font info for 74 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 98i,10n,114p,1002b,922s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,10n,114p,1002b,914s stack positions out of 10000i,1000n,20000p,200000b,200000s
 Output written on index.pdf (3 pages).

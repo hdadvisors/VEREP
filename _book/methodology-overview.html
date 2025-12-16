@@ -244,10 +244,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#verep-parcel-dataset" id="toc-verep-parcel-dataset" class="nav-link active" data-scroll-target="#verep-parcel-dataset">VEREP Parcel Dataset</a></li>
   <li><a href="#congregation-statistics-2014-2023" id="toc-congregation-statistics-2014-2023" class="nav-link" data-scroll-target="#congregation-statistics-2014-2023">Congregation Statistics (2014-2023)</a></li>
-  <li><a href="#data-quality-issues" id="toc-data-quality-issues" class="nav-link" data-scroll-target="#data-quality-issues">Data Quality Issues</a>
-  <ul class="collapse">
-  <li><a href="#data-matching-summary" id="toc-data-matching-summary" class="nav-link" data-scroll-target="#data-matching-summary">Data Matching Summary</a></li>
-  </ul></li>
+  <li><a href="#data-quality-issues" id="toc-data-quality-issues" class="nav-link" data-scroll-target="#data-quality-issues">Data Quality Issues</a></li>
   </ul>
 </nav>
     </div>
@@ -275,7 +272,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="verep-parcel-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="verep-parcel-dataset">VEREP Parcel Dataset</h2>
-<p>This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset includes:</p>
+<p>This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset (originally 790 parcels) was further filtered to look at parcels/properties with small congregations and includes:</p>
 <ul>
 <li><p><strong>104 parcels</strong> across Virginia</p></li>
 <li><p>Comprehensive property characteristics (size, use, zoning)</p></li>
@@ -309,8 +306,7 @@ Data Quality Note
 </section>
 <section id="data-quality-issues" class="level2">
 <h2 class="anchored" data-anchor-id="data-quality-issues">Data Quality Issues</h2>
-<p>Of the 104 properties analyzed with fewer than 30 Sunday attendees, 101 (97.1%) have incomplete data — meaning they are missing at least one of the six key development metrics (land value, acreage, wetland coverage, flood zone, QCT status, or zoning). This high rate reflects broader data quality challenges identified in CGS’s initial VEREP study, where many congregations share properties or fail to report complete address and parcel information.</p>
-<p>Additionally, 369 of 790 total VEREP properties (47%) could not be matched to congregation attendance records — either because no congregation was assigned in the source data or because naming inconsistencies prevented a successful join.</p>
+<p>Of the 104 properties analyzed with fewer than 30 Sunday attendees, 101 (97.1%) have incomplete data — meaning they are missing at least one of the six key development metrics (land value, acreage, wetland coverage, flood zone, QCT status, or zoning). This high rate reflects broader data quality challenges identified in CGS’s initial VEREP study.</p>
 <p>While environmental constraint data (wetlands, flood zones) accounts for much of the missing information, 15 properties (14.4%) are missing land value entirely, limiting our ability to assess their financial potential. The breakdown below classifies these data gaps to help prioritize follow-up research. Once complete, these properties can be more precisely evaluated for development opportunities.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -351,44 +347,8 @@ Data Quality Note
 </div>
 </div>
 </div>
-<section id="data-matching-summary" class="level3">
-<h3 class="anchored" data-anchor-id="data-matching-summary">Data Matching Summary</h3>
-<p>Of the 790 properties in the VEREP dataset, 421 (53%) successfully matched to congregation attendance records. The remaining 369 properties (47%) did not match, falling into three categories:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 23%">
-<col style="width: 43%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Category</th>
-<th style="text-align: right;">Count</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>No congregation assigned</td>
-<td style="text-align: right;">272</td>
-<td>Property has no <code>congr_name</code> value in VEREP — likely auxiliary parcels, vacant lots, or properties not yet mapped to a congregation</td>
-</tr>
-<tr class="even">
-<td>City mismatch</td>
-<td style="text-align: right;">37</td>
-<td>Congregation name exists in attendance data but under a different city — potential matches requiring manual review</td>
-</tr>
-<tr class="odd">
-<td>Name not found</td>
-<td style="text-align: right;">11</td>
-<td>Congregation name does not appear in attendance data — possibly closed churches, different diocese, or spelling variants</td>
-</tr>
-</tbody>
-</table>
-<p>Note: The 37 city mismatch properties represent the most actionable data quality issue. These could be recovered with a manual crosswalk or by relaxing the city requirement for unique congregation names. The 11 missing names warrant investigation to determine if these congregations have been closed, merged, or are recorded under alternate names.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

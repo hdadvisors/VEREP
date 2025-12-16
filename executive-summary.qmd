@@ -2,7 +2,7 @@
 
 This analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.
 
-## At a Glance: Top 10 Properties
+## At a Glance: Top 10 Parcelss
 
 ```{r}
 #| echo: false
@@ -37,7 +37,7 @@ top_parcels |>
 
 ```{r}
 #| label: fig-tier-distribution
-#| fig-cap: "Distribution of Properties by Development Potential"
+#| fig-cap: "Distribution of Parcels by Development Potential"
 #| fig-height: 4
 
 tier_summary <- scored_parcels |>
@@ -60,7 +60,7 @@ ggplot(tier_summary, aes(x = reorder(development_potential, n), y = n,
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   labs(
     x = "",
-    y = "Number of Properties"
+    y = "Number of Parcels"
   ) +
   theme_minimal(base_size = 12) +
   theme(
@@ -147,21 +147,18 @@ cat(":::\n\n")
 
 cat(":::\n")
 ```
+ This defines "financial need" as:
 
----
-
-This defines "need" as:
-
-- `has_congregation == TRUE` (only sites with active congregations)
-- declining congregations
-- declining giving 
+- Sites with active congregations 
+- Sites with declining congregations
+- Sites with declining giving
 
 
 ### Geographic Distribution
 
 ```{r}
 #| label: fig-geographic-dists
-#| fig-cap: "Properties by County"
+#| fig-cap: "Parcels by County"
 #| fig-height: 4
 
 county_summary <- scored_parcels |>
@@ -175,9 +172,9 @@ ggplot(county_summary, aes(x = reorder(scounty, n_properties), y = n_properties)
   coord_flip() +
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   labs(
-    title = "Top 10 Counties by Property Count",
+    title = "Top 10 Counties by Parcel Count",
     x = "",
-    y = "Number of Properties"
+    y = "Number of Parcelss"
   ) +
   theme_minimal(base_size = 12) +
   theme(
@@ -239,8 +236,6 @@ vitality_summary <- tibble(
   )
 )
 
-cat("### Congregation Vitality Summary\n\n")
-
 vitality_summary |>
   kable(
     col.names = c("Metric", "Value"),
@@ -251,14 +246,9 @@ vitality_summary |>
     full_width = FALSE
   ) |>
   row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
-  row_spec(c(1, 6, 7), bold = TRUE)
+  row_spec(c(1, 6), bold = TRUE)
 ```
 
-
-
-
-```
-:::
 
 ## Next Steps
 

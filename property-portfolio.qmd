@@ -296,35 +296,6 @@ library(kableExtra)
 
 high_potential_props <- property_profile |>
   filter(development_potential %in% c("High", "Moderate")) |>
-  arrange(desc(lan_val)) |>
-  slice_head(n = 20)
-
-if(nrow(high_potential_props) > 0) {
-  high_potential_props |>
-    mutate(Rank = row_number()) |>
-    select(Rank, sadd, scity, scounty, rgisacre, lan_val, development_potential) |>
-    kable(
-      col.names = c("Rank", "Address", "City", "County", "Acres", "Land Value", "Tier"),
-      digits = c(0, 0, 0, 0, 2, 0, 0),
-      align = c("c", "l", "l", "l", "r", "r", "l")
-    ) |>
-    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
-    row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
-    row_spec(1:min(5, nrow(high_potential_props)), bold = TRUE)
-} else {
-  cat("No properties currently meet the High or Medium development potential criteria.")
-}
-```
-
-```{r}
-#| label: tbl-high-potential
-#| tbl-cap: "Top 20 High Development Potential Properties"
-#| echo: false
-
-library(kableExtra)
-
-high_potential_props <- property_profile |>
-  filter(development_potential %in% c("High", "Moderate")) |>
   arrange(desc(development_score)) |>
   slice_head(n = 20)
 
