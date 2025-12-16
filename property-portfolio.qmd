@@ -168,7 +168,7 @@ scored_parcels |>
     )
   ) +
   labs(
-    x = "Property Size",
+    x = "Parcel Size",
     y = "Development Score",
     color = "Development Potential"
   ) +
@@ -211,7 +211,7 @@ county_summary |>
     avg_score = round(avg_score, 1)
   ) |>
   kable(
-    col.names = c("County", "Properties", "Total Acres", "Avg Score", "# High Potential"),
+    col.names = c("County", "Parcels", "Total Acres", "Avg Score", "# High Potential"),
     align = c("l", "r", "r", "r", "r")
   ) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
@@ -481,4 +481,4 @@ property_profile |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
   row_spec(0, bold = TRUE, background = "#445ca9", color = "white")
 ```
-
+These congregations show the largest declines in attendance and pledge over recent years.
