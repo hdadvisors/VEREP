@@ -20,7 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-q { quotes: "“" "”" "‘" "’"; }
 </style>
 
 
@@ -277,14 +276,74 @@ q { quotes: "“" "”" "‘" "’"; }
 </header>
 
 
-<p>This analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through five key metrics: land value, zoning/density, acreage, environmental limitations, and Qualified Census Tract (QCT) status. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.</p>
+<p>This analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through key metrics outlined in the analytical framework chapter. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.</p>
 <section id="at-a-glance-top-10-parcelss" class="level2">
 <h2 class="anchored" data-anchor-id="at-a-glance-top-10-parcelss">At a Glance: Top 10 Parcelss</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>✓ Scoring complete
+
+=== TIER DISTRIBUTION ===
+# A tibble: 5 × 2
+  development_tier               n
+  &lt;chr&gt;                      &lt;int&gt;
+1 Tier 4: Limited Potential     37
+2 Tier 5: Not Recommended       37
+3 Tier 3: Moderate Potential    24
+4 Tier 2: Strong Potential       4
+5 Tier 1: High Priority          2
+
+=== GOLDILOCKS OPPORTUNITIES ===
+Total High + Moderate: 39 (37.5%)
+
+=== TOP 15 PROPERTIES BY SCORE ===
+# A tibble: 15 × 7
+    rank congregation_name scity area_acres development_score constraint_summary
+   &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;      &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;             
+ 1     1 St Pauls on the … WINC…      3.20               79.2 None              
+ 2     2 St Pauls on the … WINC…      1.67               76   None              
+ 3     3 Christ Ascension… RICH…      1.47               64.8 None              
+ 4     4 Good Shepherd-of… FREE…      3.12               63.2 None              
+ 5     5 St Johns Church   COLU…      0.516              62   None              
+ 6     6 Grace Church Emm… MIDL…      3.65               58.2 None              
+ 7     7 Grace Church Emm… MIDL…      2.76               58.2 None              
+ 8     8 St Georges Church STAN…      1.83               57   None              
+ 9     9 Aquia Church      STAF…      1.12               54.6 None              
+10    10 Calvary Episcopa… HANO…      1.45               54.3 None              
+11    11 Holy Cross Korea… FAIR…      3.44               52.8 Historic District 
+12    12 Aquia Church      STAF…      1.53               50.8 Historic District 
+13    13 Aquia Church      STAF…      0.974              50.6 None              
+14    14 Aquia Church      STAF…      0.948              50.6 None              
+15    15 All Saints Sharo… ALEX…      4.39               50.2 None              
+# ℹ 1 more variable: development_potential &lt;chr&gt;
+
+=== CONSTRAINT IMPACT ===
+# A tibble: 1 × 5
+  total with_constraints avg_score_unconstrained avg_score_constrained
+  &lt;int&gt;            &lt;int&gt;                   &lt;dbl&gt;                 &lt;dbl&gt;
+1    39               22                    56.4                  34.9
+# ℹ 1 more variable: score_difference &lt;dbl&gt;
+
+=== CONSTRAINT TYPES IN GOLDILOCKS ===
+# A tibble: 4 × 2
+  constraint_summary             n
+  &lt;chr&gt;                      &lt;int&gt;
+1 None                          17
+2 Historic District             15
+3 Moderate Hazard Risk           6
+4 Historic + Moderate Hazard     1
+
+✓ Files saved:
+  - property_profile_scored.rds
+  - property_profile_scored.csv
+  - verep_top_opportunities.csv</code></pre>
+</div>
+</div>
 <div class="cell">
 <div id="tbl-top-dev" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-top-dev-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Top Development Opportunities
+Table&nbsp;1: Top 15 Development Opportunities
 </figcaption>
 <div aria-describedby="tbl-top-dev-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -292,341 +351,181 @@ Table&nbsp;1: Top Development Opportunities
 <thead>
 <tr class="header">
 <th style="text-align: center;" data-quarto-table-cell-role="th">Rank</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Congregation</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Address</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">City</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">County</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">Acres</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Tier</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Score</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Constraints</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Tier</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: center; width: 3em; font-weight: bold;">1</td>
+<td style="text-align: left;">St Pauls on the Hill Church</td>
 <td style="text-align: left;">1527 SENSENY RD, WINCHESTER 22602</td>
 <td style="text-align: left;">WINCHESTER</td>
+<td style="text-align: left;">FREDERICK</td>
 <td style="text-align: right;">3.20</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: right; font-weight: bold; color: rgba(139, 174, 170, 255) !important;">79.2</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 1: High Priority</td>
 </tr>
 <tr class="even">
 <td style="text-align: center; width: 3em; font-weight: bold;">2</td>
-<td style="text-align: left;">1 TRURO LN, FAIRFAX 22030</td>
-<td style="text-align: left;">FAIRFAX</td>
-<td style="text-align: right;">3.44</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">St Pauls on the Hill Church</td>
+<td style="text-align: left;">WINCHESTER 22602</td>
+<td style="text-align: left;">WINCHESTER</td>
+<td style="text-align: left;">FREDERICK</td>
+<td style="text-align: right;">1.67</td>
+<td style="text-align: right; font-weight: bold; color: rgba(139, 174, 170, 255) !important;">76.0</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 1: High Priority</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center; width: 3em; font-weight: bold;">3</td>
-<td style="text-align: left;">STAFFORD 22554</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: right;">1.53</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">Christ Ascension Church</td>
+<td style="text-align: left;">1704 WEST LABURNUM AVE, RICHMOND 23227</td>
+<td style="text-align: left;">RICHMOND</td>
+<td style="text-align: left;">RICHMOND-CITY</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right; font-weight: bold; color: rgba(233, 171, 63, 255) !important;">64.8</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 2: Strong Potential</td>
 </tr>
 <tr class="even">
 <td style="text-align: center; width: 3em; font-weight: bold;">4</td>
-<td style="text-align: left;">WARSAW 22572</td>
-<td style="text-align: left;">WARSAW</td>
-<td style="text-align: right;">2.72</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">Good Shepherd-of-the-Hills</td>
+<td style="text-align: left;">7420 MISSION HOME RD, FREE UNION 22940</td>
+<td style="text-align: left;">FREE UNION</td>
+<td style="text-align: left;">ALBEMARLE</td>
+<td style="text-align: right;">3.12</td>
+<td style="text-align: right; font-weight: bold; color: rgba(233, 171, 63, 255) !important;">63.2</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 2: Strong Potential</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center; width: 3em; font-weight: bold;">5</td>
-<td style="text-align: left;">WINCHESTER 22602</td>
-<td style="text-align: left;">WINCHESTER</td>
-<td style="text-align: right;">1.67</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">St Johns Church</td>
+<td style="text-align: left;">64 K ST, COLUMBIA 23038</td>
+<td style="text-align: left;">COLUMBIA</td>
+<td style="text-align: left;">FLUVANNA</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right; font-weight: bold; color: rgba(233, 171, 63, 255) !important;">62.0</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 2: Strong Potential</td>
 </tr>
 <tr class="even">
 <td style="text-align: center; width: 3em; font-weight: bold;">6</td>
-<td style="text-align: left;">10490 MAIN ST, FAIRFAX 22030</td>
-<td style="text-align: left;">FAIRFAX</td>
-<td style="text-align: right;">0.61</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">Grace Church Emmanuel Parish</td>
+<td style="text-align: left;">5096 GRACE CHURCH LN, MIDLAND 22728</td>
+<td style="text-align: left;">MIDLAND</td>
+<td style="text-align: left;">FAUQUIER</td>
+<td style="text-align: right;">3.65</td>
+<td style="text-align: right; font-weight: bold; color: rgba(233, 171, 63, 255) !important;">58.2</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center; width: 3em; font-weight: bold;">7</td>
-<td style="text-align: left;">1704 WEST LABURNUM AVE, RICHMOND 23227</td>
-<td style="text-align: left;">RICHMOND</td>
-<td style="text-align: right;">1.47</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">Grace Church Emmanuel Parish</td>
+<td style="text-align: left;">5094 GRACE CHURCH LN, MIDLAND 22728</td>
+<td style="text-align: left;">MIDLAND</td>
+<td style="text-align: left;">FAUQUIER</td>
+<td style="text-align: right;">2.76</td>
+<td style="text-align: right; font-weight: bold; color: rgba(233, 171, 63, 255) !important;">58.2</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="even">
 <td style="text-align: center; width: 3em; font-weight: bold;">8</td>
-<td style="text-align: left;">37018 GLENDALE ST, PURCELLVILLE 20132</td>
-<td style="text-align: left;">PURCELLVILLE</td>
-<td style="text-align: right;">2.02</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">St Georges Church</td>
+<td style="text-align: left;">3392 PINE GROVE RD, STANLEY 22851</td>
+<td style="text-align: left;">STANLEY</td>
+<td style="text-align: left;">PAGE</td>
+<td style="text-align: right;">1.83</td>
+<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">57.0</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center; width: 3em; font-weight: bold;">9</td>
-<td style="text-align: left;">FARNHAM 22460</td>
-<td style="text-align: left;">FARNHAM</td>
-<td style="text-align: right;">2.05</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">Aquia Church</td>
+<td style="text-align: left;">STAFFORD 22554</td>
+<td style="text-align: left;">STAFFORD</td>
+<td style="text-align: left;">STAFFORD</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">54.6</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="even">
 <td style="text-align: center; width: 3em; font-weight: bold;">10</td>
-<td style="text-align: left;">WARSAW 22572</td>
-<td style="text-align: left;">WARSAW</td>
-<td style="text-align: right;">0.70</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">Calvary Episcopal Church</td>
+<td style="text-align: left;">13312 HANOVER COURTHOUSE RD, HANOVER 23069</td>
+<td style="text-align: left;">HANOVER</td>
+<td style="text-align: left;">HANOVER</td>
+<td style="text-align: right;">1.45</td>
+<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">54.3</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center; width: 3em; font-weight: bold;">11</td>
-<td style="text-align: left;">403 NORTH RAPPAHANNOCK ST, REMINGTON 22734</td>
-<td style="text-align: left;">REMINGTON</td>
-<td style="text-align: right;">2.73</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">Holy Cross Korean Episcopal Church</td>
+<td style="text-align: left;">1 TRURO LN, FAIRFAX 22030</td>
+<td style="text-align: left;">FAIRFAX</td>
+<td style="text-align: left;">FAIRFAX-CITY</td>
+<td style="text-align: right;">3.44</td>
+<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">52.8</td>
+<td style="text-align: left;">Historic District</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="even">
 <td style="text-align: center; width: 3em; font-weight: bold;">12</td>
-<td style="text-align: left;">64 K ST, COLUMBIA 23038</td>
-<td style="text-align: left;">COLUMBIA</td>
-<td style="text-align: right;">0.52</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 2: Strong Potential</td>
+<td style="text-align: left;">Aquia Church</td>
+<td style="text-align: left;">STAFFORD 22554</td>
+<td style="text-align: left;">STAFFORD</td>
+<td style="text-align: left;">STAFFORD</td>
+<td style="text-align: right;">1.53</td>
+<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">50.8</td>
+<td style="text-align: left;">Historic District</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center; width: 3em; font-weight: bold;">13</td>
-<td style="text-align: left;">7420 MISSION HOME RD, FREE UNION 22940</td>
-<td style="text-align: left;">FREE UNION</td>
-<td style="text-align: right;">3.12</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
+<td style="text-align: left;">Aquia Church</td>
+<td style="text-align: left;">STAFFORD 22554</td>
+<td style="text-align: left;">STAFFORD</td>
+<td style="text-align: left;">STAFFORD</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">50.6</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="even">
 <td style="text-align: center; width: 3em; font-weight: bold;">14</td>
-<td style="text-align: left;">10520 MAIN ST, FAIRFAX 22030</td>
-<td style="text-align: left;">FAIRFAX</td>
-<td style="text-align: right;">4.11</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
+<td style="text-align: left;">Aquia Church</td>
+<td style="text-align: left;">STAFFORD 22554</td>
+<td style="text-align: left;">STAFFORD</td>
+<td style="text-align: left;">STAFFORD</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">50.6</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center; width: 3em; font-weight: bold;">15</td>
-<td style="text-align: left;">8695 OLD DUMFRIES RD, CATLETT 20119</td>
-<td style="text-align: left;">CATLETT</td>
-<td style="text-align: right;">2.36</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">16</td>
-<td style="text-align: left;">39518 LITTLE RIVER TPKE, ALDIE 20105</td>
-<td style="text-align: left;">ALDIE</td>
-<td style="text-align: right;">1.13</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">17</td>
-<td style="text-align: left;">218 RECTORY RD, MONTROSS 22520</td>
-<td style="text-align: left;">MONTROSS</td>
-<td style="text-align: right;">1.04</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">18</td>
-<td style="text-align: left;">MONTROSS 22520</td>
-<td style="text-align: left;">MONTROSS</td>
-<td style="text-align: right;">1.12</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">19</td>
-<td style="text-align: left;">11291 WEST RIVER RD, AYLETT 23009</td>
-<td style="text-align: left;">AYLETT</td>
-<td style="text-align: right;">1.25</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">20</td>
-<td style="text-align: left;">3392 PINE GROVE RD, STANLEY 22851</td>
-<td style="text-align: left;">STANLEY</td>
-<td style="text-align: right;">1.83</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">21</td>
-<td style="text-align: left;">DORSEY LANE LN, BOWLING GREEN 22427</td>
-<td style="text-align: left;">BOWLING GREEN</td>
-<td style="text-align: right;">0.52</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">22</td>
-<td style="text-align: left;">11253 WEST RIVER RD, AYLETT 23009</td>
-<td style="text-align: left;">AYLETT</td>
-<td style="text-align: right;">0.58</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">23</td>
-<td style="text-align: left;">5096 GRACE CHURCH LN, MIDLAND 22728</td>
-<td style="text-align: left;">MIDLAND</td>
-<td style="text-align: right;">3.65</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">24</td>
-<td style="text-align: left;">5094 GRACE CHURCH LN, MIDLAND 22728</td>
-<td style="text-align: left;">MIDLAND</td>
-<td style="text-align: right;">2.76</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">25</td>
-<td style="text-align: left;">8691 OLD DUMFRIES RD, CATLETT 20119</td>
-<td style="text-align: left;">CATLETT</td>
-<td style="text-align: right;">0.99</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">26</td>
-<td style="text-align: left;">8693 OLD DUMFRIES RD, CATLETT 20119</td>
-<td style="text-align: left;">CATLETT</td>
-<td style="text-align: right;">0.99</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">27</td>
-<td style="text-align: left;">15870 KINGS HWY, MONTROSS 22520</td>
-<td style="text-align: left;">MONTROSS</td>
-<td style="text-align: right;">0.80</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">28</td>
-<td style="text-align: left;">STAFFORD 22554</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: right;">1.12</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">29</td>
-<td style="text-align: left;">2948 RICHMOND HWY, STAFFORD 22554</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: right;">1.46</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">30</td>
-<td style="text-align: left;">13312 HANOVER COURTHOUSE RD, HANOVER 23069</td>
-<td style="text-align: left;">HANOVER</td>
-<td style="text-align: right;">1.45</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">31</td>
-<td style="text-align: left;">3663 TIDEWATER TRL, LORETTO 22509</td>
-<td style="text-align: left;">LORETTO</td>
-<td style="text-align: right;">2.08</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">32</td>
-<td style="text-align: left;">STAFFORD 22554</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: right;">0.97</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">33</td>
-<td style="text-align: left;">STAFFORD 22554</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: right;">0.95</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">34</td>
+<td style="text-align: left;">All Saints Sharon Chapel</td>
 <td style="text-align: left;">3421 FRANCONIA RD, ALEXANDRIA 22310</td>
 <td style="text-align: left;">ALEXANDRIA</td>
+<td style="text-align: left;">FAIRFAX</td>
 <td style="text-align: right;">4.39</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">35</td>
-<td style="text-align: left;">5987 RICHMOND RD, WARSAW 22572</td>
-<td style="text-align: left;">WARSAW</td>
-<td style="text-align: right;">2.24</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">36</td>
-<td style="text-align: left;">5904 MAIN ST, MOUNT JACKSON 22842</td>
-<td style="text-align: left;">MOUNT JACKSON</td>
-<td style="text-align: right;">0.82</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">37</td>
-<td style="text-align: left;">3421 FRANCONIA RD, ALEXANDRIA 22310</td>
-<td style="text-align: left;">ALEXANDRIA</td>
-<td style="text-align: right;">1.67</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">38</td>
-<td style="text-align: left;">27 GOOD SHEPHERD RD, BLUEMONT 20135</td>
-<td style="text-align: left;">BLUEMONT</td>
-<td style="text-align: right;">1.10</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">39</td>
-<td style="text-align: left;">9403 KINGS HWY, KING GEORGE 22485</td>
-<td style="text-align: left;">KING GEORGE</td>
-<td style="text-align: right;">0.69</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">40</td>
-<td style="text-align: left;">OAK SHADE RD, RIXEYVILLE 22737</td>
-<td style="text-align: left;">RIXEYVILLE</td>
-<td style="text-align: right;">0.91</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">41</td>
-<td style="text-align: left;">2523 CRAIGS STORE RD, AFTON 22920</td>
-<td style="text-align: left;">AFTON</td>
-<td style="text-align: right;">2.36</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">42</td>
-<td style="text-align: left;">3661 TIDEWATER TRL, LORETTO 22509</td>
-<td style="text-align: left;">LORETTO</td>
-<td style="text-align: right;">2.50</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">43</td>
-<td style="text-align: left;">823 WATER ST, PORT ROYAL 22535</td>
-<td style="text-align: left;">PORT ROYAL</td>
-<td style="text-align: right;">0.57</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">44</td>
-<td style="text-align: left;">14586 ALANTHUS RD, BRANDY STATION 22714</td>
-<td style="text-align: left;">BRANDY STATION</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">45</td>
-<td style="text-align: left;">231 NORTH FARNHAM CHURCH RD, FARNHAM 22460</td>
-<td style="text-align: left;">FARNHAM</td>
-<td style="text-align: right;">0.81</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">46</td>
-<td style="text-align: left;">43 WASHINGTON ST, COLUMBIA 23038</td>
-<td style="text-align: left;">COLUMBIA</td>
-<td style="text-align: right;">0.80</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">47</td>
-<td style="text-align: left;">823 WATER ST, PORT ROYAL 22535</td>
-<td style="text-align: left;">PORT ROYAL</td>
-<td style="text-align: right;">0.58</td>
-<td style="text-align: right; color: green !important; background-color: YlOrRd !important;">Tier 4: Limited Potential</td>
+<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">50.2</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
 </tbody>
 </table>
@@ -635,6 +534,7 @@ Table&nbsp;1: Top Development Opportunities
 </figure>
 </div>
 </div>
+<p><em>Note: Properties without street addresses are identified by congregation name and location. These parcels have valid coordinates for mapping but lack specific addresses in county parcel records.</em></p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-tier-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -678,7 +578,7 @@ Figure&nbsp;1: Distribution of Parcels by Development Potential
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-20
+16
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -693,7 +593,7 @@ Figure&nbsp;1: Distribution of Parcels by Development Potential
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-77.3
+64.1
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -764,13 +664,13 @@ Figure&nbsp;1: Distribution of Parcels by Development Potential
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Financial Need Congregations</p>
+<p>Financial Need Congregation Parcels</p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<p>This defines <q>financial need</q> as:</p>
+<p>This defines “financial need” as:</p>
 <ul>
 <li>Sites with active congregations</li>
 <li>Sites with declining congregations</li>

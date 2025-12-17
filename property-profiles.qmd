@@ -5,9 +5,7 @@
 source("R/common.R")
 ```
 
-
-## Overvie
-In this analysis, the top 10 properties all scored the same, which means they are listed in no particular order, but as the top group of high-possibility sites.
+## Overview
 
 The following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:
 
@@ -16,104 +14,402 @@ The following section provides detailed profiles for each of the top 10 developm
 -   Development opportunities and strategies
 -   Key considerations and next steps
 
+All of these priority sites would benefit from further analysis of housing needs in the area to determine best development fit.
 
-```{r}
-#| label: property-profiles
-#| results: asis
-#| echo: false 
+```{css}
+#| echo: false
 
-create_property_profile <- function(rank_num) {
-  property <- top_parcels |> filter(rank == rank_num)
-  
-  if(nrow(property) == 0) return(NULL)
-  
-  cat("\n\n## Property #", rank_num, " {.unnumbered}\n\n", sep = "")
-  cat("### ", property$sadd, "\n", sep = "")
-  cat("**", property$scity, ", ", property$scounty, " County**\n\n", sep = "")
-  
-  tier_type <- case_when(
-    property$development_score >= 75 ~ "important",
-    property$development_score >= 60 ~ "tip",
-    TRUE ~ "note"
-  )
-  
-  cat(":::{.callout-", tier_type, "}\n", sep = "")
-  cat("## Development Score: **", round(property$development_score, 1), "/100**\n\n", sep = "")
-  cat("**", property$development_potential, "**\n", sep = "")
-  cat(":::\n\n")
-  
-  cat("::: {layout-ncol=3}\n")
-  cat("::: {}\n**", round(property$area_acres, 2), " acres**  \n", sep = "")
-  cat("Property Size\n:::\n")
-  
-  cat("::: {}\n**", round(property$walkability_score, 1), "/20**  \n", sep = "")
-  cat("Walkability\n:::\n")
-  
-  cat("::: {}\n**", 
-      ifelse(!is.na(property$avg_attendance), 
-             paste0(round(property$avg_attendance), " people"), "N/A"), "**  \n", sep = "")
-  cat("Avg Attendance\n:::\n")
-  cat(":::\n\n")
-  
-  cat("#### Site Characteristics\n\n")
-  cat("- **Current Uses:**")
-  uses <- c()
-  if(!is.na(property$use_church) && property$use_church) uses <- c(uses, "Church building")
-  if(!is.na(property$use_parking) && property$use_parking) uses <- c(uses, "Parking lot")
-  if(!is.na(property$use_open_space) && property$use_open_space) uses <- c(uses, "Open space")
-  if(length(uses) > 0) {
-    cat(" ", paste(uses, collapse = ", "), "\n", sep = "")
-  } else {
-    cat(" Mixed use\n")
-  }
-  
-  if(!is.na(property$congregation_name)) {
-    cat("\n#### Congregation: ", property$congregation_name, "\n\n", sep = "")
-    
-    if(!is.na(property$pct_change_pledge)) {
-      change_dir <- ifelse(property$pct_change_pledge < 0, "↓ decreased", "↑ increased")
-      cat("**Financial Trend:** Plate & pledge has ", change_dir, " by **", 
-          abs(round(property$pct_change_pledge, 1)), "%** over the past decade.\n\n", sep = "")
-    }
-  }
-  
-  cat("#### Development Opportunities\n\n")
-  if(!is.na(property$use_parking) && property$use_parking) {
-    cat("🅿️ **Prime opportunity:** Underutilized parking can support structured parking with mixed-use above\n\n")
-  }
-  if(!is.na(property$area_acres) && property$area_acres > 1) {
-    cat("📐 **Substantial site:** Large parcel enables phased development or creative master planning\n\n")
-  }
-  if(!is.na(property$walkability_score) && property$walkability_score >= 15) {
-    cat("🚶 **Highly walkable location:** Supports car-light households and may qualify for reduced parking requirements\n\n")
-  } else if(!is.na(property$walkability_score) && property$walkability_score >= 10) {
-    cat("🚶 **Moderate walkability:** Some transit access supports density considerations\n\n")
-  }
-  
-  cat("#### Recommended Next Steps\n\n")
-  cat("1. Site feasibility study and geotechnical analysis\n")
-  cat("2. Congregation leadership engagement\n")
-  cat("3. Zoning review and density bonus evaluation\n")
-  if(!is.na(property$financial_need) && property$financial_need >= 2) {
-    cat("4. Ground lease financial modeling\n")
-  }
-  
-  cat("\n---\n\n")
+.score-badge {
+  background-color: #445ca9;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 10px;
 }
 
-# Generate all profiles
-for(i in 1:10) {
-  create_property_profile(i)
+.score-badge.mid {
+  background-color: #8baeaa;
+}
+
+.score-badge.low {
+  background-color: #e9ab3f;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  border-left: 4px solid #445ca9;
+}
+
+.metric-card.teal {
+  border-left-color: #8baeaa;
+}
+
+.metric-card.red {
+  border-left-color: #dc3545;
+}
+
+.metric-card.gold {
+  border-left-color: #e9ab3f;
+}
+
+.metric-card.gray {
+  border-left-color: #6c757d;
+}
+
+.metric-value {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #445ca9;
+}
+
+.metric-value.teal {
+  color: #8baeaa;
+}
+
+.metric-value.red {
+  color: #dc3545;
+}
+
+.metric-value.gold {
+  color: #e9ab3f;
+}
+
+.metric-value.gray {
+  color: #6c757d;
+}
+
+.metric-label {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.info-box {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.status-box {
+  padding: 15px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 20px;
+}
+
+.status-box.warning {
+  background: #fff3cd;
+  border-left: 4px solid #dc3545;
+}
+
+.status-box.caution {
+  background: #fff3cd;
+  border-left: 4px solid #e9ab3f;
+}
+
+.status-box.success {
+  background: #d4edda;
+  border-left: 4px solid #28a745;
+}
+
+.section-header {
+  color: #445ca9;
+  border-bottom: 2px solid #445ca9;
+  padding-bottom: 5px;
+}
+
+.steps-box {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.congregation-divider {
+  border: none;
+  border-top: 2px solid #e9ecef;
+  margin: 40px 0;
 }
 ```
 
+```{r}
+#| results: asis
+#| echo: false
+
+#| results: asis
+#| echo: false
+
+# First, create the congregation-level summary with priority ranking
+priority_congregations <- property_profile %>%
+  filter(development_score >= 50) %>%
+  group_by(congregation_name) %>%
+  summarise(
+    site_city = first(site_city),
+    site_county = first(site_county),
+    n_parcels = n(),
+    total_acres = sum(area_acres, na.rm = TRUE),
+    total_value = sum(assessed_value, na.rm = TRUE),
+    mean_dev_score = mean(development_score, na.rm = TRUE),
+    avg_attendance = first(avg_attendance),
+    avg_members = first(avg_members),
+    avg_pledge = first(avg_pledge),
+    pct_change_pledge = first(pct_change_pledge),
+    walkability_score = mean(walkability_score, na.rm = TRUE),
+    parcel_ids = paste(pid, collapse = ", "),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    engagement_priority = case_when(
+      congregation_name == "St Pauls on the Hill Church" ~ 1,
+      congregation_name == "Good Shepherd-of-the-Hills" ~ 2,
+      congregation_name == "Aquia Church" ~ 3,
+      site_county %in% c("FAIRFAX", "FAIRFAX-CITY") ~ 4,
+      congregation_name == "Grace Church Emmanuel Parish" ~ 5,
+      TRUE ~ 6
+    ),
+    engagement_rationale = case_when(
+      avg_attendance == 0 & mean_dev_score >= 70 ~ "Zero attendance with flagship development potential",
+      avg_attendance == 0 ~ "Zero attendance suggests functional inactivity",
+      avg_members > 500 & avg_attendance == 0 ~ "Data anomaly: high membership but zero attendance requires clarification",
+      site_county %in% c("FAIRFAX", "FAIRFAX-CITY") ~ "Fairfax cluster merger potential",
+      n_parcels >= 3 ~ "Multi-parcel consolidation opportunity",
+      TRUE ~ "Standard development opportunity"
+    ),
+    recommended_action = case_when(
+      avg_attendance == 0 ~ "Assess congregational status and readiness for transition",
+      avg_attendance < 20 & n_parcels > 1 ~ "Explore parcel consolidation while maintaining worship presence",
+      site_county %in% c("FAIRFAX", "FAIRFAX-CITY") ~ "Evaluate merger with nearby Fairfax congregations",
+      TRUE ~ "Engage leadership on development partnership options"
+    )
+  ) %>%
+  arrange(desc(mean_dev_score))  # Sort by development score
+
+# Function to create congregation profile with tabsets
+create_congregation_profile <- function(row_num) {
+  cong <- priority_congregations[row_num, ]
+  
+  if(nrow(cong) == 0) return(NULL)
+  
+  # Define score class
+  score_class <- case_when(
+    cong$mean_dev_score >= 70 ~ "",
+    cong$mean_dev_score >= 60 ~ "mid",
+    TRUE ~ "low"
+  )
+  
+  # Attendance class
+  att_class <- case_when(
+    cong$avg_attendance == 0 ~ "red",
+    cong$avg_attendance < 20 ~ "gold",
+    TRUE ~ "teal"
+  )
+  
+  # Walkability class
+  walk_class <- case_when(
+    cong$walkability_score >= 15 ~ "teal",
+    cong$walkability_score >= 10 ~ "gold",
+    TRUE ~ "gray"
+  )
+  
+  # Section header
+  cat("\n\n## ", cong$congregation_name, " {.unnumbered}\n\n", sep = "")
+  cat("**📍 ", cong$site_city, ", ", cong$site_county, " County**\n\n", sep = "")
+  
+  # Badges
+  cat("[Dev Score: ", round(cong$mean_dev_score, 1), "]{.score-badge} ", sep = "")
+  cat("[Rank: ", row_num, " of ", nrow(priority_congregations), "]{.score-badge}\n\n", sep = "")
+  
+  # Begin tabset
+  cat("::: {.panel-tabset}\n\n")
+  
+  # ---- TAB 1: Overview ----
+  cat("### Overview\n\n")
+  
+  cat("::: {.metric-grid}\n\n")
+  
+  cat("::: {.metric-card}\n")
+  cat("[", cong$n_parcels, "]{.metric-value}\n\n", sep = "")
+  cat("[Parcels]{.metric-label}\n")
+  cat(":::\n\n")
+  
+  cat("::: {.metric-card .teal}\n")
+  cat("[", round(cong$total_acres, 1), "]{.metric-value .teal}\n\n", sep = "")
+  cat("[Acres]{.metric-label}\n")
+  cat(":::\n\n")
+  
+  cat("::: {.metric-card .", att_class, "}\n", sep = "")
+  cat("[", round(cong$avg_attendance, 0), "]{.metric-value .", att_class, "}\n\n", sep = "")
+  cat("[Avg Attendance]{.metric-label}\n")
+  cat(":::\n\n")
+  
+  cat("::: {.metric-card .", walk_class, "}\n", sep = "")
+  cat("[", round(cong$walkability_score, 1), "/20]{.metric-value .", walk_class, "}\n\n", sep = "")
+  cat("[Walkability]{.metric-label}\n")
+  cat(":::\n\n")
+  
+  cat(":::\n\n")
+  
+  cat("::: {.info-box}\n")
+  cat("**💰 Assessed Value:** ", scales::dollar(cong$total_value, accuracy = 1), "\n\n", sep = "")
+  cat("**🎯 Why This Site:** ", cong$engagement_rationale, "\n")
+  cat(":::\n\n")
+  
+  # Walkability callout if score is notable
+  if(!is.na(cong$walkability_score) && cong$walkability_score >= 15) {
+    cat("::: {.callout-tip}\n")
+    cat("## 🚶 Highly Walkable Location\n\n")
+    cat("This site scores **", round(cong$walkability_score, 1), "/20** on walkability, ", sep = "")
+    cat("supporting car-light households and potentially qualifying for reduced parking requirements in development.\n")
+    cat(":::\n\n")
+  } else if(!is.na(cong$walkability_score) && cong$walkability_score >= 10) {
+    cat("::: {.callout-note}\n")
+    cat("## 🚶 Moderate Walkability\n\n")
+    cat("This site scores **", round(cong$walkability_score, 1), "/20** on walkability. ", sep = "")
+    cat("Some transit access may support density considerations.\n")
+    cat(":::\n\n")
+  }
+  
+  # ---- TAB 2: Congregational Health ----
+  cat("### Congregational Health\n\n")
+  
+  cat("#### Attendance Status {.section-header}\n\n")
+  
+  if(cong$avg_attendance == 0) {
+    cat("::: {.status-box .warning}\n")
+    cat("**⚠️ Zero Average Attendance**\n\n")
+    cat("This congregation reports no regular attendance despite having ", 
+        round(cong$avg_members, 0), " members on the rolls. This may indicate:\n\n", sep = "")
+    cat("- Functional inactivity requiring status clarification\n")
+    cat("- Outdated membership records\n")
+    cat("- A congregation ready for supported transition\n")
+    cat(":::\n\n")
+  } else if(cong$avg_attendance < 20) {
+    cat("::: {.status-box .caution}\n")
+    cat("**📉 Low Attendance**\n\n")
+    cat("With only ", round(cong$avg_attendance, 0), 
+        " average attendees and ", round(cong$avg_members, 0), 
+        " members, this congregation is operating at reduced capacity.\n", sep = "")
+    cat(":::\n\n")
+  } else {
+    cat("::: {.status-box .success}\n")
+    cat("**✓ Active Congregation**\n\n")
+    cat(round(cong$avg_attendance, 0), 
+        " average attendees with ", round(cong$avg_members, 0), " members.\n", sep = "")
+    cat(":::\n\n")
+  }
+  
+  cat("#### Financial Trend {.section-header}\n\n")
+  
+  if(!is.na(cong$pct_change_pledge)) {
+    if(cong$pct_change_pledge < -20) {
+      cat("::: {.status-box .warning}\n")
+      cat("**💰 Significant Decline**\n\n")
+      cat("Plate & pledge has decreased by **", 
+          abs(round(cong$pct_change_pledge, 1)), "%** over the past decade.\n", sep = "")
+      cat(":::\n\n")
+    } else if(cong$pct_change_pledge < 0) {
+      cat("::: {.status-box .caution}\n")
+      cat("**💰 Modest Decline**\n\n")
+      cat("Plate & pledge has decreased by **", 
+          abs(round(cong$pct_change_pledge, 1)), "%** over the past decade.\n", sep = "")
+      cat(":::\n\n")
+    } else {
+      cat("::: {.status-box .success}\n")
+      cat("**💰 Positive Trend**\n\n")
+      cat("Plate & pledge has increased by **", 
+          round(cong$pct_change_pledge, 1), "%** over the past decade.\n", sep = "")
+      cat(":::\n\n")
+    }
+  } else {
+    cat("*Financial data not available.*\n\n")
+  }
+  
+  # ---- TAB 3: Property Details ----
+  cat("### Property Details\n\n")
+  
+  cat("| Metric | Value |\n")
+  cat("|--------|-------|\n")
+  cat("| Total Parcels | ", cong$n_parcels, " |\n", sep = "")
+  cat("| Total Acreage | ", round(cong$total_acres, 2), " acres |\n", sep = "")
+  cat("| Assessed Value | ", scales::dollar(cong$total_value, accuracy = 1), " |\n", sep = "")
+  cat("| Mean Dev Score | ", round(cong$mean_dev_score, 1), " |\n", sep = "")
+  cat("| Walkability Score | ", round(cong$walkability_score, 1), "/20 |\n", sep = "")
+  cat("| Location | ", cong$site_city, ", ", cong$site_county, " |\n\n", sep = "")
+  
+  cat("**Parcel ID(s):** `", cong$parcel_ids, "`\n\n", sep = "")
+  
+  if(cong$n_parcels > 1) {
+    cat("::: {.callout-note}\n")
+    cat("This congregation owns multiple parcels, which may present consolidation opportunities.\n")
+    cat(":::\n\n")
+  }
+  
+  # ---- TAB 4: VEREP Action ----
+  cat("### VEREP Action\n\n")
+  
+  cat("::: {.info-box}\n")
+  cat("**🎯 Why Engage:** ", cong$engagement_rationale, "\n\n", sep = "")
+  cat("**✅ Recommended Action:** ", cong$recommended_action, "\n")
+  cat(":::\n\n")
+  
+  cat("#### Suggested Outreach Steps\n\n")
+  
+  cat("::: {.steps-box}\n")
+  if(cong$avg_attendance == 0) {
+    cat("1. Contact diocesan staff to verify congregation's current status\n")
+    cat("2. Schedule site visit to assess property condition\n")
+    cat("3. If inactive, begin transition planning process\n")
+    cat("4. Engage remaining members on legacy preservation options\n")
+  } else if(cong$site_county %in% c("FAIRFAX", "FAIRFAX-CITY")) {
+    cat("1. Identify nearby Episcopal congregations for merger discussions\n")
+    cat("2. Facilitate joint vestry conversations about shared future\n")
+    cat("3. Conduct combined property portfolio analysis\n")
+    cat("4. Develop merger proposal with property optimization strategy\n")
+  } else if(cong$n_parcels > 1) {
+    cat("1. Map all parcels to identify consolidation opportunities\n")
+    cat("2. Assess which parcel(s) best serve ongoing worship needs\n")
+    cat("3. Evaluate surplus parcels for development potential\n")
+    cat("4. Present phased transition plan to vestry\n")
+  } else {
+    cat("1. Schedule introductory meeting with vestry leadership\n")
+    cat("2. Present development partnership models and case studies\n")
+    cat("3. Conduct preliminary site feasibility assessment\n")
+    cat("4. Develop customized proposal based on congregation's goals\n")
+  }
+  cat(":::\n\n")
+  
+  cat("#### Key Contacts to Identify\n\n")
+  cat("- [ ] Vestry leadership / Senior Warden\n")
+  cat("- [ ] Diocesan regional representative\n")
+  cat("- [ ] Property committee chair (if applicable)\n\n")
+  
+  # End tabset
+  cat(":::\n\n")
+  
+  cat("---\n\n")
+}
+
+# Generate all congregation profiles
+for(i in 1:nrow(priority_congregations)) {
+  create_congregation_profile(i)
+}
+```
 
 ## Interactive ADU Placement Tool
 
-For an interactive experience, [**launch the ADU Placement Dashboard**] 
-<iframe 
-  src="https://mted.shinyapps.io/shiny-app/?tab=adu"
-  width="100%" 
-  height="600px"
-  frameborder="0">
+For an interactive experience, [**launch the ADU Placement Dashboard**](https://mted.shinyapps.io/shiny-app/?tab=adu)
+
+<iframe src="https://mted.shinyapps.io/shiny-app/?tab=adu" width="100%" height="600px" frameborder="0">
+
 </iframe>
