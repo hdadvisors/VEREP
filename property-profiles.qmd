@@ -147,12 +147,9 @@ All of these priority sites would benefit from further analysis of housing needs
 #| results: asis
 #| echo: false
 
-#| results: asis
-#| echo: false
-
-# First, create the congregation-level summary with priority ranking
-priority_congregations <- property_profile %>%
-  filter(development_score >= 50) %>%
+# Get high potential properties and group by congregation
+high_potential_congregations <- property_profile %>%
+  filter(development_potential %in% c("High")) %>%
   group_by(congregation_name) %>%
   summarise(
     site_city = first(site_city),
@@ -161,43 +158,23 @@ priority_congregations <- property_profile %>%
     total_acres = sum(area_acres, na.rm = TRUE),
     total_value = sum(assessed_value, na.rm = TRUE),
     mean_dev_score = mean(development_score, na.rm = TRUE),
+    max_dev_score = max(development_score, na.rm = TRUE),
     avg_attendance = first(avg_attendance),
     avg_members = first(avg_members),
     avg_pledge = first(avg_pledge),
     pct_change_pledge = first(pct_change_pledge),
     walkability_score = mean(walkability_score, na.rm = TRUE),
     parcel_ids = paste(pid, collapse = ", "),
+    addresses = paste(unique(sadd), collapse = "; "),
     .groups = "drop"
   ) %>%
-  mutate(
-    engagement_priority = case_when(
-      congregation_name == "St Pauls on the Hill Church" ~ 1,
-      congregation_name == "Good Shepherd-of-the-Hills" ~ 2,
-      congregation_name == "Aquia Church" ~ 3,
-      site_county %in% c("FAIRFAX", "FAIRFAX-CITY") ~ 4,
-      congregation_name == "Grace Church Emmanuel Parish" ~ 5,
-      TRUE ~ 6
-    ),
-    engagement_rationale = case_when(
-      avg_attendance == 0 & mean_dev_score >= 70 ~ "Zero attendance with flagship development potential",
-      avg_attendance == 0 ~ "Zero attendance suggests functional inactivity",
-      avg_members > 500 & avg_attendance == 0 ~ "Data anomaly: high membership but zero attendance requires clarification",
-      site_county %in% c("FAIRFAX", "FAIRFAX-CITY") ~ "Fairfax cluster merger potential",
-      n_parcels >= 3 ~ "Multi-parcel consolidation opportunity",
-      TRUE ~ "Standard development opportunity"
-    ),
-    recommended_action = case_when(
-      avg_attendance == 0 ~ "Assess congregational status and readiness for transition",
-      avg_attendance < 20 & n_parcels > 1 ~ "Explore parcel consolidation while maintaining worship presence",
-      site_county %in% c("FAIRFAX", "FAIRFAX-CITY") ~ "Evaluate merger with nearby Fairfax congregations",
-      TRUE ~ "Engage leadership on development partnership options"
-    )
-  ) %>%
-  arrange(desc(mean_dev_score))  # Sort by development score
+  arrange(desc(mean_dev_score)) %>%
+  mutate(rank = row_number()) %>%
+  slice_head(n = 10)
 
 # Function to create congregation profile with tabsets
 create_congregation_profile <- function(row_num) {
-  cong <- priority_congregations[row_num, ]
+  cong <- high_potential_congregations[row_num, ]
   
   if(nrow(cong) == 0) return(NULL)
   
@@ -210,6 +187,7 @@ create_congregation_profile <- function(row_num) {
   
   # Attendance class
   att_class <- case_when(
+    is.na(cong$avg_attendance) ~ "gray",
     cong$avg_attendance == 0 ~ "red",
     cong$avg_attendance < 20 ~ "gold",
     TRUE ~ "teal"
@@ -217,18 +195,19 @@ create_congregation_profile <- function(row_num) {
   
   # Walkability class
   walk_class <- case_when(
+    is.na(cong$walkability_score) ~ "gray",
     cong$walkability_score >= 15 ~ "teal",
     cong$walkability_score >= 10 ~ "gold",
     TRUE ~ "gray"
   )
   
   # Section header
-  cat("\n\n## ", cong$congregation_name, " {.unnumbered}\n\n", sep = "")
+  cat("\n\n## ", cong$rank, ". ", cong$congregation_name, " {.unnumbered}\n\n", sep = "")
   cat("**📍 ", cong$site_city, ", ", cong$site_county, " County**\n\n", sep = "")
   
   # Badges
   cat("[Dev Score: ", round(cong$mean_dev_score, 1), "]{.score-badge} ", sep = "")
-  cat("[Rank: ", row_num, " of ", nrow(priority_congregations), "]{.score-badge}\n\n", sep = "")
+  cat("[", cong$n_parcels, " Parcel", ifelse(cong$n_parcels > 1, "s", ""), "]{.score-badge}\n\n", sep = "")
   
   # Begin tabset
   cat("::: {.panel-tabset}\n\n")
@@ -238,31 +217,48 @@ create_congregation_profile <- function(row_num) {
   
   cat("::: {.metric-grid}\n\n")
   
-  cat("::: {.metric-card}\n")
-  cat("[", cong$n_parcels, "]{.metric-value}\n\n", sep = "")
-  cat("[Parcels]{.metric-label}\n")
+  cat("::: {.metric-card .teal}\n")
+  cat("[", round(cong$total_acres, 2), "]{.metric-value .teal}\n\n", sep = "")
+  cat("[Total Acres]{.metric-label}\n")
   cat(":::\n\n")
   
-  cat("::: {.metric-card .teal}\n")
-  cat("[", round(cong$total_acres, 1), "]{.metric-value .teal}\n\n", sep = "")
-  cat("[Acres]{.metric-label}\n")
+  cat("::: {.metric-card}\n")
+  cat("[", scales::dollar(cong$total_value, accuracy = 1, scale = 1/1000), "K]{.metric-value}\n\n", sep = "")
+  cat("[Assessed Value]{.metric-label}\n")
   cat(":::\n\n")
   
   cat("::: {.metric-card .", att_class, "}\n", sep = "")
-  cat("[", round(cong$avg_attendance, 0), "]{.metric-value .", att_class, "}\n\n", sep = "")
+  att_display <- ifelse(is.na(cong$avg_attendance), "N/A", round(cong$avg_attendance, 0))
+  cat("[", att_display, "]{.metric-value .", att_class, "}\n\n", sep = "")
   cat("[Avg Attendance]{.metric-label}\n")
   cat(":::\n\n")
   
   cat("::: {.metric-card .", walk_class, "}\n", sep = "")
-  cat("[", round(cong$walkability_score, 1), "/20]{.metric-value .", walk_class, "}\n\n", sep = "")
+  walk_display <- ifelse(is.na(cong$walkability_score), "N/A", paste0(round(cong$walkability_score, 1), "/20"))
+  cat("[", walk_display, "]{.metric-value .", walk_class, "}\n\n", sep = "")
   cat("[Walkability]{.metric-label}\n")
   cat(":::\n\n")
   
   cat(":::\n\n")
   
+  # Multi-parcel callout
+  if(cong$n_parcels > 1) {
+    cat("::: {.callout-tip}\n")
+    cat("## 📋 Multi-Parcel Opportunity\n\n")
+    cat("This congregation owns **", cong$n_parcels, " parcels** totaling **", 
+        round(cong$total_acres, 2), " acres**, which may present consolidation or phased development opportunities.\n", sep = "")
+    cat(":::\n\n")
+  }
+  
+  # Congregation info box
   cat("::: {.info-box}\n")
-  cat("**💰 Assessed Value:** ", scales::dollar(cong$total_value, accuracy = 1), "\n\n", sep = "")
-  cat("**🎯 Why This Site:** ", cong$engagement_rationale, "\n")
+  cat("**⛪ Congregation:** ", cong$congregation_name, "\n\n", sep = "")
+  if(!is.na(cong$avg_members)) {
+    cat("**👥 Members:** ", round(cong$avg_members, 0), "\n\n", sep = "")
+  }
+  if(!is.na(cong$avg_pledge)) {
+    cat("**💰 Avg Pledge:** ", scales::dollar(cong$avg_pledge, accuracy = 1), "\n", sep = "")
+  }
   cat(":::\n\n")
   
   # Walkability callout if score is notable
@@ -285,7 +281,12 @@ create_congregation_profile <- function(row_num) {
   
   cat("#### Attendance Status {.section-header}\n\n")
   
-  if(cong$avg_attendance == 0) {
+  if(is.na(cong$avg_attendance)) {
+    cat("::: {.status-box .caution}\n")
+    cat("**📊 Data Unavailable**\n\n")
+    cat("Attendance data is not available for this congregation.\n")
+    cat(":::\n\n")
+  } else if(cong$avg_attendance == 0) {
     cat("::: {.status-box .warning}\n")
     cat("**⚠️ Zero Average Attendance**\n\n")
     cat("This congregation reports no regular attendance despite having ", 
@@ -342,40 +343,57 @@ create_congregation_profile <- function(row_num) {
   cat("|--------|-------|\n")
   cat("| Total Parcels | ", cong$n_parcels, " |\n", sep = "")
   cat("| Total Acreage | ", round(cong$total_acres, 2), " acres |\n", sep = "")
-  cat("| Assessed Value | ", scales::dollar(cong$total_value, accuracy = 1), " |\n", sep = "")
+  cat("| Total Assessed Value | ", scales::dollar(cong$total_value, accuracy = 1), " |\n", sep = "")
   cat("| Mean Dev Score | ", round(cong$mean_dev_score, 1), " |\n", sep = "")
-  cat("| Walkability Score | ", round(cong$walkability_score, 1), "/20 |\n", sep = "")
+  if(cong$n_parcels > 1) {
+    cat("| Max Dev Score | ", round(cong$max_dev_score, 1), " |\n", sep = "")
+  }
+  cat("| Walkability Score | ", ifelse(is.na(cong$walkability_score), "N/A", paste0(round(cong$walkability_score, 1), "/20")), " |\n", sep = "")
   cat("| Location | ", cong$site_city, ", ", cong$site_county, " |\n\n", sep = "")
   
   cat("**Parcel ID(s):** `", cong$parcel_ids, "`\n\n", sep = "")
   
   if(cong$n_parcels > 1) {
-    cat("::: {.callout-note}\n")
-    cat("This congregation owns multiple parcels, which may present consolidation opportunities.\n")
-    cat(":::\n\n")
+    cat("**Addresses:**\n\n")
+    addresses <- strsplit(cong$addresses, "; ")[[1]]
+    for(addr in addresses) {
+      cat("- ", addr, "\n", sep = "")
+    }
+    cat("\n")
   }
   
   # ---- TAB 4: VEREP Action ----
   cat("### VEREP Action\n\n")
   
+  # Determine engagement rationale
+  engagement_rationale <- case_when(
+    !is.na(cong$avg_attendance) && cong$avg_attendance == 0 ~ "Zero attendance suggests potential for congregational transition",
+    !is.na(cong$avg_attendance) && cong$avg_attendance < 20 ~ "Low attendance congregation may be open to development partnership",
+    cong$n_parcels > 1 ~ "Multi-parcel portfolio enables phased or consolidated development strategy",
+    cong$total_acres >= 5 ~ "Large combined acreage enables significant development opportunity",
+    !is.na(cong$walkability_score) && cong$walkability_score >= 15 ~ "High walkability supports transit-oriented development",
+    TRUE ~ "High development potential based on site characteristics"
+  )
+  
+  recommended_action <- case_when(
+    !is.na(cong$avg_attendance) && cong$avg_attendance == 0 ~ "Assess congregational status and readiness for transition",
+    cong$n_parcels > 1 ~ "Map all parcels to identify consolidation or phased development approach",
+    TRUE ~ "Engage leadership on development partnership options"
+  )
+  
   cat("::: {.info-box}\n")
-  cat("**🎯 Why Engage:** ", cong$engagement_rationale, "\n\n", sep = "")
-  cat("**✅ Recommended Action:** ", cong$recommended_action, "\n")
+  cat("**🎯 Why Engage:** ", engagement_rationale, "\n\n", sep = "")
+  cat("**✅ Recommended Action:** ", recommended_action, "\n")
   cat(":::\n\n")
   
-  cat("#### Suggested Outreach Steps\n\n")
+  cat("#### Suggested Next Steps\n\n")
   
   cat("::: {.steps-box}\n")
-  if(cong$avg_attendance == 0) {
+  if(cong$avg_attendance == 0 || is.na(cong$avg_attendance)) {
     cat("1. Contact diocesan staff to verify congregation's current status\n")
     cat("2. Schedule site visit to assess property condition\n")
     cat("3. If inactive, begin transition planning process\n")
     cat("4. Engage remaining members on legacy preservation options\n")
-  } else if(cong$site_county %in% c("FAIRFAX", "FAIRFAX-CITY")) {
-    cat("1. Identify nearby Episcopal congregations for merger discussions\n")
-    cat("2. Facilitate joint vestry conversations about shared future\n")
-    cat("3. Conduct combined property portfolio analysis\n")
-    cat("4. Develop merger proposal with property optimization strategy\n")
   } else if(cong$n_parcels > 1) {
     cat("1. Map all parcels to identify consolidation opportunities\n")
     cat("2. Assess which parcel(s) best serve ongoing worship needs\n")
@@ -401,7 +419,7 @@ create_congregation_profile <- function(row_num) {
 }
 
 # Generate all congregation profiles
-for(i in 1:nrow(priority_congregations)) {
+for(i in 1:nrow(high_potential_congregations)) {
   create_congregation_profile(i)
 }
 ```
