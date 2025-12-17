@@ -501,8 +501,8 @@ ggplot(components, aes(x = reorder(Component, Weight), y = Weight, fill = Weight
 | 30-44 | Tier 4 | **Limited Potential** - Significant barriers exist |
 | <30 | Tier 5 | **Not Recommended** - Unsuitable for development |
 
-These six criteria, combined with constraint penalties, create a holistic picture of development potential. A property might score exceptionally well on size and location but face significant challenges from environmental constraints. Another might have modest physical attributes but represent an urgent opportunity to support a financially stressed congregation.
+These seven criteria create a holistic picture of development potential. A property might score exceptionally well on size and location but face significant challenges from environmental constraints. Another might have modest physical attributes but represent an urgent opportunity to support a financially stressed congregation.
 
 The weighted scoring system allows us to compare apples to oranges—to evaluate whether a small, perfectly-located property in a historic district outweighs a larger, unrestricted site with less market demand. This methodology doesn't make decisions for stakeholders but rather creates a common language for discussing trade-offs and priorities.
 
-Ultimately, successful church real estate development requires more than high scores. It demands patient capital, mission-aligned partners, engaged congregations, and creative design. But by systematically evaluating these criteria, we can identify the properties where stars align—where market demand, congregational need, and regulatory environment converge to create genuine opportunity.
+Ultimately, successful church real estate development requires more than high scores. It demands patient capital, mission-aligned partners, engaged congregations, and creative design. But by systematically evaluating these criteria, we can identify the properties where stars align—where market demand, congregational need, and regulatory environment likely converge to create genuine opportunity.

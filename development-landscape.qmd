@@ -5,7 +5,7 @@
 source("R/common.R")
 ```
 
-Of the 104 parcels pulled from the VEREP GIS tool for examination, 4 were immediately removed from development opportunity consideration due to their size. These parcels were all under 0.1 acres -- likely cemetery plots, parking strips, or slivers of land.  Three of these tiny parcels belong to the same congregation, so while not candidates for independent development, they may hold value as part of a larger assemblage or for their current use.
+Of the 104 parcels pulled from the VEREP GIS tool for examination, 4 were immediately removed from development opportunity consideration due to their size. These parcels were all under 0.1 acres -- likely cemetery plots, parking strips, or slivers of land.  Three of these tiny parcels belong to the same congregation, so while not candidates for independent development, they may hold value as part of a larger assemblage.
 
 ```{r}
 #| echo: false
@@ -22,10 +22,6 @@ small_parcels <- property_profile %>%
     area_acres = sprintf("%.03f", area_acres)
   )
 
-cat("::: {.callout-note}\n")
-cat("## Data Note\n")
-cat("Of the **104** properties in the Diocese portfolio, **100** are included in the development potential analysis. Four properties were excluded as they fall below the minimum size threshold of 0.1 acres and are not viable for independent development:\n\n")
-
 small_parcels %>%
   kable(
     col.names = c("Property", "Congregation", "County", "Acres", "Sq Feet"),
@@ -37,11 +33,10 @@ small_parcels %>%
   ) %>%
   print()
 
-cat("\nThese parcels are likely slivers of land, parking strips, or cemetery plots. While not candidates for independent development, they may hold value as part of a larger assemblage or for their current use, particularly for the St Johns Episcopal Church, which owns three of these four parcels.\n")
-cat(":::\n")
+
 ```
 
-This means 100 parcels were scored and ranked for development opportuntity: 
+This means ultimately 100 parcels were scored and ranked for development opportuntity: 
 
 ```{r tier-distribution-visual}
 #| echo: false
@@ -54,7 +49,8 @@ tier_data <- scored_parcels |>
       development_potential == "High" ~ "#445ca9",
       development_potential == "Moderate" ~ "#8baeaa",
       development_potential == "Constrained" ~ "#e9ab3f",
-      development_potential == "Limited" ~ "#e76f52",
+      development_potential == "Too Large" ~ "#e76f52",
+      development_potential == "Small Parcel" ~ "#909090",
       TRUE ~ "#cccccc"
     )
   )
@@ -77,4 +73,5 @@ ggplot(tier_data, aes(x = reorder(development_potential, n), y = n, fill = color
     panel.grid.major.x = element_blank()
   )
 ```
-Nearly 1 in 5 properties (18) are high-potential candidates ready for immediate development exploration. Combined with 23 moderate-potential sites, the Diocese has 41 actionable properties (41%) forming a substantial development pipeline to support long-term financial sustainability and mission fulfillment. Properties classified as Constrained or Limited are not necessarily without value—they may benefit from rezoning efforts, environmental remediation, or alternative strategies such as land leases or conservation easements. 
+ 
+Nearly half the portfolio (47%) falls within the goldilocks range of 0.5-5 acres with minimal constraints, representing actionable development opportunities. The remaining 53% face size limitations—either too small for economical development (39%) or too large for congregation-scale management (11%). Environmental constraints affect only 3% of properties, indicating the portfolio is largely unconstrained by wetlands or flood risk. However, this could be due to our choice to process missing wetland data as neutral, and should be carefully examined when beginning due diligence for the high-potential sites. 
