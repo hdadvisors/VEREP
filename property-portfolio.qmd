@@ -342,15 +342,15 @@ county_summary |>
 
 ```{r}
 #| label: tbl-high-potential
-#| tbl-cap: "Top 20 High Development Potential Properties"
+#| tbl-cap: "Top Development Potential Properties"
 #| echo: false
 
 library(kableExtra)
 
 high_potential_props <- property_profile |>
-  filter(development_potential %in% c("High", "Moderate")) |>
+  filter(development_potential %in% c("High")) |>
   arrange(desc(development_score)) |>
-  slice_head(n = 20)
+  slice_head(n = 10)
 
 if(nrow(high_potential_props) > 0) {
   high_potential_props |>
@@ -368,39 +368,6 @@ if(nrow(high_potential_props) > 0) {
   cat("No properties currently meet the High or Moderate development potential criteria.")
 }
 ```
-
-
-### Development Tiers
-
-```{r}
-#| label: tbl-tiers
-#| tbl-cap: "Summary by Development Tier"
-#| echo: false
-
-tier_summary <- property_profile |>
-  group_by(development_potential) |>
-  summarise(
-    `# Properties` = n(),
-    `Total Acres` = round(sum(area_acres, na.rm = TRUE), 1),
-    `Avg Acres` = round(mean(area_acres, na.rm = TRUE), 2),
-    `Avg Score` = round(mean(development_score, na.rm = TRUE), 1),
-    `Avg Walkability` = round(mean(walk_idx, na.rm = TRUE), 1),
-    .groups = "drop"
-  ) |>
-  arrange(desc(`Avg Score`))
-
-tier_summary |>
-  kable(
-    col.names = c("Development Tier", "# Parcels", "Total Acres", "Avg Acres", "Avg Score", "Avg Walkability"),
-    align = c("l", "r", "r", "r", "r", "r")
-  ) |>
-  kable_styling(bootstrap_options = c("striped", "hover")) |>
-  row_spec(0, bold = TRUE, background = "#e9ab3f", color = "white") |>
-  row_spec(which(tier_summary$development_potential == "High Potential"), 
-           background = "#d4edda")
-```
-
-:::
 
 ## Congregation Health Indicators
 
@@ -445,13 +412,12 @@ ggplot(plot_data, aes(x = avg_attendance, y = avg_pledge / 1000,
   theme_minimal(base_size = 12) +
   theme(legend.position = "bottom")
 ```
-#| echo: false
-#| results: asis
+:::
+** Understanding Financial Need*
 
-cat("::: {.callout-note}\n")
-cat("## Understanding Financial Need\n")
-cat("Financial need reflects **trajectory, not current resources**. Congregations flagged as 'Financial Need' may still report substantial annual giving, but their attendance and/or pledge revenue have declined significantly since 2014. These congregations are not in crisis today—but without intervention, they face an unsustainable path. Development partnerships offer an opportunity to stabilize finances while congregations remain viable, rather than waiting until resources are exhausted.\n")
-cat(":::\n")
+Congregations flagged as 'Financial Need' may still report substantial annual giving, but their attendance and/or pledge revenue have declined significantly since 2014. These congregations are not in crisis today—but without intervention, they face an unsustainable path. Development partnerships offer an opportunity to stabilize finances while congregations remain viable, rather than waiting until resources are exhausted
+
+:::
 
 ```{r}
 #| echo: false
