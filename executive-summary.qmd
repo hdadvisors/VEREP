@@ -12,27 +12,29 @@ source("R/common.R")
 
 ```{r}
 #| label: tbl-top-dev
-#| tbl-cap: "Top Development Opportunities"
+#| tbl-cap: "Top 15 Development Opportunities (0.5-5 Acre Goldilocks Range)"
 #| echo: false
 
 top_parcels |>
-  select(rank, sadd, scity, rgisacre, development_tier) |>
+  slice_head(n = 15) |>
+  select(rank, congregation_name, sadd, scity, scounty, rgisacre, development_score, development_tier) |>
   kable(
-    col.names = c("Rank", "Address", "City", "Acres", "Tier"),
-    digits = c(0, 0, 0, 2, 1, 0),
-    align = c("c", "l", "l", "r", "r", "l")
+    col.names = c("Rank", "Congregation", "Address", "City", "County", "Acres", "Score", "Tier"),
+    digits = c(0, 0, 0, 0, 0, 2, 1, 0),
+    align = c("c", "l", "l", "l", "l", "r", "r", "l")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed"),
     full_width = FALSE
   ) |>
   column_spec(1, bold = TRUE, width = "3em") |>
-  column_spec(5, color = "green", 
-              background = spec_color(top_parcels$development_score, 
-                                      scale_from = c(0, 100),
-                                      palette = "YlOrRd",
-                                      direction = -1))
+  column_spec(7, bold = TRUE,
+              color = spec_color(head(top_parcels$development_score, 15), 
+                                 scale_from = c(50, 85),
+                                 palette = c("#e76f52", "#e9ab3f", "#8baeaa"),
+                                 direction = 1))
 ```
+*Note: Properties without street addresses are identified by congregation name and location. These parcels have valid coordinates for mapping but lack specific addresses in county parcel records.*
 
 ```{r}
 #| label: fig-tier-distribution
@@ -42,19 +44,22 @@ top_parcels |>
 tier_summary <- scored_parcels |>
   count(development_potential) |>
   mutate(
-    pct = n / sum(n) * 100
+    pct = n / sum(n) * 100,
+    # Set specific order to match chart
+    development_potential = factor(development_potential, 
+                                   levels = c("Constrained", "Too Large", "High", "Moderate", "Small Parcel"))
   )
 
-ggplot(tier_summary, aes(x = reorder(development_potential, n), y = n,
-                          fill = development_potential)) +
+ggplot(tier_summary, aes(x = development_potential, y = n, fill = development_potential)) +
   geom_col() +
   geom_text(aes(label = paste0(n, " (", round(pct, 1), "%)")), 
             vjust = -0.5, size = 3.5) +
   scale_fill_manual(values = c(
-    "High" = "#445ca9",
-    "Moderate" = "#8baeaa",
-    "Constrained" = "#e9ab3f",
-    "Limited" = "#e76f52"
+    "Constrained" = "#e9ab3f",      # Orange/yellow
+    "Too Large" = "#e76f52",         # Dark gray
+    "High" = "#445ca9",              # Blue
+    "Moderate" = "#8baeaa",          # Teal/cyan
+    "Small Parcel" = "#909090"       # Light gray
   )) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   labs(
@@ -141,7 +146,7 @@ cat(":::\n\n")
 
 cat("::: {.callout-tip appearance='minimal'}\n")
 cat("## ", declining_count, " Parcels (", round(declining_acres, 1), " acres)\n", sep = "")
-cat("Financial Need Congregations\n")
+cat("Financial Need Congregation Parcels\n")
 cat(":::\n\n")
 
 cat(":::\n")
