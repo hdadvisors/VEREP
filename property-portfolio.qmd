@@ -22,12 +22,12 @@ cat("::: {layout-ncol=4}\n\n")
 
 cat("::: {.callout-note appearance='minimal'}\n")
 cat("## ", total_properties, "\n", sep = "")
-cat("Total Parcels\n")
+cat("Total Parcels Analyzed\n")
 cat(":::\n\n")
 
 cat("::: {.callout-tip appearance='minimal'}\n")
 cat("## ", format(round(total_acres, 0), big.mark = ","), "\n", sep = "")
-cat("Total Acres\n")
+cat("Total Acres Analyzed\n")
 cat(":::\n\n")
 
 cat("::: {.callout-warning appearance='minimal'}\n")
@@ -42,7 +42,7 @@ cat(":::\n\n")
 
 cat(":::\n")
 ```
-This distribution is common in institutional portfolios where properties were acquired for mission, not market value. The analysis's value lies in identifying the needles in the haystack—the 16 high-priority and 23 moderate-priority properties that can actually deliver financial returns—rather than pretending the entire portfolio has equal potential.
+The distribution of development potential reflected in this analysis is common in institutional portfolios where properties were acquired for mission, not market value. The analysis's value lies in identifying the needles in the haystack—the 16 high-priority and 23 moderate-priority properties that can actually deliver financial returns—rather than pretending the entire portfolio has equal potential.
 
 **In short:** A median development score of 35 proves the methodology is honest, makes the high-scoring properties more valuable by contrast, and provides clear strategic guidance: focus resources where they'll succeed rather than spreading them thin across a portfolio where most properties face fundamental limitations.
 

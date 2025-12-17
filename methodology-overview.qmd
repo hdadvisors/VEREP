@@ -8,7 +8,7 @@ source("R/common.R")
 
 ## VEREP Parcel Dataset
 
-This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset (originally 790 parcels) was further filtered to look at parcels/properties with small congregations and includes:
+This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset (originally 790 parcels) was further filtered to look at parcels/properties owned by congregations or the diocese and with small congregations to total:
 
 ```{r verep-count, echo=FALSE, results='asis'}
 cat("- **", nrow(property_profile), " parcels** across Virginia\n", sep = "")
@@ -36,9 +36,9 @@ Not all properties have associated congregation data. Properties without congreg
 
 ## Data Quality Issues
 
-Of the 104 properties analyzed with fewer than 30 Sunday attendees, 101 (97.1%) have incomplete data — meaning they are missing at least one of the six key development metrics (land value, acreage, wetland coverage, flood zone, QCT status, or zoning). This high rate reflects broader data quality challenges identified in CGS's initial VEREP study.
+Of the 104 parcels analyzed, 101 (97.1%) have incomplete data — meaning they are missing at least one of the six key development metrics (land value, acreage, wetland coverage, flood zone, QCT status, or zoning). This high rate reflects broader data quality challenges identified in CGS's initial VEREP study.
 
-While environmental constraint data (wetlands, flood zones) accounts for much of the missing information, 15 properties (14.4%) are missing land value, limiting our ability to assess their financial potential. The breakdown below classifies these data gaps to help prioritize follow-up research. Once complete, these properties can be more precisely evaluated for development opportunities.
+While environmental constraint data (wetlands, flood zones) accounts for much of the missing information, 15 properties (14.4%) are missing land value, limiting our ability to assess their financial potential. The breakdown below classifies these data gaps to help prioritize follow-up research. Once these are verified, these properties can be more precisely evaluated for development opportunities.
 
 ```{r other-issues, echo=FALSE}
 
@@ -116,6 +116,8 @@ missing_breakdown |>
 
 ## Addressing Data Gaps Through Enhanced Assessment
 
+In the interim, we attempted to use other data present to elucidate these gaps.
+
 ### The QCT Data Challenge
 
 Qualified Census Tract (QCT) designation applied to zero properties in this portfolio, rendering it useless for market assessment. We replaced QCT with median income and five-year household income growth forecasts from census tract data. Properties in high-income, high-growth areas score highest (90-95 points), while those in declining markets score lower (35-40 points). This approach uses actual market conditions at each property location rather than federal designations that proved inapplicable to small, rural congregations.
@@ -126,11 +128,11 @@ The most significant data quality issue emerged in environmental constraint asse
 
 Rather than impute wetland data or exclude these properties from analysis, we implemented a **multi-faceted constraint assessment framework** using complementary data sources with comprehensive coverage:
 
-**Historic District Designation (100% coverage)**
+**1 Historic District Designation**
 
 We incorporated National Register Historic District boundaries from the Virginia Department of Historic Resources. This revealed that **45% of the 104 properties** (n=47) are located within historic districts—a finding with significant implications for development feasibility. Properties in historic districts face additional regulatory requirements including design review processes, material restrictions, and extended approval timelines. Historic designation doesn't prohibit development but typically adds 15-25% to project costs and 3-6 months to development schedules. These properties receive a **-25 point penalty** in development scoring to reflect added complexity.
 
-**FEMA National Risk Index (100% coverage)**
+**2 FEMA National Risk Index**
 
 The FEMA National Risk Index provides comprehensive natural hazard assessment beyond flood zones alone, incorporating risks from hurricanes, tornadoes, severe storms, wildfires, earthquakes, and other hazards. This multi-hazard approach captures the full spectrum of climate and disaster risks that affect development feasibility, construction costs, and insurance requirements.
 
@@ -164,7 +166,7 @@ The geocoding process successfully provided coordinates for mapping while reveal
 
 Following wetland data supplementation and geocoding remediation, **15 properties** (14.4%) lacked assessed land values from county records. Rather than excluding these properties or pursuing individual county assessor verification, which would be more reliable but an added task, we applied a conservative estimation method using existing census tract-level housing market data.
 
-**Land Value Estimation Method:**
+#### Land Value Estimation Method:
 
 Properties without assessed land values were estimated using census tract median home values, assuming land represents approximately 25% of total residential property value in the area. This ratio aligns with typical land-to-improvement value relationships in suburban and rural Virginia markets. The formula applied:
 ```

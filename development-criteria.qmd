@@ -9,6 +9,10 @@ source("R/common.R")
 
 The development potential score is calculated by weighing each of the seven criteria according to its importance in determining development viability. Our scoring methodology, as outlined in the analytical framework of this report, reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.
 
+::: {.callout-tip}
+This is just a starting point based on HDA's reading of the data. If VEREP identifies other criteria they would like to weigh differently, or has anecdotal information to add this scoring could be adjusted.
+:::
+
 ### Property Size: The Goldilocks Principle
 
 **Weight: 20%**
@@ -248,7 +252,7 @@ Transit access amplifies these benefits. Properties within a quarter-mile of fre
 Most parcels in the portfolio fall below the high-walkability range, but a number showed promise in this category.
 
 
-### Financial Need: Aligning Development with Mission
+### Financial Need: Aligning Development with Mission {#sec-FinancialNeed}
 
 **Weight: 15%**
 

@@ -6,6 +6,9 @@ source("R/common.R")
 
 ## Interactive Map
 
+**Development opportunities are distributed broadly across the Diocese, with the color gradient revealing where the highest-scoring properties cluster.**
+
+
 ::: {.content-visible when-format="html"}
 ```{r all-properties-map-html}
 #| echo: false
@@ -53,15 +56,20 @@ addProviderTiles(providers$CartoDB.Positron) |>
 ```
 :::
 
-Development opportunities are distributed broadly across the Diocese, with the color gradient revealing where the highest-scoring properties cluster. The Diocese's strongest opportunities, scoring in the upper 70s, are concentrated in **Winchester in the northern Shenandoah Valley**, where two properties at St. Paul's on the Hill Church achieved the portfolio's highest development scores. These sites benefit from optimal acreage (1.5-3 acres), favorable market conditions, and minimal environmental or regulatory constraints.
+
+The Diocese's strongest opportunities, scoring in the upper 70s, are concentrated in **Winchester in the northern Shenandoah Valley**, where two properties at St. Paul's on the Hill Church achieved the portfolio's highest development scores. These sites benefit from optimal acreage (1.5-3 acres), favorable market conditions, and minimal environmental or regulatory constraints.
 
 Moderate-to-strong opportunities (scores 50-65), shown in orange to light red, are scattered throughout **Northern Virginia/DC corridor near Alexandria and Fairfax**, as well as in the **greater Richmond area**. These properties fall within the goldilocks acreage range but face scoring penalties from historic district designations (affecting 45% of portfolio properties) or moderate natural hazard risk. While viable for development, they will require additional time for regulatory approvals and design review processes.
 
-The Fredericksburg and Central Virginia regions show numerous properties scoring in the 40-55 range, represented by medium-sized circles in orange tones. Many of these sites have favorable acreage but receive constraint penalties that reduce their immediate development appeal. However, they remain viable candidates for phased development or projects with patient capital willing to navigate historic preservation requirements.
+The **Fredericksburg and Central Virginia regions** show numerous properties scoring in the 40-55 range, represented by medium-sized circles in orange tones. Many of these sites have favorable acreage but receive constraint penalties that reduce their immediate development appeal. However, they remain viable candidates for phased development or projects with patient capital willing to navigate historic preservation requirements.
 
+::: {.callout-tip}
 Geographic clustering reveals important patterns: Winchester stands alone as the Diocese's premier development opportunity, while Northern Virginia properties offer multiple moderate opportunities with strong market fundamentals offset by regulatory complexity. The Fredericksburg corridor presents larger properties that may require more sophisticated development approaches but offer substantial long-term value.
 
 This geographic diversity is strategic: the Diocese can pursue the highest-scoring "flagship" opportunities in Winchester for near-term demonstration projects, while simultaneously advancing portfolio-scale development in Northern Virginia where multiple properties could support coordinated initiatives. Larger or more constrained properties elsewhere provide longer-term strategic options as markets evolve and regulatory environments change.
+:::
+
+
 
 ::: {.content-visible when-format="pdf"}
 

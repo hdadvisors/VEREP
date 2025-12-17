@@ -17,7 +17,7 @@ source("R/common.R")
 #| echo: false
 
 top_parcels |>
-  slice_head(n = 15) |>
+  slice_head(n = 10) |>
   select(rank, congregation_name, sadd, scity, scounty, rgisacre, 
          development_score, constraint_summary, development_tier) |>
   kable(
@@ -81,7 +81,7 @@ ggplot(tier_summary, aes(x = development_potential, y = n, fill = development_po
 
 ## Key Findings
 
-### Portfolio Summary
+### Summary Overview
 
 ```{r}
 #| label: portfolio-summary
@@ -110,12 +110,12 @@ cat(":::\n\n")
 
 cat("::: {.callout-warning appearance='minimal'}\n")
 cat("## ", round(top_parcels_acres, 1), "\n", sep = "")
-cat("Top Developable Acres\n")
+cat("Strong Potential Acres\n")
 cat(":::\n\n")
 
 cat("::: {.callout-important appearance='minimal'}\n")
 cat("## ", round(total_acres, 0), "\n", sep = "")
-cat("Total Portfolio Acres\n")
+cat("Total Acres Analyzed\n")
 cat(":::\n\n")
 
 cat(":::\n")
@@ -156,10 +156,10 @@ cat(":::\n")
 ```
  This defines "financial need" as:
 
-- Sites with active congregations 
 - Sites with declining congregations
 - Sites with declining giving
 
+This is further explained in the methodology [Chapter @sec-FinancialNeed]. 
 
 ### Geographic Distribution
 

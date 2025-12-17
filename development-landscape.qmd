@@ -74,7 +74,7 @@ ggplot(tier_data, aes(x = reorder(development_potential, n), y = n, fill = color
   )
 ```
 
-Of the 100 properties analyzed with congregations under 30 Sunday attendees, **39 properties (39%) fall within the goldilocks development range** of 0.5-5 acres with minimal constraints:
+Of the 100 properties analyzed with congregations under 30 Sunday attendees, **39 properties (39%) fall within the ideal development range** of chosen criteria. 
 
 - **High Priority**: 16 properties (16%) — 1.5-5 acres with optimal development characteristics
 - **Moderate Priority**: 23 properties (23%) — 0.5-1.5 acres with development potential
