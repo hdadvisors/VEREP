@@ -206,8 +206,6 @@ The most high and moderate-potential properties concentrate in the 0.5–5 acre 
 
 ## Summary Metrics
 
-::: {.panel-tabset}
-
 ### By County
 
 #### Geographic Distribution: Understanding Two Complementary Metrics
@@ -220,57 +218,39 @@ These metrics can diverge significantly, revealing different types of opportunit
 **Tier 1: Premium Opportunities (High Scores + High Potential)**
 Frederick County (Winchester): The portfolio's standout performer
 
-2 properties, 77.6 average score, 2 High Potential (100% conversion rate)
-Both properties score in the upper 70s—the portfolio's highest
-These represent the Diocese's flagship development opportunities: optimal size (1.5-3 acres), unconstrained land, strong market fundamentals, and minimal regulatory barriers
-Strategic priority: Immediate development focus for demonstration projects
-
 Albemarle & Fairfax Counties: Strong individual opportunities
 
-Albemarle: 3 properties, 54.3 average, 2 High Potential
-Fairfax: 3 properties, 55.2 average, 2 High Potential
-Above-median scores with good conversion rates
 These counties offer proven development candidates with favorable market conditions offsetting some regulatory complexity (historic districts in several cases)
-Strategic priority: Include in near-term development pipeline
 
 
 **Tier 2: Volume Opportunities (High Potential Count, Modest Scores)**
 Fauquier County: The geographic concentration story
 
-7 properties, 44.4 average score, 4 High Potential (57% conversion rate)
-Holds 25% of all High Potential properties in the portfolio (4 of 16)
 The divergence tells the story: These properties have the right physical characteristics (good acreage, unconstrained) but face market and location limitations (rural setting, lower walkability scores, modest income growth)
-This is classic "goldilocks acreage in a challenging market"
-Strategic priority: Portfolio-scale development approach—multiple properties that could support coordinated affordable housing or creative mixed-use projects with patient capital
+
+Portfolio-scale development approach: multiple properties here could support coordinated affordable housing or creative mixed-use projects with patient capital
 
 Fairfax-City: Urban properties with modest outcomes
 
-3 properties, 46.2 average score, 2 High Potential
-The moderate scores despite good market fundamentals suggest regulatory complexity (likely historic districts) or current use challenges (active church buildings rather than parking lots)
-Strategic priority: Medium-term development requiring sophisticated partners comfortable with urban regulatory environments
+The moderate scores despite good market fundamentals suggest regulatory complexity (likely historic districts) or current use challenges (active church buildings rather than parking lots) These would require sophisticated partners comfortable with urban regulatory environments.
 
 
 **Tier 3: The King William Challenge (High Volume, Low Potential)**
 King William County: The inverse of Fauquier
 
-19 properties, 30.5 average score, 0 High Potential
 Contains 18% of all portfolio parcels but contributes zero development opportunities
 Why the divergence? These properties fail the physical threshold: likely dominated by small parcels under 0.5 acres (including the 11 properties requiring geocoding) and possibly some oversized parcels above 5 acres
-Even properties that might score modestly on market or use factors are disqualified by size constraints before reaching the scoring phase
-This represents legacy holdings—land accumulated through historical donations and gifts that don't align with modern development economics
-Strategic priority: Consider disposition, conservation easements, or alternative mission uses (community gardens, land banks) rather than pursuing development
+
+This represents legacy holdings—land accumulated through historical donations and gifts that don't align with modern development economics. Consider disposition, conservation easements, or alternative mission uses (community gardens, land banks) rather than pursuing development
 
 
 **Tier 4: Limited Engagement Counties**
 Richmond, Fluvanna, and others: Single properties with mixed potential
 
-Richmond: 7 properties, 23.2 average, 1 High Potential—urban location but mostly size-constrained small parcels
-Stafford, Loudoun, Page: 1 High Potential each with modest average scores (38-44 range)
-These counties offer opportunistic development where individual properties merit attention but don't justify significant resource concentration
-Strategic priority: Evaluate individually as opportunities arise; don't force development
+These counties offer opportunistic development where individual properties merit attention but don't justify significant resource concentration. Evaluate individually as opportunities arise; don't force development
 
 
-Key Strategic Insights:
+#### Key Strategic Insights:
 1. Geographic concentration matters differently than expected
 
 King William's 19 properties don't equal opportunity—they equal legacy management challenge
@@ -412,11 +392,10 @@ ggplot(plot_data, aes(x = avg_attendance, y = avg_pledge / 1000,
   theme_minimal(base_size = 12) +
   theme(legend.position = "bottom")
 ```
-:::
-** Understanding Financial Need*
+::: {.callout-note}
+## Understanding Financial Need
 
-Congregations flagged as 'Financial Need' may still report substantial annual giving, but their attendance and/or pledge revenue have declined significantly since 2014. These congregations are not in crisis today—but without intervention, they face an unsustainable path. Development partnerships offer an opportunity to stabilize finances while congregations remain viable, rather than waiting until resources are exhausted
-
+Congregations flagged as 'Financial Need' may still report substantial annual giving, but their attendance and/or pledge revenue have declined significantly since 2014. These congregations are not in crisis today—but without intervention, they face an unsustainable path. Development partnerships offer an opportunity to stabilize finances while congregations remain viable, rather than waiting until resources are exhausted.
 :::
 
 ```{r}
