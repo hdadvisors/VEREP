@@ -1,7 +1,14 @@
 ## Congregation Vitality Metrics
 ```{r}
+source("R/common.R")
+library(dplyr)
+```
+
+
+```{r}
 #| label: congregation-metrics
 #| echo: false
+#| message: false
 
 # Calculate parcels per congregation
 parcels_per_cong <- property_profile |>

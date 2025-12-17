@@ -9,7 +9,7 @@ Each of these counties have multiple congregation parcels, with the highest conc
 
 ### Parcels by Diocesan Region
 
-```{r regional-distribution-calc, include=FALSE}
+```{r}
 #| label: tbl-by-county
 #| tbl-cap: "Property Distribution by County"
 #| echo: false
