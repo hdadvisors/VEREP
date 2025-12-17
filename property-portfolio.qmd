@@ -42,6 +42,9 @@ cat(":::\n\n")
 
 cat(":::\n")
 ```
+This distribution is common in institutional portfolios where properties were acquired for mission, not market value. The analysis's value lies in identifying the needles in the haystack—the 16 high-priority and 23 moderate-priority properties that can actually deliver financial returns—rather than pretending the entire portfolio has equal potential.
+
+**In short:** A median of 35 proves the methodology is honest, makes the high-scoring properties more valuable by contrast, and provides clear strategic guidance: focus resources where they'll succeed rather than spreading them thin across a portfolio where most properties face fundamental limitations.
 
 ## Property Use Types
 
@@ -97,7 +100,7 @@ Over two-thirds (71%) of parcels are locked into church and cemetery designation
 
 ## Development Score Distribution
 
-The development scoring confirms use-constraints. Focus should likely center on the 18 high-potential properties for near-term value creation, while developing a longer-term strategy for the 23 moderate-potential parcels. The 59 constrained/limited properties may require hold strategies, community partnerships, or creative repurposing rather than traditional development approaches.
+The development scoring confirms use-constraints. Focus should likely center on the 16 high-potential properties for near-term value creation, while developing a longer-term strategy for the 23 moderate-potential parcels. The 59 constrained and size-restrictive properties may require hold strategies, community partnerships, or creative repurposing rather than traditional development approaches.
 
 ```{r}
 #| label: fig-score-distribution
@@ -106,12 +109,19 @@ The development scoring confirms use-constraints. Focus should likely center on 
 #| echo: false
 
 tier_summary <- scored_parcels |>
-  count(development_potential) |>
+  mutate(
+    # Combine size-restricted categories
+    development_category = case_when(
+      development_potential %in% c("Small Parcel", "Too Large") ~ "Size-Restricted",
+      TRUE ~ development_potential
+    )
+  ) |>
+  count(development_category) |>
   mutate(
     pct = n / sum(n) * 100,
     label = paste0(n, " (", round(pct, 0), "%)"),
-    potential_order = factor(development_potential, 
-                             levels = c("High", "Moderate", "Constrained", "Limited"))
+    potential_order = factor(development_category, 
+                             levels = c("High", "Moderate", "Size-Restricted", "Constrained"))
   ) |>
   arrange(potential_order)
 
@@ -125,8 +135,8 @@ ggplot(tier_summary, aes(x = "", y = n, fill = potential_order)) +
     values = c(
       "High" = "#445ca9",
       "Moderate" = "#8baeaa",
-      "Constrained" = "#e9ab3f",
-      "Limited" = "#e76f52"
+      "Size-Restricted" = "#e76f52",
+      "Constrained" = "#e9ab3f"
     )
   ) +
   labs(fill = "Development Potential") +
@@ -148,41 +158,51 @@ ggplot(tier_summary, aes(x = "", y = n, fill = potential_order)) +
 scored_parcels |>
   mutate(
     size_category = case_when(
-      area_acres < 1 ~ "< 1 acre",
-      area_acres < 5 ~ "1–5 acres",
-      area_acres < 10 ~ "5–10 acres",
-      area_acres < 25 ~ "10–25 acres",
-      TRUE ~ "25+ acres"
+      area_acres < 0.5 ~ "< 0.5 acres (Too Small)",
+      area_acres < 1.5 ~ "0.5–1.5 acres (Moderate)",
+      area_acres <= 5 ~ "1.5–5 acres (High)",
+      area_acres <= 10 ~ "5–10 acres (Too Large)",
+      TRUE ~ "10+ acres (Too Large)"
     ),
     size_category = factor(size_category, 
-                           levels = c("< 1 acre", "1–5 acres", "5–10 acres", "10–25 acres", "25+ acres")),
-    development_potential = factor(development_potential,
-                                   levels = c("High", "Moderate", "Constrained", "Limited"))
+                           levels = c("< 0.5 acres (Too Small)", 
+                                      "0.5–1.5 acres (Moderate)", 
+                                      "1.5–5 acres (High)", 
+                                      "5–10 acres (Too Large)", 
+                                      "10+ acres (Too Large)")),
+    # Combine size-restricted categories
+    development_category = case_when(
+      development_potential %in% c("Small Parcel", "Too Large") ~ "Size-Restricted",
+      TRUE ~ development_potential
+    ),
+    development_category = factor(development_category,
+                                   levels = c("High", "Moderate", "Size-Restricted", "Constrained"))
   ) |>
-  ggplot(aes(x = size_category, y = development_score, color = development_potential)) +
+  ggplot(aes(x = size_category, y = development_score, color = development_category)) +
   geom_jitter(width = 0.2, alpha = 0.7, size = 3) +
   scale_color_manual(
     values = c(
       "High" = "#445ca9",
       "Moderate" = "#8baeaa",
-      "Constrained" = "#e9ab3f",
-      "Limited" = "#e76f52"
+      "Size-Restricted" = "#e76f52",
+      "Constrained" = "#e9ab3f"
     )
   ) +
   labs(
-    x = "Parcel Size",
+    x = "Parcel Size Category",
     y = "Development Score",
     color = "Development Potential"
   ) +
   theme_minimal(base_size = 12) +
   theme(
     legend.position = "bottom",
-    panel.grid.major.x = element_blank()
+    panel.grid.major.x = element_blank(),
+    axis.text.x = element_text(angle = 25, hjust = 1, size = 10)
   ) +
   guides(color = guide_legend(nrow = 1))
 ```
 
-The most high and moderate-potential properties concentrate in the 1–5 acre "sweet spot," while parcels under 1 acre face inherent limitations and the largest sites show more constraints. This indicates that mid-sized properties offer the clearest path to development, although some larger parcels show strong opportunities in other metrics.
+The most high and moderate-potential properties concentrate in the 0.5–5 acre "sweet spot," while parcels under 0.5 acre face inherent limitations and the largest sites show more constraints. 
 
 ## Summary Metrics
 
@@ -190,24 +210,88 @@ The most high and moderate-potential properties concentrate in the 1–5 acre "s
 
 ### By County
 
-The portfolio spans 13 counties with highly variable concentration and development potential:
-Standout Performers:
+#### Geographic Distribution: Understanding Two Complementary Metrics
 
-Fauquier County emerges as the clear opportunity hub: 7 properties with a strong 66.4 average score and notably 5 high-potential properties (28% of all high-potential assets in just one county)
-Goochland County: Though only 1 property, it scores an exceptional 85.0, suggesting prime development readiness
-Fairfax-City and Essex: Strong average scores (63.3 and 62.5) with solid potential
+The portfolio spans multiple counties with highly variable concentration and development potential. Understanding the distribution requires recognizing how two distinct metrics work together:
+"High Potential" Classification (categorical): Properties meeting physical criteria—1.5-5 acres, minimal environmental constraints, documented land value. This measures what's physically developable.
+Development Score (0-100 numerical): Weighted assessment across six factors—size (20%), current use (25%), location (20%), financial need (15%), market potential (10%), and zoning (10%), minus constraint penalties. This measures how attractive development would be.
+These metrics can diverge significantly, revealing different types of opportunities and challenges:
 
-The King-William Challenge:
-King-William County contains the largest property concentration (19 properties—nearly 14% of the entire portfolio) but has the lowest average development score at 23.4 with only 1 high-potential property. Given that multiple parcels likely comprise single congregation sites, this represents significant land area locked in low-potential designation.
-Distribution Pattern:
-Most counties (10 of 13) have just 1 high-potential property each, while Fauquier's 5 high-potential properties represent a significant geographic concentration of opportunity. This suggests:
+**Tier 1: Premium Opportunities (High Scores + High Potential)**
+Frederick County (Winchester): The portfolio's standout performer
 
-Development efforts should prioritize Fauquier County resources
-The portfolio's challenges aren't evenly distributed—some regions face more severe constraints
-King-William's large footprint with minimal development potential may represent legacy holdings requiring different strategic treatment
+2 properties, 77.6 average score, 2 High Potential (100% conversion rate)
+Both properties score in the upper 70s—the portfolio's highest
+These represent the Diocese's flagship development opportunities: optimal size (1.5-3 acres), unconstrained land, strong market fundamentals, and minimal regulatory barriers
+Strategic priority: Immediate development focus for demonstration projects
 
-Strategic Insight:
-With multiple parcels often serving single congregations, the property count (61 across these counties) overstates the number of discrete development opportunities available.
+Albemarle & Fairfax Counties: Strong individual opportunities
+
+Albemarle: 3 properties, 54.3 average, 2 High Potential
+Fairfax: 3 properties, 55.2 average, 2 High Potential
+Above-median scores with good conversion rates
+These counties offer proven development candidates with favorable market conditions offsetting some regulatory complexity (historic districts in several cases)
+Strategic priority: Include in near-term development pipeline
+
+
+**Tier 2: Volume Opportunities (High Potential Count, Modest Scores)**
+Fauquier County: The geographic concentration story
+
+7 properties, 44.4 average score, 4 High Potential (57% conversion rate)
+Holds 25% of all High Potential properties in the portfolio (4 of 16)
+The divergence tells the story: These properties have the right physical characteristics (good acreage, unconstrained) but face market and location limitations (rural setting, lower walkability scores, modest income growth)
+This is classic "goldilocks acreage in a challenging market"
+Strategic priority: Portfolio-scale development approach—multiple properties that could support coordinated affordable housing or creative mixed-use projects with patient capital
+
+Fairfax-City: Urban properties with modest outcomes
+
+3 properties, 46.2 average score, 2 High Potential
+The moderate scores despite good market fundamentals suggest regulatory complexity (likely historic districts) or current use challenges (active church buildings rather than parking lots)
+Strategic priority: Medium-term development requiring sophisticated partners comfortable with urban regulatory environments
+
+
+**Tier 3: The King William Challenge (High Volume, Low Potential)**
+King William County: The inverse of Fauquier
+
+19 properties, 30.5 average score, 0 High Potential
+Contains 18% of all portfolio parcels but contributes zero development opportunities
+Why the divergence? These properties fail the physical threshold: likely dominated by small parcels under 0.5 acres (including the 11 properties requiring geocoding) and possibly some oversized parcels above 5 acres
+Even properties that might score modestly on market or use factors are disqualified by size constraints before reaching the scoring phase
+This represents legacy holdings—land accumulated through historical donations and gifts that don't align with modern development economics
+Strategic priority: Consider disposition, conservation easements, or alternative mission uses (community gardens, land banks) rather than pursuing development
+
+
+**Tier 4: Limited Engagement Counties**
+Richmond, Fluvanna, and others: Single properties with mixed potential
+
+Richmond: 7 properties, 23.2 average, 1 High Potential—urban location but mostly size-constrained small parcels
+Stafford, Loudoun, Page: 1 High Potential each with modest average scores (38-44 range)
+These counties offer opportunistic development where individual properties merit attention but don't justify significant resource concentration
+Strategic priority: Evaluate individually as opportunities arise; don't force development
+
+
+Key Strategic Insights:
+1. Geographic concentration matters differently than expected
+
+King William's 19 properties don't equal opportunity—they equal legacy management challenge
+Fauquier's 4 High Potential properties in one county enable economies of scale in development planning, partner recruitment, and regulatory engagement
+
+2. The metrics reveal different barriers
+
+High Potential count = physical development capacity (do we have the right-sized land?)
+Average score = market/location/use factors (will development actually work here?)
+Counties with high counts but low scores (Fauquier) need creative approaches to overcome market limitations
+Counties with zero high potential (King William) face fundamental size constraints no amount of market improvement can fix
+
+3. Resource allocation follows quality, not quantity
+
+Frederick County (2 parcels) deserves more attention than King William County (19 parcels)
+Focus development capital on Fauquier's 4 properties as a coordinated portfolio rather than spreading resources across single properties in 10 different counties
+
+4. Multiple parcels ≠ multiple opportunities
+
+Many parcels serve single congregations (particularly in King William)
+The 104 total parcels overstate discrete development sites—true opportunity count is closer to 39 goldilocks properties across fewer than 20 congregational sites
 
 ```{r}
 #| label: tbl-by-county
@@ -223,21 +307,36 @@ county_summary <- property_profile |>
     high_potential = sum(development_potential == "High", na.rm = TRUE),
     .groups = "drop"
   ) |>
-  arrange(desc(high_potential)) |>
-  slice_head(n = 15)
+  arrange(desc(high_potential), desc(properties))
 
+# Calculate totals
+total_row <- tibble(
+  scounty = "**TOTAL**",
+  properties = sum(county_summary$properties),
+  total_acres = sum(county_summary$total_acres),
+  avg_score = mean(property_profile$development_score, na.rm = TRUE),
+  high_potential = sum(county_summary$high_potential)
+)
+
+# Combine and format
 county_summary |>
+  bind_rows(total_row) |>
   mutate(
     total_acres = round(total_acres, 1),
     avg_score = round(avg_score, 1)
   ) |>
   kable(
     col.names = c("County", "Parcels", "Total Acres", "Avg Score", "# High Potential"),
-    align = c("l", "r", "r", "r", "r")
+    align = c("l", "r", "r", "r", "r"),
+    escape = FALSE  # Allow markdown formatting for TOTAL
   ) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
-  row_spec(0, bold = TRUE, background = "#445ca9", color = "white")
+  row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
+  row_spec(nrow(county_summary) + 1, bold = TRUE, background = "#f0f0f0")  # Highlight total row
 ```
+*Note: "High Potential" indicates properties meeting size criteria (1.5-5 acres) and minimal constraints. Average Score reflects broader market and location factors. Counties with high counts but lower scores have developable land facing market or location challenges.*
+
+**Bottom Line:** The Diocese should pursue an uneven geographic strategy that concentrates development resources in Frederick/Winchester (flagship quality), Fauquier (portfolio scale), and select Albemarle/Fairfax opportunities (proven viability), while being realistic that high-volume counties like King William represent asset management challenges, not development opportunities.
 
 ### High Potential
 
