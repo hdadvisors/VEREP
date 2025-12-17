@@ -106,9 +106,34 @@ property_profile <- property_profile %>%
     ),
     
     # 5. MARKET SCORE (Weight: 10%)
+    # Enhanced Market Score
     market_score = case_when(
-      qct == 1 ~ 90,
-      dda == 1 ~ 70,
+      # Strong income + strong growth = premium market
+      !is.na(medinc) & !is.na(hhi_g_n5) & 
+        medinc >= 75000 & hhi_g_n5 >= 2 ~ 95,
+      
+      # Good income + growth
+      !is.na(medinc) & !is.na(hhi_g_n5) & 
+        medinc >= 60000 & hhi_g_n5 >= 1 ~ 85,
+      
+      # High income area (stable)
+      !is.na(medinc) & medinc >= 75000 ~ 80,
+      
+      # Middle income + positive growth
+      !is.na(medinc) & !is.na(hhi_g_n5) & 
+        medinc >= 50000 & hhi_g_n5 >= 0 ~ 70,
+      
+      # Tax credit eligible (DDA/QOZ) - mission alignment
+      dda == 1 | qoz == 1 ~ 65,
+      
+      # Moderate income
+      !is.na(medinc) & medinc >= 40000 ~ 55,
+      
+      # Lower income, declining
+      !is.na(medinc) & !is.na(hhi_g_n5) & 
+        medinc < 40000 & hhi_g_n5 < 0 ~ 35,
+      
+      # Default for missing data
       TRUE ~ 50
     ),
     

@@ -326,11 +326,13 @@ market_indicators |>
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = TRUE)
 ```
 
-**Indicator: Area Median Income and LIHTC Eligibility**
+**Indicators: Area Median Income, LIHTC Eligibility, and Household Income Growth Forecast**
 
 Development must respond to market demand. Properties in higher-income areas (median incomes above \$75,000) typically support market-rate housing, ground-floor retail, or mixed-use projects that can cross-subsidize affordable components. These projects attract conventional financing and a broader range of development partners.
 
 Properties in Qualified Census Tracts (QCTs) gain additional scoring weight because they unlock Low-Income Housing Tax Credit (LIHTC) financing—the nation's primary mechanism for affordable housing production. LIHTC projects in QCTs receive point advantages in competitive funding rounds, improving their feasibility. For mission-driven institutions committed to affordable housing, QCT properties offer a rare alignment of social impact and financial viability.
+
+Median income tells you where a market is today—but real estate development takes 3-5 years from concept to occupancy. Income growth forecast tells you where the market is heading, which is critical for timing development decisions
 
 ### Zoning: Navigating Regulatory Reality
 
