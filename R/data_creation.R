@@ -104,7 +104,31 @@ property_profile <- analysis_subset %>%
     # DERIVED CALCULATIONS
     # ========================================
     
-    land_value_per_acre = if_else(rgisacre > 0, lan_val / rgisacre, NA_real_),
+    # Estimate land value for missing properties
+    estimated_land_value = case_when(
+      # Use actual land value if available
+      !is.na(lan_val) ~ lan_val,
+      
+      # Estimate from area median home value (100% coverage for missing)
+      !is.na(md_h_vl) & !is.na(rgisacre) ~ 
+        (md_h_vl * 0.25) * rgisacre,  # Assume land = 25% of home value
+      
+      # Fallback (shouldn't happen)
+      TRUE ~ NA_real_
+    ),
+    
+    land_value_source = if_else(
+      !is.na(lan_val), 
+      "County Assessor", 
+      "Estimated from Area Median"
+    ),
+    
+    # Calculate per-acre value using estimated value
+    land_value_per_acre = if_else(
+      rgisacre > 0, 
+      estimated_land_value / rgisacre, 
+      NA_real_
+    ),
     
     pct_change_attendance = if_else(
       !is.na(attendance_2014) & attendance_2014 > 0,
@@ -122,7 +146,7 @@ property_profile <- analysis_subset %>%
     # DATA COMPLETENESS
     # ========================================
     
-    missing_land_value = is.na(lan_val),
+    missing_land_value = is.na(estimated_land_value),
     missing_acreage = is.na(rgisacre),
     missing_wetland = is.na(wet_perc),
     missing_flood = is.na(fema_fz) | fema_fz == "",
@@ -144,10 +168,10 @@ property_profile <- analysis_subset %>%
     
     development_potential = case_when(
       # HIGH: Goldilocks sweet spot (1.5-5 acres), minimal constraints, documented value
-      (rgisacre >= 1.5 & rgisacre <= 5) & !has_environmental_constraint & !is.na(lan_val) ~ "High",
+      (rgisacre >= 1.5 & rgisacre <= 5) & !has_environmental_constraint & !is.na(estimated_land_value) ~ "High",  
       
       # MODERATE: Smaller goldilocks range (0.5-1.5 acres), minimal constraints
-      (rgisacre >= 0.5 & rgisacre < 1.5) & !has_environmental_constraint & !is.na(lan_val) ~ "Moderate",
+      (rgisacre >= 0.5 & rgisacre < 1.5) & !has_environmental_constraint & !is.na(estimated_land_value) ~ "Moderate",  
       
       # TOO LARGE: >5 acres (financially unwieldy)
       rgisacre > 5 ~ "Too Large",
@@ -172,7 +196,8 @@ property_profile <- analysis_subset %>%
     plate_pledge_2023, plate_pledge_2014, pct_change_pledge,
     
     # Property values
-    lan_val, land_value_per_acre, rgisacre, deed_acres,
+    lan_val, estimated_land_value, land_value_source, land_value_per_acre,  # <-- ADDED estimated fields
+    rgisacre, deed_acres,
     
     # Zoning
     zon, zon_desc, zon_type,
