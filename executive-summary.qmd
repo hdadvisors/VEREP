@@ -17,11 +17,13 @@ source("R/common.R")
 
 top_parcels |>
   slice_head(n = 15) |>
-  select(rank, congregation_name, sadd, scity, scounty, rgisacre, development_score, development_tier) |>
+  select(rank, congregation_name, sadd, scity, scounty, rgisacre, 
+         development_score, constraint_summary, development_tier) |>
   kable(
-    col.names = c("Rank", "Congregation", "Address", "City", "County", "Acres", "Score", "Tier"),
-    digits = c(0, 0, 0, 0, 0, 2, 1, 0),
-    align = c("c", "l", "l", "l", "l", "r", "r", "l")
+    col.names = c("Rank", "Congregation", "Address", "City", "County", 
+                  "Acres", "Score", "Constraints", "Tier"),
+    digits = c(0, 0, 0, 0, 0, 2, 1, 0, 0),
+    align = c("c", "l", "l", "l", "l", "r", "r", "l", "l")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed"),
@@ -30,9 +32,9 @@ top_parcels |>
   column_spec(1, bold = TRUE, width = "3em") |>
   column_spec(7, bold = TRUE,
               color = spec_color(head(top_parcels$development_score, 15), 
-                                 scale_from = c(50, 85),
+                                 scale_from = c(50, 80),
                                  palette = c("#e76f52", "#e9ab3f", "#8baeaa"),
-                                 direction = 1))
+                                 direction = 1))  # <-- Added closing parenthesis here!
 ```
 *Note: Properties without street addresses are identified by congregation name and location. These parcels have valid coordinates for mapping but lack specific addresses in county parcel records.*
 
@@ -176,9 +178,9 @@ ggplot(county_summary, aes(x = reorder(scounty, n_properties), y = n_properties)
   coord_flip() +
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   labs(
-    title = "Top 10 Counties by Parcel Count",
+    title = "Counties with Most Parcels",
     x = "",
-    y = "Number of Parcelss"
+    y = "Number of Parcels"
   ) +
   theme_minimal(base_size = 12) +
   theme(
@@ -200,6 +202,8 @@ Development opportunities are distributed across Virginia, with concentrations i
 #| results: asis
 
 library(kableExtra)
+
+property_profile <- read_rds("data/output/property_profile_scored.rds")
 
 # Calculate parcels per congregation
 parcels_per_cong <- property_profile |>
