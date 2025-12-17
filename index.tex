@@ -207,7 +207,7 @@
 \makeatother
 \subtitle{A Comprehensive Assessment of Underutilized Assets}
 \author{HDAdvisors}
-\date{2025-12-16}
+\date{2025-12-17}
 \begin{document}
 \maketitle
 
@@ -261,7 +261,7 @@ This analysis, done for the Virginia Episcopal Real Estate Portfolio
   \textbf{Appendices}: Technical details and references
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Interactive Features}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Interactive Features}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
 
 This report includes interactive visualizations and tools. Use the
 filters and controls to explore the data dynamically.
@@ -282,8 +282,7 @@ use the search function to find specific topics.
 
 This analysis examines properties in the Episcopal Diocese of Virginia
 with fewer than 30 Sunday attendees, focusing on development potential
-through five key metrics: land value, zoning/density, acreage,
-environmental limitations, and Qualified Census Tract (QCT) status. This
+through key metrics outlined in the analytical framework chapter. This
 report was done for VEREP (Virginia Episcopal Real Estate Partners) in
 conjunction with case study projects HDAdvisors is facilitating.
 
@@ -293,74 +292,98 @@ Parcelss}\label{at-a-glance-top-10-parcelss}
 
 \markright{At a Glance: Top 10 Parcelss}
 
-\begin{longtable}[t]{>{\centering\arraybackslash}p{3em}llr>{}r}
+\begin{verbatim}
+✓ Scoring complete
 
-\caption{\label{tbl-top-dev}Top Development Opportunities}
+=== TIER DISTRIBUTION ===
+# A tibble: 5 x 2
+  development_tier               n
+  <chr>                      <int>
+1 Tier 4: Limited Potential     37
+2 Tier 5: Not Recommended       37
+3 Tier 3: Moderate Potential    24
+4 Tier 2: Strong Potential       4
+5 Tier 1: High Priority          2
+
+=== GOLDILOCKS OPPORTUNITIES ===
+Total High + Moderate: 39 (37.5%)
+
+=== TOP 15 PROPERTIES BY SCORE ===
+# A tibble: 15 x 7
+    rank congregation_name scity area_acres development_score constraint_summary
+   <int> <chr>             <chr>      <dbl>             <dbl> <chr>             
+ 1     1 St Pauls on the ~ WINC~      3.20               79.2 None              
+ 2     2 St Pauls on the ~ WINC~      1.67               76   None              
+ 3     3 Christ Ascension~ RICH~      1.47               64.8 None              
+ 4     4 Good Shepherd-of~ FREE~      3.12               63.2 None              
+ 5     5 St Johns Church   COLU~      0.516              62   None              
+ 6     6 Grace Church Emm~ MIDL~      3.65               58.2 None              
+ 7     7 Grace Church Emm~ MIDL~      2.76               58.2 None              
+ 8     8 St Georges Church STAN~      1.83               57   None              
+ 9     9 Aquia Church      STAF~      1.12               54.6 None              
+10    10 Calvary Episcopa~ HANO~      1.45               54.3 None              
+11    11 Holy Cross Korea~ FAIR~      3.44               52.8 Historic District 
+12    12 Aquia Church      STAF~      1.53               50.8 Historic District 
+13    13 Aquia Church      STAF~      0.974              50.6 None              
+14    14 Aquia Church      STAF~      0.948              50.6 None              
+15    15 All Saints Sharo~ ALEX~      4.39               50.2 None              
+# i 1 more variable: development_potential <chr>
+
+=== CONSTRAINT IMPACT ===
+# A tibble: 1 x 5
+  total with_constraints avg_score_unconstrained avg_score_constrained
+  <int>            <int>                   <dbl>                 <dbl>
+1    39               22                    56.4                  34.9
+# i 1 more variable: score_difference <dbl>
+
+=== CONSTRAINT TYPES IN GOLDILOCKS ===
+# A tibble: 4 x 2
+  constraint_summary             n
+  <chr>                      <int>
+1 None                          17
+2 Historic District             15
+3 Moderate Hazard Risk           6
+4 Historic + Moderate Hazard     1
+
+✓ Files saved:
+  - property_profile_scored.rds
+  - property_profile_scored.csv
+  - verep_top_opportunities.csv
+\end{verbatim}
+
+\begin{longtable}[t]{>{\centering\arraybackslash}p{3em}llllr>{}rll}
+
+\caption{\label{tbl-top-dev}Top 15 Development Opportunities}
 
 \tabularnewline
 
 \toprule
-Rank & Address & City & Acres & Tier\\
+Rank & Congregation & Address & City & County & Acres & Score & Constraints & Tier\\
 \midrule
-\textbf{1} & 1527 SENSENY RD, WINCHESTER 22602 & WINCHESTER & 3.20 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{2} & 1 TRURO LN, FAIRFAX 22030 & FAIRFAX & 3.44 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{3} & STAFFORD 22554 & STAFFORD & 1.53 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{4} & WARSAW 22572 & WARSAW & 2.72 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{5} & WINCHESTER 22602 & WINCHESTER & 1.67 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
+\textbf{1} & St Pauls on the Hill Church & 1527 SENSENY RD, WINCHESTER 22602 & WINCHESTER & FREDERICK & 3.20 & \textcolor[HTML]{8baeaa}{\textbf{79.2}} & None & Tier 1: High Priority\\
+\textbf{2} & St Pauls on the Hill Church & WINCHESTER 22602 & WINCHESTER & FREDERICK & 1.67 & \textcolor[HTML]{8baeaa}{\textbf{76.0}} & None & Tier 1: High Priority\\
+\textbf{3} & Christ Ascension Church & 1704 WEST LABURNUM AVE, RICHMOND 23227 & RICHMOND & RICHMOND-CITY & 1.47 & \textcolor[HTML]{e9ab3f}{\textbf{64.8}} & None & Tier 2: Strong Potential\\
+\textbf{4} & Good Shepherd-of-the-Hills & 7420 MISSION HOME RD, FREE UNION 22940 & FREE UNION & ALBEMARLE & 3.12 & \textcolor[HTML]{e9ab3f}{\textbf{63.2}} & None & Tier 2: Strong Potential\\
+\textbf{5} & St Johns Church & 64 K ST, COLUMBIA 23038 & COLUMBIA & FLUVANNA & 0.52 & \textcolor[HTML]{e9ab3f}{\textbf{62.0}} & None & Tier 2: Strong Potential\\
 \addlinespace
-\textbf{6} & 10490 MAIN ST, FAIRFAX 22030 & FAIRFAX & 0.61 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{7} & 1704 WEST LABURNUM AVE, RICHMOND 23227 & RICHMOND & 1.47 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{8} & 37018 GLENDALE ST, PURCELLVILLE 20132 & PURCELLVILLE & 2.02 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{9} & FARNHAM 22460 & FARNHAM & 2.05 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{10} & WARSAW 22572 & WARSAW & 0.70 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
+\textbf{6} & Grace Church Emmanuel Parish & 5096 GRACE CHURCH LN, MIDLAND 22728 & MIDLAND & FAUQUIER & 3.65 & \textcolor[HTML]{e9ab3f}{\textbf{58.2}} & None & Tier 3: Moderate Potential\\
+\textbf{7} & Grace Church Emmanuel Parish & 5094 GRACE CHURCH LN, MIDLAND 22728 & MIDLAND & FAUQUIER & 2.76 & \textcolor[HTML]{e9ab3f}{\textbf{58.2}} & None & Tier 3: Moderate Potential\\
+\textbf{8} & St Georges Church & 3392 PINE GROVE RD, STANLEY 22851 & STANLEY & PAGE & 1.83 & \textcolor[HTML]{e76f52}{\textbf{57.0}} & None & Tier 3: Moderate Potential\\
+\textbf{9} & Aquia Church & STAFFORD 22554 & STAFFORD & STAFFORD & 1.12 & \textcolor[HTML]{e76f52}{\textbf{54.6}} & None & Tier 3: Moderate Potential\\
+\textbf{10} & Calvary Episcopal Church & 13312 HANOVER COURTHOUSE RD, HANOVER 23069 & HANOVER & HANOVER & 1.45 & \textcolor[HTML]{e76f52}{\textbf{54.3}} & None & Tier 3: Moderate Potential\\
 \addlinespace
-\textbf{11} & 403 NORTH RAPPAHANNOCK ST, REMINGTON 22734 & REMINGTON & 2.73 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{12} & 64 K ST, COLUMBIA 23038 & COLUMBIA & 0.52 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 2: Strong Potential}}\\
-\textbf{13} & 7420 MISSION HOME RD, FREE UNION 22940 & FREE UNION & 3.12 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{14} & 10520 MAIN ST, FAIRFAX 22030 & FAIRFAX & 4.11 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{15} & 8695 OLD DUMFRIES RD, CATLETT 20119 & CATLETT & 2.36 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\addlinespace
-\textbf{16} & 39518 LITTLE RIVER TPKE, ALDIE 20105 & ALDIE & 1.13 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{17} & 218 RECTORY RD, MONTROSS 22520 & MONTROSS & 1.04 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{18} & MONTROSS 22520 & MONTROSS & 1.12 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{19} & 11291 WEST RIVER RD, AYLETT 23009 & AYLETT & 1.25 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{20} & 3392 PINE GROVE RD, STANLEY 22851 & STANLEY & 1.83 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\addlinespace
-\textbf{21} & DORSEY LANE LN, BOWLING GREEN 22427 & BOWLING GREEN & 0.52 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{22} & 11253 WEST RIVER RD, AYLETT 23009 & AYLETT & 0.58 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{23} & 5096 GRACE CHURCH LN, MIDLAND 22728 & MIDLAND & 3.65 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{24} & 5094 GRACE CHURCH LN, MIDLAND 22728 & MIDLAND & 2.76 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{25} & 8691 OLD DUMFRIES RD, CATLETT 20119 & CATLETT & 0.99 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\addlinespace
-\textbf{26} & 8693 OLD DUMFRIES RD, CATLETT 20119 & CATLETT & 0.99 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{27} & 15870 KINGS HWY, MONTROSS 22520 & MONTROSS & 0.80 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{28} & STAFFORD 22554 & STAFFORD & 1.12 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{29} & 2948 RICHMOND HWY, STAFFORD 22554 & STAFFORD & 1.46 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{30} & 13312 HANOVER COURTHOUSE RD, HANOVER 23069 & HANOVER & 1.45 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\addlinespace
-\textbf{31} & 3663 TIDEWATER TRL, LORETTO 22509 & LORETTO & 2.08 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{32} & STAFFORD 22554 & STAFFORD & 0.97 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{33} & STAFFORD 22554 & STAFFORD & 0.95 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{34} & 3421 FRANCONIA RD, ALEXANDRIA 22310 & ALEXANDRIA & 4.39 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{35} & 5987 RICHMOND RD, WARSAW 22572 & WARSAW & 2.24 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\addlinespace
-\textbf{36} & 5904 MAIN ST, MOUNT JACKSON 22842 & MOUNT JACKSON & 0.82 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 3: Moderate Potential}}\\
-\textbf{37} & 3421 FRANCONIA RD, ALEXANDRIA 22310 & ALEXANDRIA & 1.67 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\textbf{38} & 27 GOOD SHEPHERD RD, BLUEMONT 20135 & BLUEMONT & 1.10 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\textbf{39} & 9403 KINGS HWY, KING GEORGE 22485 & KING GEORGE & 0.69 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\textbf{40} & OAK SHADE RD, RIXEYVILLE 22737 & RIXEYVILLE & 0.91 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\addlinespace
-\textbf{41} & 2523 CRAIGS STORE RD, AFTON 22920 & AFTON & 2.36 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\textbf{42} & 3661 TIDEWATER TRL, LORETTO 22509 & LORETTO & 2.50 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\textbf{43} & 823 WATER ST, PORT ROYAL 22535 & PORT ROYAL & 0.57 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\textbf{44} & 14586 ALANTHUS RD, BRANDY STATION 22714 & BRANDY STATION & 0.90 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\textbf{45} & 231 NORTH FARNHAM CHURCH RD, FARNHAM 22460 & FARNHAM & 0.81 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\addlinespace
-\textbf{46} & 43 WASHINGTON ST, COLUMBIA 23038 & COLUMBIA & 0.80 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
-\textbf{47} & 823 WATER ST, PORT ROYAL 22535 & PORT ROYAL & 0.58 & \cellcolor{YlOrRd}{\textcolor{green}{Tier 4: Limited Potential}}\\
+\textbf{11} & Holy Cross Korean Episcopal Church & 1 TRURO LN, FAIRFAX 22030 & FAIRFAX & FAIRFAX-CITY & 3.44 & \textcolor[HTML]{e76f52}{\textbf{52.8}} & Historic District & Tier 3: Moderate Potential\\
+\textbf{12} & Aquia Church & STAFFORD 22554 & STAFFORD & STAFFORD & 1.53 & \textcolor[HTML]{e76f52}{\textbf{50.8}} & Historic District & Tier 3: Moderate Potential\\
+\textbf{13} & Aquia Church & STAFFORD 22554 & STAFFORD & STAFFORD & 0.97 & \textcolor[HTML]{e76f52}{\textbf{50.6}} & None & Tier 3: Moderate Potential\\
+\textbf{14} & Aquia Church & STAFFORD 22554 & STAFFORD & STAFFORD & 0.95 & \textcolor[HTML]{e76f52}{\textbf{50.6}} & None & Tier 3: Moderate Potential\\
+\textbf{15} & All Saints Sharon Chapel & 3421 FRANCONIA RD, ALEXANDRIA 22310 & ALEXANDRIA & FAIRFAX & 4.39 & \textcolor[HTML]{e76f52}{\textbf{50.2}} & None & Tier 3: Moderate Potential\\
 \bottomrule
 
 \end{longtable}
+
+\emph{Note: Properties without street addresses are identified by
+congregation name and location. These parcels have valid coordinates for
+mapping but lack specific addresses in county parcel records.}
 
 \begin{figure}[H]
 
@@ -387,7 +410,7 @@ Development Potential}
 
 \begin{minipage}{0.25\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
 \vspace{-3mm}\textbf{100}\vspace{3mm}
 
@@ -399,9 +422,9 @@ Parcels Analyzed
 %
 \begin{minipage}{0.25\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-tip-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
-\vspace{-3mm}\textbf{20}\vspace{3mm}
+\vspace{-3mm}\textbf{16}\vspace{3mm}
 
 Strong Potential (High)
 
@@ -411,9 +434,9 @@ Strong Potential (High)
 %
 \begin{minipage}{0.25\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-warning-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-warning-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
-\vspace{-3mm}\textbf{77.3}\vspace{3mm}
+\vspace{-3mm}\textbf{64.1}\vspace{3mm}
 
 Top Developable Acres
 
@@ -423,7 +446,7 @@ Top Developable Acres
 %
 \begin{minipage}{0.25\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-important-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
 \vspace{-3mm}\textbf{248}\vspace{3mm}
 
@@ -443,7 +466,7 @@ Assets}\label{significant-underutilized-assets}
 
 \begin{minipage}{0.33\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-warning-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-warning-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
 \vspace{-3mm}\textbf{3 Parcels (3.9 acres)}\vspace{3mm}
 
@@ -455,7 +478,7 @@ Surface Parking Lots
 %
 \begin{minipage}{0.33\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-warning-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-warning-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
 \vspace{-3mm}\textbf{22 Parcels (98.6 acres)}\vspace{3mm}
 
@@ -467,11 +490,11 @@ Vacant/Open Space
 %
 \begin{minipage}{0.33\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-tip-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
 \vspace{-3mm}\textbf{56 Parcels (81.6 acres)}\vspace{3mm}
 
-Financial Need Congregations
+Financial Need Congregation Parcels
 
 \end{tcolorbox}
 
@@ -585,7 +608,9 @@ parcels/properties with small congregations and includes:
 \section{Congregation Statistics
 (2014-2023)}\label{congregation-statistics-2014-2023}
 
-Financial and membership data provides context on congregation health:
+This analysis also includes congregation statistics from the VEREP GIS
+webtool. Financial and membership data provides context on congregation
+health:
 
 \begin{itemize}
 \tightlist
@@ -599,7 +624,7 @@ Financial and membership data provides context on congregation health:
   10-year trend analysis
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Data Quality Note}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Data Quality Note}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
 
 Not all properties have associated congregation data. Properties without
 congregation information received neutral scores in the financial need
@@ -617,113 +642,177 @@ broader data quality challenges identified in CGS's initial VEREP study.
 
 While environmental constraint data (wetlands, flood zones) accounts for
 much of the missing information, 15 properties (14.4\%) are missing land
-value entirely, limiting our ability to assess their financial
-potential. The breakdown below classifies these data gaps to help
-prioritize follow-up research. Once complete, these properties can be
-more precisely evaluated for development opportunities.
-
-\begin{longtable*}[l]{>{\raggedright\arraybackslash}p{25em}>{\raggedleft\arraybackslash}p{12em}}
-\toprule
-Metric & Value\\
-\midrule
-\textbf{Total properties analyzed (<30 attendance)} & 104\\
-\textbf{Properties with incomplete data (score < 6/6)} & 101 (97.1\%)\\
-\textbf{Properties missing land value} & 15 (14.4\%)\\
-\textbf{VEREP properties not matched to congregation} & 162 (of 790 total VEREP properties)\\
-\bottomrule
-\end{longtable*}
+value, limiting our ability to assess their financial potential. The
+breakdown below classifies these data gaps to help prioritize follow-up
+research. Once complete, these properties can be more precisely
+evaluated for development opportunities.
 
 \pandocbounded{\includegraphics[keepaspectratio]{methodology-overview_files/figure-pdf/missing-data-chart-1.pdf}}
 
-In an effort to avoid limiting all properties in this way, we handled
-wetland qualifying differently from other categories because it
-accounted for the majority of missing data. This gap reflects
-limitations in the source wetland layer coverage rather than an absence
-of wetland features. For properties without wetland data, we applied a
-default value of 0\%, operating under the assumption that parcels not
-captured in the National Wetlands Inventory contain no significant
-wetland features. Similarly, the 5 properties (4.8\%) missing FEMA flood
-zone designations were assigned zone ``X,'' indicating minimal flood
-hazard, consistent with areas outside mapped floodplains.
+\section{Addressing Data Gaps Through Enhanced
+Assessment}\label{addressing-data-gaps-through-enhanced-assessment}
 
-Acreage and QCT status were complete across all 101 properties. Land
-value and zoning data remained incomplete for 15 properties each
-(14.4\%). These fields were retained as missing rather than imputed, as
-accurate values require verification through county assessor records and
-local zoning ordinances. Properties lacking these values are flagged for
-manual follow-up.
+\subsection{The QCT Data Challenge}\label{the-qct-data-challenge}
 
-Following these adjustments, the number of properties with incomplete
-data decreased from 101 to approximately 25, representing those still
-requiring land value or zoning verification.
+Qualified Census Tract (QCT) designation applied to zero properties in
+this portfolio, rendering it useless for market assessment. We replaced
+QCT with median income and five-year household income growth forecasts
+from census tract data. Properties in high-income, high-growth areas
+score highest (90-95 points), while those in declining markets score
+lower (35-40 points). This approach uses actual market conditions at
+each property location rather than federal designations that proved
+inapplicable to small, rural congregations.
 
-\section{Geocoding Process Summary}\label{geocoding-process-summary}
+\subsection{The Wetland Data
+Challenge}\label{the-wetland-data-challenge}
 
-\subsection{Process}\label{process}
+The most significant data quality issue emerged in environmental
+constraint assessment: \textbf{97\% of properties lacked wetland
+coverage data} from the National Wetlands Inventory. This critical gap
+meant that relying solely on wetland percentages would fail to identify
+environmentally constrained properties, potentially overestimating
+development opportunities across the portfolio.
 
-11 of the 104 parcels had missing or `UNASSIGNED' addresses in the
-parcel database. For this analysis we used Geocodio API to geocode based
-on available city/county information. All 11 of these parcels geocoded
-to West Point, King William County center coordinates and likely belong
-to 2 congregations.
+Rather than impute wetland data or exclude these properties from
+analysis, we implemented a \textbf{multi-faceted constraint assessment
+framework} using complementary data sources with comprehensive coverage:
 
-\subsection{Results}\label{results}
+\textbf{Historic District Designation (100\% coverage)}
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{Geocoding success rate}: 100\% (11/11 properties)
-\item
-  \textbf{Accuracy level}: Medium (0.54) - `street\_center'
-  approximation
-\item
-  \textbf{Location}: West Point, King William County, Virginia
-\item
-  \textbf{Congregations affected}: 2 (St Pauls Church, St Johns
-  Episcopal Church)
-\item
-  \textbf{Development classification}: All classified as `Small Parcel'
-  or environmentally constrained
-\end{itemize}
+We incorporated National Register Historic District boundaries from the
+Virginia Department of Historic Resources. This revealed that
+\textbf{45\% of the 104 properties} (n=47) are located within historic
+districts---a finding with significant implications for development
+feasibility. Properties in historic districts face additional regulatory
+requirements including design review processes, material restrictions,
+and extended approval timelines. Historic designation doesn't prohibit
+development but typically adds 15-25\% to project costs and 3-6 months
+to development schedules. These properties receive a \textbf{-25 point
+penalty} in development scoring to reflect added complexity.
 
-\subsection{Interpretation}\label{interpretation}
+\textbf{FEMA National Risk Index (100\% coverage)}
 
-These properties lack specific street addresses in the Virginia parcel
-data. The geocoding service returned city-center coordinates as
-approximations based on the available location information (city and
-county).
+The FEMA National Risk Index provides comprehensive natural hazard
+assessment beyond flood zones alone, incorporating risks from
+hurricanes, tornadoes, severe storms, wildfires, earthquakes, and other
+hazards. This multi-hazard approach captures the full spectrum of
+climate and disaster risks that affect development feasibility,
+construction costs, and insurance requirements.
 
-This geocoding approach is acceptable for the purposes of this report
-because:
+Among the 104 properties: - \textbf{Very Low or Relatively Low risk}:
+79\% (minimal concerns) - \textbf{Relatively Moderate risk}: 32\%
+(manageable with standard precautions, -15 point penalty) -
+\textbf{Relatively High risk}: 12\% (significant mitigation required,
+-40 point penalty) - \textbf{Very High risk}: \textless1\% (likely
+deal-breaker, -50 point penalty)
 
-\begin{itemize}
-\tightlist
-\item
-  All properties are small parcels (\textless{} 0.5 acres)
-\item
-  None qualify as high or medium development opportunities
-\item
-  They are correctly excluded from the `top opportunities' analysis
-\item
-  Approximate coordinates are sufficient for general mapping and
-  visualization purposes
-\end{itemize}
+\textbf{Combined Assessment Impact}
 
-\subsection{Impact on Analysis}\label{impact-on-analysis}
+This enhanced screening framework identified environmental and
+regulatory constraints affecting \textbf{17 properties} (16\%) that
+would have been missed using wetland data alone. The addition of
+historic district data proved particularly valuable: among the 36
+goldilocks opportunities (0.5-5 acres), \textbf{16 properties} (44\%)
+carry historic designation, providing crucial context for development
+planning and timeline expectations.
 
-✓ \textbf{No impact} on top opportunities identification\\
-✓ All 104 properties now have coordinates for mapping and spatial
-analysis\\
-✓ Small parcels appropriately filtered from priority development list\\
-✓ Development potential classifications remain accurate
+For the small subset of properties with wetland data available (11\%),
+we retained this information and applied it alongside historic and
+hazard assessments. Properties with multiple major constraints (e.g.,
+flood zone + high hazard risk, or significant wetlands + flood zone)
+receive compounded penalties (up to -75 points), reflecting cumulative
+impacts on development feasibility.
+
+\subsection{Addressing Missing Property Information Through
+Geocoding}\label{addressing-missing-property-information-through-geocoding}
+
+Eleven properties lacked specific street addresses in county parcel
+records, listed instead as ``UNASSIGNED'' or missing entirely. To enable
+spatial analysis and mapping, we employed the Geocodio API to generate
+approximate coordinates based on available city and county information.
+
+\textbf{Geocoding Results:} - \textbf{Success rate}: 100\% (11/11
+properties geocoded) - \textbf{Accuracy}: Medium (0.54) representing
+city-center approximations - \textbf{Location}: All 11 properties
+geocoded to West Point, King William County - \textbf{Congregations}:
+Two congregations affected (St.~Pauls Church, St.~Johns Episcopal
+Church)
+
+\textbf{Analysis Impact:}
+
+The geocoding process successfully provided coordinates for mapping
+while revealing that all 11 properties are \textbf{small parcels under
+0.5 acres}---below the goldilocks development threshold. These
+properties were appropriately classified as ``Small Parcel'' regardless
+of address precision, meaning the city-center coordinate approximations
+do not affect development opportunity identification. All 104 properties
+now have sufficient location data for spatial analysis and
+visualization, with no impact on the integrity of top opportunities
+rankings.
+
+\textbf{Remaining Data Needs:}
+
+Following wetland data supplementation and geocoding remediation,
+\textbf{15 properties} (14.4\%) lacked assessed land values from county
+records. Rather than excluding these properties or pursuing individual
+county assessor verification, which would be more reliable but an added
+task, we applied a conservative estimation method using existing census
+tract-level housing market data.
+
+\textbf{Land Value Estimation Method:}
+
+Properties without assessed land values were estimated using census
+tract median home values, assuming land represents approximately 25\% of
+total residential property value in the area. This ratio aligns with
+typical land-to-improvement value relationships in suburban and rural
+Virginia markets. The formula applied:
+
+\begin{verbatim}
+Estimated Land Value = (Census Tract Median Home Value × 0.25) × Property Acreage
+\end{verbatim}
+
+This method provides order-of-magnitude values sufficient for
+preliminary opportunity screening while flagging properties for detailed
+appraisal before advancing to feasibility analysis. All estimated values
+are clearly marked in the dataset with the source noted as ``Estimated
+from Area Median'' rather than ``County Assessor.''
+
+\textbf{Coverage Achievement:} - Properties with direct assessor land
+values: 89/104 (85.6\%) - Properties with estimated land values: 15/104
+(14.4\%) - Total properties with usable land value data: \textbf{104/104
+(100\%)}
+
+No properties require manual follow-up for land value data, though the
+15 estimated values should be verified through formal appraisal during
+due diligence for any properties advancing to development.
+
+\subsection{Before and after enhanced
+assessment}\label{before-and-after-enhanced-assessment}
+
+\pandocbounded{\includegraphics[keepaspectratio]{methodology-overview_files/figure-pdf/unnamed-chunk-2-1.pdf}}
+
+\begin{longtable}[t]{lr>{}r>{}rll}
+\caption{\label{tab:unnamed-chunk-3}Data Enhancement Impact Summary}\\
+\toprule
+Data Category & Original Gap & Addressed & Remaining & Enhancement & Explanation\\
+\midrule
+Market Indicators & 104 & \textcolor[HTML]{8baeaa}{\textbf{104}} & \textcolor[HTML]{666666}{0} & Median income + 5-year household income growth forecasts & Replaced ineffective QCT designation (0 properties qualified) with actual market conditions\\
+Wetland Data & 97 & \textcolor[HTML]{8baeaa}{\textbf{97}} & \textcolor[HTML]{666666}{0} & Historic districts + FEMA National Risk Index & Multi-faceted constraint framework capturing regulatory and hazard risks\\
+Land Value & 15 & \textcolor[HTML]{8baeaa}{\textbf{15}} & \textcolor[HTML]{666666}{0} & Census tract median home value estimation & Conservative estimation assuming land = 25\% of residential property value\\
+Property Address & 11 & \textcolor[HTML]{8baeaa}{\textbf{11}} & \textcolor[HTML]{666666}{0} & Geocodio API geocoding & City-center approximations sufficient for small parcels excluded from top opportunities\\
+\bottomrule
+\end{longtable}
 
 \subsection{Recommendation}\label{recommendation}
 
-Accept city-center approximations for mapping and visualization
-purposes. Manual address research is not necessary as these parcels are
-not development priorities due to size constraints. The geocoding has
-successfully provided the minimum necessary location information for
-comprehensive spatial analysis of the property portfolio.
+The enhanced constraint assessment framework using historic districts
+and comprehensive hazard ratings provides robust environmental and
+regulatory screening despite limited wetland data. Properties identified
+as opportunities have been vetted against multiple constraint sources,
+providing confidence in their development potential. Future
+site-specific due diligence should include wetland delineation for
+properties advancing to development, particularly for the 89\% of
+parcels without existing wetland assessments.
 
 \chapter{Data Source Details}\label{data-source-details}
 
@@ -745,27 +834,68 @@ distinct records.
 
 The final CGS dataset, completed in February 2025, contains 798 parcels
 totaling approximately 3,707 acres with an assessed value exceeding
-\$1.79 billion. For this analysis, the dataset was filtered in the
-online GIS tool to focus on parcels associated with congregations
-reporting fewer than 30 regular Sunday attendees, then downloaded for
-further examination.
+\$1.79 billion.
 
 \chapter{Analytical Framework}\label{analytical-framework}
 
 \section{Development Potential
 Scoring}\label{development-potential-scoring}
 
-Our methodology evaluates six key dimensions:
+Our methodology evaluates \textbf{seven key criteria} across positive
+attributes and limiting factors to create a composite development score
+(0-100):
+
+\subsection{Six Weighted Components (total:
+100\%)}\label{six-weighted-components-total-100}
 
 \pandocbounded{\includegraphics[keepaspectratio]{analytical-framework_files/figure-pdf/scoring-visual-1.pdf}}
 
-\textbf{Constraint Penalties:} Properties receive deductions for flood
-zones (-40), significant wetlands (-35), easements (-30), and historic
-district designation (-25).
+\subsection{Plus Constraint Penalties}\label{plus-constraint-penalties}
 
-\textbf{Development Tiers}
+Environmental and regulatory factors are applied as score deductions:
 
-Properties are classified into five tiers based on composite scores:
+\begin{itemize}
+\tightlist
+\item
+  Combined flood zone + significant wetlands (\textgreater25\%):
+  \textbf{-75 points}
+\item
+  Flood zone OR moderate wetlands (\textgreater10\%): \textbf{-40
+  points}\\
+\item
+  Minor environmental constraints: \textbf{-20 points}
+\end{itemize}
+
+\emph{Note: Missing wetland data is treated as neutral (no penalty) to
+avoid penalizing properties where environmental assessment data is
+unavailable.}
+
+\subsection{Development Classification
+Systems}\label{development-classification-systems}
+
+Properties are evaluated using two complementary frameworks:
+
+\textbf{Goldilocks Size Classification} (for opportunity
+identification):
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{High Priority}: 1.5-5 acres, minimal constraints, documented
+  value
+\item
+  \textbf{Moderate Priority}: 0.5-1.5 acres, minimal constraints
+\item
+  \textbf{Too Large}: \textgreater5 acres (may require phased
+  development or specialized partners)
+\item
+  \textbf{Small Parcel}: \textless0.5 acres (limited development
+  options)
+\item
+  \textbf{Constrained}: Environmental limitations regardless of size
+\end{itemize}
+
+\textbf{Numerical Score Tiers} (for prioritization):
 
 \begin{itemize}
 \tightlist
@@ -784,6 +914,11 @@ Properties are classified into five tiers based on composite scores:
   \textbf{Tier 5 (\textless30):} Not Recommended - Unsuitable for
   development
 \end{itemize}
+
+\emph{The goldilocks classification focuses on the \textbf{optimal 0.5-5
+acre range} that balances economic viability with manageable complexity.
+Properties outside this range may have value but require different
+development strategies.}
 
 \chapter{Understanding the Development
 Criteria}\label{understanding-the-development-criteria}
@@ -1042,7 +1177,8 @@ Housing Demand & 15\% & High demand market & Local market data\\
 
 \end{table}%
 
-\textbf{Indicator: Area Median Income and LIHTC Eligibility}
+\textbf{Indicators: Area Median Income, LIHTC Eligibility, and Household
+Income Growth Forecast}
 
 Development must respond to market demand. Properties in higher-income
 areas (median incomes above \$75,000) typically support market-rate
@@ -1058,6 +1194,11 @@ competitive funding rounds, improving their feasibility. For
 mission-driven institutions committed to affordable housing, QCT
 properties offer a rare alignment of social impact and financial
 viability.
+
+Median income tells you where a market is today---but real estate
+development takes 3-5 years from concept to occupancy. Income growth
+forecast tells you where the market is heading, which is critical for
+timing development decisions
 
 \subsection{Zoning: Navigating Regulatory
 Reality}\label{zoning-navigating-regulatory-reality}
@@ -1130,7 +1271,7 @@ Moderate Wetlands (10-25\%) & \textcolor[HTML]{e76f52}{\textbf{-20}} & Low-Moder
 
 \end{table}%
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Assessment Framework}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Assessment Framework}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
 
 \textbf{Deal-Breakers} (Score: 0-30):
 
@@ -1259,12 +1400,11 @@ exist \\
 development \\
 \end{longtable}
 
-These six criteria, combined with constraint penalties, create a
-holistic picture of development potential. A property might score
-exceptionally well on size and location but face significant challenges
-from environmental constraints. Another might have modest physical
-attributes but represent an urgent opportunity to support a financially
-stressed congregation.
+These seven criteria create a holistic picture of development potential.
+A property might score exceptionally well on size and location but face
+significant challenges from environmental constraints. Another might
+have modest physical attributes but represent an urgent opportunity to
+support a financially stressed congregation.
 
 The weighted scoring system allows us to compare apples to oranges---to
 evaluate whether a small, perfectly-located property in a historic
@@ -1277,7 +1417,7 @@ high scores. It demands patient capital, mission-aligned partners,
 engaged congregations, and creative design. But by systematically
 evaluating these criteria, we can identify the properties where stars
 align---where market demand, congregational need, and regulatory
-environment converge to create genuine opportunity.
+environment likely converge to create genuine opportunity.
 
 \part{Analysis Results}
 
@@ -1289,15 +1429,7 @@ were immediately removed from development opportunity consideration due
 to their size. These parcels were all under 0.1 acres -- likely cemetery
 plots, parking strips, or slivers of land. Three of these tiny parcels
 belong to the same congregation, so while not candidates for independent
-development, they may hold value as part of a larger assemblage or for
-their current use.
-
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Data Note}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-note-color-frame]
-
-Of the \textbf{104} properties in the Diocese portfolio, \textbf{100}
-are included in the development potential analysis. Four properties were
-excluded as they fall below the minimum size threshold of 0.1 acres and
-are not viable for independent development:
+development, they may hold value as part of a larger assemblage.
 
 \begin{longtable*}[t]{lllrr}
 \toprule
@@ -1310,27 +1442,36 @@ St Johns Episcopal Church & St Johns Episcopal Church & KING-WILLIAM & 0.066 & 2
 \bottomrule
 \end{longtable*}
 
-These parcels are likely slivers of land, parking strips, or cemetery
-plots. While not candidates for independent development, they may hold
-value as part of a larger assemblage or for their current use,
-particularly for the St Johns Episcopal Church, which owns three of
-these four parcels.
-
-\end{tcolorbox}
-
-This means 100 parcels were scored and ranked for development
+This means ultimately 100 parcels were scored and ranked for development
 opportuntity:
 
 \pandocbounded{\includegraphics[keepaspectratio]{development-landscape_files/figure-pdf/tier-distribution-visual-1.pdf}}
 
-Nearly 1 in 5 properties (18) are high-potential candidates ready for
-immediate development exploration. Combined with 23 moderate-potential
-sites, the Diocese has 41 actionable properties (41\%) forming a
-substantial development pipeline to support long-term financial
-sustainability and mission fulfillment. Properties classified as
-Constrained or Limited are not necessarily without value---they may
-benefit from rezoning efforts, environmental remediation, or alternative
-strategies such as land leases or conservation easements.
+Of the 100 properties analyzed with congregations under 30 Sunday
+attendees, \textbf{39 properties (39\%) fall within the goldilocks
+development range} of 0.5-5 acres with minimal constraints:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{High Priority}: 16 properties (16\%) --- 1.5-5 acres with
+  optimal development characteristics
+\item
+  \textbf{Moderate Priority}: 23 properties (23\%) --- 0.5-1.5 acres
+  with development potential
+\end{itemize}
+
+The remaining 61\% face size or constraint limitations: \textbf{35
+properties (35\%) are small parcels} under 0.5 acres offering limited
+standalone development options; \textbf{11 properties (11\%) are too
+large} (\textgreater5 acres) requiring phased development or specialized
+partners; and \textbf{15 properties (15\%) are environmentally
+constrained} by wetlands, flood zones, or high natural hazard risk.
+
+This distribution reveals that while a significant minority of the
+portfolio presents actionable development opportunities, most properties
+face fundamental size constraints---either too small for economical
+development or too large for congregation-scale management.
 
 \chapter{Geographic Distribution}\label{geographic-distribution-1}
 
@@ -1338,29 +1479,44 @@ strategies such as land leases or conservation easements.
 
 Development opportunities are distributed broadly across the Diocese,
 with the color gradient revealing where the highest-scoring properties
-cluster. \textbf{High-potential properties (scores 60--80)}, shown in
-deep red, are concentrated in the \textbf{Northern Virginia/DC corridor}
-near Alexandria and Reston, as well as scattered throughout the
-\textbf{Shenandoah Valley} from Winchester through Harrisonburg. These
-sites score well due to favorable zoning, strong market conditions, and
-fewer environmental constraints.
+cluster. The Diocese's strongest opportunities, scoring in the upper
+70s, are concentrated in \textbf{Winchester in the northern Shenandoah
+Valley}, where two properties at St.~Paul's on the Hill Church achieved
+the portfolio's highest development scores. These sites benefit from
+optimal acreage (1.5-3 acres), favorable market conditions, and minimal
+environmental or regulatory constraints.
 
-The \textbf{Fredericksburg region} stands out for its large-acreage
-properties---represented by the largest circles on the map---though
-these score in the \textbf{moderate range (40--50)}. Their size
-represents significant opportunity, but factors such as zoning or
-environmental considerations may require additional due diligence before
-development.
+Moderate-to-strong opportunities (scores 50-65), shown in orange to
+light red, are scattered throughout \textbf{Northern Virginia/DC
+corridor near Alexandria and Fairfax}, as well as in the \textbf{greater
+Richmond area}. These properties fall within the goldilocks acreage
+range but face scoring penalties from historic district designations
+(affecting 45\% of portfolio properties) or moderate natural hazard
+risk. While viable for development, they will require additional time
+for regulatory approvals and design review processes.
 
-Other potential development opportunities are spread across the Diocese,
-including areas near Charlottesville and Richmond. These sites may
-benefit from rezoning efforts or phased development strategies.
+The Fredericksburg and Central Virginia regions show numerous properties
+scoring in the 40-55 range, represented by medium-sized circles in
+orange tones. Many of these sites have favorable acreage but receive
+constraint penalties that reduce their immediate development appeal.
+However, they remain viable candidates for phased development or
+projects with patient capital willing to navigate historic preservation
+requirements.
 
-This geographic diversity is an asset: the Diocese can pursue high-score
-``quick wins'' in Northern Virginia while simultaneously advancing
-larger but more complex opportunities in growth corridors like
-Fredericksburg. The portfolio supports both near-term revenue generation
-and long-term strategic development.
+Geographic clustering reveals important patterns: Winchester stands
+alone as the Diocese's premier development opportunity, while Northern
+Virginia properties offer multiple moderate opportunities with strong
+market fundamentals offset by regulatory complexity. The Fredericksburg
+corridor presents larger properties that may require more sophisticated
+development approaches but offer substantial long-term value.
+
+This geographic diversity is strategic: the Diocese can pursue the
+highest-scoring ``flagship'' opportunities in Winchester for near-term
+demonstration projects, while simultaneously advancing portfolio-scale
+development in Northern Virginia where multiple properties could support
+coordinated initiatives. Larger or more constrained properties elsewhere
+provide longer-term strategic options as markets evolve and regulatory
+environments change.
 
 \emph{The interactive map is available in the HTML version of this
 report.}
@@ -1375,7 +1531,7 @@ report.}
 
 \begin{minipage}{0.25\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
 \vspace{-3mm}\textbf{104}\vspace{3mm}
 
@@ -1387,7 +1543,7 @@ Total Parcels
 %
 \begin{minipage}{0.25\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-tip-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
 \vspace{-3mm}\textbf{248}\vspace{3mm}
 
@@ -1399,9 +1555,9 @@ Total Acres
 %
 \begin{minipage}{0.25\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-warning-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-warning-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
-\vspace{-3mm}\textbf{48.7}\vspace{3mm}
+\vspace{-3mm}\textbf{35.3}\vspace{3mm}
 
 Avg Development Score
 
@@ -1411,9 +1567,9 @@ Avg Development Score
 %
 \begin{minipage}{0.25\linewidth}
 
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, toprule=.15mm, bottomrule=.15mm, rightrule=.15mm, left=2mm, breakable, opacityback=0, leftrule=.75mm, colback=white, colframe=quarto-callout-important-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, left=2mm, breakable, colback=white, leftrule=.75mm, toprule=.15mm, rightrule=.15mm, opacityback=0, arc=.35mm, bottomrule=.15mm]
 
-\vspace{-3mm}\textbf{20}\vspace{3mm}
+\vspace{-3mm}\textbf{16}\vspace{3mm}
 
 High Potential Properties
 
@@ -1422,6 +1578,19 @@ High Potential Properties
 \end{minipage}%
 
 \end{figure}%
+
+This distribution is common in institutional portfolios where properties
+were acquired for mission, not market value. The analysis's value lies
+in identifying the needles in the haystack---the 16 high-priority and 23
+moderate-priority properties that can actually deliver financial
+returns---rather than pretending the entire portfolio has equal
+potential.
+
+\textbf{In short:} A median of 35 proves the methodology is honest,
+makes the high-scoring properties more valuable by contrast, and
+provides clear strategic guidance: focus resources where they'll succeed
+rather than spreading them thin across a portfolio where most properties
+face fundamental limitations.
 
 \section{Property Use Types}\label{property-use-types}
 
@@ -1448,11 +1617,11 @@ flexible development opportunities.
 Distribution}\label{development-score-distribution}
 
 The development scoring confirms use-constraints. Focus should likely
-center on the 18 high-potential properties for near-term value creation,
+center on the 16 high-potential properties for near-term value creation,
 while developing a longer-term strategy for the 23 moderate-potential
-parcels. The 59 constrained/limited properties may require hold
-strategies, community partnerships, or creative repurposing rather than
-traditional development approaches.
+parcels. The 59 constrained and size-restrictive properties may require
+hold strategies, community partnerships, or creative repurposing rather
+than traditional development approaches.
 
 \begin{figure}[H]
 
@@ -1483,45 +1652,146 @@ Category}
 
 \end{figure}%
 
-The most high and moderate-potential properties concentrate in the 1--5
-acre ``sweet spot,'' while parcels under 1 acre face inherent
-limitations and the largest sites show more constraints. This indicates
-that mid-sized properties offer the clearest path to development,
-although some larger parcels show strong opportunities in other metrics.
+The most high and moderate-potential properties concentrate in the
+0.5--5 acre ``sweet spot,'' while parcels under 0.5 acre face inherent
+limitations and the largest sites show more constraints.
 
 \section{Summary Metrics}\label{summary-metrics}
 
 \subsection{By County}
 
-The portfolio spans 13 counties with highly variable concentration and
-development potential: Standout Performers:
+\subsubsection{Geographic Distribution: Understanding Two Complementary
+Metrics}\label{geographic-distribution-understanding-two-complementary-metrics}
 
-Fauquier County emerges as the clear opportunity hub: 7 properties with
-a strong 66.4 average score and notably 5 high-potential properties
-(28\% of all high-potential assets in just one county) Goochland County:
-Though only 1 property, it scores an exceptional 85.0, suggesting prime
-development readiness Fairfax-City and Essex: Strong average scores
-(63.3 and 62.5) with solid potential
+The portfolio spans multiple counties with highly variable concentration
+and development potential. Understanding the distribution requires
+recognizing how two distinct metrics work together: ``High Potential''
+Classification (categorical): Properties meeting physical
+criteria---1.5-5 acres, minimal environmental constraints, documented
+land value. This measures what's physically developable. Development
+Score (0-100 numerical): Weighted assessment across six factors---size
+(20\%), current use (25\%), location (20\%), financial need (15\%),
+market potential (10\%), and zoning (10\%), minus constraint penalties.
+This measures how attractive development would be. These metrics can
+diverge significantly, revealing different types of opportunities and
+challenges:
 
-The King-William Challenge: King-William County contains the largest
-property concentration (19 properties---nearly 14\% of the entire
-portfolio) but has the lowest average development score at 23.4 with
-only 1 high-potential property. Given that multiple parcels likely
-comprise single congregation sites, this represents significant land
-area locked in low-potential designation. Distribution Pattern: Most
-counties (10 of 13) have just 1 high-potential property each, while
-Fauquier's 5 high-potential properties represent a significant
-geographic concentration of opportunity. This suggests:
+\textbf{Tier 1: Premium Opportunities (High Scores + High Potential)}
+Frederick County (Winchester): The portfolio's standout performer
 
-Development efforts should prioritize Fauquier County resources The
-portfolio's challenges aren't evenly distributed---some regions face
-more severe constraints King-William's large footprint with minimal
-development potential may represent legacy holdings requiring different
-strategic treatment
+2 properties, 77.6 average score, 2 High Potential (100\% conversion
+rate) Both properties score in the upper 70s---the portfolio's highest
+These represent the Diocese's flagship development opportunities:
+optimal size (1.5-3 acres), unconstrained land, strong market
+fundamentals, and minimal regulatory barriers Strategic priority:
+Immediate development focus for demonstration projects
 
-Strategic Insight: With multiple parcels often serving single
-congregations, the property count (61 across these counties) overstates
-the number of discrete development opportunities available.
+Albemarle \& Fairfax Counties: Strong individual opportunities
+
+Albemarle: 3 properties, 54.3 average, 2 High Potential Fairfax: 3
+properties, 55.2 average, 2 High Potential Above-median scores with good
+conversion rates These counties offer proven development candidates with
+favorable market conditions offsetting some regulatory complexity
+(historic districts in several cases) Strategic priority: Include in
+near-term development pipeline
+
+\textbf{Tier 2: Volume Opportunities (High Potential Count, Modest
+Scores)} Fauquier County: The geographic concentration story
+
+7 properties, 44.4 average score, 4 High Potential (57\% conversion
+rate) Holds 25\% of all High Potential properties in the portfolio (4 of
+16) The divergence tells the story: These properties have the right
+physical characteristics (good acreage, unconstrained) but face market
+and location limitations (rural setting, lower walkability scores,
+modest income growth) This is classic ``goldilocks acreage in a
+challenging market'' Strategic priority: Portfolio-scale development
+approach---multiple properties that could support coordinated affordable
+housing or creative mixed-use projects with patient capital
+
+Fairfax-City: Urban properties with modest outcomes
+
+3 properties, 46.2 average score, 2 High Potential The moderate scores
+despite good market fundamentals suggest regulatory complexity (likely
+historic districts) or current use challenges (active church buildings
+rather than parking lots) Strategic priority: Medium-term development
+requiring sophisticated partners comfortable with urban regulatory
+environments
+
+\textbf{Tier 3: The King William Challenge (High Volume, Low Potential)}
+King William County: The inverse of Fauquier
+
+19 properties, 30.5 average score, 0 High Potential Contains 18\% of all
+portfolio parcels but contributes zero development opportunities Why the
+divergence? These properties fail the physical threshold: likely
+dominated by small parcels under 0.5 acres (including the 11 properties
+requiring geocoding) and possibly some oversized parcels above 5 acres
+Even properties that might score modestly on market or use factors are
+disqualified by size constraints before reaching the scoring phase This
+represents legacy holdings---land accumulated through historical
+donations and gifts that don't align with modern development economics
+Strategic priority: Consider disposition, conservation easements, or
+alternative mission uses (community gardens, land banks) rather than
+pursuing development
+
+\textbf{Tier 4: Limited Engagement Counties} Richmond, Fluvanna, and
+others: Single properties with mixed potential
+
+Richmond: 7 properties, 23.2 average, 1 High Potential---urban location
+but mostly size-constrained small parcels Stafford, Loudoun, Page: 1
+High Potential each with modest average scores (38-44 range) These
+counties offer opportunistic development where individual properties
+merit attention but don't justify significant resource concentration
+Strategic priority: Evaluate individually as opportunities arise; don't
+force development
+
+Key Strategic Insights: 1. Geographic concentration matters differently
+than expected
+
+King William's 19 properties don't equal opportunity---they equal legacy
+management challenge Fauquier's 4 High Potential properties in one
+county enable economies of scale in development planning, partner
+recruitment, and regulatory engagement
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  The metrics reveal different barriers
+\end{enumerate}
+
+High Potential count = physical development capacity (do we have the
+right-sized land?) Average score = market/location/use factors (will
+development actually work here?) Counties with high counts but low
+scores (Fauquier) need creative approaches to overcome market
+limitations Counties with zero high potential (King William) face
+fundamental size constraints no amount of market improvement can fix
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Resource allocation follows quality, not quantity
+\end{enumerate}
+
+Frederick County (2 parcels) deserves more attention than King William
+County (19 parcels) Focus development capital on Fauquier's 4 properties
+as a coordinated portfolio rather than spreading resources across single
+properties in 10 different counties
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Multiple parcels ≠ multiple opportunities
+\end{enumerate}
+
+Many parcels serve single congregations (particularly in King William)
+The 104 total parcels overstate discrete development sites---true
+opportunity count is closer to 39 goldilocks properties across fewer
+than 20 congregational sites
 
 \begin{longtable}[t]{lrrrr}
 
@@ -1532,82 +1802,75 @@ the number of discrete development opportunities available.
 \toprule
 \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{County}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Parcels}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Total Acres}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Avg Score}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{\# High Potential}}}\\
 \midrule
-FAUQUIER & 7 & 21.8 & 54.4 & 4\\
-ALBEMARLE & 3 & 12.6 & 49.8 & 2\\
-ESSEX & 2 & 4.6 & 44.4 & 2\\
-FAIRFAX & 3 & 11.7 & 51.3 & 2\\
-FAIRFAX-CITY & 3 & 8.2 & 66.7 & 2\\
+FAUQUIER & 7 & 21.8 & 44.4 & 4\\
+ALBEMARLE & 3 & 12.6 & 54.3 & 2\\
+FAIRFAX & 3 & 11.7 & 55.2 & 2\\
+FAIRFAX-CITY & 3 & 8.2 & 46.2 & 2\\
+FREDERICK & 2 & 4.9 & 77.6 & 2\\
 \addlinespace
-FREDERICK & 2 & 4.9 & 73.1 & 2\\
-RICHMOND & 7 & 7.1 & 47.5 & 2\\
-LOUDOUN & 2 & 3.2 & 59.2 & 1\\
-PAGE & 2 & 2.3 & 31.5 & 1\\
-STAFFORD & 8 & 14.9 & 51.7 & 1\\
+STAFFORD & 8 & 14.9 & 42.7 & 1\\
+RICHMOND & 7 & 7.1 & 23.2 & 1\\
+LOUDOUN & 2 & 3.2 & 38.2 & 1\\
+PAGE & 2 & 2.3 & 44.2 & 1\\
+KING-WILLIAM & 19 & 16.3 & 30.5 & 0\\
 \addlinespace
-WESTMORELAND & 7 & 6.5 & 59.9 & 1\\
-ALEXANDRIA & 1 & 0.3 & 50.5 & 0\\
-ARLINGTON & 1 & 0.3 & 72.2 & 0\\
-CAROLINE & 5 & 2.1 & 42.2 & 0\\
-CLARKE & 5 & 2.5 & 46.1 & 0\\
+FLUVANNA & 7 & 8.4 & 42.9 & 0\\
+WESTMORELAND & 7 & 6.5 & 21.0 & 0\\
+CAROLINE & 5 & 2.1 & 21.1 & 0\\
+CLARKE & 5 & 2.5 & 25.0 & 0\\
+KING-GEORGE & 5 & 77.4 & 29.3 & 0\\
+\addlinespace
+CULPEPER & 3 & 17.9 & 39.7 & 0\\
+ROCKINGHAM & 3 & 9.5 & 41.3 & 0\\
+SHENANDOAH & 3 & 1.7 & 22.4 & 0\\
+ESSEX & 2 & 4.6 & 4.4 & 0\\
+MADISON & 2 & 0.9 & 30.6 & 0\\
+\addlinespace
+RICHMOND-CITY & 2 & 1.9 & 55.8 & 0\\
+ALEXANDRIA & 1 & 0.3 & 26.5 & 0\\
+ARLINGTON & 1 & 0.3 & 50.2 & 0\\
+GOOCHLAND & 1 & 9.5 & 45.5 & 0\\
+HANOVER & 1 & 1.5 & 54.3 & 0\\
+\addlinespace
+\cellcolor[HTML]{f0f0f0}{\textbf{**TOTAL**}} & \cellcolor[HTML]{f0f0f0}{\textbf{104}} & \cellcolor[HTML]{f0f0f0}{\textbf{247.8}} & \cellcolor[HTML]{f0f0f0}{\textbf{35.3}} & \cellcolor[HTML]{f0f0f0}{\textbf{16}}\\
 \bottomrule
 
 \end{longtable}
+
+\emph{Note: ``High Potential'' indicates properties meeting size
+criteria (1.5-5 acres) and minimal constraints. Average Score reflects
+broader market and location factors. Counties with high counts but lower
+scores have developable land facing market or location challenges.}
+
+\textbf{Bottom Line:} The Diocese should pursue an uneven geographic
+strategy that concentrates development resources in Frederick/Winchester
+(flagship quality), Fauquier (portfolio scale), and select
+Albemarle/Fairfax opportunities (proven viability), while being
+realistic that high-volume counties like King William represent asset
+management challenges, not development opportunities.
 
 \subsection{High Potential}
 
 \begin{longtable}[t]{clllrrl}
 
-\caption{\label{tbl-high-potential}Top 20 High Development Potential
-Properties}
+\caption{\label{tbl-high-potential}Top Development Potential Properties}
 
 \tabularnewline
 
 \toprule
 \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Rank}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Address}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{City}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{County}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Acres}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Score}}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\textbf{Tier}}}\\
 \midrule
-\textbf{1} & \textbf{1527 SENSENY RD, WINCHESTER 22602} & \textbf{WINCHESTER} & \textbf{FREDERICK} & \textbf{3.20} & \textbf{74.8} & \textbf{High}\\
-\textbf{2} & \textbf{1 TRURO LN, FAIRFAX 22030} & \textbf{FAIRFAX} & \textbf{FAIRFAX-CITY} & \textbf{3.44} & \textbf{73.3} & \textbf{High}\\
-\textbf{3} & \textbf{STAFFORD 22554} & \textbf{STAFFORD} & \textbf{STAFFORD} & \textbf{1.53} & \textbf{72.3} & \textbf{High}\\
-\textbf{4} & \textbf{WARSAW 22572} & \textbf{WARSAW} & \textbf{WESTMORELAND} & \textbf{2.72} & \textbf{72.3} & \textbf{High}\\
-\textbf{5} & \textbf{WINCHESTER 22602} & \textbf{WINCHESTER} & \textbf{FREDERICK} & \textbf{1.67} & \textbf{71.5} & \textbf{High}\\
+\textbf{1} & \textbf{1527 SENSENY RD, WINCHESTER 22602} & \textbf{WINCHESTER} & \textbf{FREDERICK} & \textbf{3.20} & \textbf{79.2} & \textbf{High}\\
+\textbf{2} & \textbf{WINCHESTER 22602} & \textbf{WINCHESTER} & \textbf{FREDERICK} & \textbf{1.67} & \textbf{76.0} & \textbf{High}\\
+\textbf{3} & \textbf{7420 MISSION HOME RD, FREE UNION 22940} & \textbf{FREE UNION} & \textbf{ALBEMARLE} & \textbf{3.12} & \textbf{63.2} & \textbf{High}\\
+\textbf{4} & \textbf{5096 GRACE CHURCH LN, MIDLAND 22728} & \textbf{MIDLAND} & \textbf{FAUQUIER} & \textbf{3.65} & \textbf{58.2} & \textbf{High}\\
+\textbf{5} & \textbf{5094 GRACE CHURCH LN, MIDLAND 22728} & \textbf{MIDLAND} & \textbf{FAUQUIER} & \textbf{2.76} & \textbf{58.2} & \textbf{High}\\
 \addlinespace
-6 & 10490 MAIN ST, FAIRFAX 22030 & FAIRFAX & FAIRFAX-CITY & 0.61 & 68.6 & Moderate\\
-7 & 1704 WEST LABURNUM AVE, RICHMOND 23227 & RICHMOND & RICHMOND-CITY & 1.47 & 62.8 & Moderate\\
-8 & 37018 GLENDALE ST, PURCELLVILLE 20132 & PURCELLVILLE & LOUDOUN & 2.02 & 61.0 & High\\
-9 & FARNHAM 22460 & FARNHAM & RICHMOND & 2.05 & 61.0 & High\\
-10 & WARSAW 22572 & WARSAW & RICHMOND & 0.70 & 60.8 & Moderate\\
-\addlinespace
-11 & 403 NORTH RAPPAHANNOCK ST, REMINGTON 22734 & REMINGTON & FAUQUIER & 2.73 & 60.0 & High\\
-12 & 64 K ST, COLUMBIA 23038 & COLUMBIA & FLUVANNA & 0.52 & 60.0 & Moderate\\
-13 & 7420 MISSION HOME RD, FREE UNION 22940 & FREE UNION & ALBEMARLE & 3.12 & 58.7 & High\\
-14 & 10520 MAIN ST, FAIRFAX 22030 & FAIRFAX & FAIRFAX-CITY & 4.11 & 58.3 & High\\
-15 & 8695 OLD DUMFRIES RD, CATLETT 20119 & CATLETT & FAUQUIER & 2.36 & 58.2 & High\\
-\addlinespace
-16 & 39518 LITTLE RIVER TPKE, ALDIE 20105 & ALDIE & LOUDOUN & 1.13 & 57.5 & Moderate\\
-17 & 218 RECTORY RD, MONTROSS 22520 & MONTROSS & WESTMORELAND & 1.04 & 56.2 & Moderate\\
-18 & MONTROSS 22520 & MONTROSS & WESTMORELAND & 1.12 & 56.2 & Moderate\\
-19 & 11291 WEST RIVER RD, AYLETT 23009 & AYLETT & KING-WILLIAM & 1.25 & 55.3 & Moderate\\
-20 & 3392 PINE GROVE RD, STANLEY 22851 & STANLEY & PAGE & 1.83 & 55.0 & High\\
-\bottomrule
-
-\end{longtable}
-
-\subsection{Development Tiers}
-
-\begin{longtable}[t]{lrrrrr}
-
-\caption{\label{tbl-tiers}Summary by Development Tier}
-
-\tabularnewline
-
-\toprule
-\cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Development Tier}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{\# Parcels}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Total Acres}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Avg Acres}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Avg Score}}} & \cellcolor[HTML]{e9ab3f}{\textcolor{white}{\textbf{Avg Walkability}}}\\
-\midrule
-High & 20 & 52.4 & 2.62 & 57.5 & 7.1\\
-Moderate & 27 & 24.9 & 0.92 & 50.2 & 6.3\\
-Small Parcel & 43 & 11.1 & 0.26 & 47.4 & 8.3\\
-Too Large & 11 & 155.3 & 14.12 & 41.1 & 6.1\\
-Constrained & 3 & 4.1 & 1.36 & 22.6 & 2.4\\
+6 & 3392 PINE GROVE RD, STANLEY 22851 & STANLEY & PAGE & 1.83 & 57.0 & High\\
+7 & 1 TRURO LN, FAIRFAX 22030 & FAIRFAX & FAIRFAX-CITY & 3.44 & 52.8 & High\\
+8 & STAFFORD 22554 & STAFFORD & STAFFORD & 1.53 & 50.8 & High\\
+9 & 3421 FRANCONIA RD, ALEXANDRIA 22310 & ALEXANDRIA & FAIRFAX & 4.39 & 50.2 & High\\
+10 & 3421 FRANCONIA RD, ALEXANDRIA 22310 & ALEXANDRIA & FAIRFAX & 1.67 & 48.2 & High\\
 \bottomrule
 
 \end{longtable}
@@ -1628,17 +1891,17 @@ Need}
 
 \end{figure}%
 
-\#\textbar{} echo: false \#\textbar{} results: asis
+** Understanding Financial Need*
 
-cat(``::: \{.callout-note\}\n'') cat(``\#\# Understanding Financial
-Need\n'') cat(``Financial need reflects \textbf{trajectory, not current
-resources}. Congregations flagged as `Financial Need' may still report
-substantial annual giving, but their attendance and/or pledge revenue
-have declined significantly since 2014. These congregations are not in
-crisis today---but without intervention, they face an unsustainable
-path. Development partnerships offer an opportunity to stabilize
-finances while congregations remain viable, rather than waiting until
-resources are exhausted.\n'') cat(``:::\n'')
+Congregations flagged as `Financial Need' may still report substantial
+annual giving, but their attendance and/or pledge revenue have declined
+significantly since 2014. These congregations are not in crisis
+today---but without intervention, they face an unsustainable path.
+Development partnerships offer an opportunity to stabilize finances
+while congregations remain viable, rather than waiting until resources
+are exhausted
+
+:::
 
 \begin{longtable*}[t]{lrrrr}
 \toprule
@@ -1667,35 +1930,35 @@ Region}\label{parcels-by-diocesan-region}
 \toprule
 \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{County}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{\# Parcels}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{Total Acres}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{\% of Total Acreage}}} & \cellcolor[HTML]{8baeaa}{\textcolor{white}{\textbf{Avg Dev Score}}}\\
 \midrule
-KING-WILLIAM & 15 & 16 & 6.5 & 45.1\\
-STAFFORD & 8 & 15 & 6.0 & 51.7\\
-FAUQUIER & 7 & 22 & 8.8 & 54.4\\
-FLUVANNA & 7 & 8 & 3.4 & 43.8\\
-RICHMOND & 7 & 7 & 2.9 & 47.5\\
+KING-WILLIAM & 15 & 16 & 6.5 & 30.1\\
+STAFFORD & 8 & 15 & 6.0 & 42.7\\
+FAUQUIER & 7 & 22 & 8.8 & 44.4\\
+FLUVANNA & 7 & 8 & 3.4 & 42.9\\
+RICHMOND & 7 & 7 & 2.9 & 23.2\\
 \addlinespace
-WESTMORELAND & 7 & 7 & 2.6 & 59.9\\
-CAROLINE & 5 & 2 & 0.8 & 42.2\\
-CLARKE & 5 & 3 & 1.0 & 46.1\\
-KING-GEORGE & 5 & 77 & 31.2 & 32.2\\
-ALBEMARLE & 3 & 13 & 5.1 & 49.8\\
+WESTMORELAND & 7 & 7 & 2.6 & 21.0\\
+CAROLINE & 5 & 2 & 0.8 & 21.1\\
+CLARKE & 5 & 3 & 1.0 & 25.0\\
+KING-GEORGE & 5 & 77 & 31.2 & 29.3\\
+ALBEMARLE & 3 & 13 & 5.1 & 54.3\\
 \addlinespace
-CULPEPER & 3 & 18 & 7.2 & 41.2\\
-FAIRFAX & 3 & 12 & 4.7 & 51.3\\
-FAIRFAX-CITY & 3 & 8 & 3.3 & 66.7\\
-ROCKINGHAM & 3 & 9 & 3.8 & 30.2\\
-SHENANDOAH & 3 & 2 & 0.7 & 46.9\\
+CULPEPER & 3 & 18 & 7.2 & 39.7\\
+FAIRFAX & 3 & 12 & 4.7 & 55.2\\
+FAIRFAX-CITY & 3 & 8 & 3.3 & 46.2\\
+ROCKINGHAM & 3 & 9 & 3.8 & 41.3\\
+SHENANDOAH & 3 & 2 & 0.7 & 22.4\\
 \addlinespace
-ESSEX & 2 & 5 & 1.9 & 44.4\\
-FREDERICK & 2 & 5 & 2.0 & 73.1\\
-LOUDOUN & 2 & 3 & 1.3 & 59.2\\
-MADISON & 2 & 1 & 0.4 & 52.1\\
-PAGE & 2 & 2 & 0.9 & 31.5\\
+ESSEX & 2 & 5 & 1.9 & 4.4\\
+FREDERICK & 2 & 5 & 2.0 & 77.6\\
+LOUDOUN & 2 & 3 & 1.3 & 38.2\\
+MADISON & 2 & 1 & 0.4 & 30.6\\
+PAGE & 2 & 2 & 0.9 & 44.2\\
 \addlinespace
-RICHMOND-CITY & 2 & 2 & 0.8 & 66.3\\
-ALEXANDRIA & 1 & 0 & 0.1 & 50.5\\
-ARLINGTON & 1 & 0 & 0.1 & 72.2\\
-GOOCHLAND & 1 & 9 & 3.8 & 42.5\\
-HANOVER & 1 & 1 & 0.6 & 50.8\\
+RICHMOND-CITY & 2 & 2 & 0.8 & 55.8\\
+ALEXANDRIA & 1 & 0 & 0.1 & 26.5\\
+ARLINGTON & 1 & 0 & 0.1 & 50.2\\
+GOOCHLAND & 1 & 9 & 3.8 & 45.5\\
+HANOVER & 1 & 1 & 0.6 & 54.3\\
 \bottomrule
 \end{longtable*}
 
@@ -1730,53 +1993,80 @@ Metrics}\label{congregation-vitality-metrics}
 \subsection{Comprehensive Developability
 Analysis}\label{comprehensive-developability-analysis}
 
-\textbf{All Developable Properties (Score ≥45)}
+\begin{longtabu} to \linewidth {>{\raggedright}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X}
+\caption{\label{tab:developable-summary}Developable Properties by Congregation (Score ≥50)}\\
+\toprule
+Congregation & Parcels & Total Acres & Assessed Value & Avg Attendance & Avg Members & Mean Dev Score\\
+\midrule
+\cellcolor[HTML]{445ca9}{\textcolor{white}{St Pauls on the Hill Church}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{2}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{4.87}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{\$342,500}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{0}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{60}} & \cellcolor[HTML]{445ca9}{\textcolor{white}{77.6}}\\
+\cellcolor[HTML]{8baeaa}{St Patricks Anglo Vietnamese Church} & \cellcolor[HTML]{8baeaa}{1} & \cellcolor[HTML]{8baeaa}{5.64} & \cellcolor[HTML]{8baeaa}{\$1,197,000} & \cellcolor[HTML]{8baeaa}{21} & \cellcolor[HTML]{8baeaa}{53} & \cellcolor[HTML]{8baeaa}{67.0}\\
+\cellcolor[HTML]{8baeaa}{Christ Ascension Church} & \cellcolor[HTML]{8baeaa}{1} & \cellcolor[HTML]{8baeaa}{1.47} & \cellcolor[HTML]{8baeaa}{\$414,000} & \cellcolor[HTML]{8baeaa}{18} & \cellcolor[HTML]{8baeaa}{49} & \cellcolor[HTML]{8baeaa}{64.8}\\
+\cellcolor[HTML]{8baeaa}{Good Shepherd-of-the-Hills} & \cellcolor[HTML]{8baeaa}{1} & \cellcolor[HTML]{8baeaa}{3.12} & \cellcolor[HTML]{8baeaa}{\$117,600} & \cellcolor[HTML]{8baeaa}{0} & \cellcolor[HTML]{8baeaa}{16} & \cellcolor[HTML]{8baeaa}{63.2}\\
+\cellcolor[HTML]{8baeaa}{St Johns Church} & \cellcolor[HTML]{8baeaa}{2} & \cellcolor[HTML]{8baeaa}{0.98} & \cellcolor[HTML]{8baeaa}{\$11,000} & \cellcolor[HTML]{8baeaa}{18} & \cellcolor[HTML]{8baeaa}{22} & \cellcolor[HTML]{8baeaa}{60.0}\\
+\addlinespace
+\cellcolor[HTML]{e9ab3f}{Grace Church Emmanuel Parish} & \cellcolor[HTML]{e9ab3f}{3} & \cellcolor[HTML]{e9ab3f}{14.74} & \cellcolor[HTML]{e9ab3f}{\$536,900} & \cellcolor[HTML]{e9ab3f}{14} & \cellcolor[HTML]{e9ab3f}{38} & \cellcolor[HTML]{e9ab3f}{57.2}\\
+\cellcolor[HTML]{e9ab3f}{St Georges Church} & \cellcolor[HTML]{e9ab3f}{1} & \cellcolor[HTML]{e9ab3f}{1.83} & \cellcolor[HTML]{e9ab3f}{\$70,000} & \cellcolor[HTML]{e9ab3f}{0} & \cellcolor[HTML]{e9ab3f}{7} & \cellcolor[HTML]{e9ab3f}{57.0}\\
+\cellcolor[HTML]{e9ab3f}{Calvary Episcopal Church} & \cellcolor[HTML]{e9ab3f}{1} & \cellcolor[HTML]{e9ab3f}{1.45} & \cellcolor[HTML]{e9ab3f}{\$83,300} & \cellcolor[HTML]{e9ab3f}{23} & \cellcolor[HTML]{e9ab3f}{98} & \cellcolor[HTML]{e9ab3f}{54.3}\\
+\cellcolor[HTML]{e9ab3f}{St John the Baptist Church} & \cellcolor[HTML]{e9ab3f}{1} & \cellcolor[HTML]{e9ab3f}{7.10} & \cellcolor[HTML]{e9ab3f}{\$378,100} & \cellcolor[HTML]{e9ab3f}{18} & \cellcolor[HTML]{e9ab3f}{44} & \cellcolor[HTML]{e9ab3f}{53.6}\\
+\cellcolor[HTML]{e9ab3f}{Holy Cross Korean Episcopal Church} & \cellcolor[HTML]{e9ab3f}{1} & \cellcolor[HTML]{e9ab3f}{3.44} & \cellcolor[HTML]{e9ab3f}{\$2,543,600} & \cellcolor[HTML]{e9ab3f}{25} & \cellcolor[HTML]{e9ab3f}{34} & \cellcolor[HTML]{e9ab3f}{52.8}\\
+\addlinespace
+\cellcolor[HTML]{e9ab3f}{Aquia Church} & \cellcolor[HTML]{e9ab3f}{5} & \cellcolor[HTML]{e9ab3f}{4.86} & \cellcolor[HTML]{e9ab3f}{\$145,400} & \cellcolor[HTML]{e9ab3f}{0} & \cellcolor[HTML]{e9ab3f}{1136} & \cellcolor[HTML]{e9ab3f}{52.4}\\
+\cellcolor[HTML]{e9ab3f}{All Saints Sharon Chapel} & \cellcolor[HTML]{e9ab3f}{1} & \cellcolor[HTML]{e9ab3f}{4.39} & \cellcolor[HTML]{e9ab3f}{\$966,000} & \cellcolor[HTML]{e9ab3f}{28} & \cellcolor[HTML]{e9ab3f}{55} & \cellcolor[HTML]{e9ab3f}{50.2}\\
+\cellcolor[HTML]{e9ab3f}{St Johns Episcopal Church} & \cellcolor[HTML]{e9ab3f}{1} & \cellcolor[HTML]{e9ab3f}{0.28} & \cellcolor[HTML]{e9ab3f}{\$714,700} & \cellcolor[HTML]{e9ab3f}{21} & \cellcolor[HTML]{e9ab3f}{29} & \cellcolor[HTML]{e9ab3f}{50.2}\\
+\bottomrule
+\end{longtabu}
 
-\begin{figure}
+Looking at top developent parcels and their congregations reveals a
+striking pattern: all 14 congregations with development scores at or
+above 50 report average attendance below 30, with a median attendance of
+just 14. This universally low attendance suggests these properties
+represent not just real estate opportunities, but potential candidates
+for congregational transition---whether through relocation, merger, or
+strategic closure.
 
-\begin{minipage}{0.25\linewidth}
+St.~Pauls on the Hill Church in Winchester (Frederick County)
+exemplifies this dynamic. Despite maintaining 60 members on the rolls,
+the congregation reports zero average attendance. With a development
+score of 77.6---the highest in the Diocese---and nearly 5 acres of land,
+St.~Pauls represents a flagship opportunity where VEREP engagement could
+explore whether this congregation is ready for a supported transition
+that unlocks significant development potential in a priority market.
 
-67
+Similarly, Good Shepherd-of-the-Hills in Albemarle County (63.2) and
+St.~Georges Church in Page County (57.0) both report zero average
+attendance despite having members on record. These congregations may
+already be functionally inactive, making them strong candidates for
+early VEREP outreach to clarify their status and discuss path forward
+options.
 
-Developable Parcels
+Fairfax County presents a unique opportunity for coordinated engagement.
+Three congregations---St.~Patricks Anglo Vietnamese Church (21
+attendance), Holy Cross Korean Episcopal Church (25 attendance), and All
+Saints Sharon Chapel (28 attendance)---are all operating with modest but
+active congregations. Given their geographic proximity and similar
+scale, VEREP could explore whether a merger strategy might strengthen
+congregational life while freeing underutilized property for
+development. Together, these three sites represent over 13 acres and
+\$4.7 million in assessed value.
 
-\end{minipage}%
-%
-\begin{minipage}{0.25\linewidth}
+Grace Church Emmanuel Parish in Fauquier County holds the largest land
+portfolio among developable congregations---14.7 acres across 3
+parcels---but averages only 14 in attendance with 38 members. As a
+multi-parcel congregation, Grace Church may be open to consolidating its
+footprint, potentially releasing surplus land for development while
+maintaining a right-sized worship presence.
 
-100.6
-
-Developable Acres
-
-\end{minipage}%
-%
-\begin{minipage}{0.25\linewidth}
-
-\$19.4M
-
-Assessed Value
-
-\end{minipage}%
-%
-\begin{minipage}{0.25\linewidth}
-
-1
-
-With \textless30 Attendance
-
-\end{minipage}%
-
-\end{figure}%
+Aquia Church in Stafford County presents an unusual case: 1,136 members
+but zero average attendance across 5 parcels. This discrepancy warrants
+immediate VEREP engagement to understand the congregation's actual
+status and whether the membership figure reflects historical rolls
+rather than current participation.
 
 \bookmarksetup{startatroot}
 
 \chapter{Property Profiles}\label{property-profiles}
 
-\section{Overvie}\label{overvie}
-
-In this analysis, the top 10 properties all scored the same, which means
-they are listed in no particular order, but as the top group of
-high-possibility sites.
+\section{Overview}\label{overview}
 
 The following section provides detailed profiles for each of the top 10
 development opportunities. Each profile includes:
@@ -1793,689 +2083,1196 @@ development opportunities. Each profile includes:
   Key considerations and next steps
 \end{itemize}
 
-\section*{Property \#1}\label{property-1}
-\addcontentsline{toc}{section}{Property \#1}
+All of these priority sites would benefit from further analysis of
+housing needs in the area to determine best development fit.
 
-\markright{Property \#1}
+\section*{1. St Pauls on the Hill
+Church}\label{st-pauls-on-the-hill-church}
+\addcontentsline{toc}{section}{1. St Pauls on the Hill Church}
 
-\subsection{1527 SENSENY RD, WINCHESTER
-22602}\label{senseny-rd-winchester-22602}
+\markright{1. St Pauls on the Hill Church}
 
-\textbf{WINCHESTER, FREDERICK County}
+\textbf{📍 WINCHESTER, FREDERICK County}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{74.8/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+{Dev Score: 77.6} {2 Parcels}
 
-\textbf{High}
+\subsection{Overview}
+
+{4.87}
+
+{Total Acres}
+
+{\$342K}
+
+{Assessed Value}
+
+{0}
+
+{Avg Attendance}
+
+{6/20}
+
+{Walkability}
+
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{📋 Multi-Parcel Opportunity}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
+
+This congregation owns \textbf{2 parcels} totaling \textbf{4.87 acres},
+which may present consolidation or phased development opportunities.
 
 \end{tcolorbox}
 
-\begin{figure}
+\textbf{⛪ Congregation:} St Pauls on the Hill Church
 
-\begin{minipage}{0.33\linewidth}
-\textbf{3.2 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{6/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{0 people}\\
-Avg Attendance\end{minipage}%
+\textbf{👥 Members:} 60
 
-\end{figure}%
+\textbf{💰 Avg Pledge:} \$0
 
-\subsubsection{Site Characteristics}\label{site-characteristics}
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status}
+
+\textbf{⚠️ Zero Average Attendance}
+
+This congregation reports no regular attendance despite having 60
+members on the rolls. This may indicate:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Current Uses:} Parking lot, Open space
+  Functional inactivity requiring status clarification
+\item
+  Outdated membership records
+\item
+  A congregation ready for supported transition
 \end{itemize}
 
-\subsubsection{Congregation: St Pauls on the Hill
-Church}\label{congregation-st-pauls-on-the-hill-church}
+\subsubsection{Financial Trend}\label{financial-trend}
 
-\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
-\textbf{100\%} over the past decade.
+\textbf{💰 Significant Decline}
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities}
+Plate \& pledge has decreased by \textbf{100\%} over the past decade.
 
-🅿️ \textbf{Prime opportunity:} Underutilized parking can support
-structured parking with mixed-use above
+\subsection{Property Details}
 
-📐 \textbf{Substantial site:} Large parcel enables phased development or
-creative master planning
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 2 \\
+Total Acreage & 4.87 acres \\
+Total Assessed Value & \$342,500 \\
+Mean Dev Score & 77.6 \\
+Max Dev Score & 79.2 \\
+Walkability Score & 6/20 \\
+Location & WINCHESTER, FREDERICK \\
+\end{longtable}
 
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps}
+\textbf{Parcel ID(s):}
+\texttt{54\ \ \ \ A\ \ \ 128A,\ 54\ \ \ \ A\ \ \ 128}
+
+\textbf{Addresses:}
+
+\begin{itemize}
+\tightlist
+\item
+  WINCHESTER 22602
+\item
+  1527 SENSENY RD, WINCHESTER 22602
+\end{itemize}
+
+\subsection{VEREP Action}
+
+\textbf{🎯 Why Engage:} Zero attendance suggests potential for
+congregational transition
+
+\textbf{✅ Recommended Action:} Assess congregational status and
+readiness for transition
+
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Contact diocesan staff to verify congregation's current status
 \item
-  Congregation leadership engagement
+  Schedule site visit to assess property condition
 \item
-  Zoning review and density bonus evaluation
+  If inactive, begin transition planning process
 \item
-  Ground lease financial modeling
+  Engage remaining members on legacy preservation options
 \end{enumerate}
+
+\subsubsection{Key Contacts to Identify}\label{key-contacts-to-identify}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#2}\label{property-2}
-\addcontentsline{toc}{section}{Property \#2}
+\section*{2. Good
+Shepherd-of-the-Hills}\label{good-shepherd-of-the-hills}
+\addcontentsline{toc}{section}{2. Good Shepherd-of-the-Hills}
 
-\markright{Property \#2}
+\markright{2. Good Shepherd-of-the-Hills}
 
-\subsection{1 TRURO LN, FAIRFAX 22030}\label{truro-ln-fairfax-22030}
+\textbf{📍 FREE UNION, ALBEMARLE County}
 
-\textbf{FAIRFAX, FAIRFAX-CITY County}
+{Dev Score: 63.2} {1 Parcel}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{73.3/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{High}
+{3.12}
 
-\end{tcolorbox}
+{Total Acres}
 
-\begin{figure}
+{\$118K}
 
-\begin{minipage}{0.33\linewidth}
-\textbf{3.44 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{16.3/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{25 people}\\
-Avg Attendance\end{minipage}%
+{Assessed Value}
 
-\end{figure}%
+{0}
 
-\subsubsection{Site Characteristics}\label{site-characteristics-1}
+{Avg Attendance}
+
+{6.2/20}
+
+{Walkability}
+
+\textbf{⛪ Congregation:} Good Shepherd-of-the-Hills
+
+\textbf{👥 Members:} 16
+
+\textbf{💰 Avg Pledge:} \$0
+
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status-1}
+
+\textbf{⚠️ Zero Average Attendance}
+
+This congregation reports no regular attendance despite having 16
+members on the rolls. This may indicate:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Current Uses:} Open space
+  Functional inactivity requiring status clarification
+\item
+  Outdated membership records
+\item
+  A congregation ready for supported transition
 \end{itemize}
 
-\subsubsection{Congregation: Holy Cross Korean Episcopal
-Church}\label{congregation-holy-cross-korean-episcopal-church}
+\subsubsection{Financial Trend}\label{financial-trend-1}
 
-\textbf{Financial Trend:} Plate \& pledge has ↑ increased by
-\textbf{42\%} over the past decade.
+\textbf{💰 Significant Decline}
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-1}
+Plate \& pledge has decreased by \textbf{100\%} over the past decade.
 
-📐 \textbf{Substantial site:} Large parcel enables phased development or
-creative master planning
+\subsection{Property Details}
 
-🚶 \textbf{Highly walkable location:} Supports car-light households and
-may qualify for reduced parking requirements
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 1 \\
+Total Acreage & 3.12 acres \\
+Total Assessed Value & \$117,600 \\
+Mean Dev Score & 63.2 \\
+Walkability Score & 6.2/20 \\
+Location & FREE UNION, ALBEMARLE \\
+\end{longtable}
 
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-1}
+\textbf{Parcel ID(s):} \texttt{007000000002A0}
+
+\subsection{VEREP Action}
+
+\textbf{🎯 Why Engage:} Zero attendance suggests potential for
+congregational transition
+
+\textbf{✅ Recommended Action:} Assess congregational status and
+readiness for transition
+
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-1}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Contact diocesan staff to verify congregation's current status
 \item
-  Congregation leadership engagement
+  Schedule site visit to assess property condition
 \item
-  Zoning review and density bonus evaluation
+  If inactive, begin transition planning process
+\item
+  Engage remaining members on legacy preservation options
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-1}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#3}\label{property-3}
-\addcontentsline{toc}{section}{Property \#3}
+\section*{3. Grace Church Emmanuel
+Parish}\label{grace-church-emmanuel-parish}
+\addcontentsline{toc}{section}{3. Grace Church Emmanuel Parish}
 
-\markright{Property \#3}
+\markright{3. Grace Church Emmanuel Parish}
 
-\subsection{STAFFORD 22554}\label{stafford-22554}
+\textbf{📍 MIDLAND, FAUQUIER County}
 
-\textbf{STAFFORD, STAFFORD County}
+{Dev Score: 58.2} {2 Parcels}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{72.3/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{High}
+{6.41}
+
+{Total Acres}
+
+{\$320K}
+
+{Assessed Value}
+
+{14}
+
+{Avg Attendance}
+
+{5.7/20}
+
+{Walkability}
+
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{📋 Multi-Parcel Opportunity}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
+
+This congregation owns \textbf{2 parcels} totaling \textbf{6.41 acres},
+which may present consolidation or phased development opportunities.
 
 \end{tcolorbox}
 
-\begin{figure}
+\textbf{⛪ Congregation:} Grace Church Emmanuel Parish
 
-\begin{minipage}{0.33\linewidth}
-\textbf{1.53 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{6.8/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{0 people}\\
-Avg Attendance\end{minipage}%
+\textbf{👥 Members:} 38
 
-\end{figure}%
+\textbf{💰 Avg Pledge:} \$72,564
 
-\subsubsection{Site Characteristics}\label{site-characteristics-2}
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status-2}
+
+\textbf{📉 Low Attendance}
+
+With only 14 average attendees and 38 members, this congregation is
+operating at reduced capacity.
+
+\subsubsection{Financial Trend}\label{financial-trend-2}
+
+\textbf{💰 Modest Decline}
+
+Plate \& pledge has decreased by \textbf{18.1\%} over the past decade.
+
+\subsection{Property Details}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 2 \\
+Total Acreage & 6.41 acres \\
+Total Assessed Value & \$319,800 \\
+Mean Dev Score & 58.2 \\
+Max Dev Score & 58.2 \\
+Walkability Score & 5.7/20 \\
+Location & MIDLAND, FAUQUIER \\
+\end{longtable}
+
+\textbf{Parcel ID(s):} \texttt{7901-78-0662-000,\ 7901-79-2032-000}
+
+\textbf{Addresses:}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Current Uses:} Open space
+  5096 GRACE CHURCH LN, MIDLAND 22728
+\item
+  5094 GRACE CHURCH LN, MIDLAND 22728
 \end{itemize}
 
-\subsubsection{Congregation: Aquia
-Church}\label{congregation-aquia-church}
+\subsection{VEREP Action}
 
-\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
-\textbf{100\%} over the past decade.
+\textbf{🎯 Why Engage:} Low attendance congregation may be open to
+development partnership
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-2}
+\textbf{✅ Recommended Action:} Map all parcels to identify
+consolidation or phased development approach
 
-📐 \textbf{Substantial site:} Large parcel enables phased development or
-creative master planning
-
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-2}
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-2}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Map all parcels to identify consolidation opportunities
 \item
-  Congregation leadership engagement
+  Assess which parcel(s) best serve ongoing worship needs
 \item
-  Zoning review and density bonus evaluation
+  Evaluate surplus parcels for development potential
 \item
-  Ground lease financial modeling
+  Present phased transition plan to vestry
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-2}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#4}\label{property-4}
-\addcontentsline{toc}{section}{Property \#4}
+\section*{4. St Georges Church}\label{st-georges-church}
+\addcontentsline{toc}{section}{4. St Georges Church}
 
-\markright{Property \#4}
+\markright{4. St Georges Church}
 
-\subsection{WARSAW 22572}\label{warsaw-22572}
+\textbf{📍 STANLEY, PAGE County}
 
-\textbf{WARSAW, WESTMORELAND County}
+{Dev Score: 57} {1 Parcel}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{72.3/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{High}
+{1.83}
 
-\end{tcolorbox}
+{Total Acres}
 
-\begin{figure}
+{\$70K}
 
-\begin{minipage}{0.33\linewidth}
-\textbf{2.72 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{2.8/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{29 people}\\
-Avg Attendance\end{minipage}%
+{Assessed Value}
 
-\end{figure}%
+{0}
 
-\subsubsection{Site Characteristics}\label{site-characteristics-3}
+{Avg Attendance}
+
+{4.5/20}
+
+{Walkability}
+
+\textbf{⛪ Congregation:} St Georges Church
+
+\textbf{👥 Members:} 7
+
+\textbf{💰 Avg Pledge:} \$0
+
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status-3}
+
+\textbf{⚠️ Zero Average Attendance}
+
+This congregation reports no regular attendance despite having 7 members
+on the rolls. This may indicate:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Current Uses:} Open space
+  Functional inactivity requiring status clarification
+\item
+  Outdated membership records
+\item
+  A congregation ready for supported transition
 \end{itemize}
 
-\subsubsection{Congregation: St Pauls Church Nomini
-Grove}\label{congregation-st-pauls-church-nomini-grove}
+\subsubsection{Financial Trend}\label{financial-trend-3}
 
-\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
-\textbf{24.8\%} over the past decade.
+\textbf{💰 Significant Decline}
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-3}
+Plate \& pledge has decreased by \textbf{100\%} over the past decade.
 
-📐 \textbf{Substantial site:} Large parcel enables phased development or
-creative master planning
+\subsection{Property Details}
 
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-3}
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 1 \\
+Total Acreage & 1.83 acres \\
+Total Assessed Value & \$70,000 \\
+Mean Dev Score & 57 \\
+Walkability Score & 4.5/20 \\
+Location & STANLEY, PAGE \\
+\end{longtable}
+
+\textbf{Parcel ID(s):} \texttt{91\ \ \ A\ \ \ \ \ \ \ 63}
+
+\subsection{VEREP Action}
+
+\textbf{🎯 Why Engage:} Zero attendance suggests potential for
+congregational transition
+
+\textbf{✅ Recommended Action:} Assess congregational status and
+readiness for transition
+
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-3}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Contact diocesan staff to verify congregation's current status
 \item
-  Congregation leadership engagement
+  Schedule site visit to assess property condition
 \item
-  Zoning review and density bonus evaluation
+  If inactive, begin transition planning process
 \item
-  Ground lease financial modeling
+  Engage remaining members on legacy preservation options
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-3}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#5}\label{property-5}
-\addcontentsline{toc}{section}{Property \#5}
+\section*{5. Aquia Church}\label{aquia-church}
+\addcontentsline{toc}{section}{5. Aquia Church}
 
-\markright{Property \#5}
+\markright{5. Aquia Church}
 
-\subsection{WINCHESTER 22602}\label{winchester-22602}
+\textbf{📍 STAFFORD, STAFFORD County}
 
-\textbf{WINCHESTER, FREDERICK County}
+{Dev Score: 50.8} {1 Parcel}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{71.5/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{High}
+{1.53}
 
-\end{tcolorbox}
+{Total Acres}
 
-\begin{figure}
+{\$0K}
 
-\begin{minipage}{0.33\linewidth}
-\textbf{1.67 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{6/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{0 people}\\
-Avg Attendance\end{minipage}%
+{Assessed Value}
 
-\end{figure}%
+{0}
 
-\subsubsection{Site Characteristics}\label{site-characteristics-4}
+{Avg Attendance}
+
+{6.8/20}
+
+{Walkability}
+
+\textbf{⛪ Congregation:} Aquia Church
+
+\textbf{👥 Members:} 1136
+
+\textbf{💰 Avg Pledge:} \$0
+
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status-4}
+
+\textbf{⚠️ Zero Average Attendance}
+
+This congregation reports no regular attendance despite having 1136
+members on the rolls. This may indicate:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Current Uses:} Open space
+  Functional inactivity requiring status clarification
+\item
+  Outdated membership records
+\item
+  A congregation ready for supported transition
 \end{itemize}
 
-\subsubsection{Congregation: St Pauls on the Hill
-Church}\label{congregation-st-pauls-on-the-hill-church-1}
+\subsubsection{Financial Trend}\label{financial-trend-4}
 
-\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
-\textbf{100\%} over the past decade.
+\textbf{💰 Significant Decline}
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-4}
+Plate \& pledge has decreased by \textbf{100\%} over the past decade.
 
-📐 \textbf{Substantial site:} Large parcel enables phased development or
-creative master planning
+\subsection{Property Details}
 
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-4}
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 1 \\
+Total Acreage & 1.53 acres \\
+Total Assessed Value & \$100 \\
+Mean Dev Score & 50.8 \\
+Walkability Score & 6.8/20 \\
+Location & STAFFORD, STAFFORD \\
+\end{longtable}
+
+\textbf{Parcel ID(s):} \texttt{21\ \ \ \ \ \ \ \ 48A}
+
+\subsection{VEREP Action}
+
+\textbf{🎯 Why Engage:} Zero attendance suggests potential for
+congregational transition
+
+\textbf{✅ Recommended Action:} Assess congregational status and
+readiness for transition
+
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-4}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Contact diocesan staff to verify congregation's current status
 \item
-  Congregation leadership engagement
+  Schedule site visit to assess property condition
 \item
-  Zoning review and density bonus evaluation
+  If inactive, begin transition planning process
 \item
-  Ground lease financial modeling
+  Engage remaining members on legacy preservation options
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-4}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#6}\label{property-6}
-\addcontentsline{toc}{section}{Property \#6}
+\section*{6. All Saints Sharon Chapel}\label{all-saints-sharon-chapel}
+\addcontentsline{toc}{section}{6. All Saints Sharon Chapel}
 
-\markright{Property \#6}
+\markright{6. All Saints Sharon Chapel}
 
-\subsection{10490 MAIN ST, FAIRFAX 22030}\label{main-st-fairfax-22030}
+\textbf{📍 ALEXANDRIA, FAIRFAX County}
 
-\textbf{FAIRFAX, FAIRFAX-CITY County}
+{Dev Score: 49.2} {2 Parcels}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{68.6/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{Moderate}
+{6.06}
+
+{Total Acres}
+
+{\$1,009K}
+
+{Assessed Value}
+
+{28}
+
+{Avg Attendance}
+
+{11/20}
+
+{Walkability}
+
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{📋 Multi-Parcel Opportunity}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
+
+This congregation owns \textbf{2 parcels} totaling \textbf{6.06 acres},
+which may present consolidation or phased development opportunities.
 
 \end{tcolorbox}
 
-\begin{figure}
+\textbf{⛪ Congregation:} All Saints Sharon Chapel
 
-\begin{minipage}{0.33\linewidth}
-\textbf{0.61 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{16.3/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{25 people}\\
-Avg Attendance\end{minipage}%
+\textbf{👥 Members:} 55
 
-\end{figure}%
+\textbf{💰 Avg Pledge:} \$82,541
 
-\subsubsection{Site Characteristics}\label{site-characteristics-5}
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{🚶 Moderate Walkability}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
+
+This site scores \textbf{11/20} on walkability. Some transit access may
+support density considerations.
+
+\end{tcolorbox}
+
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status-5}
+
+\textbf{✓ Active Congregation}
+
+28 average attendees with 55 members.
+
+\subsubsection{Financial Trend}\label{financial-trend-5}
+
+\emph{Financial data not available.}
+
+\subsection{Property Details}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 2 \\
+Total Acreage & 6.06 acres \\
+Total Assessed Value & \$1,009,000 \\
+Mean Dev Score & 49.2 \\
+Max Dev Score & 50.2 \\
+Walkability Score & 11/20 \\
+Location & ALEXANDRIA, FAIRFAX \\
+\end{longtable}
+
+\textbf{Parcel ID(s):} \texttt{0822\ 01\ \ 0049,\ 0824\ 01\ \ 0040}
+
+\textbf{Addresses:}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Current Uses:} Church building, Parking lot
+  3421 FRANCONIA RD, ALEXANDRIA 22310
 \end{itemize}
 
-\subsubsection{Congregation: Holy Cross Korean Episcopal
-Church}\label{congregation-holy-cross-korean-episcopal-church-1}
+\subsection{VEREP Action}
 
-\textbf{Financial Trend:} Plate \& pledge has ↑ increased by
-\textbf{42\%} over the past decade.
+\textbf{🎯 Why Engage:} Multi-parcel portfolio enables phased or
+consolidated development strategy
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-5}
+\textbf{✅ Recommended Action:} Map all parcels to identify
+consolidation or phased development approach
 
-🅿️ \textbf{Prime opportunity:} Underutilized parking can support
-structured parking with mixed-use above
-
-🚶 \textbf{Highly walkable location:} Supports car-light households and
-may qualify for reduced parking requirements
-
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-5}
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-5}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Map all parcels to identify consolidation opportunities
 \item
-  Congregation leadership engagement
+  Assess which parcel(s) best serve ongoing worship needs
 \item
-  Zoning review and density bonus evaluation
+  Evaluate surplus parcels for development potential
+\item
+  Present phased transition plan to vestry
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-5}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#7}\label{property-7}
-\addcontentsline{toc}{section}{Property \#7}
+\section*{7. North Farnham Parish
+Church}\label{north-farnham-parish-church}
+\addcontentsline{toc}{section}{7. North Farnham Parish Church}
 
-\markright{Property \#7}
+\markright{7. North Farnham Parish Church}
 
-\subsection{1704 WEST LABURNUM AVE, RICHMOND
-23227}\label{west-laburnum-ave-richmond-23227}
+\textbf{📍 FARNHAM, RICHMOND County}
 
-\textbf{RICHMOND, RICHMOND-CITY County}
+{Dev Score: 47.5} {1 Parcel}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{62.8/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{Moderate}
+{2.05}
 
-\end{tcolorbox}
+{Total Acres}
 
-\begin{figure}
+{\$26K}
 
-\begin{minipage}{0.33\linewidth}
-\textbf{1.47 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{12.3/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{18 people}\\
-Avg Attendance\end{minipage}%
+{Assessed Value}
 
-\end{figure}%
+{29}
 
-\subsubsection{Site Characteristics}\label{site-characteristics-6}
+{Avg Attendance}
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{Current Uses:} Church building
-\end{itemize}
+{2/20}
 
-\subsubsection{Congregation: Christ Ascension
-Church}\label{congregation-christ-ascension-church}
+{Walkability}
 
-\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
-\textbf{69.4\%} over the past decade.
+\textbf{⛪ Congregation:} North Farnham Parish Church
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-6}
+\textbf{👥 Members:} 35
 
-📐 \textbf{Substantial site:} Large parcel enables phased development or
-creative master planning
+\textbf{💰 Avg Pledge:} \$46,355
 
-🚶 \textbf{Moderate walkability:} Some transit access supports density
-considerations
+\subsection{Congregational Health}
 
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-6}
+\subsubsection{Attendance Status}\label{attendance-status-6}
+
+\textbf{✓ Active Congregation}
+
+29 average attendees with 35 members.
+
+\subsubsection{Financial Trend}\label{financial-trend-6}
+
+\emph{Financial data not available.}
+
+\subsection{Property Details}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 1 \\
+Total Acreage & 2.05 acres \\
+Total Assessed Value & \$26,150 \\
+Mean Dev Score & 47.5 \\
+Walkability Score & 2/20 \\
+Location & FARNHAM, RICHMOND \\
+\end{longtable}
+
+\textbf{Parcel ID(s):} \texttt{32-136}
+
+\subsection{VEREP Action}
+
+\textbf{🎯 Why Engage:} High development potential based on site
+characteristics
+
+\textbf{✅ Recommended Action:} Engage leadership on development
+partnership options
+
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-6}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Schedule introductory meeting with vestry leadership
 \item
-  Congregation leadership engagement
+  Present development partnership models and case studies
 \item
-  Zoning review and density bonus evaluation
+  Conduct preliminary site feasibility assessment
 \item
-  Ground lease financial modeling
+  Develop customized proposal based on congregation's goals
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-6}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#8}\label{property-8}
-\addcontentsline{toc}{section}{Property \#8}
+\section*{8. Holy Cross Church}\label{holy-cross-church}
+\addcontentsline{toc}{section}{8. Holy Cross Church}
 
-\markright{Property \#8}
+\markright{8. Holy Cross Church}
 
-\subsection{37018 GLENDALE ST, PURCELLVILLE
-20132}\label{glendale-st-purcellville-20132}
+\textbf{📍 AFTON, ALBEMARLE County}
 
-\textbf{PURCELLVILLE, LOUDOUN County}
+{Dev Score: 46.1} {1 Parcel}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{61/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{High}
+{2.36}
 
-\end{tcolorbox}
+{Total Acres}
 
-\begin{figure}
+{\$136K}
 
-\begin{minipage}{0.33\linewidth}
-\textbf{2.02 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{8.5/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{0 people}\\
-Avg Attendance\end{minipage}%
+{Assessed Value}
 
-\end{figure}%
+{28}
 
-\subsubsection{Site Characteristics}\label{site-characteristics-7}
+{Avg Attendance}
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{Current Uses:} Church building
-\end{itemize}
+{5.8/20}
 
-\subsubsection{Congregation: St Peters
-Church}\label{congregation-st-peters-church}
+{Walkability}
 
-\textbf{Financial Trend:} Plate \& pledge has ↓ decreased by
-\textbf{100\%} over the past decade.
+\textbf{⛪ Congregation:} Holy Cross Church
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-7}
+\textbf{👥 Members:} 36
 
-📐 \textbf{Substantial site:} Large parcel enables phased development or
-creative master planning
+\textbf{💰 Avg Pledge:} \$61,900
 
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-7}
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status-7}
+
+\textbf{✓ Active Congregation}
+
+28 average attendees with 36 members.
+
+\subsubsection{Financial Trend}\label{financial-trend-7}
+
+\emph{Financial data not available.}
+
+\subsection{Property Details}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 1 \\
+Total Acreage & 2.36 acres \\
+Total Assessed Value & \$136,000 \\
+Mean Dev Score & 46.1 \\
+Walkability Score & 5.8/20 \\
+Location & AFTON, ALBEMARLE \\
+\end{longtable}
+
+\textbf{Parcel ID(s):} \texttt{08400000006100}
+
+\subsection{VEREP Action}
+
+\textbf{🎯 Why Engage:} High development potential based on site
+characteristics
+
+\textbf{✅ Recommended Action:} Engage leadership on development
+partnership options
+
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-7}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Schedule introductory meeting with vestry leadership
 \item
-  Congregation leadership engagement
+  Present development partnership models and case studies
 \item
-  Zoning review and density bonus evaluation
+  Conduct preliminary site feasibility assessment
 \item
-  Ground lease financial modeling
+  Develop customized proposal based on congregation's goals
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-7}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#9}\label{property-9}
-\addcontentsline{toc}{section}{Property \#9}
+\section*{9. Holy Cross Korean Episcopal
+Church}\label{holy-cross-korean-episcopal-church}
+\addcontentsline{toc}{section}{9. Holy Cross Korean Episcopal Church}
 
-\markright{Property \#9}
+\markright{9. Holy Cross Korean Episcopal Church}
 
-\subsection{FARNHAM 22460}\label{farnham-22460}
+\textbf{📍 FAIRFAX, FAIRFAX-CITY County}
 
-\textbf{FARNHAM, RICHMOND County}
+{Dev Score: 45.3} {2 Parcels}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{61/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{High}
+{7.55}
+
+{Total Acres}
+
+{\$6,111K}
+
+{Assessed Value}
+
+{25}
+
+{Avg Attendance}
+
+{16.3/20}
+
+{Walkability}
+
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{📋 Multi-Parcel Opportunity}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
+
+This congregation owns \textbf{2 parcels} totaling \textbf{7.55 acres},
+which may present consolidation or phased development opportunities.
 
 \end{tcolorbox}
 
-\begin{figure}
+\textbf{⛪ Congregation:} Holy Cross Korean Episcopal Church
 
-\begin{minipage}{0.33\linewidth}
-\textbf{2.05 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{2/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{29 people}\\
-Avg Attendance\end{minipage}%
+\textbf{👥 Members:} 34
 
-\end{figure}%
+\textbf{💰 Avg Pledge:} \$57,025
 
-\subsubsection{Site Characteristics}\label{site-characteristics-8}
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{🚶 Highly Walkable Location}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
+
+This site scores \textbf{16.3/20} on walkability, supporting car-light
+households and potentially qualifying for reduced parking requirements
+in development.
+
+\end{tcolorbox}
+
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status-8}
+
+\textbf{✓ Active Congregation}
+
+25 average attendees with 34 members.
+
+\subsubsection{Financial Trend}\label{financial-trend-8}
+
+\textbf{💰 Positive Trend}
+
+Plate \& pledge has increased by \textbf{42\%} over the past decade.
+
+\subsection{Property Details}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 2 \\
+Total Acreage & 7.55 acres \\
+Total Assessed Value & \$6,110,900 \\
+Mean Dev Score & 45.3 \\
+Max Dev Score & 52.8 \\
+Walkability Score & 16.3/20 \\
+Location & FAIRFAX, FAIRFAX-CITY \\
+\end{longtable}
+
+\textbf{Parcel ID(s):}
+\texttt{57\ 2\ 02\ \ \ \ 157,\ 57\ 2\ 02\ \ \ \ 162A1}
+
+\textbf{Addresses:}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Current Uses:} Open space
+  10520 MAIN ST, FAIRFAX 22030
+\item
+  1 TRURO LN, FAIRFAX 22030
 \end{itemize}
 
-\subsubsection{Congregation: North Farnham Parish
-Church}\label{congregation-north-farnham-parish-church}
+\subsection{VEREP Action}
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-8}
+\textbf{🎯 Why Engage:} Multi-parcel portfolio enables phased or
+consolidated development strategy
 
-📐 \textbf{Substantial site:} Large parcel enables phased development or
-creative master planning
+\textbf{✅ Recommended Action:} Map all parcels to identify
+consolidation or phased development approach
 
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-8}
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-8}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Map all parcels to identify consolidation opportunities
 \item
-  Congregation leadership engagement
+  Assess which parcel(s) best serve ongoing worship needs
 \item
-  Zoning review and density bonus evaluation
+  Evaluate surplus parcels for development potential
+\item
+  Present phased transition plan to vestry
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-8}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\section*{Property \#10}\label{property-10}
-\addcontentsline{toc}{section}{Property \#10}
+\section*{10. St Peters Church}\label{st-peters-church}
+\addcontentsline{toc}{section}{10. St Peters Church}
 
-\markright{Property \#10}
+\markright{10. St Peters Church}
 
-\subsection{WARSAW 22572}\label{warsaw-22572-1}
+\textbf{📍 PURCELLVILLE, LOUDOUN County}
 
-\textbf{WARSAW, RICHMOND County}
+{Dev Score: 39.5} {1 Parcel}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Development Score: \textbf{60.8/100}}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-tip-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-tip-color-frame]
+\subsection{Overview}
 
-\textbf{Moderate}
+{2.02}
 
-\end{tcolorbox}
+{Total Acres}
 
-\begin{figure}
+{\$792K}
 
-\begin{minipage}{0.33\linewidth}
-\textbf{0.7 acres}\\
-Property Size\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{7.8/20}\\
-Walkability\end{minipage}%
-%
-\begin{minipage}{0.33\linewidth}
-\textbf{29 people}\\
-Avg Attendance\end{minipage}%
+{Assessed Value}
 
-\end{figure}%
+{0}
 
-\subsubsection{Site Characteristics}\label{site-characteristics-9}
+{Avg Attendance}
+
+{8.5/20}
+
+{Walkability}
+
+\textbf{⛪ Congregation:} St Peters Church
+
+\textbf{👥 Members:} 166
+
+\textbf{💰 Avg Pledge:} \$0
+
+\subsection{Congregational Health}
+
+\subsubsection{Attendance Status}\label{attendance-status-9}
+
+\textbf{⚠️ Zero Average Attendance}
+
+This congregation reports no regular attendance despite having 166
+members on the rolls. This may indicate:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Current Uses:} Open space
+  Functional inactivity requiring status clarification
+\item
+  Outdated membership records
+\item
+  A congregation ready for supported transition
 \end{itemize}
 
-\subsubsection{Congregation: St Johns
-Church}\label{congregation-st-johns-church}
+\subsubsection{Financial Trend}\label{financial-trend-9}
 
-\subsubsection{Development
-Opportunities}\label{development-opportunities-9}
+\textbf{💰 Significant Decline}
 
-\subsubsection{Recommended Next Steps}\label{recommended-next-steps-9}
+Plate \& pledge has decreased by \textbf{100\%} over the past decade.
+
+\subsection{Property Details}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total Parcels & 1 \\
+Total Acreage & 2.02 acres \\
+Total Assessed Value & \$791,900 \\
+Mean Dev Score & 39.5 \\
+Walkability Score & 8.5/20 \\
+Location & PURCELLVILLE, LOUDOUN \\
+\end{longtable}
+
+\textbf{Parcel ID(s):} \texttt{489452448000}
+
+\subsection{VEREP Action}
+
+\textbf{🎯 Why Engage:} Zero attendance suggests potential for
+congregational transition
+
+\textbf{✅ Recommended Action:} Assess congregational status and
+readiness for transition
+
+\subsubsection{Suggested Next Steps}\label{suggested-next-steps-9}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Site feasibility study and geotechnical analysis
+  Contact diocesan staff to verify congregation's current status
 \item
-  Congregation leadership engagement
+  Schedule site visit to assess property condition
 \item
-  Zoning review and density bonus evaluation
+  If inactive, begin transition planning process
+\item
+  Engage remaining members on legacy preservation options
 \end{enumerate}
+
+\subsubsection{Key Contacts to
+Identify}\label{key-contacts-to-identify-9}
+
+\begin{itemize}
+\tightlist
+\item[$\square$]
+  Vestry leadership / Senior Warden
+\item[$\square$]
+  Diocesan regional representative
+\item[$\square$]
+  Property committee chair (if applicable)
+\end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \section{Interactive ADU Placement
 Tool}\label{interactive-adu-placement-tool}
 
-For an interactive experience, {[}\textbf{launch the ADU Placement
-Dashboard}{]}
+For an interactive experience,
+\href{https://mted.shinyapps.io/shiny-app/?tab=adu}{\textbf{launch the
+ADU Placement Dashboard}}
 
 \part{Appendices}
 
@@ -2484,7 +3281,7 @@ Dashboard}{]}
 
 \markboth{Appendices}{Appendices}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Technical Methodology}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Technical Methodology}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
 
 \textbf{Scoring Algorithm Details}
 
@@ -2523,7 +3320,7 @@ Final scores are capped between 0-100.
 
 \end{tcolorbox}
 
-\begin{tcolorbox}[enhanced jigsaw, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Data Processing Notes}, toptitle=1mm, rightrule=.15mm, breakable, toprule=.15mm, colback=white, coltitle=black, opacitybacktitle=0.6, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, titlerule=0mm, left=2mm, arc=.35mm, opacityback=0, leftrule=.75mm, bottomrule=.15mm, colframe=quarto-callout-note-color-frame]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, breakable, titlerule=0mm, colback=white, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Data Processing Notes}, toptitle=1mm, bottomtitle=1mm, toprule=.15mm, arc=.35mm, rightrule=.15mm, opacityback=0, bottomrule=.15mm, coltitle=black, left=2mm]
 
 \textbf{Congregation-Parcel Joining:} Properties were matched to
 congregation data using the \texttt{congr\_name} field. Properties

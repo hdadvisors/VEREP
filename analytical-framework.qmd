@@ -56,7 +56,7 @@ Environmental and regulatory factors are applied as score deductions:
 - Flood zone OR moderate wetlands (>10%): **-40 points**  
 - Minor environmental constraints: **-20 points**
 
-*Note: Missing wetland data is treated as neutral (no penalty) to avoid penalizing properties where environmental assessment data is unavailable.*
+
 
 ### Development Classification Systems
 

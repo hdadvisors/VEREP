@@ -7,7 +7,7 @@ source("R/common.R")
 
 ## Why These Factors Matter
 
-The development potential score is calculated using seven key criteria, each weighted according to its importance in determining development viability. Our scoring methodology, as outlined in the analytical framework of this report, reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.
+The development potential score is calculated by weighing each of the seven criteria according to its importance in determining development viability. Our scoring methodology, as outlined in the analytical framework of this report, reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.
 
 ### Property Size: The Goldilocks Principle
 

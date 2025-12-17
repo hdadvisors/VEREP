@@ -41,6 +41,18 @@ Of the 104 properties analyzed with fewer than 30 Sunday attendees, 101 (97.1%) 
 While environmental constraint data (wetlands, flood zones) accounts for much of the missing information, 15 properties (14.4%) are missing land value, limiting our ability to assess their financial potential. The breakdown below classifies these data gaps to help prioritize follow-up research. Once complete, these properties can be more precisely evaluated for development opportunities.
 
 ```{r other-issues, echo=FALSE}
+
+# Create incomplete_properties - properties missing key data
+incomplete_properties <- property_profile |>
+  filter(
+    missing_land_value == TRUE |
+    missing_acreage == TRUE |
+    missing_wetland == TRUE |
+    missing_flood == TRUE |
+    missing_qct == TRUE |
+    missing_zoning == TRUE
+  )
+
 # Calculate missing data breakdown
 missing_breakdown <- incomplete_properties |>
   summarise(
@@ -134,7 +146,7 @@ This enhanced screening framework identified environmental and regulatory constr
 
 For the small subset of properties with wetland data available (11%), we retained this information and applied it alongside historic and hazard assessments. Properties with multiple major constraints (e.g., flood zone + high hazard risk, or significant wetlands + flood zone) receive compounded penalties (up to -75 points), reflecting cumulative impacts on development feasibility.
 
-### Addressing Missing Property Information Through Geocoding
+### Addressing Missing Property Information 
 
 Eleven properties lacked specific street addresses in county parcel records, listed instead as "UNASSIGNED" or missing entirely. To enable spatial analysis and mapping, we employed the Geocodio API to generate approximate coordinates based on available city and county information.
 

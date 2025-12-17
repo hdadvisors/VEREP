@@ -240,7 +240,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#development-potential-scoring" id="toc-development-potential-scoring" class="nav-link active" data-scroll-target="#development-potential-scoring">Development Potential Scoring</a></li>
+  <li><a href="#development-potential-scoring" id="toc-development-potential-scoring" class="nav-link active" data-scroll-target="#development-potential-scoring">Development Potential Scoring</a>
+  <ul class="collapse">
+  <li><a href="#six-weighted-components-total-100" id="toc-six-weighted-components-total-100" class="nav-link" data-scroll-target="#six-weighted-components-total-100">Six Weighted Components (total: 100%)</a></li>
+  <li><a href="#plus-constraint-penalties" id="toc-plus-constraint-penalties" class="nav-link" data-scroll-target="#plus-constraint-penalties">Plus Constraint Penalties</a></li>
+  <li><a href="#development-classification-systems" id="toc-development-classification-systems" class="nav-link" data-scroll-target="#development-classification-systems">Development Classification Systems</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -268,7 +273,9 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="development-potential-scoring" class="level2">
 <h2 class="anchored" data-anchor-id="development-potential-scoring">Development Potential Scoring</h2>
-<p>Our methodology evaluates six key dimensions:</p>
+<p>Our methodology evaluates <strong>seven key criteria</strong> across positive attributes and limiting factors to create a composite development score (0-100):</p>
+<section id="six-weighted-components-total-100" class="level3">
+<h3 class="anchored" data-anchor-id="six-weighted-components-total-100">Six Weighted Components (total: 100%)</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -278,9 +285,30 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p><strong>Constraint Penalties:</strong> Properties receive deductions for flood zones (-40), significant wetlands (-35), easements (-30), and historic district designation (-25).</p>
-<p><strong>Development Tiers</strong></p>
-<p>Properties are classified into five tiers based on composite scores:</p>
+</section>
+<section id="plus-constraint-penalties" class="level3">
+<h3 class="anchored" data-anchor-id="plus-constraint-penalties">Plus Constraint Penalties</h3>
+<p>Environmental and regulatory factors are applied as score deductions:</p>
+<ul>
+<li>Combined flood zone + significant wetlands (&gt;25%): <strong>-75 points</strong></li>
+<li>Flood zone OR moderate wetlands (&gt;10%): <strong>-40 points</strong><br>
+</li>
+<li>Minor environmental constraints: <strong>-20 points</strong></li>
+</ul>
+<p><em>Note: Missing wetland data is treated as neutral (no penalty) to avoid penalizing properties where environmental assessment data is unavailable.</em></p>
+</section>
+<section id="development-classification-systems" class="level3">
+<h3 class="anchored" data-anchor-id="development-classification-systems">Development Classification Systems</h3>
+<p>Properties are evaluated using two complementary frameworks:</p>
+<p><strong>Goldilocks Size Classification</strong> (for opportunity identification):</p>
+<ul>
+<li><strong>High Priority</strong>: 1.5-5 acres, minimal constraints, documented value</li>
+<li><strong>Moderate Priority</strong>: 0.5-1.5 acres, minimal constraints</li>
+<li><strong>Too Large</strong>: &gt;5 acres (may require phased development or specialized partners)</li>
+<li><strong>Small Parcel</strong>: &lt;0.5 acres (limited development options)</li>
+<li><strong>Constrained</strong>: Environmental limitations regardless of size</li>
+</ul>
+<p><strong>Numerical Score Tiers</strong> (for prioritization):</p>
 <ul>
 <li><strong>Tier 1 (75-100):</strong> High Priority - Immediate development candidates</li>
 <li><strong>Tier 2 (60-74):</strong> Strong Potential - Near-term opportunities</li>
@@ -288,8 +316,10 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Tier 4 (30-44):</strong> Limited Potential - Significant barriers exist</li>
 <li><strong>Tier 5 (&lt;30):</strong> Not Recommended - Unsuitable for development</li>
 </ul>
+<p><em>The goldilocks classification focuses on the <strong>optimal 0.5-5 acre range</strong> that balances economic viability with manageable complexity. Properties outside this range may have value but require different development strategies.</em></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
