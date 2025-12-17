@@ -8,61 +8,67 @@ source("R/common.R")
 ### Comprehensive Developability Analysis
 
 ```{r developable-summary, echo=FALSE}
-# Summary of ALL developable land (not just top 10)
-developable_summary <- property_profile |>
-  filter(development_score >= 45) |>  # Tier 3 and above
-  summarise(
-    n_developable = n(),
-    total_dev_acres = sum(area_acres, na.rm = TRUE),
-    total_dev_value = sum(assessed_value, na.rm = TRUE),
-    avg_attendance = mean(avg_attendance, na.rm = TRUE),
-    avg_pledge = mean(avg_pledge, na.rm = TRUE),
-    parcels_under_30 = sum(avg_attendance < 30, na.rm = TRUE)
-  )
-
-# By tier
-tier_summary <- property_profile |>
-  filter(development_score >= 45) |>
-  group_by(development_potential) |>
+# Summary by congregation with mean development score
+developable_by_congregation <- property_profile %>%
+  filter(development_score >= 50) %>%
+  group_by(congregation_name) %>%
   summarise(
     n_parcels = n(),
     total_acres = sum(area_acres, na.rm = TRUE),
     total_value = sum(assessed_value, na.rm = TRUE),
+    avg_attendance = first(avg_attendance),
+    avg_members = first(avg_members),
+    mean_dev_score = mean(development_score, na.rm = TRUE),
     .groups = "drop"
-  ) |>
-  arrange(desc(n_parcels))
+  ) %>%
+  arrange(desc(mean_dev_score))
+
+# Define color based on score
+get_score_color <- function(score) {
+  case_when(
+    score >= 70 ~ "#445ca9",
+    score >= 60 ~ "#8baeaa",
+    TRUE ~ "#e9ab3f"
+  )
+}
+
+# Create formatted table
+formatted_table <- developable_by_congregation %>%
+  mutate(
+    total_acres = round(total_acres, 2),
+    total_value = scales::dollar(total_value, accuracy = 1),
+    avg_attendance = round(avg_attendance, 0),
+    avg_members = round(avg_members, 0),
+    mean_dev_score = round(mean_dev_score, 1)
+  )
+
+# Build kable with row colors
+kable(formatted_table,
+      col.names = c("Congregation", "Parcels", "Total Acres", "Assessed Value", 
+                    "Avg Attendance", "Avg Members", "Mean Dev Score"),
+      align = c("l", "r", "r", "r", "r", "r", "r"),
+      caption = "Developable Properties by Congregation (Score ≥50)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), 
+                full_width = TRUE) %>%
+  row_spec(which(developable_by_congregation$mean_dev_score >= 70), 
+           background = "#445ca9", color = "white") %>%
+  row_spec(which(developable_by_congregation$mean_dev_score >= 60 & 
+                 developable_by_congregation$mean_dev_score < 70), 
+           background = "#8baeaa") %>%
+  row_spec(which(developable_by_congregation$mean_dev_score < 60), 
+           background = "#e9ab3f")
 ```
 
-```{r output-dev-summary, echo=FALSE, results='asis'}
-#| echo: false
-#| results: asis
+Looking at top developent parcels and their congregations reveals a striking pattern: all 14 congregations with development scores at or above 50 report average attendance below 30, with a median attendance of just 14. This universally low attendance suggests these properties represent not just real estate opportunities, but potential candidates for congregational transition—whether through relocation, merger, or strategic closure.
 
-cat("**All Developable Properties (Score ≥45)**\n\n")
+St. Pauls on the Hill Church in Winchester (Frederick County) exemplifies this dynamic. Despite maintaining 60 members on the rolls, the congregation reports zero average attendance. With a development score of 77.6—the highest in the Diocese—and nearly 5 acres of land, St. Pauls represents a flagship opportunity where VEREP engagement could explore whether this congregation is ready for a supported transition that unlocks significant development potential in a priority market.
 
-cat("::: {layout-ncol=4}\n\n")
+Similarly, Good Shepherd-of-the-Hills in Albemarle County (63.2) and St. Georges Church in Page County (57.0) both report zero average attendance despite having members on record. These congregations may already be functionally inactive, making them strong candidates for early VEREP outreach to clarify their status and discuss path forward options.
 
-cat("::: {.value-box}\n")
-cat("::: {.number}\n", developable_summary$n_developable, "\n:::\n", sep = "")
-cat("::: {.label}\nDevelopable Parcels\n:::\n")
-cat(":::\n\n")
+Fairfax County presents a unique opportunity for coordinated engagement. Three congregations—St. Patricks Anglo Vietnamese Church (21 attendance), Holy Cross Korean Episcopal Church (25 attendance), and All Saints Sharon Chapel (28 attendance)—are all operating with modest but active congregations. Given their geographic proximity and similar scale, VEREP could explore whether a merger strategy might strengthen congregational life while freeing underutilized property for development. Together, these three sites represent over 13 acres and $4.7 million in assessed value.
 
-cat("::: {.value-box .green}\n")
-cat("::: {.number}\n", round(developable_summary$total_dev_acres, 1), "\n:::\n", sep = "")
-cat("::: {.label}\nDevelopable Acres\n:::\n")
-cat(":::\n\n")
+Grace Church Emmanuel Parish in Fauquier County holds the largest land portfolio among developable congregations—14.7 acres across 3 parcels—but averages only 14 in attendance with 38 members. As a multi-parcel congregation, Grace Church may be open to consolidating its footprint, potentially releasing surplus land for development while maintaining a right-sized worship presence.
 
-cat("::: {.value-box .orange}\n")
-cat("::: {.number}\n$", scales::comma(developable_summary$total_dev_value / 1e6, accuracy = 0.1), "M\n:::\n", sep = "")
-cat("::: {.label}\nAssessed Value\n:::\n")
-cat(":::\n\n")
-
-cat("::: {.value-box .red}\n")
-cat("::: {.number}\n", developable_summary$parcels_under_30, "\n:::\n", sep = "")
-cat("::: {.label}\nWith <30 Attendance\n:::\n")
-cat(":::\n\n")
-
-cat(":::\n")
-
-```
+Aquia Church in Stafford County presents an unusual case: 1,136 members but zero average attendance across 5 parcels. This discrepancy warrants immediate VEREP engagement to understand the congregation's actual status and whether the membership figure reflects historical rolls rather than current participation. 
 
 
