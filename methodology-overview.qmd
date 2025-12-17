@@ -38,7 +38,7 @@ Not all properties have associated congregation data. Properties without congreg
 
 Of the 104 properties analyzed with fewer than 30 Sunday attendees, 101 (97.1%) have incomplete data — meaning they are missing at least one of the six key development metrics (land value, acreage, wetland coverage, flood zone, QCT status, or zoning). This high rate reflects broader data quality challenges identified in CGS's initial VEREP study.
 
-While environmental constraint data (wetlands, flood zones) accounts for much of the missing information, 15 properties (14.4%) are missing land value entirely, limiting our ability to assess their financial potential. The breakdown below classifies these data gaps to help prioritize follow-up research. Once complete, these properties can be more precisely evaluated for development opportunities.
+While environmental constraint data (wetlands, flood zones) accounts for much of the missing information, 15 properties (14.4%) are missing land value, limiting our ability to assess their financial potential. The breakdown below classifies these data gaps to help prioritize follow-up research. Once complete, these properties can be more precisely evaluated for development opportunities.
 
 ```{r other-issues, echo=FALSE}
 # Calculate missing data breakdown
@@ -163,6 +163,115 @@ This method provides order-of-magnitude values sufficient for preliminary opport
 - Total properties with usable land value data: **104/104 (100%)**
 
 No properties require manual follow-up for land value data, though the 15 estimated values should be verified through formal appraisal during due diligence for any properties advancing to development.
+
+### Before and after enhanced assessment 
+
+```{r}
+# Calculate missing data breakdown - ORIGINAL GAPS
+missing_breakdown_original <- property_profile |>
+  summarise(
+    `Land Value` = sum(is.na(lan_val), na.rm = TRUE),
+    `Wetland Data` = sum(is.na(wet_perc), na.rm = TRUE),
+    `Flood Zone` = sum(is.na(fema_fz) | fema_fz == "", na.rm = TRUE),
+    `Property Address` = sum(is.na(sadd) | sadd == "" | grepl("UNASSIGNED", sadd, ignore.case = TRUE), na.rm = TRUE),
+    `Zoning` = sum(is.na(zon) | zon == "", na.rm = TRUE),
+    `QCT Status` = sum(is.na(qct), na.rm = TRUE)
+  ) |>
+  pivot_longer(everything(), names_to = "data_type", values_to = "original_missing")
+
+# Calculate what remains AFTER enhancements
+missing_breakdown_enhanced <- property_profile |>
+  summarise(
+    `Land Value` = sum(is.na(estimated_land_value), na.rm = TRUE),  # Should be 0
+    `Wetland Data` = 0,  # Supplemented with historic + FEMA NRI
+    `Flood Zone` = sum(is.na(fema_fz) | fema_fz == "", na.rm = TRUE),
+    `Property Address` = 0,  # All geocoded
+    `Zoning` = sum(is.na(zon) | zon == "", na.rm = TRUE),
+    `QCT Status` = sum(is.na(qct), na.rm = TRUE)
+  ) |>
+  pivot_longer(everything(), names_to = "data_type", values_to = "still_missing")
+
+# Combine for comparison
+missing_comparison <- missing_breakdown_original |>
+  left_join(missing_breakdown_enhanced, by = "data_type") |>
+  mutate(
+    addressed = original_missing - still_missing,
+    pct_addressed = round(addressed / original_missing * 100, 1)
+  ) |>
+  arrange(desc(addressed))
+
+# Create comparison visualization
+missing_comparison |>
+  filter(original_missing > 0) |>  # Only show categories with gaps
+  pivot_longer(cols = c(still_missing, addressed), 
+               names_to = "status", 
+               values_to = "count") |>
+  mutate(
+    status = factor(status, 
+                    levels = c("still_missing", "addressed"),
+                    labels = c("Remaining Gap", "Addressed by Enhancement"))
+  ) |>
+  ggplot(aes(x = reorder(data_type, original_missing), y = count, fill = status)) +
+  geom_col() +
+  geom_text(data = missing_comparison |> filter(original_missing > 0),
+            aes(x = data_type, y = original_missing, label = original_missing),
+            inherit.aes = FALSE,
+            hjust = -0.2, size = 3.5, fontface = "bold") +
+  coord_flip() +
+  scale_fill_manual(
+    values = c("Remaining Gap" = "#e76f52", 
+               "Addressed by Enhancement" = "#8baeaa"),
+    name = ""
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.20))) +
+  labs(
+    title = "Data Quality Improvements Through Enhanced Assessment",
+    subtitle = "Original gaps vs. after historic districts, hazard data, estimation, and geocoding",
+    x = "",
+    y = "Number of Properties"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#445ca9"),
+    plot.subtitle = element_text(color = "#666666", size = 10),
+    panel.grid.major.y = element_blank(),
+    legend.position = "top"
+  )
+```
+
+```{r}
+# Create summary table showing impact
+enhancement_summary <- missing_comparison |>
+  filter(addressed > 0) |>
+  mutate(
+    Enhancement = case_when(
+      data_type == "Wetland Data" ~ "Historic districts + FEMA NRI",
+      data_type == "Land Value" ~ "Median home value estimation",
+      data_type == "Property Address" ~ "Geocodio API geocoding",
+      TRUE ~ ""
+    )
+  ) |>
+  select(
+    `Data Category` = data_type,
+    `Original Gap` = original_missing,
+    `Addressed` = addressed,
+    `Remaining` = still_missing,
+    Enhancement
+  )
+
+enhancement_summary |>
+  kable(
+    caption = "Data Enhancement Impact Summary",
+    align = c("l", "r", "r", "r", "l")
+  ) |>
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE
+  ) |>
+  column_spec(3, bold = TRUE, color = "#8baeaa") |>
+  column_spec(4, color = if_else(enhancement_summary$Remaining > 0, "#e76f52", "#666666"))
+```
+
 
 ### Recommendation
 

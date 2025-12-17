@@ -12,7 +12,7 @@ source("R/common.R")
 
 ```{r}
 #| label: tbl-top-dev
-#| tbl-cap: "Top 15 Development Opportunities (0.5-5 Acre Goldilocks Range)"
+#| tbl-cap: "Top 15 Development Opportunities"
 #| echo: false
 
 top_parcels |>
@@ -34,7 +34,7 @@ top_parcels |>
               color = spec_color(head(top_parcels$development_score, 15), 
                                  scale_from = c(50, 80),
                                  palette = c("#e76f52", "#e9ab3f", "#8baeaa"),
-                                 direction = 1))  # <-- Added closing parenthesis here!
+                                 direction = 1))  
 ```
 *Note: Properties without street addresses are identified by congregation name and location. These parcels have valid coordinates for mapping but lack specific addresses in county parcel records.*
 
