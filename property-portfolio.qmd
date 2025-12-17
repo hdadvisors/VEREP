@@ -273,47 +273,6 @@ Focus development capital on Fauquier's 4 properties as a coordinated portfolio 
 Many parcels serve single congregations (particularly in King William)
 The 104 total parcels overstate discrete development sites—true opportunity count is closer to 39 goldilocks properties across fewer than 20 congregational sites
 
-```{r}
-#| label: tbl-by-county
-#| tbl-cap: "Property Distribution by County"
-#| echo: false
-
-county_summary <- property_profile |>
-  group_by(scounty) |>
-  summarise(
-    properties = n(),
-    total_acres = sum(area_acres, na.rm = TRUE),
-    avg_score = mean(development_score, na.rm = TRUE),
-    high_potential = sum(development_potential == "High", na.rm = TRUE),
-    .groups = "drop"
-  ) |>
-  arrange(desc(high_potential), desc(properties))
-
-# Calculate totals
-total_row <- tibble(
-  scounty = "**TOTAL**",
-  properties = sum(county_summary$properties),
-  total_acres = sum(county_summary$total_acres),
-  avg_score = mean(property_profile$development_score, na.rm = TRUE),
-  high_potential = sum(county_summary$high_potential)
-)
-
-# Combine and format
-county_summary |>
-  bind_rows(total_row) |>
-  mutate(
-    total_acres = round(total_acres, 1),
-    avg_score = round(avg_score, 1)
-  ) |>
-  kable(
-    col.names = c("County", "Parcels", "Total Acres", "Avg Score", "# High Potential"),
-    align = c("l", "r", "r", "r", "r"),
-    escape = FALSE  # Allow markdown formatting for TOTAL
-  ) |>
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
-  row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
-  row_spec(nrow(county_summary) + 1, bold = TRUE, background = "#f0f0f0")  # Highlight total row
-```
 *Note: "High Potential" indicates properties meeting size criteria (1.5-5 acres) and minimal constraints. Average Score reflects broader market and location factors. Counties with high counts but lower scores have developable land facing market or location challenges.*
 
 **Bottom Line:** The Diocese should pursue an uneven geographic strategy that concentrates development resources in Frederick/Winchester (flagship quality), Fauquier (portfolio scale), and select Albemarle/Fairfax opportunities (proven viability), while being realistic that high-volume counties like King William represent asset management challenges, not development opportunities.

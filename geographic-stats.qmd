@@ -1,4 +1,3 @@
-
 ## Geographic Distribution
 
 ```{r}
@@ -6,35 +5,48 @@
 source("R/common.R")
 ```
 
+Each of these counties have multiple congregation parcels, with the highest concentration of small congregation parcels in King William and Stafford counties.
 
 ### Parcels by Diocesan Region
 
 ```{r regional-distribution-calc, include=FALSE}
+#| label: tbl-by-county
+#| tbl-cap: "Property Distribution by County"
 #| echo: false
 
-regional_stats <- scored_parcels |>
+county_summary <- property_profile |>
   group_by(scounty) |>
   summarise(
-    n_parcels = n(),
+    properties = n(),
     total_acres = sum(area_acres, na.rm = TRUE),
-    pct_of_total_acres = (total_acres / sum(scored_parcels$area_acres, na.rm = TRUE)) * 100,
     avg_score = mean(development_score, na.rm = TRUE),
+    high_potential = sum(development_potential == "High", na.rm = TRUE),
     .groups = "drop"
   ) |>
-  arrange(desc(n_parcels))
-```
+  arrange(desc(high_potential), desc(properties))
 
-```{r regional-distribution-html}
-#| echo: false 
+# Calculate totals
+total_row <- tibble(
+  scounty = "**TOTAL**",
+  properties = sum(county_summary$properties),
+  total_acres = sum(county_summary$total_acres),
+  avg_score = mean(property_profile$development_score, na.rm = TRUE),
+  high_potential = sum(county_summary$high_potential)
+)
 
-regional_stats |>
-  kable(
-    col.names = c("County", "# Parcels", "Total Acres", "% of Total Acreage", "Avg Dev Score"),
-    digits = c(0, 0, 0, 1, 1)
+# Combine and format
+county_summary |>
+  bind_rows(total_row) |>
+  mutate(
+    total_acres = round(total_acres, 1),
+    avg_score = round(avg_score, 1)
   ) |>
-  kable_styling(bootstrap_options = c("striped", "hover")) |>
-  row_spec(0, bold = TRUE, background = "#8baeaa", color = "white")
+  kable(
+    col.names = c("County", "Parcels", "Total Acres", "Avg Score", "# High Potential"),
+    align = c("l", "r", "r", "r", "r"),
+    escape = FALSE  # Allow markdown formatting for TOTAL
+  ) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+  row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
+  row_spec(nrow(county_summary) + 1, bold = TRUE, background = "#f0f0f0")  # Highlight total row
 ```
-
-
-Each of these counties have multiple congregation parcels, with the highest concentration of small congregation parcels in King William and Stafford counties. 

@@ -1,15 +1,7 @@
 ## Congregation Vitality Metrics
-
-```{r}
-#| include: false
-source("R/common.R")
-```
-
-
 ```{r}
 #| label: congregation-metrics
 #| echo: false
-#| results: asis
 
 # Calculate parcels per congregation
 parcels_per_cong <- property_profile |>
@@ -28,17 +20,54 @@ cong_stats <- property_profile |>
     avg_attendance_all = mean(avg_attendance, na.rm = TRUE),
     avg_pledge_all = mean(avg_pledge, na.rm = TRUE),
     declining_pledges = sum(pct_change_pledge < 0, na.rm = TRUE),
-     need_count = sum(pct_change_pledge < 0 & pct_change_attendance < 0, na.rm = TRUE)
+    need_count = sum(pct_change_pledge < 0 & pct_change_attendance < 0, na.rm = TRUE)
   )
-  
-
-cat("**Key Congregation Metrics:**\n\n")
-cat("- **Congregations with <30 Sunday attendance:** ", cong_stats$congregations_under_30_attendance, 
-    " (comprising 104 parcels across all congregations analyzed)\n", sep = "")
-cat("- **Average parcels per congregation:** ", round(parcels_per_cong$avg_parcels, 1), "\n", sep = "")
-cat("- **Average Sunday attendance:** ", round(cong_stats$avg_attendance_all, 0), " people\n", sep = "")
-cat("- **Average annual pledge:** $", scales::comma(cong_stats$avg_pledge_all, accuracy = 1), "\n", sep = "")
-
-cat("- **Congregations with declining pledges:** ", cong_stats$declining_pledges, "\n\n", sep = "")
-cat("- **Congregations in financial need (declining attendance + pledges):** ", cong_stats$need_count, "\n\n", sep = "")
 ```
+
+**Key Congregation Metrics:**
+
+::: {.grid}
+
+::: {.g-col-4}
+:::: {style="background: #445ca9; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 15px;"}
+[`r cong_stats$congregations_under_30_attendance`]{style="font-size: 2.5em; font-weight: bold; display: block;"}
+Congregations with <30 Attendance
+::::
+:::
+
+::: {.g-col-4}
+:::: {style="background: #8baeaa; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 15px;"}
+[`r round(cong_stats$avg_attendance_all, 0)`]{style="font-size: 2.5em; font-weight: bold; display: block;"}
+Avg Sunday Attendance
+::::
+:::
+
+::: {.g-col-4}
+:::: {style="background: #e9ab3f; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 15px;"}
+[`r scales::dollar(cong_stats$avg_pledge_all, accuracy = 1)`]{style="font-size: 2.5em; font-weight: bold; display: block;"}
+Avg Annual Pledge
+::::
+:::
+
+::: {.g-col-4}
+:::: {style="background: #8baeaa; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 15px;"}
+[`r cong_stats$declining_pledges`]{style="font-size: 2.5em; font-weight: bold; display: block;"}
+Declining Pledges
+::::
+:::
+
+::: {.g-col-4}
+:::: {style="background: #dc3545; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 15px;"}
+[`r cong_stats$need_count`]{style="font-size: 2.5em; font-weight: bold; display: block;"}
+In Financial Need
+::::
+:::
+
+::: {.g-col-4}
+:::: {style="background: #445ca9; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 15px;"}
+[`r round(parcels_per_cong$avg_parcels, 1)`]{style="font-size: 2.5em; font-weight: bold; display: block;"}
+Avg Parcels per Congregation
+::::
+:::
+
+:::
