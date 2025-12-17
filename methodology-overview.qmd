@@ -21,7 +21,7 @@ cat("- **", nrow(property_profile), " parcels** across Virginia\n", sep = "")
 
 ## Congregation Statistics (2014-2023)
 
-Financial and membership data provides context on congregation health:
+This analysis also includes congregation statistics from the VEREP GIS webtool. Financial and membership data provides context on congregation health:
 
 -   Sunday attendance trends
 -   Membership changes
@@ -39,49 +39,6 @@ Not all properties have associated congregation data. Properties without congreg
 Of the 104 properties analyzed with fewer than 30 Sunday attendees, 101 (97.1%) have incomplete data — meaning they are missing at least one of the six key development metrics (land value, acreage, wetland coverage, flood zone, QCT status, or zoning). This high rate reflects broader data quality challenges identified in CGS's initial VEREP study.
 
 While environmental constraint data (wetlands, flood zones) accounts for much of the missing information, 15 properties (14.4%) are missing land value entirely, limiting our ability to assess their financial potential. The breakdown below classifies these data gaps to help prioritize follow-up research. Once complete, these properties can be more precisely evaluated for development opportunities.
-
-```{r data-quality-stats, echo=FALSE}
-
-# Calculate summary stats
-total_props <- nrow(property_profile)
-
-# Incomplete data (data_completeness < 6)
-incomplete_properties <- property_profile |>
-  filter(data_completeness < 6)
-incomplete_count <- nrow(incomplete_properties)
-
-# Missing land value
-missing_land_value <- sum(property_profile$missing_land_value, na.rm = TRUE)
-
-# Unmatched properties summary
-total_unmatched <- nrow(no_congregation) + nrow(no_match)
-
-# Create summary table
-summary_stats <- tibble(
-  Metric = c(
-    "Total properties analyzed (<30 attendance)",
-    "Properties with incomplete data (score < 6/6)",
-    "Properties missing land value",
-    "VEREP properties not matched to congregation"
-  ),
-  Value = c(
-    total_props,
-    paste0(incomplete_count, " (", round(incomplete_count/total_props*100, 1), "%)"),
-    paste0(missing_land_value, " (", round(missing_land_value/total_props*100, 1), "%)"),
-    paste0(total_unmatched, " (of 790 total VEREP properties)")
-  )
-)
-
-# Display as formatted table
-summary_stats |>
-  kable(align = c("l", "r")) |>
-  kable_styling(bootstrap_options = c("striped", "hover"), 
-                full_width = FALSE,
-                position = "left") |>
-  column_spec(1, bold = TRUE, width = "25em") |>
-  column_spec(2, width = "12em")
-```
-
 
 ```{r other-issues, echo=FALSE}
 # Calculate missing data breakdown
@@ -145,7 +102,7 @@ missing_breakdown |>
   )
 ```
 
-In an effort to avoid limiting all properties in this way, we handled wetland qualifying differently from other categories because it accounted for the majority of missing data. This gap reflects limitations in the source wetland layer coverage rather than an absence of wetland features. For properties without wetland data, we applied a default value of 0%, operating under the assumption that parcels not captured in the National Wetlands Inventory contain no significant wetland features. Similarly, the 5 properties (4.8%) missing FEMA flood zone designations were assigned zone "X," indicating minimal flood hazard, consistent with areas outside mapped floodplains.
+We handled wetland qualifying differently from other categories because it accounted for the majority of missing data and was impacting our ability to determine any highly ranked development sites.For properties without wetland data, we applied a default value of 0%, operating under the assumption that parcels not captured in the National Wetlands Inventory contain no significant wetland features. Similarly, the 5 properties (4.8%) missing FEMA flood zone designations were assigned zone "X," indicating minimal flood hazard, consistent with areas outside mapped floodplains.
 
 Acreage and QCT status were complete across all 101 properties. Land value and zoning data remained incomplete for 15 properties each (14.4%). These fields were retained as missing rather than imputed, as accurate values require verification through county assessor records and local zoning ordinances. Properties lacking these values are flagged for manual follow-up.
 
