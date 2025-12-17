@@ -54,31 +54,74 @@ analysis_subset <- verep_joined %>%
   filter(!is.na(attendance_2023) & attendance_2023 < 30)
 
 # ========================================
-# STEP 6: CREATE CLEAN PROPERTY PROFILE
-# No scoring - just factual data
+# STEP 6: CREATE PROPERTY PROFILE WITH ALL FIELDS
 # ========================================
 
 property_profile <- analysis_subset %>%
   mutate(
-    # Environmental constraints (factual, not scored)
+    # ========================================
+    # ENHANCED ENVIRONMENTAL CONSTRAINTS
+    # ========================================
+    
+    # Individual constraint flags
     has_wetland_constraint = (!is.na(wet_perc) & wet_perc > 10),
     has_flood_constraint = (fema_fz %in% c("A", "AE", "AO", "AH", "V", "VE")),
-    has_environmental_constraint = has_wetland_constraint | has_flood_constraint,
+    has_historic_constraint = (!is.na(hist_dist) & hist_dist == 1),
+    has_high_hazard_risk = (!is.na(fema_nri) & fema_nri %in% c("VERY HIGH", "RELATIVELY HIGH")),
+    has_moderate_hazard_risk = (!is.na(fema_nri) & fema_nri == "RELATIVELY MODERATE"),
     
-    # Derived calculations
+    # Calculate constraint penalty (for scoring in common.R)
+    constraint_penalty = case_when(
+      # Severe - deal breakers
+      (!is.na(fema_nri) & fema_nri == "VERY HIGH") ~ -50,
+      
+      # Multiple major constraints
+      (has_wetland_constraint & wet_perc > 25) & has_flood_constraint ~ -75,
+      has_flood_constraint & has_high_hazard_risk ~ -70,
+      
+      # Single major constraints
+      has_high_hazard_risk ~ -40,
+      has_flood_constraint ~ -40,
+      (has_wetland_constraint & wet_perc > 25) ~ -35,
+      
+      # Moderate constraints
+      has_historic_constraint ~ -25,
+      (has_wetland_constraint & wet_perc > 10) ~ -20,
+      has_moderate_hazard_risk ~ -15,
+      
+      # No constraints
+      TRUE ~ 0
+    ),
+    
+    # Overall environmental constraint flag (for goldilocks classification)
+    has_environmental_constraint = (
+      has_wetland_constraint | 
+        has_flood_constraint | 
+        has_high_hazard_risk
+    ),
+    
+    # ========================================
+    # DERIVED CALCULATIONS
+    # ========================================
+    
     land_value_per_acre = if_else(rgisacre > 0, lan_val / rgisacre, NA_real_),
+    
     pct_change_attendance = if_else(
       !is.na(attendance_2014) & attendance_2014 > 0,
       (attendance_2023 - attendance_2014) / attendance_2014 * 100,
       NA_real_
     ),
+    
     pct_change_pledge = if_else(
       !is.na(plate_pledge_2014) & plate_pledge_2014 > 0,
       (plate_pledge_2023 - plate_pledge_2014) / plate_pledge_2014 * 100,
       NA_real_
     ),
     
-    # Data completeness
+    # ========================================
+    # DATA COMPLETENESS
+    # ========================================
+    
     missing_land_value = is.na(lan_val),
     missing_acreage = is.na(rgisacre),
     missing_wetland = is.na(wet_perc),
@@ -93,6 +136,30 @@ property_profile <- analysis_subset %>%
         as.integer(missing_flood) +
         as.integer(missing_qct) +
         as.integer(missing_zoning)
+    ),
+    
+    # ========================================
+    # GOLDILOCKS CLASSIFICATION
+    # ========================================
+    
+    development_potential = case_when(
+      # HIGH: Goldilocks sweet spot (1.5-5 acres), minimal constraints, documented value
+      (rgisacre >= 1.5 & rgisacre <= 5) & !has_environmental_constraint & !is.na(lan_val) ~ "High",
+      
+      # MODERATE: Smaller goldilocks range (0.5-1.5 acres), minimal constraints
+      (rgisacre >= 0.5 & rgisacre < 1.5) & !has_environmental_constraint & !is.na(lan_val) ~ "Moderate",
+      
+      # TOO LARGE: >5 acres (financially unwieldy)
+      rgisacre > 5 ~ "Too Large",
+      
+      # CONSTRAINED: Environmental or hazard issues
+      has_environmental_constraint == TRUE ~ "Constrained",
+      
+      # SMALL PARCEL: <0.5 acres (not economically viable)
+      rgisacre < 0.5 ~ "Small Parcel",
+      
+      # REVIEW NEEDED: Missing data or edge cases
+      TRUE ~ "Review Needed"
     )
   ) %>%
   select(
@@ -111,11 +178,17 @@ property_profile <- analysis_subset %>%
     zon, zon_desc, zon_type,
     
     # Opportunity zones
-    qct, dda,
+    qct, dda, qoz,
     
-    # Environmental (factual flags only)
+    # Market demographics 
+    medinc, hhi_g_n5, pop_g_n5, h_g_n5, md_h_vl,
+    
+    # Environmental constraints (detailed)
     wet_perc, fema_fz, fema_nri,
-    has_wetland_constraint, has_flood_constraint, has_environmental_constraint,
+    hist_dist,
+    has_wetland_constraint, has_flood_constraint, 
+    has_historic_constraint, has_high_hazard_risk, has_moderate_hazard_risk,
+    constraint_penalty, has_environmental_constraint,
     
     # Land use flags
     church, cemetery, school, parking, open_space, residence,
@@ -127,6 +200,9 @@ property_profile <- analysis_subset %>%
     data_completeness,
     missing_land_value, missing_acreage, missing_wetland,
     missing_flood, missing_qct, missing_zoning,
+    
+    # Classification
+    development_potential,
     
     # Location
     sadd, scity, scounty, sstate, szip,
@@ -167,3 +243,4 @@ write_csv(property_profile, "data/output/property_profile.csv")
 
 cat("✓ Saved clean property_profile (104 properties)\n")
 cat("✓ No scoring applied - see common.R for development scoring\n")
+

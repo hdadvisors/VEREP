@@ -1,19 +1,23 @@
-# _common.R
+# ========================================
+# COMMON.R - SCORING AND ANALYSIS
+# ========================================
+
 library(tidyverse)
 library(shiny)
 library(bslib)
 library(DT)
 library(ggplot2)
 library(plotly)
-library(rsconnect)
 library(kableExtra)
 library(leaflet)
 library(leaflet.extras)
 
 # ========================================
-# LOAD DATA
+# LOAD CLEAN DATA
 # ========================================
+
 property_profile <- read_rds("data/output/property_profile.rds")
+
 # Load geocoded data if available
 if(file.exists("data/output/geocoded_properties.csv")) {
   geocoded <- read_csv("data/output/geocoded_properties.csv", show_col_types = FALSE) %>%
@@ -28,22 +32,14 @@ if(file.exists("data/output/geocoded_properties.csv")) {
     ) %>%
     select(-ends_with("_geo"))
 }
-attendance_context <- read_csv("data/output/verep_attendance_summary.csv", show_col_types = FALSE)
-opportunity_matrix <- read_csv("data/output/verep_opportunity_matrix.csv", show_col_types = FALSE)
-leadership_report <- read_csv("data/output/verep_top_opportunities.csv", show_col_types = FALSE)
-data_followup <- read_csv("data/output/verep_data_needed.csv", show_col_types = FALSE)
-
-no_congregation <- read_csv("data/output/unmatched_no_congregation.csv", show_col_types = FALSE)
-no_match <- read_csv("data/output/unmatched_name_not_found.csv", show_col_types = FALSE)
-name_exists_city_different <- read_csv("data/output/unmatched_city_mismatch.csv", show_col_types = FALSE)
-name_not_found <- read_csv("data/output/unmatched_name_missing.csv", show_col_types = FALSE)
 
 # ========================================
-# ADD CALCULATED FIELDS TO PROPERTY_PROFILE
+# CALCULATE COMPONENT SCORES (0-100)
 # ========================================
+
 property_profile <- property_profile %>%
   mutate(
-    # Aliases
+    # Aliases for compatibility
     area_acres = rgisacre,
     assessed_value = lan_val,
     site_address = sadd,
@@ -63,10 +59,8 @@ property_profile <- property_profile %>%
     use_residence = !is.na(residence) & residence == 1,
     
     # ========================================
-    # COMPONENT SCORES (0-100)
-    # ========================================
-    
     # 1. SIZE SCORE (Weight: 20%)
+    # ========================================
     size_score = case_when(
       area_acres < 0.25 ~ 20,
       area_acres < 0.5 ~ 50,
@@ -77,7 +71,9 @@ property_profile <- property_profile %>%
       TRUE ~ 70
     ),
     
-    # 2. USE SCORE (Weight: 25%)
+    # ========================================
+    # 2. CURRENT USE SCORE (Weight: 25%)
+    # ========================================
     use_score = case_when(
       use_parking ~ 95,
       use_open_space ~ 90,
@@ -88,11 +84,15 @@ property_profile <- property_profile %>%
       TRUE ~ 60
     ),
     
+    # ========================================
     # 3. LOCATION SCORE (Weight: 20%)
+    # ========================================
     walkability_score = replace_na(walk_idx, 0),
-    location_score = pmin(100, pmax(0, walkability_score * 5)),  # Scale to 0-100
+    location_score = pmin(100, pmax(0, walkability_score * 5)),
     
+    # ========================================
     # 4. FINANCIAL NEED SCORE (Weight: 15%)
+    # ========================================
     financial_score = case_when(
       !is.na(pct_change_pledge) & pct_change_pledge < -20 ~ 100,
       !is.na(pct_change_pledge) & pct_change_pledge < 0 ~ 70,
@@ -105,8 +105,10 @@ property_profile <- property_profile %>%
       TRUE ~ 1
     ),
     
-    # 5. MARKET SCORE (Weight: 10%)
-    # Enhanced Market Score
+    # ========================================
+    # 5. ENHANCED MARKET SCORE (Weight: 10%)
+    # Uses median income + income growth
+    # ========================================
     market_score = case_when(
       # Strong income + strong growth = premium market
       !is.na(medinc) & !is.na(hhi_g_n5) & 
@@ -124,7 +126,7 @@ property_profile <- property_profile %>%
         medinc >= 50000 & hhi_g_n5 >= 0 ~ 70,
       
       # Tax credit eligible (DDA/QOZ) - mission alignment
-      dda == 1 | qoz == 1 ~ 65,
+      dda == 1 | (!is.na(qoz) & qoz == 1) ~ 65,
       
       # Moderate income
       !is.na(medinc) & medinc >= 40000 ~ 55,
@@ -137,21 +139,13 @@ property_profile <- property_profile %>%
       TRUE ~ 50
     ),
     
+    # ========================================
     # 6. ZONING SCORE (Weight: 10%)
-    zoning_score = 50,  # Placeholder until zoning analysis
+    # ========================================
+    zoning_score = 50,  # Placeholder until detailed zoning analysis
     
     # ========================================
-    # CONSTRAINT PENALTIES
-    # ========================================
-    constraint_penalty = case_when(
-      has_environmental_constraint & wet_perc > 25 ~ -75,  # Both flood + major wetlands
-      has_environmental_constraint & !is.na(wet_perc) & wet_perc > 10 ~ -40,  # Flood or moderate wetlands
-      has_environmental_constraint ~ -20,  # Minor constraints
-      TRUE ~ 0
-    ),
-    
-    # ========================================
-    # WEIGHTED DEVELOPMENT SCORE
+    # WEIGHTED DEVELOPMENT SCORE (Before Penalties)
     # ========================================
     development_score_raw = (
       (size_score * 0.20) +
@@ -162,10 +156,14 @@ property_profile <- property_profile %>%
         (zoning_score * 0.10)
     ),
     
+    # ========================================
+    # APPLY CONSTRAINT PENALTIES
+    # constraint_penalty comes from data_creation.R
+    # ========================================
     development_score = pmax(0, pmin(100, development_score_raw + constraint_penalty)),
     
     # ========================================
-    # TIER CLASSIFICATION (Based on score)
+    # TIER CLASSIFICATION (Based on final score)
     # ========================================
     development_tier = case_when(
       development_score >= 75 ~ "Tier 1: High Priority",
@@ -175,34 +173,25 @@ property_profile <- property_profile %>%
       TRUE ~ "Tier 5: Not Recommended"
     ),
     
+    # ========================================
+    # CONSTRAINT SUMMARY (for display)
+    # ========================================
+    constraint_summary = case_when(
+      has_historic_constraint & has_high_hazard_risk ~ "Historic + High Hazard",
+      has_historic_constraint & has_moderate_hazard_risk ~ "Historic + Moderate Hazard",
+      has_historic_constraint ~ "Historic District",
+      has_high_hazard_risk ~ "High Hazard Risk",
+      has_moderate_hazard_risk ~ "Moderate Hazard Risk",
+      has_wetland_constraint ~ "Wetlands",
+      has_flood_constraint ~ "Flood Zone",
+      TRUE ~ "None"
+    ),
+    
     # Defaults/placeholders
     bldgcount = 1,
     year_built = 1950,
     has_congregation = !is.na(congregation_name)
   )
-
-# ========================================
-# ADD CATEGORICAL CLASSIFICATION IF MISSING
-# ========================================
-
-# Check if development_potential exists, if not, create it
-if(!"development_potential" %in% names(property_profile)) {
-  property_profile <- property_profile %>%
-    mutate(
-      # Goldilocks categorical classification
-      development_potential = case_when(
-        # Goldilocks range (0.5-5 acres)
-        area_acres >= 1.5 & area_acres <= 5 & !has_environmental_constraint ~ "High",
-        area_acres >= 0.5 & area_acres < 1.5 & !has_environmental_constraint ~ "Moderate",
-        
-        # Outside goldilocks
-        area_acres > 5 ~ "Too Large",
-        area_acres < 0.5 ~ "Small Parcel",
-        has_environmental_constraint ~ "Constrained",
-        TRUE ~ "Review Needed"
-      )
-    )
-}
 
 # ========================================
 # CREATE FILTERED SUBSETS
@@ -213,6 +202,7 @@ scored_parcels <- property_profile %>%
   filter(!is.na(area_acres), area_acres > 0.1, !is.na(lat) & !is.na(lon))
 
 # Top Parcels: Goldilocks range (0.5-5 acres) with High/Moderate potential
+# Sorted by development score (includes constraint penalties)
 top_parcels <- property_profile %>%
   filter(
     development_potential %in% c("High", "Moderate"),
@@ -221,9 +211,101 @@ top_parcels <- property_profile %>%
   arrange(desc(development_score)) %>%
   mutate(rank = row_number())
 
+# ========================================
+# LOAD OTHER OUTPUT FILES
+# ========================================
+
+if(file.exists("data/output/verep_attendance_summary.csv")) {
+  attendance_context <- read_csv("data/output/verep_attendance_summary.csv", show_col_types = FALSE)
+}
+
+if(file.exists("data/output/verep_opportunity_matrix.csv")) {
+  opportunity_matrix <- read_csv("data/output/verep_opportunity_matrix.csv", show_col_types = FALSE)
+}
+
+if(file.exists("data/output/verep_data_needed.csv")) {
+  data_followup <- read_csv("data/output/verep_data_needed.csv", show_col_types = FALSE)
+}
+
+# Unmatched files
+if(file.exists("data/output/unmatched_no_congregation.csv")) {
+  no_congregation <- read_csv("data/output/unmatched_no_congregation.csv", show_col_types = FALSE)
+}
+
+if(file.exists("data/output/unmatched_name_not_found.csv")) {
+  no_match <- read_csv("data/output/unmatched_name_not_found.csv", show_col_types = FALSE)
+}
+
+if(file.exists("data/output/unmatched_city_mismatch.csv")) {
+  name_exists_city_different <- read_csv("data/output/unmatched_city_mismatch.csv", show_col_types = FALSE)
+}
+
+if(file.exists("data/output/unmatched_name_missing.csv")) {
+  name_not_found <- read_csv("data/output/unmatched_name_missing.csv", show_col_types = FALSE)
+}
+
 # Save enhanced property profile
 saveRDS(property_profile, "data/output/property_profile_scored.rds")
 write_csv(property_profile, "data/output/property_profile_scored.csv")
 
 # Export top opportunities (goldilocks only)
 write_csv(top_parcels, "data/output/verep_top_opportunities.csv")
+
+# ========================================
+# SUMMARY STATISTICS
+# ========================================
+
+cat("✓ Scoring complete\n\n")
+
+cat("=== TIER DISTRIBUTION ===\n")
+property_profile %>%
+  count(development_tier) %>%
+  arrange(desc(n)) %>%
+  print()
+
+cat("\n=== GOLDILOCKS OPPORTUNITIES ===\n")
+cat(sprintf("Total High + Moderate: %d (%.1f%%)\n",
+            nrow(top_parcels), nrow(top_parcels) / nrow(property_profile) * 100))
+
+cat("\n=== TOP 15 PROPERTIES BY SCORE ===\n")
+top_parcels %>%
+  slice_head(n = 15) %>%
+  select(rank, congregation_name, scity, area_acres, 
+         development_score, constraint_summary, development_potential) %>%
+  print()
+
+cat("\n=== CONSTRAINT IMPACT ===\n")
+constraint_impact <- property_profile %>%
+  filter(development_potential %in% c("High", "Moderate")) %>%
+  summarise(
+    total = n(),
+    with_constraints = sum(constraint_penalty < 0),
+    avg_score_unconstrained = mean(development_score[constraint_penalty == 0], na.rm = TRUE),
+    avg_score_constrained = mean(development_score[constraint_penalty < 0], na.rm = TRUE),
+    score_difference = avg_score_unconstrained - avg_score_constrained
+  )
+
+print(constraint_impact)
+
+cat("\n=== CONSTRAINT TYPES IN GOLDILOCKS ===\n")
+property_profile %>%
+  filter(development_potential %in% c("High", "Moderate")) %>%
+  count(constraint_summary) %>%
+  arrange(desc(n)) %>%
+  print()
+
+# ========================================
+# SAVE FILES
+# ========================================
+
+# Save enhanced property profile
+saveRDS(property_profile, "data/output/property_profile_scored.rds")
+write_csv(property_profile, "data/output/property_profile_scored.csv")
+
+# Export top opportunities (goldilocks only)
+write_csv(top_parcels, "data/output/verep_top_opportunities.csv")
+
+cat("\n✓ Files saved:\n")
+cat("  - property_profile_scored.rds\n")
+cat("  - property_profile_scored.csv\n")
+cat("  - verep_top_opportunities.csv\n")
