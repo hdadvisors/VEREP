@@ -79,4 +79,34 @@ Properties are evaluated using two complementary frameworks:
 - **Tier 5 (<30):** Not Recommended - Unsuitable for development
 
 
+### Why do they BOTH matter? 
+
+Consider two hypothetical properties:
+
+**St. Michael's Church, Suburbia County**
+- 2.1 acres, no constraints, assessed at $450K
+- Congregation: 45 members, stable finances, no urgency to act
+- Size Classification: **High Priority** (meets all physical criteria)
+- Development Score: **52** (Tier 3: Moderate Potential)
+
+This property *can* be developed—it passes the physical checklist—but *should* it be prioritized? The congregation isn't financially stressed, the market is lukewarm, and leadership has shown no interest in partnerships. The score reflects this: physically viable, strategically underwhelming.
+
+**Grace Memorial Church, Growth County**
+- 1.3 acres, no constraints, assessed at $380K
+- Congregation: 12 members, 60% decline in giving, aging building
+- Size Classification: **Moderate Priority** (just under 1.5 acre threshold)
+- Development Score: **71** (Tier 2: Strong Potential)
+
+This property narrowly misses the "High Priority" physical threshold, but the score tells a different story: a struggling congregation in a strong market, likely motivated to explore options. The 0.2-acre shortfall matters less than the strategic opportunity.
+
+**Why both frameworks matter:**
+
+Using size classification alone, St. Michael's looks like the better opportunity. Using score alone, Grace Memorial wins. The truth requires both lenses:
+
+- Size classification answers: *"What's physically possible?"*
+- Score tiers answer: *"What's strategically worthwhile?"*
+
+The ideal candidates—like your top-ranked properties—excel on both dimensions. But when they diverge, the score typically better predicts which conversations will be productive and which properties will actually move toward development. While this process can only truly be perfected by those with congregational history and knowledge, this is the assessment's attempt to find the best of both worlds. 
+
+
 The size classification criteria is discussed in more detail in the next section of this report.

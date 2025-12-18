@@ -116,7 +116,7 @@ missing_breakdown |>
 
 ## Addressing Data Gaps Through Enhanced Assessment
 
-In the interim, we attempted to use other data present to elucidate these gaps.
+In the interim, we attempted to use other data present to fill in these gaps. This process is outlined below.
 
 ### The QCT Data Challenge
 
@@ -137,10 +137,11 @@ We incorporated National Register Historic District boundaries from the Virginia
 The FEMA National Risk Index provides comprehensive natural hazard assessment beyond flood zones alone, incorporating risks from hurricanes, tornadoes, severe storms, wildfires, earthquakes, and other hazards. This multi-hazard approach captures the full spectrum of climate and disaster risks that affect development feasibility, construction costs, and insurance requirements.
 
 Among the 104 properties:
-- **Very Low or Relatively Low risk**: 79% (minimal concerns)
-- **Relatively Moderate risk**: 32% (manageable with standard precautions, -15 point penalty)
-- **Relatively High risk**: 12% (significant mitigation required, -40 point penalty)
-- **Very High risk**: <1% (likely deal-breaker, -50 point penalty)
+
+* **Very Low or Relatively Low risk**: 79% (minimal concerns)
+* **Relatively Moderate risk**: 32% (manageable with standard precautions, -15 point penalty)
+* **Relatively High risk**: 12% (significant mitigation required, -40 point penalty)
+* **Very High risk**: <1% (likely deal-breaker, -50 point penalty)
 
 **Combined Assessment Impact**
 
@@ -153,10 +154,11 @@ For the small subset of properties with wetland data available (11%), we retaine
 Eleven properties lacked specific street addresses in county parcel records, listed instead as "UNASSIGNED" or missing entirely. To enable spatial analysis and mapping, we employed the Geocodio API to generate approximate coordinates based on available city and county information.
 
 **Geocoding Results:**
-- **Success rate**: 100% (11/11 properties geocoded)
-- **Accuracy**: Medium (0.54) representing city-center approximations
-- **Location**: All 11 properties geocoded to West Point, King William County
-- **Congregations**: Two congregations affected (St. Pauls Church, St. Johns Episcopal Church)
+
+* **Success rate**: 100% (11/11 properties geocoded)
+* **Accuracy**: Medium (0.54) representing city-center approximations
+* **Location**: All 11 properties geocoded to West Point, King William County
+* **Congregations**: Two congregations affected (St. Pauls Church, St. Johns Episcopal Church)
 
 **Analysis Impact:**
 
@@ -176,9 +178,10 @@ Estimated Land Value = (Census Tract Median Home Value × 0.25) × Property Acre
 This method provides order-of-magnitude values sufficient for preliminary opportunity screening while flagging properties for detailed appraisal before advancing to feasibility analysis. All estimated values are clearly marked in the dataset with the source noted as "Estimated from Area Median" rather than "County Assessor."
 
 **Coverage Achievement:**
-- Properties with direct assessor land values: 89/104 (85.6%)
-- Properties with estimated land values: 15/104 (14.4%)
-- Total properties with usable land value data: **104/104 (100%)**
+
+* Properties with direct assessor land values: 89/104 (85.6%)
+* Properties with estimated land values: 15/104 (14.4%)
+* Total properties with usable land value data: **104/104 (100%)**
 
 No properties require manual follow-up for land value data, though the 15 estimated values should be verified through formal appraisal during due diligence for any properties advancing to development.
 
