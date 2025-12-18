@@ -11,7 +11,6 @@ The analysis was conducted by **HDAdvisors** in conjunction with case study proj
 - **Development Scoring System**: Multi-dimensional scoring algorithm evaluating properties across 6 criteria
 - **Interactive Shiny Dashboard**: Web-based exploration of property data with mapping and filtering
 - **Quarto Book Report**: Comprehensive static report with methodology, analysis, and property profiles
-- **ADU Placement Tool**: Interactive tool for visualizing accessory dwelling unit placement on properties
 
 ## Project Structure
 
@@ -153,40 +152,3 @@ HDAdvisors
 
 *Analysis completed for VEREP (Virginia Episcopal Real Estate Partners)*
 
-
-Data Cleaning: Joining VEREP Property Data with Congregation Attendance
-The Challenge
-The VEREP property dataset and the congregation attendance dataset use different naming conventions for the same churches:
-
-VEREP: "St Lukes Church (Simeon) (Charlottesville)" — includes location in parentheses
-Congregation: "St Lukes Church (Simeon)" — partial parenthetical, no city
-
-Additionally, common church names like "Grace Church," "Trinity Church," and "St Johns Church" appear in multiple cities, creating ambiguity when matching by name alone.
-The Solution
-We join the datasets using two standardized fields: cleaned name and cleaned city.
-Step 1: Standardize names in both datasets
-
-Convert to lowercase
-Remove all parenthetical content (e.g., location identifiers)
-Trim whitespace
-
-This transforms both "St Lukes Church (Simeon) (Charlottesville)" and "St Lukes Church (Simeon)" into "st lukes church".
-Step 2: Standardize city names
-
-Convert to lowercase
-Trim whitespace
-
-Step 3: Join on both fields
-Using a left_join on clean_name and clean_city ensures:
-
-Each VEREP property matches at most one congregation
-Properties without a congregation match are retained (with NA attendance)
-No duplicate rows are created from many-to-many matches
-
-Result
-Of 790 VEREP properties, 421 matched to a congregation with attendance data. After filtering to congregations with fewer than 30 Sunday attendees (2023), the final analysis dataset contains 104 unique properties.
-Lessons Learned
-
-Apply identical transformations to both sides of a join — cleaning only one dataset produces zero matches
-Join on multiple fields when names are ambiguous — name-only joins create duplicates when common names exist in multiple locations
-Use left_join to preserve the primary dataset — other join types can introduce unexpected rows
