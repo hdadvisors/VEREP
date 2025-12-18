@@ -5,7 +5,7 @@
 source("R/common.R")
 ```
 
-## Portfolio Summary
+## Summary Metrics
 
 ```{r}
 #| label: portfolio-metrics
@@ -204,84 +204,84 @@ scored_parcels |>
 
 The most high and moderate-potential properties concentrate in the 0.5–5 acre "sweet spot," while parcels under 0.5 acre face inherent limitations and the largest sites show more constraints. 
 
-## Summary Metrics
+## Summary Narrative
 
 ### By County
 
 #### Geographic Distribution: Understanding Two Complementary Metrics
 
-The portfolio spans multiple counties with highly variable concentration and development potential. Understanding the distribution requires recognizing how two distinct metrics work together:
-"High Potential" Classification (categorical): Properties meeting physical criteria—1.5-5 acres, minimal environmental constraints, documented land value. This measures what's physically developable.
-Development Score (0-100 numerical): Weighted assessment across six factors—size (20%), current use (25%), location (20%), financial need (15%), market potential (10%), and zoning (10%), minus constraint penalties. This measures how attractive development would be.
-These metrics can diverge significantly, revealing different types of opportunities and challenges:
+The parcels of interest in this portfolio span multiple counties with highly variable concentrations and development potentials. Thanks to our analysis method, we can measure different aspects of development potential:
+
+**"High Potential" Classification** answers: *"Can this be developed?"* It's a simple yes/no based on physical requirements—the property must be 1.5–5 acres, have few environmental constraints, and have documented land value. Think of it as a checklist: pass or fail.
+
+**Development Score (0–100)** answers: *"How attractive is this for development?"* It's a weighted score considering multiple factors. A property might be physically developable but score low because the church is financially healthy (less need) or the market is weak.
+
+These metrics can diverge significantly, revealing different types of opportunities:
+
+| Scenario | High Potential? | Score | Meaning |
+|----------|----------------|-------|---------|
+| Great site, struggling church, strong market | ✓ Yes | 85 | Top priority |
+| Great site, thriving church, weak market | ✓ Yes | 45 | Developable but less urgent/attractive |
+| Too small, struggling church | ✗ No | 60 | High need but site doesn't qualify |
+
+Looking at both metrics together helps identify properties that are **both** physically developable **and** strategically worth pursuing.
 
 **Tier 1: Premium Opportunities (High Scores + High Potential)**
-Frederick County (Winchester): The portfolio's standout performer
 
-Albemarle & Fairfax Counties: Strong individual opportunities
+*   Frederick County (Winchester): The portfolio's standout performer
+    
+*   Albemarle & Fairfax Counties: Strong individual opportunities
 
-These counties offer proven development candidates with favorable market conditions offsetting some regulatory complexity (historic districts in several cases)
+    These counties offer proven development candidates with favorable market conditions offsetting some   regulatory complexity (historic districts in several cases)
 
 
 **Tier 2: Volume Opportunities (High Potential Count, Modest Scores)**
-Fauquier County: The geographic concentration story
 
-The divergence tells the story: These properties have the right physical characteristics (good acreage, unconstrained) but face market and location limitations (rural setting, lower walkability scores, modest income growth)
+*   Fauquier County: The geographic concentration story
 
-Portfolio-scale development approach: multiple properties here could support coordinated affordable housing or creative mixed-use projects with patient capital
+    These properties have the right physical characteristics (good acreage, unconstrained) but face market and location limitations (rural setting, lower walkability scores, modest income growth).Multiple properties here could support coordinated affordable housing or creative mixed-use projects with patient capital.
 
-Fairfax-City: Urban properties with modest outcomes
+*   Fairfax-City: Urban properties with modest outcomes
 
-The moderate scores despite good market fundamentals suggest regulatory complexity (likely historic districts) or current use challenges (active church buildings rather than parking lots) These would require sophisticated partners comfortable with urban regulatory environments.
+    The moderate scores despite good market fundamentals suggest regulatory complexity (likely historic districts) or current use challenges (active church buildings rather than parking lots) These would require development partners comfortable with urban regulatory environments.
 
 
 **Tier 3: The King William Challenge (High Volume, Low Potential)**
-King William County: The inverse of Fauquier
 
-Contains 18% of all portfolio parcels but contributes zero development opportunities
-Why the divergence? These properties fail the physical threshold: likely dominated by small parcels under 0.5 acres (including the 11 properties requiring geocoding) and possibly some oversized parcels above 5 acres
+*   King William County: The inverse of Fauquier AKA geographic spread
 
-This represents legacy holdings—land accumulated through historical donations and gifts that don't align with modern development economics. Consider disposition, conservation easements, or alternative mission uses (community gardens, land banks) rather than pursuing development
+    King William contains 18% of all the parcels in this analysis but contributes zero strong development opportunities. These properties fail the physical threshold and likely represent legacy holdings—land accumulated through historical donations and gifts that don't always align with modern development economics. Consider disposition, conservation easements, or alternative mission uses (community gardens, land banks) rather than pursuing development here.
 
 
 **Tier 4: Limited Engagement Counties**
-Richmond, Fluvanna, and others: Single properties with mixed potential
 
-These counties offer opportunistic development where individual properties merit attention but don't justify significant resource concentration. Evaluate individually as opportunities arise; don't force development
+*   Richmond, Fluvanna, and others: Single properties with mixed potential
+
+These counties offer opportunistic development where individual properties merit attention but don't justify significant resource concentration. We suggest VEREP evaluate these individually as opportunities arise.
 
 
 #### Key Strategic Insights:
-1. Geographic concentration matters differently than expected
 
-King William's 19 properties don't equal opportunity—they equal legacy management challenge
-Fauquier's 4 High Potential properties in one county enable economies of scale in development planning, partner recruitment, and regulatory engagement
+**1. Multiple parcels ≠ multiple opportunities**
 
-2. The metrics reveal different barriers
+Parcel concentration isn't inherently advantageous. A county with many parcels may simply face a larger legacy management challenge—more aging buildings, more deferred maintenance, more administrative complexity—rather than greater development potential.
 
-High Potential count = physical development capacity (do we have the right-sized land?)
-Average score = market/location/use factors (will development actually work here?)
-Counties with high counts but low scores (Fauquier) need creative approaches to overcome market limitations
-Counties with zero high potential (King William) face fundamental size constraints no amount of market improvement can fix
+What matters is the concentration of *opportunity*. A cluster of "High Potential" properties in a single geography enables economies of scale: coordinated development planning, shared infrastructure investments, streamlined partner recruitment, and consolidated regulatory engagement. Scattered high-potential sites or concentrated low-potential sites don't offer these efficiencies.
 
-3. Resource allocation follows quality, not quantity
+Many parcels serve single congregations. The 104 total parcels overstate discrete development sites—the true count is closer to 39 high and moderate potential opportunities across fewer than 20 congregational sites.
 
-Frederick County (2 parcels) deserves more attention than King William County (19 parcels)
-Focus development capital on Fauquier's 4 properties as a coordinated portfolio rather than spreading resources across single properties in 10 different counties
+**2. Resource allocation follows quality, not quantity**
 
-4. Multiple parcels ≠ multiple opportunities
+Staff time, consulting budgets, feasibility studies, and partner outreach should flow toward sites with real potential—not spread thin across a large portfolio simply because it exists. Managing many low-potential properties is necessary work, but it's maintenance, not strategy. Concentrating resources where development can actually happen maximizes impact and avoids the trap of mistaking activity for progress.
 
-Many parcels serve single congregations (particularly in King William)
-The 104 total parcels overstate discrete development sites—true opportunity count is closer to 39 goldilocks properties across fewer than 20 congregational sites
-
-*Note: "High Potential" indicates properties meeting size criteria (1.5-5 acres) and minimal constraints. Average Score reflects broader market and location factors. Counties with high counts but lower scores have developable land facing market or location challenges.*
 
 **Bottom Line:** The Diocese should pursue an uneven geographic strategy that concentrates development resources in Frederick/Winchester (flagship quality), Fauquier (portfolio scale), and select Albemarle/Fairfax opportunities (proven viability), while being realistic that high-volume counties like King William represent asset management challenges, not development opportunities.
 
-### High Potential
+### High Potential Parcels
 
 ```{r}
 #| label: tbl-high-potential
-#| tbl-cap: "Top Development Potential Properties"
+#| tbl-cap: "Top Development Potential Parcels"
 #| echo: false
 
 library(kableExtra)
@@ -352,9 +352,14 @@ ggplot(plot_data, aes(x = avg_attendance, y = avg_pledge / 1000,
   theme(legend.position = "bottom")
 ```
 ::: {.callout-note}
-## Understanding Financial Need
+## Understanding The Financial Need Spread 
 
-Congregations flagged as 'Financial Need' may still report substantial annual giving, but their attendance and/or pledge revenue have declined significantly since 2014. These congregations are not in crisis today—but without intervention, they face an unsustainable path. Development partnerships offer an opportunity to stabilize finances while congregations remain viable, rather than waiting until resources are exhausted.
+This chart reveals a counterintuitive finding: congregations flagged as "Financial Need" often look similar to "Stable" congregations on paper. Many orange triangles (Financial Need) sit alongside blue circles (Stable) in the upper-right quadrant—healthy attendance, strong giving.
+
+The difference isn't current performance; it's trajectory. "Financial Need" congregations have experienced significant declines in attendance or pledge revenue since 2014, even if their present numbers still appear respectable. They're not in crisis today, but the trend line points toward one.
+
+This distinction matters strategically. Development partnerships are easier to negotiate—and more likely to succeed—while a congregation still has resources, leadership capacity, and time to plan. Waiting until finances are exhausted limits options and leverage. The goal is intervention during slow decline, not rescue after collapse.
+
 :::
 
 ```{r}
@@ -377,4 +382,6 @@ property_profile |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
   row_spec(0, bold = TRUE, background = "#445ca9", color = "white")
 ```
-These congregations show the largest declines in attendance and pledge over recent years.
+These congregations show the largest declines in attendance and pledge over recent years. 
+
+Grace Church Emmanuel Parish in Fauquier County exemplifies the strategic opportunity. It ranks among the top 10 properties by development score, reports over $50,000 in annual giving, yet shows a declining trajectory that makes proactive planning urgent. Its location in Fauquier—where multiple high-potential properties cluster—creates the possibility of coordinated development efforts across sites.

@@ -7,7 +7,7 @@ source("R/common.R")
 
 ## Overview
 
-The following section provides detailed profiles for each of the top 10 development opportunities. Each profile includes:
+The following section provides detailed profiles for each of the top 15 development opportunities. Each profile includes:
 
 -   Site characteristics and current use
 -   Congregation context (where applicable)
@@ -147,13 +147,16 @@ All of these priority sites would benefit from further analysis of housing needs
 #| results: asis
 #| echo: false
 
-# Get high potential properties and group by congregation
-high_potential_congregations <- property_profile %>%
-  filter(development_potential %in% c("High")) %>%
-  group_by(congregation_name) %>%
+top_10_parcels <- property_profile |>
+  arrange(desc(development_score)) |>
+  slice_head(n = 10) |>
+  mutate(parcel_rank = row_number())
+
+high_potential_congregations <- top_10_parcels |>
+  group_by(congregation_name) |>
   summarise(
-    site_city = first(site_city),
-    site_county = first(site_county),
+    site_city = first(scity),
+    site_county = first(scounty),
     n_parcels = n(),
     total_acres = sum(area_acres, na.rm = TRUE),
     total_value = sum(assessed_value, na.rm = TRUE),
@@ -166,11 +169,11 @@ high_potential_congregations <- property_profile %>%
     walkability_score = mean(walkability_score, na.rm = TRUE),
     parcel_ids = paste(pid, collapse = ", "),
     addresses = paste(unique(sadd), collapse = "; "),
+    top_parcel_rank = min(parcel_rank),  # highest ranked parcel
     .groups = "drop"
-  ) %>%
-  arrange(desc(mean_dev_score)) %>%
-  mutate(rank = row_number()) %>%
-  slice_head(n = 10)
+  ) |>
+  arrange(top_parcel_rank) |>
+  mutate(rank = row_number())
 
 # Function to create congregation profile with tabsets
 create_congregation_profile <- function(row_num) {
@@ -424,10 +427,3 @@ for(i in 1:nrow(high_potential_congregations)) {
 }
 ```
 
-## Interactive ADU Placement Tool
-
-For an interactive experience, [**launch the ADU Placement Dashboard**](https://mted.shinyapps.io/shiny-app/?tab=adu)
-
-<iframe src="https://mted.shinyapps.io/shiny-app/?tab=adu" width="100%" height="600px" frameborder="0">
-
-</iframe>

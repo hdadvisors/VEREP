@@ -13,7 +13,7 @@ source("R/common.R")
 
 ```{r}
 #| label: tbl-top-dev
-#| tbl-cap: "Top 15 Development Opportunities"
+#| tbl-cap: "Top 10 Development Opportunities"
 #| echo: false
 
 top_parcels |>

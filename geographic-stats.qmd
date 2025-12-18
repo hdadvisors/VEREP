@@ -1,11 +1,9 @@
-## Geographic Distribution
+## Geographic Summary
 
 ```{r}
 #| include: false
 source("R/common.R")
 ```
-
-Each of these counties have multiple congregation parcels, with the highest concentration of small congregation parcels in King William and Stafford counties.
 
 ### Parcels by Diocesan Region
 

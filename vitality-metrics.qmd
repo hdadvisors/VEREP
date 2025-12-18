@@ -2,6 +2,8 @@
 ```{r}
 source("R/common.R")
 library(dplyr)
+#| echo: false
+#| message: false
 ```
 
 
