@@ -25,7 +25,7 @@ Final scores are capped between 0-100.
 
 **Congregation-Parcel Joining:** Properties were matched to congregation data using the `congr_name` field. Properties without matches received neutral financial scores.
 
-**Missing Data Handling:** - Missing walkability scores defaulted to 0 - Missing income data received median market scores (50) - Properties without area or coordinates were excluded
+**Missing Data Handling:** - Missing data for many data points used in this analysis could be supplemented with related data CGS pulled into their parcel database. This is outlined in more detail earlier in the report but some missing data may still remain. 
 
 **Quality Filters:** - Minimum parcel size: 0.1 acres - Required valid lat/lon coordinates - Valid building years: 1700-2025
 :::

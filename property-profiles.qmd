@@ -7,7 +7,7 @@ source("R/common.R")
 
 ## Overview
 
-The following section provides detailed profiles for each of the top 15 development opportunities. Each profile includes:
+The following section provides detailed profiles for each of the top 10 development opportunity parcels (across 7 congregations). Each profile includes:
 
 -   Site characteristics and current use
 -   Congregation context (where applicable)
