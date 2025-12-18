@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.12.12)  17 DEC 2025 20:58
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.12.12)  18 DEC 2025 11:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1318,6 +1318,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 406--407
 []\TU/lmr/m/n/10 Strong Potential
  []
 
+
+LaTeX Warning: Hyper reference `financial-need-aligning-development-with-mission' on page 4 undefined on input line 482.
+
 [4]
 File: executive-summary_files/figure-pdf/fig-geographic-dists-1.pdf Graphic file (type pdf)
 <use executive-summary_files/figure-pdf/fig-geographic-dists-1.pdf>
@@ -1332,7 +1335,7 @@ File: methodology-overview_files/figure-pdf/missing-data-chart-1.pdf Graphic fil
 File: methodology-overview_files/figure-pdf/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 <use methodology-overview_files/figure-pdf/unnamed-chunk-2-1.pdf>
 
-Overfull \hbox (495.04503pt too wide) in alignment at lines 792--802
+Overfull \hbox (495.04503pt too wide) in alignment at lines 793--803
  [] [] [] [] [] [] 
  []
 
@@ -1342,15 +1345,15 @@ Overfull \hbox (495.04503pt too wide) in alignment at lines 792--802
 File: analytical-framework_files/figure-pdf/scoring-visual-1.pdf Graphic file (type pdf)
 <use analytical-framework_files/figure-pdf/scoring-visual-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 863--866
+Underfull \hbox (badness 10000) in paragraph at lines 864--867
 
  []
 
 [14
 
 ] [15]
-Package marginnote Info: right page because not two side mode on input line 997.
-Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 997.
+Package marginnote Info: right page because not two side mode on input line 998.
+Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 998.
 File: development-criteria_files/figure-pdf/fig-size-scoring-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-size-scoring-1.pdf>
 [16
@@ -1359,8 +1362,8 @@ File: development-criteria_files/figure-pdf/fig-size-scoring-1.pdf Graphic file 
 File: development-criteria_files/figure-pdf/fig-size-distribution-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-size-distribution-1.pdf>
 [17]
-Package marginnote Info: right page because not two side mode on input line 1061.
-Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 1061.
+Package marginnote Info: right page because not two side mode on input line 1062.
+Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 1062.
 
 ! Package xcolor Error: Undefined color `RdYlGn'.
 
@@ -1368,17 +1371,17 @@ See the xcolor package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1074 ...dYlGn}{\textcolor{black}{\textbf{95}}} &
+l.1075 ...dYlGn}{\textcolor{black}{\textbf{95}}} &
                                                    Immediate development pot...
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
  
 Here is how much of TeX's memory you used:
- 37764 strings out of 470134
- 756879 string characters out of 5476222
+ 37765 strings out of 470134
+ 756929 string characters out of 5476222
  1369642 words of memory out of 5000000
- 65763 multiletter control sequences out of 15000+600000
+ 65764 multiletter control sequences out of 15000+600000
  634294 words of font info for 96 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  98i,10n,114p,1002b,1081s stack positions out of 10000i,1000n,20000p,200000b,200000s
