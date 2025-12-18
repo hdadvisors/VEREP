@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.12.12)  17 DEC 2025 12:40
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.12.12)  17 DEC 2025 19:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1293,7 +1293,7 @@ Missing character: There is no ✓ (U+2713) in font [lmmono10-regular]:!
 Missing character: There is no ✓ (U+2713) in font [lmmono10-regular]:!
 Missing character: There is no ✓ (U+2713) in font [lmmono10-regular]:!
 
-Overfull \hbox (483.54501pt too wide) in alignment at lines 354--382
+Overfull \hbox (441.815pt too wide) in alignment at lines 354--376
  [] [] [] [] [] [] [] [] [] 
  []
 
@@ -1301,30 +1301,33 @@ File: executive-summary_files/figure-pdf/fig-tier-distribution-1.pdf Graphic fil
 <use executive-summary_files/figure-pdf/fig-tier-distribution-1.pdf>
 [4]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 421.
+(Font)              scaled to size 7.0pt on input line 415.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 421.
+(Font)              scaled to size 5.0pt on input line 415.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 421.
+(Font)              scaled to size 10.00092pt on input line 415.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 421.
+(Font)              scaled to size 7.00064pt on input line 415.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 421.
+(Font)              scaled to size 5.00046pt on input line 415.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 421.
+(Font)              scaled to size 9.99893pt on input line 415.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 421.
+(Font)              scaled to size 6.99925pt on input line 415.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 421.
+(Font)              scaled to size 4.99947pt on input line 415.
 
-Underfull \hbox (badness 10000) in paragraph at lines 429--430
+Underfull \hbox (badness 10000) in paragraph at lines 423--424
 []\TU/lmr/m/n/10 Strong Potential
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 441--442
-[]\TU/lmr/m/n/10 Top Developable
+Underfull \hbox (badness 10000) in paragraph at lines 435--436
+[]\TU/lmr/m/n/10 Strong Potential
  []
+
+
+LaTeX Warning: Reference `sec-FinancialNeed' on page 5 undefined on input line 510.
 
 File: executive-summary_files/figure-pdf/fig-geographic-dists-1.pdf Graphic file (type pdf)
 <use executive-summary_files/figure-pdf/fig-geographic-dists-1.pdf>
@@ -1356,8 +1359,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 863--866
 [13
 
 ] [14]
-Package marginnote Info: right page because not two side mode on input line 945.
-Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 945.
+Package marginnote Info: right page because not two side mode on input line 950.
+Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 950.
 File: development-criteria_files/figure-pdf/fig-size-scoring-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-size-scoring-1.pdf>
 [15
@@ -1366,8 +1369,8 @@ File: development-criteria_files/figure-pdf/fig-size-scoring-1.pdf Graphic file 
 File: development-criteria_files/figure-pdf/fig-size-distribution-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-size-distribution-1.pdf>
 [16]
-Package marginnote Info: right page because not two side mode on input line 1009.
-Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 1009.
+Package marginnote Info: right page because not two side mode on input line 1014.
+Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 1014.
 
 ! Package xcolor Error: Undefined color `RdYlGn'.
 
@@ -1375,18 +1378,18 @@ See the xcolor package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1022 ...dYlGn}{\textcolor{black}{\textbf{95}}} &
+l.1027 ...dYlGn}{\textcolor{black}{\textbf{95}}} &
                                                    Immediate development pot...
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
  
 Here is how much of TeX's memory you used:
- 37775 strings out of 470134
- 757546 string characters out of 5476222
- 1366642 words of memory out of 5000000
- 65771 multiletter control sequences out of 15000+600000
- 634302 words of font info for 97 fonts, out of 8000000 for 9000
+ 37772 strings out of 470134
+ 757443 string characters out of 5476222
+ 1361642 words of memory out of 5000000
+ 65770 multiletter control sequences out of 15000+600000
+ 634294 words of font info for 96 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  98i,10n,114p,1002b,1081s stack positions out of 10000i,1000n,20000p,200000b,200000s
 Output written on index.pdf (17 pages).
