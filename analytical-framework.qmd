@@ -62,7 +62,7 @@ Environmental and regulatory factors are applied as score deductions:
 
 Properties are evaluated using two complementary frameworks:
 
-**Size Classification** (for opportunity identification):
+**Physical Classification** (for opportunity identification):
 
 - **High Priority**: 1.5-5 acres, minimal constraints, documented value
 - **Moderate Priority**: 0.5-1.5 acres, minimal constraints
@@ -79,7 +79,7 @@ Properties are evaluated using two complementary frameworks:
 - **Tier 5 (<30):** Not Recommended - Unsuitable for development
 
 
-### Why do they BOTH matter? 
+### Why use BOTH? 
 
 Consider two hypothetical properties:
 
@@ -99,9 +99,7 @@ This property *can* be developed—it passes the physical checklist—but *shoul
 
 This property narrowly misses the "High Priority" physical threshold, but the score tells a different story: a struggling congregation in a strong market, likely motivated to explore options. The 0.2-acre shortfall matters less than the strategic opportunity.
 
-**Why both frameworks matter:**
-
-Using size classification alone, St. Michael's looks like the better opportunity. Using score alone, Grace Memorial wins. The truth requires both lenses:
+Using physical classification alone, St. Michael's looks like the better opportunity. Using score alone, Grace Memorial wins. The truth requires both lenses:
 
 - Size classification answers: *"What's physically possible?"*
 - Score tiers answer: *"What's strategically worthwhile?"*
@@ -109,4 +107,4 @@ Using size classification alone, St. Michael's looks like the better opportunity
 The ideal candidates—like your top-ranked properties—excel on both dimensions. But when they diverge, the score typically better predicts which conversations will be productive and which properties will actually move toward development. While this process can only truly be perfected by those with congregational history and knowledge, this is the assessment's attempt to find the best of both worlds. 
 
 
-The size classification criteria is discussed in more detail in the next section of this report.
+The physical classification criteria is discussed in more detail in the next section of this report.

@@ -64,8 +64,6 @@ Moderate-to-strong opportunities (scores 50-65), shown in orange to light red, a
 The **Fredericksburg and Central Virginia regions** show numerous properties scoring in the 40-55 range, represented by medium-sized circles in orange tones. Many of these sites have favorable acreage but receive constraint penalties that reduce their immediate development appeal. However, they remain viable candidates for phased development or projects with patient capital willing to navigate historic preservation requirements.
 
 ::: {.callout-tip}
-Geographic clustering reveals important patterns: Winchester stands alone as the Diocese's premier development opportunity, while Northern Virginia properties offer multiple moderate opportunities with strong market fundamentals offset by regulatory complexity. The Fredericksburg corridor presents larger properties that may require more sophisticated development approaches but offer substantial long-term value.
-
 This geographic diversity is strategic: the Diocese can pursue the highest-scoring "flagship" opportunities in Winchester for near-term demonstration projects, while simultaneously advancing portfolio-scale development in Northern Virginia where multiple properties could support coordinated initiatives. Larger or more constrained properties elsewhere provide longer-term strategic options as markets evolve and regulatory environments change.
 :::
 

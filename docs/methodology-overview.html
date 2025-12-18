@@ -323,7 +323,7 @@ Data Quality Note
 </section>
 <section id="addressing-data-gaps-through-enhanced-assessment" class="level2">
 <h2 class="anchored" data-anchor-id="addressing-data-gaps-through-enhanced-assessment">Addressing Data Gaps Through Enhanced Assessment</h2>
-<p>In the interim, we attempted to use other data present to elucidate these gaps.</p>
+<p>In the interim, we attempted to use other data present to fill in these gaps. This process is outlined below.</p>
 <section id="the-qct-data-challenge" class="level3">
 <h3 class="anchored" data-anchor-id="the-qct-data-challenge">The QCT Data Challenge</h3>
 <p>Qualified Census Tract (QCT) designation applied to zero properties in this portfolio, rendering it useless for market assessment. We replaced QCT with median income and five-year household income growth forecasts from census tract data. Properties in high-income, high-growth areas score highest (90-95 points), while those in declining markets score lower (35-40 points). This approach uses actual market conditions at each property location rather than federal designations that proved inapplicable to small, rural congregations.</p>
@@ -336,7 +336,13 @@ Data Quality Note
 <p>We incorporated National Register Historic District boundaries from the Virginia Department of Historic Resources. This revealed that <strong>45% of the 104 properties</strong> (n=47) are located within historic districts—a finding with significant implications for development feasibility. Properties in historic districts face additional regulatory requirements including design review processes, material restrictions, and extended approval timelines. Historic designation doesn’t prohibit development but typically adds 15-25% to project costs and 3-6 months to development schedules. These properties receive a <strong>-25 point penalty</strong> in development scoring to reflect added complexity.</p>
 <p><strong>2 FEMA National Risk Index</strong></p>
 <p>The FEMA National Risk Index provides comprehensive natural hazard assessment beyond flood zones alone, incorporating risks from hurricanes, tornadoes, severe storms, wildfires, earthquakes, and other hazards. This multi-hazard approach captures the full spectrum of climate and disaster risks that affect development feasibility, construction costs, and insurance requirements.</p>
-<p>Among the 104 properties: - <strong>Very Low or Relatively Low risk</strong>: 79% (minimal concerns) - <strong>Relatively Moderate risk</strong>: 32% (manageable with standard precautions, -15 point penalty) - <strong>Relatively High risk</strong>: 12% (significant mitigation required, -40 point penalty) - <strong>Very High risk</strong>: &lt;1% (likely deal-breaker, -50 point penalty)</p>
+<p>Among the 104 properties:</p>
+<ul>
+<li><strong>Very Low or Relatively Low risk</strong>: 79% (minimal concerns)</li>
+<li><strong>Relatively Moderate risk</strong>: 32% (manageable with standard precautions, -15 point penalty)</li>
+<li><strong>Relatively High risk</strong>: 12% (significant mitigation required, -40 point penalty)</li>
+<li><strong>Very High risk</strong>: &lt;1% (likely deal-breaker, -50 point penalty)</li>
+</ul>
 <p><strong>Combined Assessment Impact</strong></p>
 <p>This enhanced screening framework identified environmental and regulatory constraints affecting <strong>17 properties</strong> (16%) that would have been missed using wetland data alone. The addition of historic district data proved particularly valuable: among the 36 goldilocks opportunities (0.5-5 acres), <strong>16 properties</strong> (44%) carry historic designation, providing crucial context for development planning and timeline expectations.</p>
 <p>For the small subset of properties with wetland data available (11%), we retained this information and applied it alongside historic and hazard assessments. Properties with multiple major constraints (e.g., flood zone + high hazard risk, or significant wetlands + flood zone) receive compounded penalties (up to -75 points), reflecting cumulative impacts on development feasibility.</p>
@@ -344,7 +350,13 @@ Data Quality Note
 <section id="addressing-missing-property-information" class="level3">
 <h3 class="anchored" data-anchor-id="addressing-missing-property-information">Addressing Missing Property Information</h3>
 <p>Eleven properties lacked specific street addresses in county parcel records, listed instead as “UNASSIGNED” or missing entirely. To enable spatial analysis and mapping, we employed the Geocodio API to generate approximate coordinates based on available city and county information.</p>
-<p><strong>Geocoding Results:</strong> - <strong>Success rate</strong>: 100% (11/11 properties geocoded) - <strong>Accuracy</strong>: Medium (0.54) representing city-center approximations - <strong>Location</strong>: All 11 properties geocoded to West Point, King William County - <strong>Congregations</strong>: Two congregations affected (St.&nbsp;Pauls Church, St.&nbsp;Johns Episcopal Church)</p>
+<p><strong>Geocoding Results:</strong></p>
+<ul>
+<li><strong>Success rate</strong>: 100% (11/11 properties geocoded)</li>
+<li><strong>Accuracy</strong>: Medium (0.54) representing city-center approximations</li>
+<li><strong>Location</strong>: All 11 properties geocoded to West Point, King William County</li>
+<li><strong>Congregations</strong>: Two congregations affected (St.&nbsp;Pauls Church, St.&nbsp;Johns Episcopal Church)</li>
+</ul>
 <p><strong>Analysis Impact:</strong></p>
 <p>The geocoding process successfully provided coordinates for mapping while revealing that all 11 properties are <strong>small parcels under 0.5 acres</strong>—below the goldilocks development threshold. These properties were appropriately classified as “Small Parcel” regardless of address precision, meaning the city-center coordinate approximations do not affect development opportunity identification. All 104 properties now have sufficient location data for spatial analysis and visualization, with no impact on the integrity of top opportunities rankings.</p>
 <p><strong>Remaining Data Needs:</strong></p>
@@ -354,7 +366,12 @@ Data Quality Note
 <p>Properties without assessed land values were estimated using census tract median home values, assuming land represents approximately 25% of total residential property value in the area. This ratio aligns with typical land-to-improvement value relationships in suburban and rural Virginia markets. The formula applied:</p>
 <pre><code>Estimated Land Value = (Census Tract Median Home Value × 0.25) × Property Acreage</code></pre>
 <p>This method provides order-of-magnitude values sufficient for preliminary opportunity screening while flagging properties for detailed appraisal before advancing to feasibility analysis. All estimated values are clearly marked in the dataset with the source noted as “Estimated from Area Median” rather than “County Assessor.”</p>
-<p><strong>Coverage Achievement:</strong> - Properties with direct assessor land values: 89/104 (85.6%) - Properties with estimated land values: 15/104 (14.4%) - Total properties with usable land value data: <strong>104/104 (100%)</strong></p>
+<p><strong>Coverage Achievement:</strong></p>
+<ul>
+<li>Properties with direct assessor land values: 89/104 (85.6%)</li>
+<li>Properties with estimated land values: 15/104 (14.4%)</li>
+<li>Total properties with usable land value data: <strong>104/104 (100%)</strong></li>
+</ul>
 <p>No properties require manual follow-up for land value data, though the 15 estimated values should be verified through formal appraisal during due diligence for any properties advancing to development.</p>
 </section>
 </section>

@@ -10,7 +10,7 @@ source("R/common.R")
 The development potential score is calculated by weighing each of the seven criteria according to its importance in determining development viability. Our scoring methodology, as outlined in the analytical framework of this report, reflects decades of real estate development experience and incorporates both market realities and mission-aligned priorities. Each criterion was selected to balance financial viability with community impact, ensuring that recommended properties can support sustainable development while serving congregational needs.
 
 ::: {.callout-tip}
-This is just a starting point based on HDA's reading of the data. If VEREP identifies other criteria they would like to weigh differently, or has anecdotal information to add this scoring could be adjusted.
+This is just a starting point based on HDA's ideal of easy development for congregations. If VEREP identifies other criteria they would like to weigh differently, or has anecdotal information to add this scoring could be adjusted.
 :::
 
 ### Property Size: The Goldilocks Principle
@@ -216,6 +216,16 @@ ggplot(location_factors, aes(x = reorder(Factor, Weight), y = Weight)) +
   )
 ```
 
+**Key Metrics: Walkability Score and Transit Access**
+
+Real estate development fundamentally responds to location. A walkable, transit-rich site commands higher rents, attracts more diverse tenants, and often qualifies for density bonuses or reduced parking requirements—all factors that improve project economics.
+
+Walkability scores measure proximity to everyday needs: grocery stores, schools, employment centers, healthcare. High walkability (15-20 on our scale) indicates a property can support car-light or car-free households, expanding the potential tenant base to include young professionals, seniors aging in place, and lower-income families for whom car ownership is cost-prohibitive.
+
+Transit access amplifies these benefits. Properties within a quarter-mile of frequent bus service or half-mile of rail stations can often negotiate reduced parking requirements with municipalities—a significant cost savings when structured parking runs \$25,000-\$40,000 per space to construct.
+
+Most parcels in the portfolio fall below the high-walkability range, but a number showed promise in this category.
+
 ```{r}
 #| label: fig-walkability-dist
 #| fig-cap: "Distribution of Walkability Scores"
@@ -240,16 +250,6 @@ property_profile |>
     plot.title = element_text(face = "bold", color = "#445ca9")
   )
 ```
-
-**Key Metrics: Walkability Score and Transit Access**
-
-Real estate development fundamentally responds to location. A walkable, transit-rich site commands higher rents, attracts more diverse tenants, and often qualifies for density bonuses or reduced parking requirements—all factors that improve project economics.
-
-Walkability scores measure proximity to everyday needs: grocery stores, schools, employment centers, healthcare. High walkability (15-20 on our scale) indicates a property can support car-light or car-free households, expanding the potential tenant base to include young professionals, seniors aging in place, and lower-income families for whom car ownership is cost-prohibitive.
-
-Transit access amplifies these benefits. Properties within a quarter-mile of frequent bus service or half-mile of rail stations can often negotiate reduced parking requirements with municipalities—a significant cost savings when structured parking runs \$25,000-\$40,000 per space to construct.
-
-Most parcels in the portfolio fall below the high-walkability range, but a number showed promise in this category.
 
 
 ### Financial Need: Aligning Development with Mission {#sec-FinancialNeed}
@@ -511,4 +511,4 @@ These seven criteria create a holistic picture of development potential. A prope
 
 The weighted scoring system allows us to compare apples to oranges—to evaluate whether a small, perfectly-located property in a historic district outweighs a larger, unrestricted site with less market demand. This methodology doesn't make decisions for stakeholders but rather creates a common language for discussing trade-offs and priorities.
 
-Ultimately, successful church real estate development requires more than high scores. It demands patient capital, mission-aligned partners, engaged congregations, and creative design. But by systematically evaluating these criteria, we can identify the properties where stars align—where market demand, congregational need, and regulatory environment likely converge to create genuine opportunity.
+Ultimately, successful church real estate development requires more than high scores. It demands patient capital, mission-aligned partners, engaged congregations, and creative design. But by systematically evaluating these criteria, we can identify the properties where stars may align—where market demand, congregational need, and regulatory environment likely converge to create genuine opportunity.
