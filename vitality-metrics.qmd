@@ -1,9 +1,10 @@
 ## Congregation Vitality Metrics
 ```{r}
-source("R/common.R")
-library(dplyr)
 #| echo: false
 #| message: false
+
+source("R/common.R")
+library(dplyr)
 ```
 
 

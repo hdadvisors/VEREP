@@ -7,8 +7,8 @@ This analysis examines properties in the Episcopal Diocese of Virginia with fewe
 ```{r}
 #| echo: false
 #| message: false
-source("R/common.R")
 
+source("R/common.R")
 ```
 
 ```{r}
@@ -114,7 +114,7 @@ cat(":::\n")
 - Sites with declining congregations
 - Sites with declining giving
 
-This is further explained in the methodology section [@FinancialNeed]. 
+This is further explained in the [methodology section](methodology.qmd#financial-need-aligning-development-with-mission).
 
 ### Geographic Distribution
 

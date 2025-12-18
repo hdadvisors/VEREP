@@ -252,7 +252,7 @@ property_profile |>
 ```
 
 
-### Financial Need: Aligning Development with Mission {#sec-FinancialNeed}
+### Financial Need: Aligning Development with Mission 
 
 **Weight: 15%**
 
