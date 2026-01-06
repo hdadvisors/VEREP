@@ -5,17 +5,13 @@ This analysis examines properties in the Episcopal Diocese of Virginia with fewe
 ## At a Glance: Top 10 Parcelss
 
 ```{r}
-#| echo: false
-#| message: false
-
-source("R/common.R")
-```
-
-```{r}
 #| label: tbl-top-dev
 #| tbl-cap: "Top 10 Development Opportunities"
 #| echo: false
 #| message: false
+#| warning: false
+
+invisible(source("R/common.R", local = TRUE))
 
 top_parcels |>
   slice_head(n = 10) |>
