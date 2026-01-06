@@ -68,7 +68,8 @@ format:
     geometry:
       - margin=1in
     fig-pos: 'H'
-    keep-tex: false
+    keep-tex: true
+    include-in-header: preamble.tex
 
 # Cross-reference options
 crossref:
