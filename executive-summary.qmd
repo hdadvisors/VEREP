@@ -2,6 +2,11 @@
 
 This analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through key metrics outlined in the analytical framework chapter. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.
 
+```{r}
+#| include: false
+source("R/common.R")
+```
+
 ## At a Glance: Top 10 Parcelss
 
 ```{r}
@@ -10,8 +15,6 @@ This analysis examines properties in the Episcopal Diocese of Virginia with fewe
 #| echo: false
 #| message: false
 #| warning: false
-
-invisible(source("R/common.R", local = TRUE))
 
 top_parcels |>
   slice_head(n = 10) |>
