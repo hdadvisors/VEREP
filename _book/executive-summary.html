@@ -190,7 +190,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./geographic-stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Geographic Distribution</span></a>
+  <a href="./geographic-stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Geographic Summary</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -240,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#at-a-glance-top-10-parcelss" id="toc-at-a-glance-top-10-parcelss" class="nav-link active" data-scroll-target="#at-a-glance-top-10-parcelss">At a Glance: Top 10 Parcelss</a></li>
   <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key Findings</a>
   <ul class="collapse">
-  <li><a href="#portfolio-summary" id="toc-portfolio-summary" class="nav-link" data-scroll-target="#portfolio-summary">Portfolio Summary</a></li>
+  <li><a href="#summary-overview" id="toc-summary-overview" class="nav-link" data-scroll-target="#summary-overview">Summary Overview</a></li>
   <li><a href="#significant-underutilized-assets" id="toc-significant-underutilized-assets" class="nav-link" data-scroll-target="#significant-underutilized-assets">Significant Underutilized Assets</a></li>
   <li><a href="#geographic-distribution" id="toc-geographic-distribution" class="nav-link" data-scroll-target="#geographic-distribution">Geographic Distribution</a></li>
   <li><a href="#congregation-vitality-summary" id="toc-congregation-vitality-summary" class="nav-link" data-scroll-target="#congregation-vitality-summary">Congregation Vitality Summary</a></li>
@@ -275,70 +275,10 @@ ul.task-list li input[type="checkbox"] {
 <section id="at-a-glance-top-10-parcelss" class="level2">
 <h2 class="anchored" data-anchor-id="at-a-glance-top-10-parcelss">At a Glance: Top 10 Parcelss</h2>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>✓ Scoring complete
-
-=== TIER DISTRIBUTION ===
-# A tibble: 5 × 2
-  development_tier               n
-  &lt;chr&gt;                      &lt;int&gt;
-1 Tier 4: Limited Potential     37
-2 Tier 5: Not Recommended       37
-3 Tier 3: Moderate Potential    24
-4 Tier 2: Strong Potential       4
-5 Tier 1: High Priority          2
-
-=== GOLDILOCKS OPPORTUNITIES ===
-Total High + Moderate: 39 (37.5%)
-
-=== TOP 15 PROPERTIES BY SCORE ===
-# A tibble: 15 × 7
-    rank congregation_name scity area_acres development_score constraint_summary
-   &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;      &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;             
- 1     1 St Pauls on the … WINC…      3.20               79.2 None              
- 2     2 St Pauls on the … WINC…      1.67               76   None              
- 3     3 Christ Ascension… RICH…      1.47               64.8 None              
- 4     4 Good Shepherd-of… FREE…      3.12               63.2 None              
- 5     5 St Johns Church   COLU…      0.516              62   None              
- 6     6 Grace Church Emm… MIDL…      3.65               58.2 None              
- 7     7 Grace Church Emm… MIDL…      2.76               58.2 None              
- 8     8 St Georges Church STAN…      1.83               57   None              
- 9     9 Aquia Church      STAF…      1.12               54.6 None              
-10    10 Calvary Episcopa… HANO…      1.45               54.3 None              
-11    11 Holy Cross Korea… FAIR…      3.44               52.8 Historic District 
-12    12 Aquia Church      STAF…      1.53               50.8 Historic District 
-13    13 Aquia Church      STAF…      0.974              50.6 None              
-14    14 Aquia Church      STAF…      0.948              50.6 None              
-15    15 All Saints Sharo… ALEX…      4.39               50.2 None              
-# ℹ 1 more variable: development_potential &lt;chr&gt;
-
-=== CONSTRAINT IMPACT ===
-# A tibble: 1 × 5
-  total with_constraints avg_score_unconstrained avg_score_constrained
-  &lt;int&gt;            &lt;int&gt;                   &lt;dbl&gt;                 &lt;dbl&gt;
-1    39               22                    56.4                  34.9
-# ℹ 1 more variable: score_difference &lt;dbl&gt;
-
-=== CONSTRAINT TYPES IN GOLDILOCKS ===
-# A tibble: 4 × 2
-  constraint_summary             n
-  &lt;chr&gt;                      &lt;int&gt;
-1 None                          17
-2 Historic District             15
-3 Moderate Hazard Risk           6
-4 Historic + Moderate Hazard     1
-
-✓ Files saved:
-  - property_profile_scored.rds
-  - property_profile_scored.csv
-  - verep_top_opportunities.csv</code></pre>
-</div>
-</div>
-<div class="cell">
 <div id="tbl-top-dev" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-top-dev-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Top 15 Development Opportunities
+Table&nbsp;1: Top 10 Development Opportunities
 </figcaption>
 <div aria-describedby="tbl-top-dev-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -467,61 +407,6 @@ Table&nbsp;1: Top 15 Development Opportunities
 <td style="text-align: left;">None</td>
 <td style="text-align: left;">Tier 3: Moderate Potential</td>
 </tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">11</td>
-<td style="text-align: left;">Holy Cross Korean Episcopal Church</td>
-<td style="text-align: left;">1 TRURO LN, FAIRFAX 22030</td>
-<td style="text-align: left;">FAIRFAX</td>
-<td style="text-align: left;">FAIRFAX-CITY</td>
-<td style="text-align: right;">3.44</td>
-<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">52.8</td>
-<td style="text-align: left;">Historic District</td>
-<td style="text-align: left;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">12</td>
-<td style="text-align: left;">Aquia Church</td>
-<td style="text-align: left;">STAFFORD 22554</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: right;">1.53</td>
-<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">50.8</td>
-<td style="text-align: left;">Historic District</td>
-<td style="text-align: left;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">13</td>
-<td style="text-align: left;">Aquia Church</td>
-<td style="text-align: left;">STAFFORD 22554</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: right;">0.97</td>
-<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">50.6</td>
-<td style="text-align: left;">None</td>
-<td style="text-align: left;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="even">
-<td style="text-align: center; width: 3em; font-weight: bold;">14</td>
-<td style="text-align: left;">Aquia Church</td>
-<td style="text-align: left;">STAFFORD 22554</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: left;">STAFFORD</td>
-<td style="text-align: right;">0.95</td>
-<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">50.6</td>
-<td style="text-align: left;">None</td>
-<td style="text-align: left;">Tier 3: Moderate Potential</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center; width: 3em; font-weight: bold;">15</td>
-<td style="text-align: left;">All Saints Sharon Chapel</td>
-<td style="text-align: left;">3421 FRANCONIA RD, ALEXANDRIA 22310</td>
-<td style="text-align: left;">ALEXANDRIA</td>
-<td style="text-align: left;">FAIRFAX</td>
-<td style="text-align: right;">4.39</td>
-<td style="text-align: right; font-weight: bold; color: rgba(231, 111, 82, 255) !important;">50.2</td>
-<td style="text-align: left;">None</td>
-<td style="text-align: left;">Tier 3: Moderate Potential</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -529,26 +414,11 @@ Table&nbsp;1: Top 15 Development Opportunities
 </figure>
 </div>
 </div>
-<p><em>Note: Properties without street addresses are identified by congregation name and location. These parcels have valid coordinates for mapping but lack specific addresses in county parcel records.</em></p>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-tier-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-tier-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="executive-summary_files/figure-html/fig-tier-distribution-1.png" class="img-fluid figure-img" width="672">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tier-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Distribution of Parcels by Development Potential
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
 </section>
 <section id="key-findings" class="level2">
 <h2 class="anchored" data-anchor-id="key-findings">Key Findings</h2>
-<section id="portfolio-summary" class="level3">
-<h3 class="anchored" data-anchor-id="portfolio-summary">Portfolio Summary</h3>
+<section id="summary-overview" class="level3">
+<h3 class="anchored" data-anchor-id="summary-overview">Summary Overview</h3>
 <div class="quarto-layout-panel" data-layout-ncol="4">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
@@ -567,21 +437,6 @@ Figure&nbsp;1: Distribution of Parcels by Development Potential
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-16
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Strong Potential (High)</p>
-</div>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -592,7 +447,7 @@ Figure&nbsp;1: Distribution of Parcels by Development Potential
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Top Developable Acres</p>
+<p>Strong Potential Acres</p>
 </div>
 </div>
 </div>
@@ -607,7 +462,7 @@ Figure&nbsp;1: Distribution of Parcels by Development Potential
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Total Portfolio Acres</p>
+<p>Total Acres Analyzed</p>
 </div>
 </div>
 </div>
@@ -667,10 +522,10 @@ Figure&nbsp;1: Distribution of Parcels by Development Potential
 </div>
 <p>This defines “financial need” as:</p>
 <ul>
-<li>Sites with active congregations</li>
 <li>Sites with declining congregations</li>
 <li>Sites with declining giving</li>
 </ul>
+<p>This is further explained in the <a href="methodology.qmd#financial-need-aligning-development-with-mission">methodology section</a>.</p>
 </section>
 <section id="geographic-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="geographic-distribution">Geographic Distribution</h3>
@@ -682,7 +537,7 @@ Figure&nbsp;1: Distribution of Parcels by Development Potential
 <img src="executive-summary_files/figure-html/fig-geographic-dists-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-geographic-dists-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Parcels by County
+Figure&nbsp;1: Parcels by County
 </figcaption>
 </figure>
 </div>
