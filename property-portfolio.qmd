@@ -232,21 +232,21 @@ Looking at both metrics together helps identify properties that are **both** phy
     
 *   Albemarle & Fairfax Counties: Strong individual opportunities
 
-    These counties offer proven development candidates with favorable market conditions offsetting some   regulatory complexity (historic districts in several cases)
+    These counties offer proven development candidates with favorable market conditions, offsetting some   regulatory complexity (historic districts in several cases)
 
 
-**Tier 2: Volume Opportunities (High Potential Count, Modest Scores)**
+**Tier 2: Volume Opportunities (High Potential Count + Modest Scores)**
 
 *   Fauquier County: The geographic concentration story
 
-    These properties have the right physical characteristics (good acreage, unconstrained) but face market and location limitations (rural setting, lower walkability scores, modest income growth).Multiple properties here could support coordinated affordable housing or creative mixed-use projects with patient capital.
+    These properties have the right physical characteristics (good acreage, unconstrained) but face market and location limitations (rural setting, lower walkability scores, modest income growth). Multiple properties here could support coordinated affordable housing or creative mixed-use projects with patient capital.
 
 *   Fairfax-City: Urban properties with modest outcomes
 
     The moderate scores despite good market fundamentals suggest regulatory complexity (likely historic districts) or current use challenges (active church buildings rather than parking lots) These would require development partners comfortable with urban regulatory environments.
 
 
-**Tier 3: The King William Challenge (High Volume, Low Potential)**
+**Tier 3: The King William Challenge (High Volume + Low Potential)**
 
 *   King William County: The inverse of Fauquier AKA geographic spread
 

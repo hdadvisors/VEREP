@@ -403,14 +403,14 @@ constraints |>
 ::: {.callout-note}
 ## Assessment Framework
 
-**Deal-Breakers** (Score: 0-30):
+**Deal-Breakers** 
 
 - Extensive wetlands covering majority of site
 - Active floodway designation
 - Conservation easements prohibiting development
 - Contaminated sites requiring remediation
 
-**Speed-Bumps** (Score: 60-90):
+**Speed-Bumps** 
 
 - Partial flood zone (can design around)
 - Historic considerations (design flexibility)
