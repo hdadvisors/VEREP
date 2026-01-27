@@ -58,18 +58,6 @@ format:
     embed-resources: false
     search: true
     css: hda-styles.css
-  
-  pdf:
-    documentclass: report
-    toc: true
-    toc-depth: 3
-    number-sections: false
-    number-depth: 3
-    geometry:
-      - margin=1in
-    fig-pos: 'H'
-    keep-tex: true
-    include-in-header: preamble.tex
 
 # Cross-reference options
 crossref:
