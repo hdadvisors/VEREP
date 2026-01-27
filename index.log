@@ -1,11 +1,11 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2026.1.1)  27 JAN 2026 13:46
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2026.1.27)  27 JAN 2026 13:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **index.tex
 (./index.tex
 LaTeX2e <2025-11-01>
-L3 programming layer <2025-12-29>
+L3 programming layer <2026-01-19>
 (/Users/mted/Library/TinyTeX/texmf-dist/tex/latex/base/report.cls
 Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
 (/Users/mted/Library/TinyTeX/texmf-dist/tex/latex/base/size10.clo
@@ -141,7 +141,7 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )) (/Users/mted/Library/TinyTeX/texmf-dist/tex/latex/unicode-math/unicode-math.sty (/Users/mted/Library/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2025-12-29 L3 programming layer (loader) 
+Package: expl3 2026-01-19 L3 programming layer (loader) 
 (/Users/mted/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
 File: l3backend-xetex.def 2025-10-09 L3 backend support: XeTeX
 \g__graphics_track_int=\count295
@@ -1417,10 +1417,10 @@ Continue and I'll use the largest value I can.
 
  
 Here is how much of TeX's memory you used:
- 38846 strings out of 470134
- 777655 string characters out of 5476008
- 1384692 words of memory out of 5000000
- 66812 multiletter control sequences out of 15000+600000
+ 38843 strings out of 470129
+ 777491 string characters out of 5476166
+ 1384725 words of memory out of 5000000
+ 66817 multiletter control sequences out of 15000+600000
  634294 words of font info for 96 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  98i,11n,117p,1002b,1081s stack positions out of 10000i,1000n,20000p,200000b,200000s
