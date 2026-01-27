@@ -8,7 +8,7 @@ source("R/common.R")
 
 ## VEREP Parcel Dataset
 
-This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset (originally 790 parcels) was further filtered to look at parcels/properties owned by congregations or the diocese and with small congregations to total:
+This analysis utilizes the Virginia Episcopal Real Estate Portfolio (VEREP) parcel dataset, compiled by CGS Consultants. The dataset (originally 790 parcels) was further filtered to look at parcels/properties owned by congregations or the diocese and with small congregations (less than 30 regular members). This resulted in data encompassing:
 
 ```{r verep-count, echo=FALSE, results='asis'}
 cat("- **", nrow(property_profile), " parcels** across Virginia\n", sep = "")
@@ -21,7 +21,7 @@ cat("- **", nrow(property_profile), " parcels** across Virginia\n", sep = "")
 
 ## Congregation Statistics (2014-2023)
 
-This analysis also includes congregation statistics from the VEREP GIS webtool. Financial and membership data provides context on congregation health:
+This analysis also includes congregation statistics from the VEREP GIS webtool. Financial and membership data provides context on congregation health, including:
 
 -   Sunday attendance trends
 -   Membership changes
@@ -120,19 +120,25 @@ In the interim, we attempted to use other data present to fill in these gaps. Th
 
 ### The QCT Data Challenge
 
-Qualified Census Tract (QCT) designation applied to zero properties in this portfolio, rendering it useless for market assessment. We replaced QCT with median income and five-year household income growth forecasts from census tract data. Properties in high-income, high-growth areas score highest (90-95 points), while those in declining markets score lower (35-40 points). This approach uses actual market conditions at each property location rather than federal designations that proved inapplicable to small, rural congregations.
+Qualified Census Tract (QCT) designation was originally included because it opens access to Low-Income Housing Tax Credits and other development incentives. However, zero properties in this portfolio qualified as QCTs, rendering this metric inapplicable.
+
+Since the QCT pathway to financial viability was unavailable, we replaced it with median income and five-year household income growth to assess market-based viability instead. Properties in high-income, high-growth areas (scoring 90-95 points) demonstrate strong market fundamentals—resident purchasing power, economic stability, and growth potential—that support financial sustainability without relying on low-income housing incentives. Properties in declining markets score lower (35-40 points).
+
+This approach shifts from measuring eligibility for government funding programs to assessing general market strength, using actual economic conditions at each property location rather than federal designations that proved inapplicable to small, rural congregations.
 
 ### The Wetland Data Challenge
 
 The most significant data quality issue emerged in environmental constraint assessment: **97% of properties lacked wetland coverage data** from the National Wetlands Inventory. This critical gap meant that relying solely on wetland percentages would fail to identify environmentally constrained properties, potentially overestimating development opportunities across the portfolio.
 
-Rather than impute wetland data or exclude these properties from analysis, we implemented a **multi-faceted constraint assessment framework** using complementary data sources with comprehensive coverage:
+Rather than impute wetland data or exclude these properties from analysis, we implemented a **multi-faceted constraint assessment framework** using complementary data sources with comprehensive coverage to determine constraints. This includes:
 
-**1 Historic District Designation**
+**Historic District Designation**
 
-We incorporated National Register Historic District boundaries from the Virginia Department of Historic Resources. This revealed that **45% of the 104 properties** (n=47) are located within historic districts—a finding with significant implications for development feasibility. Properties in historic districts face additional regulatory requirements including design review processes, material restrictions, and extended approval timelines. Historic designation doesn't prohibit development but typically adds 15-25% to project costs and 3-6 months to development schedules. These properties receive a **-25 point penalty** in development scoring to reflect added complexity.
+We incorporated National Register Historic District boundaries from the Virginia Department of Historic Resources. This revealed that **45% of the 104 properties** are located within historic districts—a finding with significant implications for development feasibility.
 
-**2 FEMA National Risk Index**
+Properties in historic districts face additional regulatory requirements including design review processes, material restrictions, and extended approval timelines. Historic designation doesn't prohibit development, but typically adds 15-25% to project costs and 3-6 months to development schedules. These properties receive a **-25 point penalty** in development scoring to reflect added complexity.
+
+**FEMA National Risk Index**
 
 The FEMA National Risk Index provides comprehensive natural hazard assessment beyond flood zones alone, incorporating risks from hurricanes, tornadoes, severe storms, wildfires, earthquakes, and other hazards. This multi-hazard approach captures the full spectrum of climate and disaster risks that affect development feasibility, construction costs, and insurance requirements.
 
@@ -142,6 +148,7 @@ Among the 104 properties:
 * **Relatively Moderate risk**: 32% (manageable with standard precautions, -15 point penalty)
 * **Relatively High risk**: 12% (significant mitigation required, -40 point penalty)
 * **Very High risk**: <1% (likely deal-breaker, -50 point penalty)
+
 
 **Combined Assessment Impact**
 
