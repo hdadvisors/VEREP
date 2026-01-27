@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2026.1.1)  6 JAN 2026 13:04
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2026.1.1)  27 JAN 2026 13:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1322,100 +1322,95 @@ File: mt-TU-empty.cfg 2021/06/22 v1.1 microtype config. file: fonts with nonstan
 ) [2
 
 ]
-Missing character: There is no ✓ (U+2713) in font [lmmono10-regular]:!
-[3
-
-]
-Missing character: There is no ✓ (U+2713) in font [lmmono10-regular]:!
-Missing character: There is no ✓ (U+2713) in font [lmmono10-regular]:!
-
-Overfull \hbox (441.815pt too wide) in alignment at lines 360--382
+Overfull \hbox (441.815pt too wide) in alignment at lines 301--323
  [] [] [] [] [] [] [] [] [] 
  []
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 404.
+(Font)              scaled to size 7.0pt on input line 345.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 404.
+(Font)              scaled to size 5.0pt on input line 345.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 404.
+(Font)              scaled to size 10.00092pt on input line 345.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 404.
+(Font)              scaled to size 7.00064pt on input line 345.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 404.
+(Font)              scaled to size 5.00046pt on input line 345.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 404.
+(Font)              scaled to size 9.99893pt on input line 345.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 404.
+(Font)              scaled to size 6.99925pt on input line 345.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 404.
+(Font)              scaled to size 4.99947pt on input line 345.
 
-Underfull \hbox (badness 10000) in paragraph at lines 412--413
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
 []\TU/lmr/m/n/10 Strong Potential
  []
 
+[3
 
-LaTeX Warning: Hyper reference `financial-need-aligning-development-with-mission' on page 4 undefined on input line 488.
+]
 
-[4]
+LaTeX Warning: Hyper reference `financial-need-aligning-development-with-mission' on page 4 undefined on input line 429.
+
 File: executive-summary_files/figure-pdf/fig-geographic-dists-1.pdf Graphic file (type pdf)
 <use executive-summary_files/figure-pdf/fig-geographic-dists-1.pdf>
-[5] [6] [7
+[4] [5] [6
 
 ]
 File: methodology-overview_files/figure-pdf/missing-data-chart-1.pdf Graphic file (type pdf)
 <use methodology-overview_files/figure-pdf/missing-data-chart-1.pdf>
-[8
+[7
 
-] [9] [10]
+] [8] [9]
 File: methodology-overview_files/figure-pdf/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 <use methodology-overview_files/figure-pdf/unnamed-chunk-2-1.pdf>
 
-Overfull \hbox (495.04503pt too wide) in alignment at lines 799--809
+Overfull \hbox (495.04503pt too wide) in alignment at lines 754--764
  [] [] [] [] [] [] 
  []
 
-[11] [12] [13
+ignored error: Infinite glue shrinkage found in box being split [10] [11] [12
 
 ]
 File: analytical-framework_files/figure-pdf/scoring-visual-1.pdf Graphic file (type pdf)
 <use analytical-framework_files/figure-pdf/scoring-visual-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 870--873
+Underfull \hbox (badness 10000) in paragraph at lines 825--828
 
  []
 
-[14
+[13
 
-] [15]
-Package marginnote Info: right page because not two side mode on input line 1004.
-Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 1004.
+] [14]
+Package marginnote Info: right page because not two side mode on input line 960.
+Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 960.
 File: development-criteria_files/figure-pdf/fig-size-scoring-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-size-scoring-1.pdf>
-[16
+[15
 
 ]
 File: development-criteria_files/figure-pdf/fig-size-distribution-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-size-distribution-1.pdf>
-[17]
-Package marginnote Info: right page because not two side mode on input line 1068.
-Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 1068.
+[16]
+Package marginnote Info: right page because not two side mode on input line 1024.
+Package marginnote Info: xpos seems to be \@mn@currxpos  on input line 1024.
 File: development-criteria_files/figure-pdf/fig-use-distribution-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-use-distribution-1.pdf>
-[18]
+[17]
 File: development-criteria_files/figure-pdf/fig-location-factors-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-location-factors-1.pdf>
-[19]
+[18]
 File: development-criteria_files/figure-pdf/fig-walkability-dist-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-walkability-dist-1.pdf>
-[20]
+[19]
 File: development-criteria_files/figure-pdf/fig-financial-need-1.pdf Graphic file (type pdf)
 <use development-criteria_files/figure-pdf/fig-financial-need-1.pdf>
-[21]
+[20]
 ! Dimension too large.
 \LT@max@sel #1#2->{\ifdim #2=\wd \tw@ 
                                       #1\else \number \c@LT@chunks \fi }{\th...
-l.1229 \end{longtabu}
+l.1185 \end{longtabu}
                      
 I can't work with sizes bigger than about 19 feet.
 Continue and I'll use the largest value I can.
@@ -1424,9 +1419,9 @@ Continue and I'll use the largest value I can.
 Here is how much of TeX's memory you used:
  38846 strings out of 470134
  777655 string characters out of 5476008
- 1387692 words of memory out of 5000000
+ 1384692 words of memory out of 5000000
  66812 multiletter control sequences out of 15000+600000
  634294 words of font info for 96 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  98i,11n,117p,1002b,1081s stack positions out of 10000i,1000n,20000p,200000b,200000s
-Output written on index.pdf (22 pages).
+Output written on index.pdf (21 pages).

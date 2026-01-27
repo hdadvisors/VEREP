@@ -17,7 +17,7 @@ The following section provides detailed profiles for each of the top 10 developm
 All of these priority sites would benefit from further analysis of housing needs in the area to determine best development fit.
 
 ```{css}
-#| echo: false
+/*| echo: false */
 
 .score-badge {
   background-color: #445ca9;
@@ -426,4 +426,3 @@ for(i in 1:nrow(high_potential_congregations)) {
   create_congregation_profile(i)
 }
 ```
-
