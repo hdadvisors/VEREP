@@ -21,8 +21,8 @@ This analysis, done for the Virginia Episcopal Real Estate Portfolio (VEREP), pr
 - **Appendices**: Technical details and references
 
 ::: {.callout-tip}
-## Interactive Features
-This report includes interactive visualizations and tools. Use the filters and controls to explore the data dynamically.
+## Visualizations
+This report includes visualizations and tools. Use the filters and controls to explore the data dynamically.
 :::
 
 ## Navigation
