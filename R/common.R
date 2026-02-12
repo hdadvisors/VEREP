@@ -60,15 +60,25 @@ property_profile <- property_profile %>%
     
     # ========================================
     # 1. SIZE SCORE (Weight: 20%)
+    # UPDATED: Large properties no longer penalized
     # ========================================
     size_score = case_when(
       area_acres < 0.25 ~ 20,
-      area_acres < 0.5 ~ 50,
-      area_acres < 1 ~ 70,
-      area_acres < 2 ~ 90,
-      area_acres < 5 ~ 100,
-      area_acres < 10 ~ 85,
-      TRUE ~ 70
+      area_acres < 0.5 ~ 40,
+      area_acres < 1.5 ~ 70,
+      area_acres < 10 ~ 100,   # Optimal range expanded
+      area_acres < 25 ~ 95,    # Large - still excellent
+      TRUE ~ 90                 # Campus scale - strong potential
+    ),
+    
+    # Size category for display
+    size_category = case_when(
+      area_acres < 0.5 ~ "Small (<0.5 ac)",
+      area_acres < 1.5 ~ "Standard (0.5-1.5 ac)",
+      area_acres < 5 ~ "Optimal (1.5-5 ac)",
+      area_acres < 10 ~ "Large (5-10 ac)",
+      area_acres < 25 ~ "Very Large (10-25 ac)",
+      TRUE ~ "Campus Scale (25+ ac)"
     ),
     
     # ========================================
@@ -201,12 +211,12 @@ property_profile <- property_profile %>%
 scored_parcels <- property_profile %>%
   filter(!is.na(area_acres), area_acres > 0.1, !is.na(lat) & !is.na(lon))
 
-# Top Parcels: Goldilocks range (0.5-5 acres) with High/Moderate potential
+# Top Parcels: High/Moderate potential properties (no size cap)
 # Sorted by development score (includes constraint penalties)
 top_parcels <- property_profile %>%
   filter(
     development_potential %in% c("High", "Moderate"),
-    area_acres >= 0.5 & area_acres <= 5
+    area_acres >= 0.5  # Minimum size only, no upper cap
   ) %>%
   arrange(desc(development_score)) %>%
   mutate(rank = row_number())
@@ -263,7 +273,7 @@ property_profile %>%
   arrange(desc(n)) %>%
   print()
 
-cat("\n=== GOLDILOCKS OPPORTUNITIES ===\n")
+cat("\n=== HIGH/MODERATE POTENTIAL OPPORTUNITIES ===\n")
 cat(sprintf("Total High + Moderate: %d (%.1f%%)\n",
             nrow(top_parcels), nrow(top_parcels) / nrow(property_profile) * 100))
 
@@ -287,7 +297,7 @@ constraint_impact <- property_profile %>%
 
 print(constraint_impact)
 
-cat("\n=== CONSTRAINT TYPES IN GOLDILOCKS ===\n")
+cat("\n=== CONSTRAINT TYPES IN HIGH/MODERATE POTENTIAL ===\n")
 property_profile %>%
   filter(development_potential %in% c("High", "Moderate")) %>%
   count(constraint_summary) %>%
