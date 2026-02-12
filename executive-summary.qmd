@@ -32,10 +32,12 @@ top_parcels |>
   ) |>
   column_spec(1, bold = TRUE, width = "3em") |>
   column_spec(7, bold = TRUE,
-              color = spec_color(head(top_parcels$development_score, 15), 
-                                 scale_from = c(50, 80),
-                                 palette = c("#e76f52", "#e9ab3f", "#8baeaa"),
-                                 direction = 1))  
+              color = spec_color(
+                head(top_parcels$development_score, 10) |> replace_na(50), 
+                scale_from = c(50, 80),
+                palette = c("#e76f52", "#e9ab3f", "#8baeaa"),
+                direction = 1
+              )) 
 ```
 
 ## Key Findings
