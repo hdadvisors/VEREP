@@ -215,7 +215,7 @@ scored_parcels <- property_profile %>%
 # Sorted by development score (includes constraint penalties)
 top_parcels <- property_profile %>%
   filter(
-    development_potential %in% c("High", "Moderate"),
+    development_potential %in% c("High Potential", "Moderate Potential"),
     area_acres >= 0.5  # Minimum size only, no upper cap
   ) %>%
   arrange(desc(development_score)) %>%

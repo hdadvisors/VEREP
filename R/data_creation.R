@@ -62,18 +62,17 @@ analysis_subset <- verep_joined %>%
 # ========================================
 # Remove Winchester/Senseny Place properties - already being developed as affordable housing
 
+# First, let's see what we're filtering
+cat("Before Winchester exclusion:", nrow(analysis_subset), "rows\n")
+
 analysis_subset <- analysis_subset %>%
   filter(
-    # Exclude by city name
-    !str_detect(str_to_lower(scity), "winchester") |
-      # Unless it's NOT Senseny Place (in case there are other Winchester properties)
-      !str_detect(str_to_lower(sadd), "senseny")
-  ) %>%
-  # Also exclude by address pattern in case city is different
-  filter(!str_detect(str_to_lower(sadd), "senseny\\s*place"))
+    !(str_detect(str_to_lower(scity), "winchester") & 
+        str_detect(str_to_lower(sadd), "senseny|22602"))
+  )
 
-# Log exclusions
-cat("Note: Winchester/Senseny Place properties excluded (already in development as affordable housing)\n")
+cat("After Winchester exclusion:", nrow(analysis_subset), "rows\n")
+cat("Note: Winchester/Senseny properties excluded (already in development)\n")
 
 # ========================================
 # STEP 6: CREATE PROPERTY PROFILE WITH ALL FIELDS
