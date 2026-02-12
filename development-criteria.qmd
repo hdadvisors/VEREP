@@ -64,7 +64,6 @@ ggplot(size_curve, aes(x = acres, y = score)) +
   scale_x_continuous(breaks = seq(0, 30, 5)) +
   labs(
     title = "Property Size Scoring Curve (Updated)",
-    subtitle = "Large properties no longer penalized",
     x = "Property Size (Acres)",
     y = "Score (0-100)"
   ) +

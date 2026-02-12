@@ -16,7 +16,7 @@ source("R/common.R")
 total_properties <- nrow(property_profile)
 total_acres <- sum(property_profile$area_acres, na.rm = TRUE)
 avg_score <- mean(property_profile$development_score, na.rm = TRUE)
-high_potential <- sum(property_profile$development_potential == "High", na.rm = TRUE)
+high_potential <- sum(property_profile$development_potential == "High Potential", na.rm = TRUE)
 
 cat("::: {layout-ncol=4}\n\n")
 
@@ -45,6 +45,11 @@ cat(":::\n")
 The distribution of development potential reflected in this analysis is common in institutional portfolios where properties were acquired for mission, not market value. The analysis's value lies in identifying the needles in the haystack—the 16 high-priority and 23 moderate-priority properties that can actually deliver financial returns—rather than pretending the entire portfolio has equal potential.
 
 **In short:** A median development score of 35 proves the methodology is honest, makes the high-scoring properties more valuable by contrast, and provides clear strategic guidance: focus resources where they'll succeed rather than spreading them thin across a portfolio where most properties face fundamental limitations.
+
+::: {.callout-tip}
+## Methodology Validation: St Paul's on the Hill
+In our initial analysis before exclusions, St Paul's on the Hill in Winchester received the highest development score in the portfolio. This independently validates the Diocese's decision to select this site for affordable housing development. The property has been excluded from current rankings as it is already in active development.
+:::
 
 ## Property Use Types
 
@@ -112,11 +117,15 @@ tier_summary <- scored_parcels |>
   mutate(
     # Combine size-restricted categories
     development_category = case_when(
-      development_potential %in% c("Small Parcel", "Too Large") ~ "Size-Restricted",
-      TRUE ~ development_potential
+      development_potential == "Low Potential - Small Parcel" ~ "Size-Restricted",
+      development_potential == "High Potential" ~ "High",
+      development_potential == "Moderate Potential" ~ "Moderate",
+      development_potential == "Low Potential - Constraints" ~ "Constrained",
+      TRUE ~ "Other"
     )
   ) |>
   count(development_category) |>
+  filter(development_category != "Other") |>  # Remove any uncategorized
   mutate(
     pct = n / sum(n) * 100,
     label = paste0(n, " (", round(pct, 0), "%)"),
@@ -158,26 +167,30 @@ ggplot(tier_summary, aes(x = "", y = n, fill = potential_order)) +
 scored_parcels |>
   mutate(
     size_category = case_when(
-      area_acres < 0.5 ~ "< 0.5 acres (Too Small)",
+      area_acres < 0.5 ~ "< 0.5 acres (Small)",
       area_acres < 1.5 ~ "0.5–1.5 acres (Moderate)",
-      area_acres <= 5 ~ "1.5–5 acres (High)",
-      area_acres <= 10 ~ "5–10 acres (Too Large)",
-      TRUE ~ "10+ acres (Too Large)"
+      area_acres <= 5 ~ "1.5–5 acres (Optimal)",
+      area_acres <= 10 ~ "5–10 acres (Large)",
+      TRUE ~ "10+ acres (Campus Scale)"
     ),
     size_category = factor(size_category, 
-                           levels = c("< 0.5 acres (Too Small)", 
+                           levels = c("< 0.5 acres (Small)", 
                                       "0.5–1.5 acres (Moderate)", 
-                                      "1.5–5 acres (High)", 
-                                      "5–10 acres (Too Large)", 
-                                      "10+ acres (Too Large)")),
-    # Combine size-restricted categories
+                                      "1.5–5 acres (Optimal)", 
+                                      "5–10 acres (Large)", 
+                                      "10+ acres (Campus Scale)")),
+    # Map actual development_potential values to display categories
     development_category = case_when(
-      development_potential %in% c("Small Parcel", "Too Large") ~ "Size-Restricted",
-      TRUE ~ development_potential
+      development_potential == "High Potential" ~ "High",
+      development_potential == "Moderate Potential" ~ "Moderate",
+      development_potential == "Low Potential - Small Parcel" ~ "Size-Restricted",
+      development_potential == "Low Potential - Constraints" ~ "Constrained",
+      TRUE ~ "Other"
     ),
     development_category = factor(development_category,
-                                   levels = c("High", "Moderate", "Size-Restricted", "Constrained"))
+                                   levels = c("High", "Moderate", "Size-Restricted", "Constrained", "Other"))
   ) |>
+  filter(development_category != "Other") |>  # Remove uncategorized if any
   ggplot(aes(x = size_category, y = development_score, color = development_category)) +
   geom_jitter(width = 0.2, alpha = 0.7, size = 3) +
   scale_color_manual(
@@ -287,7 +300,7 @@ Staff time, consulting budgets, feasibility studies, and partner outreach should
 library(kableExtra)
 
 high_potential_props <- property_profile |>
-  filter(development_potential %in% c("High")) |>
+  filter(development_potential %in% c("High Potential")) |>
   arrange(desc(development_score)) |>
   slice_head(n = 10)
 
