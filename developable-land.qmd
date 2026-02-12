@@ -10,9 +10,14 @@ source("R/common.R")
 ```{r developable-summary, echo=FALSE}
 #| echo: false
 
-# Summary by congregation with mean development score
-developable_by_congregation <- property_profile %>%
-  filter(development_score >= 57) %>%
+# Get top 10 parcels first, then summarize by congregation
+top_10_parcels <- property_profile %>%
+  filter(development_potential %in% c("High Potential", "Moderate Potential")) %>%
+  arrange(desc(development_score)) %>%
+  slice_head(n = 10)
+
+# Summary by congregation from top 10
+developable_by_congregation <- top_10_parcels %>%
   group_by(congregation_name) %>%
   summarise(
     n_parcels = n(),
@@ -49,7 +54,7 @@ kable(formatted_table,
       col.names = c("Congregation", "Parcels", "Total Acres", "Assessed Value", 
                     "Avg Attendance", "Avg Members", "Mean Dev Score"),
       align = c("l", "r", "r", "r", "r", "r", "r"),
-      caption = "Developable Properties by Congregation (Score ≥57)") %>%
+      caption = "Top 10 Developable Parcels by Congregation") %>%
   kable_styling(bootstrap_options = c("striped", "hover"), 
                 full_width = TRUE) %>%
   row_spec(which(developable_by_congregation$mean_dev_score >= 70), 
@@ -61,17 +66,15 @@ kable(formatted_table,
            background = "#e9ab3f")
 ```
 
-Looking at top 10 developent parcels and their congregations reveals a striking pattern: all 7 congregations report average attendance at or below 20 people, with a median attendance of just 14 people. This universally low attendance suggests these properties represent not just real estate opportunities, but potential candidates for congregational transition—whether through relocation, merger, or strategic closure.
+Looking at top 10 developent parcels and their congregations reveals a striking pattern: all 8 congregations report average attendance at or below 20 people, with a median attendance of just 14 people. This universally low attendance suggests these properties represent not just real estate opportunities, but potential candidates for congregational transition—whether through relocation, merger, or strategic closure.
 
 ### Transition Opportunities 
 
-St. Pauls on the Hill Church in Winchester (Frederick County) exemplifies this dynamic. Despite maintaining 60 members on the rolls, the congregation reports zero average attendance. With a development score of 77.6—the highest in the Diocese—and nearly 5 acres of land, St. Pauls represents a flagship opportunity where VEREP engagement could explore whether this congregation is ready for a supported transition that unlocks significant development potential in a priority market.
-
-Similarly, Good Shepherd-of-the-Hills in Albemarle County (63.2) and St. Georges Church in Page County (57.0) both report zero average attendance despite having members on record. These congregations may already be functionally inactive, making them strong candidates for early VEREP outreach to clarify their status and discuss path forward options.
+Good Shepherd-of-the-Hills in Albemarle County (63.2) and St. Georges Church in Page County (57.0) both report zero average attendance despite having members on record. These congregations may already be functionally inactive, making them strong candidates for early VEREP outreach to clarify their status and discuss path forward options.
 
 ### Merging Congregations 
 
-Fairfax County presents a unique opportunity for coordinated engagement. Three congregations—St. Patricks Anglo Vietnamese Church (21 attendance), Holy Cross Korean Episcopal Church (25 attendance), and All Saints Sharon Chapel (28 attendance)—are all operating with modest but active congregations. Given their geographic proximity and similar scale, VEREP could explore whether a merger strategy might strengthen congregational life while freeing valuable property for development.
+Fairfax County presents a unique opportunity for coordinated engagement. Two congregations—St. Patricks Anglo Vietnamese Church (21 attendance) and Holy Cross Korean Episcopal Church (25 attendance) are operating with modest but active congregations. Given their geographic proximity and similar scale, VEREP could explore whether a merger strategy might strengthen congregational life while freeing valuable property for development.
 
 ### Consolidation Opportunities
 
