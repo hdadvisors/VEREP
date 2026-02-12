@@ -202,7 +202,7 @@ scored_parcels |>
   guides(color = guide_legend(nrow = 1))
 ```
 
-The most high and moderate-potential properties concentrate in the 0.5–5 acre "sweet spot," while parcels under 0.5 acre face inherent limitations and the largest sites show more constraints. 
+The most high and moderate-potential properties concentrate in the 0.5–5 acre "sweet spot," while parcels under 0.5 acre face inherent limitations and the largest sites show more constraints. 11 properties (11%) are large sites (>10 acres) that may benefit from phased development approaches
 
 ## Summary Narrative
 
