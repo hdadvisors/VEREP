@@ -7,7 +7,7 @@ source("R/common.R")
 
 ## Overview
 
-The following section provides detailed profiles for each of the top 10 development opportunity parcels (across 7 congregations). Each profile includes:
+The following section provides detailed profiles for each of the top 10 development opportunity parcels (across 8 congregations). Each profile includes:
 
 -   Site characteristics and current use
 -   Congregation context (where applicable)
@@ -148,6 +148,7 @@ All of these priority sites would benefit from further analysis of housing needs
 #| echo: false
 
 top_10_parcels <- property_profile |>
+  filter(development_potential %in% c("High Potential", "Moderate Potential")) |>
   arrange(desc(development_score)) |>
   slice_head(n = 10) |>
   mutate(parcel_rank = row_number())

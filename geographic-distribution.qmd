@@ -62,14 +62,13 @@ addProviderTiles(providers$CartoDB.Positron) |>
 In our initial analysis, St Paul's on the Hill in Winchester received the highest development score, which aligns with the Diocese's decision to select this site for affordable housing development. This property has been excluded from current rankings as it is already in active development.
 :::
 
-Moderate-to-strong opportunities (scores 50-65), shown in orange to light red, are scattered throughout **Northern Virginia/DC corridor near Alexandria and Fairfax**, as well as in the **greater Richmond area**. These properties fall within the goldilocks acreage range but face scoring penalties from historic district designations (affecting 45% of portfolio properties) or moderate natural hazard risk. While viable for development, they will require additional time for regulatory approvals and design review processes.
+Moderate-to-strong opportunities (scores 50-70), shown in orange to light red, are scattered throughout **Northern Virginia/DC corridor near Alexandria and Fairfax**, as well as in the **greater Richmond area**. These properties fall within the goldilocks acreage range but face scoring penalties from historic district designations (affecting 45% of portfolio properties) or moderate natural hazard risk. While viable for development, they will require additional time for regulatory approvals and design review processes.
 
 The **Fredericksburg and Central Virginia regions** show numerous properties scoring in the 40-55 range, represented by medium-sized circles in orange tones. Many of these sites have favorable acreage but receive constraint penalties that reduce their immediate development appeal. However, they remain viable candidates for phased development or projects with patient capital willing to navigate historic preservation requirements.
 
 ::: {.callout-tip}
 This geographic diversity is strategic: the Diocese can pursue the highest-scoring "flagship" opportunities in Winchester for near-term demonstration projects, while simultaneously advancing portfolio-scale development in Northern Virginia where multiple properties could support coordinated initiatives. Larger or more constrained properties elsewhere provide longer-term strategic options as markets evolve and regulatory environments change.
 :::
-
 
 
 ::: {.content-visible when-format="pdf"}

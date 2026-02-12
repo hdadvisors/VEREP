@@ -1,13 +1,29 @@
 # Executive Summary {.unnumbered}
 
-This analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through key metrics outlined in the analytical framework chapter. This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.
+**This analysis examines properties in the Episcopal Diocese of Virginia with fewer than 30 Sunday attendees, focusing on development potential through key metrics outlined in the analytical framework chapter.** This report was done for VEREP (Virginia Episcopal Real Estate Partners) in conjunction with case study projects HDAdvisors is facilitating.
 
 ```{r}
 #| include: false
 source("R/common.R")
 ```
 
+::: {.callout-note}
+## Understanding Development Tiers
 
+Development tiers are based on composite scores that weigh physical characteristics, market conditions, and congregation financial health:
+
+| Tier | Score Range | Description |
+|------|-------------|-------------|
+| Tier 1: High Priority | 75-100 | Immediate development candidates |
+| Tier 2: Strong Potential | 60-74 | Near-term opportunities |
+| Tier 3: Moderate Potential | 45-59 | Requires creative solutions |
+| Tier 4: Limited Potential | 30-44 | Significant barriers exist |
+| Tier 5: Not Recommended | <30 | Unsuitable for development |
+
+**Note:** Prior to exclusions, St Paul's on the Hill in Winchester was the only property to achieve Tier 1 status (score: 78+), validating the Diocese's selection of that site for affordable housing development. The remaining top opportunities fall within Tier 2, representing strong near-term candidates that may benefit from favorable market shifts or creative development partnerships.
+
+For a detailed explanation of how properties are scored across each dimension, see the [Analytical Framework](analytical-framework.qmd) and [Development Criteria](development-criteria.qmd) sections.
+:::
 
 ## At a Glance: Top 10 Parcelss
 

@@ -37,7 +37,7 @@ cat(":::\n\n")
 
 cat("::: {.callout-important appearance='minimal'}\n")
 cat("## ", high_potential, "\n", sep = "")
-cat("High Potential Properties\n")
+cat("Strong Potential Properties\n")
 cat(":::\n\n")
 
 cat(":::\n")
@@ -118,7 +118,7 @@ tier_summary <- scored_parcels |>
     # Combine size-restricted categories
     development_category = case_when(
       development_potential == "Low Potential - Small Parcel" ~ "Size-Restricted",
-      development_potential == "High Potential" ~ "High",
+      development_potential == "High Potential" ~ "Strong",
       development_potential == "Moderate Potential" ~ "Moderate",
       development_potential == "Low Potential - Constraints" ~ "Constrained",
       TRUE ~ "Other"
@@ -130,7 +130,7 @@ tier_summary <- scored_parcels |>
     pct = n / sum(n) * 100,
     label = paste0(n, " (", round(pct, 0), "%)"),
     potential_order = factor(development_category, 
-                             levels = c("High", "Moderate", "Size-Restricted", "Constrained"))
+                             levels = c("Strong", "Moderate", "Size-Restricted", "Constrained"))
   ) |>
   arrange(potential_order)
 
@@ -142,7 +142,7 @@ ggplot(tier_summary, aes(x = "", y = n, fill = potential_order)) +
             color = "white", fontface = "bold", size = 4) +
   scale_fill_manual(
     values = c(
-      "High" = "#445ca9",
+      "Strong" = "#445ca9",
       "Moderate" = "#8baeaa",
       "Size-Restricted" = "#e76f52",
       "Constrained" = "#e9ab3f"
@@ -181,21 +181,21 @@ scored_parcels |>
                                       "10+ acres (Campus Scale)")),
     # Map actual development_potential values to display categories
     development_category = case_when(
-      development_potential == "High Potential" ~ "High",
+      development_potential == "High Potential" ~ "Strong",
       development_potential == "Moderate Potential" ~ "Moderate",
       development_potential == "Low Potential - Small Parcel" ~ "Size-Restricted",
       development_potential == "Low Potential - Constraints" ~ "Constrained",
       TRUE ~ "Other"
     ),
     development_category = factor(development_category,
-                                   levels = c("High", "Moderate", "Size-Restricted", "Constrained", "Other"))
+                                   levels = c("Strong", "Moderate", "Size-Restricted", "Constrained", "Other"))
   ) |>
   filter(development_category != "Other") |>  # Remove uncategorized if any
   ggplot(aes(x = size_category, y = development_score, color = development_category)) +
   geom_jitter(width = 0.2, alpha = 0.7, size = 3) +
   scale_color_manual(
     values = c(
-      "High" = "#445ca9",
+      "Strong" = "#445ca9",
       "Moderate" = "#8baeaa",
       "Size-Restricted" = "#e76f52",
       "Constrained" = "#e9ab3f"
@@ -300,14 +300,14 @@ Staff time, consulting budgets, feasibility studies, and partner outreach should
 library(kableExtra)
 
 high_potential_props <- property_profile |>
-  filter(development_potential %in% c("High Potential")) |>
+  filter(development_potential %in% c("High Potential", "Moderate Potential")) |>
   arrange(desc(development_score)) |>
   slice_head(n = 10)
 
 if(nrow(high_potential_props) > 0) {
   high_potential_props |>
     mutate(Rank = row_number()) |>
-    select(Rank, sadd, scity, scounty, rgisacre, development_score, development_potential) |>
+    select(Rank, sadd, scity, scounty, rgisacre, development_score, development_tier) |>
     kable(
       col.names = c("Rank", "Address", "City", "County", "Acres", "Score", "Tier"),
       digits = c(0, 0, 0, 0, 2, 1, 0),
@@ -317,7 +317,7 @@ if(nrow(high_potential_props) > 0) {
     row_spec(0, bold = TRUE, background = "#445ca9", color = "white") |>
     row_spec(1:min(5, nrow(high_potential_props)), bold = TRUE)
 } else {
-  cat("No properties currently meet the High or Moderate development potential criteria.")
+  cat("No properties currently meet the High Potential development criteria.")
 }
 ```
 
