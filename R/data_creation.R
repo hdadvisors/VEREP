@@ -2,6 +2,10 @@
 # DATA CREATION - CLEAN DATA ONLY
 # NO SCORING - Just prepare clean dataset
 # ========================================
+# UPDATES:
+# 1. Excludes Winchester/Senseny Place properties (already being developed)
+# 2. Removes 5-acre cap - larger properties now evaluated on their merits
+# ========================================
 
 library(tidyverse)
 library(readr)
@@ -52,6 +56,24 @@ verep_joined <- verep_data %>%
 
 analysis_subset <- verep_joined %>%
   filter(!is.na(attendance_2023) & attendance_2023 < 30)
+
+# ========================================
+# STEP 5B: EXCLUDE PROPERTIES ALREADY IN DEVELOPMENT
+# ========================================
+# Remove Winchester/Senseny Place properties - already being developed as affordable housing
+
+analysis_subset <- analysis_subset %>%
+  filter(
+    # Exclude by city name
+    !str_detect(str_to_lower(scity), "winchester") |
+      # Unless it's NOT Senseny Place (in case there are other Winchester properties)
+      !str_detect(str_to_lower(sadd), "senseny")
+  ) %>%
+  # Also exclude by address pattern in case city is different
+  filter(!str_detect(str_to_lower(sadd), "senseny\\s*place"))
+
+# Log exclusions
+cat("Note: Winchester/Senseny Place properties excluded (already in development as affordable housing)\n")
 
 # ========================================
 # STEP 6: CREATE PROPERTY PROFILE WITH ALL FIELDS
@@ -163,27 +185,40 @@ property_profile <- analysis_subset %>%
     ),
     
     # ========================================
-    # GOLDILOCKS CLASSIFICATION
+    # GOLDILOCKS CLASSIFICATION (UPDATED - NO 5 ACRE CAP)
     # ========================================
+    # Removed arbitrary 5-acre cap. Larger properties evaluated on merits.
+    # Large sites may require phasing but can still be excellent opportunities.
+    
+    # Size category for reference
+    size_category = case_when(
+      rgisacre < 0.5 ~ "Small (<0.5 ac)",
+      rgisacre < 1.5 ~ "Standard (0.5-1.5 ac)",
+      rgisacre < 5 ~ "Optimal (1.5-5 ac)",
+      rgisacre < 10 ~ "Large (5-10 ac)",
+      rgisacre < 25 ~ "Very Large (10-25 ac)",
+      TRUE ~ "Campus Scale (25+ ac)"
+    ),
     
     development_potential = case_when(
-      # HIGH: Goldilocks sweet spot (1.5-5 acres), minimal constraints, documented value
-      (rgisacre >= 1.5 & rgisacre <= 5) & !has_environmental_constraint & !is.na(estimated_land_value) ~ "High",  
+      # HIGH: Optimal development size, minimal constraints
+      (rgisacre >= 1.5 & rgisacre <= 10) & !has_environmental_constraint & !is.na(estimated_land_value) ~ "High Potential",  
       
-      # MODERATE: Smaller goldilocks range (0.5-1.5 acres), minimal constraints
-      (rgisacre >= 0.5 & rgisacre < 1.5) & !has_environmental_constraint & !is.na(estimated_land_value) ~ "Moderate",  
+      # HIGH: Very large properties still viable if constraints are minimal
+      # (These may require phasing but represent significant opportunity)
+      (rgisacre > 10) & !has_environmental_constraint & !is.na(estimated_land_value) ~ "High Potential",
       
-      # TOO LARGE: >5 acres (financially unwieldy)
-      rgisacre > 5 ~ "Too Large",
+      # MODERATE: Smaller parcels (0.5-1.5 acres), minimal constraints
+      (rgisacre >= 0.5 & rgisacre < 1.5) & !has_environmental_constraint & !is.na(estimated_land_value) ~ "Moderate Potential",  
       
-      # CONSTRAINED: Environmental or hazard issues
-      has_environmental_constraint == TRUE ~ "Constrained",
+      # LOW - CONSTRAINTS: Environmental or hazard issues (any size)
+      has_environmental_constraint == TRUE ~ "Low Potential - Constraints",
       
-      # SMALL PARCEL: <0.5 acres (not economically viable)
-      rgisacre < 0.5 ~ "Small Parcel",
+      # LOW - SMALL PARCEL: <0.5 acres (not economically viable for most development)
+      rgisacre < 0.5 ~ "Low Potential - Small Parcel",
       
-      # REVIEW NEEDED: Missing data or edge cases
-      TRUE ~ "Review Needed"
+      # INSUFFICIENT DATA: Missing key information
+      TRUE ~ "Insufficient Data"
     )
   ) %>%
   select(
@@ -196,7 +231,7 @@ property_profile <- analysis_subset %>%
     plate_pledge_2023, plate_pledge_2014, pct_change_pledge,
     
     # Property values
-    lan_val, estimated_land_value, land_value_source, land_value_per_acre,  # <-- ADDED estimated fields
+    lan_val, estimated_land_value, land_value_source, land_value_per_acre,
     rgisacre, deed_acres,
     
     # Zoning
@@ -226,7 +261,8 @@ property_profile <- analysis_subset %>%
     missing_land_value, missing_acreage, missing_wetland,
     missing_flood, missing_qct, missing_zoning,
     
-    # Classification
+    # Classification (updated)
+    size_category,
     development_potential,
     
     # Location
@@ -236,6 +272,30 @@ property_profile <- analysis_subset %>%
     # Keep clean names
     clean_name, clean_city
   )
+
+# ========================================
+# STEP 7: Summary of large properties 
+# ========================================
+
+large_properties_summary <- property_profile %>%
+  filter(rgisacre > 5) %>%
+  arrange(desc(rgisacre)) %>%
+  select(
+    congregation_name, sadd, scity, scounty,
+    rgisacre, size_category, development_potential,
+    estimated_land_value, has_environmental_constraint
+  )
+
+cat("\n========================================\n")
+cat("LARGE PROPERTIES (>5 ACRES) SUMMARY\n")
+cat("========================================\n")
+cat("Total large properties:", nrow(large_properties_summary), "\n\n")
+
+if(nrow(large_properties_summary) > 0) {
+  print(large_properties_summary)
+  write_csv(large_properties_summary, "data/output/large_properties_summary.csv")
+  cat("\n✓ Saved large_properties_summary.csv\n")
+}
 
 # ========================================
 # STEP 7B: Identify properties needing geocoding
@@ -269,3 +329,22 @@ write_csv(property_profile, "data/output/property_profile.csv")
 cat("✓ Saved clean property_profile (104 properties)\n")
 cat("✓ No scoring applied - see common.R for development scoring\n")
 
+# ========================================
+# STEP 9: Final Summary
+# ========================================
+
+cat("\n========================================\n")
+cat("DATA CREATION COMPLETE\n")
+cat("========================================\n")
+cat("✓ Total properties:", nrow(property_profile), "\n")
+cat("✓ Winchester/Senseny Place excluded (already in development)\n")
+cat("✓ No 5-acre cap - large properties evaluated on merits\n\n")
+
+cat("Development Potential Distribution:\n")
+print(table(property_profile$development_potential))
+
+cat("\n\nSize Category Distribution:\n")
+print(table(property_profile$size_category))
+
+cat("\n✓ Saved property_profile.csv and property_profile.rds\n")
+cat("✓ See common.R for development scoring\n")
