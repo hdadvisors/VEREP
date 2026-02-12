@@ -13,17 +13,17 @@ The development potential score is calculated by weighing each of the seven crit
 This is just a starting point based on HDA's ideal of easy development for congregations. If VEREP identifies other criteria they would like to weigh differently, or has anecdotal information to add this scoring could be adjusted.
 :::
 
-### Property Size: The Goldilocks Principle
+### Property Size: Evaluating Development Potential at Any Scale
 
 **Weight: 20%**
 
 ::: {.column-margin}
-**Optimal Range**: 0.5-5 acres
+**Optimal Range**: 1.5-10 acres for standard development
 
-Properties that are "just right" for development.
+Larger properties evaluated on merits, may require phasing.
 :::
 
-Not too small to be economically viable, not too large to be financially unwieldy.
+Properties of all sizes can present development opportunities, though the approach differs based on scale.
 
 ```{r}
 #| label: fig-size-scoring
@@ -31,22 +31,21 @@ Not too small to be economically viable, not too large to be financially unwield
 #| fig-height: 4
 #| echo: false
 
-# Create scoring function
+# Create scoring function - UPDATED: no penalty for large properties
 calculate_size_score <- function(size) {
   case_when(
     size < 0.25 ~ 20,
-    size < 0.5 ~ 50,
-    size < 1 ~ 70,
-    size < 2 ~ 90,
-    size < 5 ~ 100,
-    size < 10 ~ 85,
-    TRUE ~ 70
+    size < 0.5 ~ 40,
+    size < 1.5 ~ 70,
+    size < 10 ~ 100,    # Optimal range expanded
+    size < 25 ~ 95,     # Large - still excellent
+    TRUE ~ 90           # Campus scale - strong potential
   )
 }
 
 # Generate curve data
 size_curve <- tibble(
-  acres = seq(0, 15, 0.1),
+  acres = seq(0, 30, 0.1),
   score = calculate_size_score(acres)
 )
 
@@ -54,13 +53,18 @@ size_curve <- tibble(
 ggplot(size_curve, aes(x = acres, y = score)) +
   geom_line(color = "#445ca9", linewidth = 1.2) +
   geom_area(alpha = 0.2, fill = "#445ca9") +
-  annotate("rect", xmin = 0.5, xmax = 5, ymin = 0, ymax = 100,
+  annotate("rect", xmin = 1.5, xmax = 10, ymin = 0, ymax = 100,
            alpha = 0.1, fill = "#8baeaa") +
-  annotate("text", x = 2.75, y = 50, label = "Optimal\nRange", 
+  annotate("rect", xmin = 10, xmax = 30, ymin = 0, ymax = 100,
+           alpha = 0.05, fill = "#445ca9") +
+  annotate("text", x = 5.75, y = 50, label = "Optimal\nRange", 
            color = "#333", size = 4, fontface = "italic") +
-  scale_x_continuous(breaks = seq(0, 15, 2.5)) +
+  annotate("text", x = 20, y = 50, label = "Large/Campus\n(Phased Dev.)", 
+           color = "#666", size = 3, fontface = "italic") +
+  scale_x_continuous(breaks = seq(0, 30, 5)) +
   labs(
-    title = "Property Size Scoring Curve",
+    title = "Property Size Scoring Curve (Updated)",
+    subtitle = "Large properties no longer penalized",
     x = "Property Size (Acres)",
     y = "Score (0-100)"
   ) +
@@ -71,6 +75,8 @@ ggplot(size_curve, aes(x = acres, y = score)) +
   )
 ```
 
+```
+
 ```{r}
 #| label: fig-size-distribution
 #| fig-cap: "Distribution of Property Sizes in Portfolio"
@@ -78,15 +84,15 @@ ggplot(size_curve, aes(x = acres, y = score)) +
 #| echo: false
 
 property_profile |>
-  filter(!is.na(area_acres), area_acres < 20) |>
+  filter(!is.na(area_acres), area_acres < 50) |>
   ggplot(aes(x = area_acres)) +
-  geom_histogram(binwidth = 0.5, fill = "#445ca9", color = "white", alpha = 0.8) +
-  geom_vline(xintercept = c(0.5, 5), linetype = "dashed", color = "#8baeaa", linewidth = 1) +
-  annotate("text", x = 2.75, y = Inf, label = "Optimal Range", 
+  geom_histogram(binwidth = 1, fill = "#445ca9", color = "white", alpha = 0.8) +
+  geom_vline(xintercept = c(1.5, 10), linetype = "dashed", color = "#8baeaa", linewidth = 1) +
+  annotate("text", x = 5.75, y = Inf, label = "Optimal Range", 
            vjust = 2, color = "#8baeaa", fontface = "bold") +
   labs(
     title = "Property Size Distribution",
-    subtitle = "Dashed lines indicate optimal development range (0.5-5 acres)",
+    subtitle = "Dashed lines indicate optimal range (1.5-10 acres); larger properties also viable",
     x = "Property Size (Acres)",
     y = "Number of Properties"
   ) +
@@ -98,11 +104,22 @@ property_profile |>
 
 **Why This Matters**:
 
-- **Too small (<0.5 acres)**: Limited development options, high per-unit costs
-- **Optimal (0.5-5 acres)**: Maximum flexibility and economic efficiency
-- **Too large (>10 acres)**: Requires significant capital, complex phasing
+- **Small (<0.5 acres)**: Limited development options, high per-unit costs
+- **Standard (0.5-1.5 acres)**: Viable for smaller projects, townhomes, or ADUs
+- **Optimal (1.5-10 acres)**: Maximum flexibility and economic efficiency
+- **Large (10-25 acres)**: Excellent potential, may require phased approach
+- **Campus Scale (25+ acres)**: Significant opportunity for master-planned development
 
-Property size significantly influences development feasibility, but bigger isn't always better. Properties under a quarter-acre typically lack the critical mass needed for financially viable development—construction costs per unit rise sharply, and parking or open space requirements become impossible to meet. Conversely, parcels exceeding 10 acres often present unique challenges: they may require complex phasing, demand substantial upfront capital, or face community resistance to density.
+Property size significantly influences development feasibility. Properties under half an acre typically lack the critical mass needed for financially viable development—construction costs per unit rise sharply, and parking or open space requirements become difficult to meet. 
+
+**Updated Approach to Large Properties**: Previously, our methodology penalized parcels exceeding 5 acres due to them being unwieldy for smaller congregations. However, larger properties often represent the most significant development opportunities. While they may require phased development, patient capital, or more sophisticated planning, these sites can support transformative projects including:
+
+- Mixed-income housing communities
+- Campus-style developments with multiple building types
+- Conservation subdivisions preserving significant open space
+- Public-private partnerships for comprehensive redevelopment
+
+The key consideration for large properties is not size itself, but whether environmental constraints, access, and market conditions support development.
 
 ### Current Use: Identifying Low-Hanging Fruit
 
