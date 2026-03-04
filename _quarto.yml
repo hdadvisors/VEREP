@@ -46,6 +46,7 @@ book:
       - Appendix.qmd
 
 format:
+  pdf:
   html:
     theme: 
       - cosmo
