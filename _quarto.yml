@@ -46,10 +46,9 @@ book:
       - Appendix.qmd
 
 format:
-  pdf:
-  html:
+   html:
     theme: 
-      - cosmo
+      - cosmo 
     toc: true
     toc-depth: 3
     toc-title: "Contents"

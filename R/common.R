@@ -10,7 +10,7 @@ library(ggplot2)
 library(plotly)
 library(kableExtra)
 library(leaflet)
-library(leaflet.extras)
+library(leaflet.extras2)
 
 # ========================================
 # LOAD CLEAN DATA
